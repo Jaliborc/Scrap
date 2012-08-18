@@ -1,0 +1,28 @@
+## Interface: 50001
+## Title: |cffE5E5E5Scrap|r
+## Notes: Sells all your junk at the merchant.
+
+## Author: Jaliborc (João Cardoso)
+## X-License: GNU General Public License Version 3
+## X-Category: Inventory
+## Version: 10.8
+
+## SavedVariables: Scrap_Sets, Scrap_Version, Scrap_AutoSell, Scrap_Safe, Scrap_Learn, Scrap_Glow, Scrap_Icons, Scrap_Tut
+## SavedVariablesPerCharacter: Scrap_Junk, Scrap_NotJunk, Scrap_AI, Scrap_LowEquip, Scrap_LowConsume
+## OptionalDeps: LibStub, Unfit-1.0
+
+Libs\LibStub\LibStub.lua
+Libs\Unfit-1.0\Unfit-1.0.lua
+
+Localization\en.lua
+Localization\pt.lua
+Localization\cn.lua
+Localization\de.lua
+Localization\es.lua
+Localization\fr.lua
+Localization\ru.lua
+Localization\tw.lua
+
+List.lua
+Scrap.lua
+Options.lua

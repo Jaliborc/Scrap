@@ -1,0 +1,11 @@
+<Bindings>
+	<Binding name= "SCRAP_SELL" header = "SCRAP">
+		if MerchantFrame:IsShown() and LoadAddOn('Scrap_Merchant') then
+			Scrap:SellJunk()
+		end
+	</Binding>
+	<Binding name = "SCRAP_TOGGLE" header = "SCRAP">
+		local item = GameTooltip:IsVisible() and select(2, GameTooltip:GetItem())
+    Scrap:ToggleJunk(tonumber(item:match('item:(%d+)')))
+	</Binding>
+</Bindings>

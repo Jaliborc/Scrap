@@ -1,0 +1,23 @@
+local L = Scrap_Locals
+if GetLocale() ~= 'frFR' then return end
+
+L["Add"] = "Ajouter à la liste de camelote"
+L["Added"] = "Ajouté à la liste de camelote: %s"
+L["AdvancedOptions"] = "Options avancées"
+L["AutoSell"] = "Vente automatique"
+L["AutoSellTip"] = "Si activé, Scrap vendra automatiquement tous votre camelote lors d'une visite chez un marchand."
+L["Junk"] = "Camelote"
+L["Loading"] = "Chargement..."
+L["LowConsume"] = "Vendre les consommables de faible niveau"
+L["LowConsumeTip"] = "Si activé, Scrap vendra |cffff2020tous|r les objets consommables qui sont trop faibles pour votre niveau."
+L["LowEquip"] = "Vendre l'équipement de faible niveau"
+L["LowEquipTip"] = "Si activé, Scrap vendra |cffff2020tout|r l'équipement lié ayant un niveau beaucoup plus bas que celui que vous portez."
+L["NotJunk"] = "Utile"
+L["Description"] = "Ces options vous permettent de configurer Scrap encore mieux. La camelote ne passera pas !"
+L["Remove"] = "Enlever de la liste de camelote"
+L["Removed"] = "Enlevé de la liste de camelote: %s"
+L["SafeMode"] = "Mode sécurisé"
+L["SafeModeTip"] = "Si activé, Scrap ne vendra pas plus de 12 objets à la fois, de façon à ce que vous puissiez les racheter."
+L["SellJunk"] = "Vendre la camelote"
+L["ShowTutorials"] = "Afficher les didacticiels"
+L["SoldJunk"] = "Camelote vendu pour %s"
