@@ -50,8 +50,8 @@ BINDING_NAME_SCRAP_TOGGLE = L.ToggleJunk
 BINDING_NAME_SCRAP_SELL = L.SellJunk
 BINDING_HEADER_SCRAP = 'Scrap'
 
-Scrap_Junk = Scrap_Junk or {}
 Scrap_Sets = Scrap_Sets or {}
+Scrap_Junk = Scrap_Junk or {}
 Scrap_AI = Scrap_AI or {}
 
 
@@ -86,9 +86,19 @@ function Scrap:VARIABLES_LOADED()
 	setmetatable(Scrap_Junk, Scrap_BaseList)
 	self.Startup, self.VARIABLES_LOADED = nil
 	
+	-------- TEMP FIX. REMOVE AFTER MISTS OF PANDARIA -------
 	if not Scrap_Tut then
 		Scrap_AutoSell, Scrap_Safe = true, true
 	end
+	
+	if Scrap_NotJunk then
+		for item in pairs(Scrap_NotJunk) do
+			Scrap_Junk[item] = false
+		end
+		
+		Scrap_NotJunk = nil
+	end
+	---------------------------------------------------------
 	
 	if not Scrap_Version then
 		Scrap_Sets = {
@@ -99,16 +109,6 @@ function Scrap:VARIABLES_LOADED()
 			icons = true,
 		}
 	end
-	
-	-------- TEMP CHANGE. REMOVE AFTER NEXT WOW PATCH -------
-	if Scrap_NotJunk then
-		for item in pairs(Scrap_NotJunk) do
-			Scrap_Junk[item] = false
-		end
-		
-		Scrap_NotJunk = nil
-	end
-	---------------------------------------------------------
 	
 	Scrap_Version = 11
 end
