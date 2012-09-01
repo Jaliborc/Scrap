@@ -50,7 +50,6 @@ BINDING_NAME_SCRAP_TOGGLE = L.ToggleJunk
 BINDING_NAME_SCRAP_SELL = L.SellJunk
 BINDING_HEADER_SCRAP = 'Scrap'
 
-Scrap_Sets = Scrap_Sets or {}
 Scrap_Junk = Scrap_Junk or {}
 Scrap_AI = Scrap_AI or {}
 
@@ -62,7 +61,6 @@ local function GetLine(i)
 	return line and line:GetText() or ''
 end
 
--- algorithm based on http://elitistjerks.com/f15/t44718-item_level_mechanics/
 local function GetValue(level, quality)
 	if quality == ITEM_QUALITY_EPIC then
 		return (level + 344.36) / 106.29
@@ -77,6 +75,7 @@ end
 --[[ Events ]]--
 
 function Scrap:Startup()
+	self.SettingsUpdated = function() end
 	self:SetScript('OnEvent', function(self, event) self[event](self) end)
 	self:RegisterEvent('VARIABLES_LOADED')
 	self:RegisterEvent('MERCHANT_SHOW')
@@ -87,10 +86,6 @@ function Scrap:VARIABLES_LOADED()
 	self.Startup, self.VARIABLES_LOADED = nil
 	
 	-------- TEMP FIX. REMOVE AFTER MISTS OF PANDARIA -------
-	if not Scrap_Tut then
-		Scrap_AutoSell, Scrap_Safe = true, true
-	end
-	
 	if Scrap_NotJunk then
 		for item in pairs(Scrap_NotJunk) do
 			Scrap_Junk[item] = false
@@ -100,14 +95,12 @@ function Scrap:VARIABLES_LOADED()
 	end
 	---------------------------------------------------------
 	
-	if not Scrap_Version then
-		Scrap_Sets = {
-			autoSell = Scrap_AutoSell,
-			safe = Scrap_Safe,
-			learn = Scrap_Learn,
-			glow = false,
-			icons = true,
-		}
+	if not Scrap_Tut then
+		Scrap_AutoSell, Scrap_Safe = true, true
+	end
+	
+	if not Scrap_Version then	
+		Scrap_Icons = true
 	end
 	
 	Scrap_Version = 11

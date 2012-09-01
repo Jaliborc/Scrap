@@ -1,3 +1,13 @@
+====== 11.2
+* Fixed bug causing Scrap Visualizer to display incorrectly.
+
+====== 11.1
+* Tagging as release.
+
+====== 11.0 (beta)
+* Added new options category: "Visuals". This includes options to configure Scrap Spotlight, Scrap Bagnon or Combuctor Scrap, which are now able to display visual icons besides glowing borders.
+* Fixed minor bug in the options window.
+
 ====== 10.11
 * Updated and tested for Mists of Pandaria.
 * Added monk class filters.
