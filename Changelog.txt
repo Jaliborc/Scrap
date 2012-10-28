@@ -1,3 +1,9 @@
+====== 11.4
+* Reduced the minimum required level for Scrap to sell gray-quality equipment.
+
+====== 11.3
+* Fixed bug causing merchant buttons to go out of place when guild withdraws are allowed.
+
 ====== 11.2
 * Fixed bug causing Scrap Visualizer to display incorrectly.
 
