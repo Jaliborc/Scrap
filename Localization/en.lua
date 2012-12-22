@@ -5,8 +5,12 @@ local Language = GetLocale()
 L.Add = "Set as Junk"
 L.Added = "Set as junk: %s"
 L.AdvancedOptions = "Advanced Options"
+
 L.AutoSell = "Automatically Sell"
-L.AutoSellTip = "If enabled, Scrap will automatically sell all your junk when you visit a merchant."
+L.AutoSellTip = "If enabled, Scrap will automatically sell your junk when you visit a merchant."
+L.AutoRepair = "Automatically Repair"
+L.AutoRepairTip = "If enabled, Scrap will automatically repair your armor when you visit a merchant."
+
 L.Junk = "Junk"
 L.Learn = "Intelligent Learning"
 L.LearnTip = "If enabled, Srcap will learn which items you usually sell to the merchant and automatically consider them junk."
@@ -18,10 +22,12 @@ L.LowEquipTip = "If enabled, Scrap will sell |cffff2020any|r soulbound equipment
 L.NotJunk = "Useful"
 L.NoValue = "This item has no sell price"
 L.Description = "These options allow you to configure Scrap even further. The trash shall not pass!"
+
 L.Glow = "Glowing Borders"
 L.GlowTip = "If enabled, |cffBBBBBBgray|r glowing borders will appear on your Scrap items."
 L.Icons = "Coin Icons"
 L.IconsTip = "If enabled, small gold coins will appear on your Scrap items."
+
 L.Remove = "Set as Useful"
 L.Removed = "Set as useful: %s"
 L.SafeMode = "Safe Mode"
