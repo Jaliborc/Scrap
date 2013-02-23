@@ -20,7 +20,6 @@ L.LowConsumeTip = "If enabled, Scrap will sell |cffff2020any|r consumable which 
 L.LowEquip = "Low Equipment"
 L.LowEquipTip = "If enabled, Scrap will sell |cffff2020any|r soulbound equipment which has a much lower value than the one you are wearing."
 L.NotJunk = "Useful"
-L.NoValue = "This item has no sell price"
 L.Description = "These options allow you to configure Scrap even further. The trash shall not pass!"
 
 L.Glow = "Glowing Borders"
@@ -35,6 +34,7 @@ L.SafeModeTip = "If enabled, Scrap won't sell more than 12 items at once, so tha
 L.SellJunk = "Sell Junk"
 L.ShowTutorials = "Show Tutorials"
 L.SoldJunk = "You sold your junk for %s"
+L.Repaired = "You repaired your armor for %s"
 L.ToggleJunk = "Toggle item under cursor as junk"
 
 L.Tutorial_Welcome = "Welcome to |cffffd200Scrap|r, the intelligent junk vending solution by |cffffd200Jaliborc|r. This short tutorial will help you to get started selling your junk items.|n|nIt will save you time, and your pockets will certainly appreciate. Shall we get started?"

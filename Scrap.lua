@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2012 João Cardoso
+Copyright 2008-2013 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -141,64 +141,61 @@ function Scrap:IterateJunk()
 end
 
 function Scrap:ToggleJunk(id)
-	if id and self:HasPrice(id) then
-		local message
+	local message
 
-		if self:IsJunk(id) then
-		   	Scrap_Junk[id] = false
-			message = L.Removed
-		else
-		   	Scrap_Junk[id] = true
-			message = L.Added
-	  	end
-
-		self:Print(message, select(2, GetItemInfo(id)), 'LOOT')
+	if self:IsJunk(id) then
+	   	Scrap_Junk[id] = false
+		message = L.Removed
+	else
+	   	Scrap_Junk[id] = true
+		message = L.Added
   	end
+
+	self:Print(message, select(2, GetItemInfo(id)), 'LOOT')
 end
 
 
 --[[ Filters ]]--
 
 function Scrap:CheckFilters(id, ...)
-	local _, link, quality, level, minLevel, class, subClass, _, equipSlot, _, price = GetItemInfo(id)
-	if price and price > 0 then
-		local isGray = quality == ITEM_QUALITY_POOR
-		level = level > minLevel and level or minLevel
-		
-		-- Equipment
-		if class == ARMOR or class == WEAPON then
-				
-			-- "Gray" Equipment
-			if isGray then
-				return level > 10 or UnitLevel('player') > 8
+	local _, link, quality, level, minLevel, class, subClass, _, equipSlot = GetItemInfo(id)
+	local isGray = quality == ITEM_QUALITY_POOR
+
+	level = level > minLevel and level or minLevel
+	
+	-- Equipment
+	if class == ARMOR or class == WEAPON then
 			
-			else
-				local slotID = equipSlot:sub(SLOT_SLICE)
-				
-				-- Tabards, Shirts, Fishing Poles...
-				if slotID == 'TABARD' or slotID == 'BODY' or subClass == FISHING_ROD then
-					return nil
-				
-				-- "Green, Blue and Epic" Equipment
-				elseif quality >= ITEM_QUALITY_UNCOMMON and quality <= ITEM_QUALITY_EPIC then
-					local bag, slot = self:GetSlot(id, ...)
-					self:LoadTooltip(link, bag, slot)
-				
-					if not self:BelongsToSet() and self:IsSoulbound(bag, slot) then
-						local unusable = not self:IsEnchanter() and (Unfit:IsClassUnusable(subClass, equipSlot) or self:IsOtherClass())
-						return unusable or self:IsLowEquip(id, subClass, slotID, level, quality)
-					end
+		-- "Gray" Equipment
+		if isGray then
+			return level > 10 or UnitLevel('player') > 8
+		
+		else
+			local slotID = equipSlot:sub(SLOT_SLICE)
+			
+			-- Tabards, Shirts, Fishing Poles...
+			if slotID == 'TABARD' or slotID == 'BODY' or subClass == FISHING_ROD then
+				return nil
+			
+			-- "Green, Blue and Epic" Equipment
+			elseif quality >= ITEM_QUALITY_UNCOMMON and quality <= ITEM_QUALITY_EPIC then
+				local bag, slot = self:GetSlot(id, ...)
+				self:LoadTooltip(link, bag, slot)
+			
+				if not self:BelongsToSet() and self:IsSoulbound(bag, slot) then
+					local unusable = not self:IsEnchanter() and (Unfit:IsClassUnusable(subClass, equipSlot) or self:IsOtherClass())
+					return unusable or self:IsLowEquip(id, subClass, slotID, level, quality)
 				end
 			end
-			
-		-- "Grays"
-		elseif isGray then
-			return true
-			
-		-- Consumables
-		elseif Scrap_LowConsume and class == CONSUMABLES then
-			return level ~= 0 and (UnitLevel('player') - level) > 10
 		end
+		
+	-- "Grays"
+	elseif isGray then
+		return true
+		
+	-- Consumables
+	elseif Scrap_LowConsume and class == CONSUMABLES then
+		return level ~= 0 and (UnitLevel('player') - level) > 10
 	end
 end
 
@@ -213,7 +210,7 @@ function Scrap:IsSoulbound(bag, slot)
 	local soulbound = bag and slot and ITEM_SOULBOUND or ITEM_BIND_ON_PICKUP
 
 	if not lastLine:find(CAN_TRADE) and not lastLine:find(CAN_REFUND) then
-		for i = 2,4 do
+		for i = 2,7 do
 			if GetLine(i) == soulbound then
 				self.limit = i
 				return true
@@ -272,11 +269,6 @@ function Scrap:IsBetterEquip(slot, value, empty)
 	end
 end
 
-function Scrap:HasPrice(id)
-	local price = select(11, GetItemInfo(id))
-	return price and price > 0
-end
-
 
 --[[ Data Mining ]]--
 
@@ -312,6 +304,10 @@ end
 
 
 --[[ Utility ]]--
+
+function Scrap:PrintMoney(pattern, value)
+	self:Print(pattern, GetCoinTextureString(value), 'MONEY')
+end
 
 function Scrap:Print (pattern, value, channel)
  	local channel = 'CHAT_MSG_'..channel

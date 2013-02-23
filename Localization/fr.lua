@@ -15,7 +15,6 @@ L["LowConsumeTip"] = "Si cette option est activée, Scrap vendra |cffff2020touts
 L["LowEquip"] = "Vendre l'équipement de faible niveau"
 L["LowEquipTip"] = "Si cette option est activée, Scrap vendra |cffff2020tout|r l'équipement lié ayant un niveau beaucoup plus bas que celui que vous portez."
 L["NotJunk"] = "Utile"
-L["NoValue"] = "Cet article n'a pas de prix de vente"
 L["Description"] = "Ces options vous permettent de configurer Scrap encore mieux. La camelote ne passera pas !"
 L["Glow"] = "Bordures éclatantes"
 L["GlowTip"] = "Si cette option est activée, des bordures |cffBBBBBBgrises|r apparaîtront sur les icônes de votre camelote."

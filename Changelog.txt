@@ -1,3 +1,9 @@
+====== 11.8
+* Scrap now accepts items with no sell value in the list. These will be deleted when trying to sell the scrap to the vendor.
+* Now properly detects wether an upgradable item is soulbound.
+* Now displays a message in the money log when equipment is automatically repaired.
+* Fixed issue possibly preventing players with unlimited permissions to use the guild bank for repairs.
+
 ====== 11.7
 * Scrap can now optionally repair all your armor when you visit a merchant! You can enable the new feature at the interface options.
 * Battle pet bandages are no longer scrap by default.

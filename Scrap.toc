@@ -5,7 +5,7 @@
 ## Author: Jaliborc (João Cardoso)
 ## X-License: GNU General Public License Version 3
 ## X-Category: Inventory
-## Version: 11.7
+## Version: 11.8
 
 ## SavedVariables: Scrap_AutoSell, Scrap_AutoRepair, Scrap_Safe, Scrap_Learn, Scrap_Glow, Scrap_Icons, Scrap_Tut, Scrap_Version
 ## SavedVariablesPerCharacter: Scrap_Junk, Scrap_NotJunk, Scrap_AI, Scrap_LowEquip, Scrap_LowConsume
