@@ -1,3 +1,9 @@
+====== 11.10
+* Now fully translated to German! Translations by Noxxana.
+
+====== 11.9
+* Low level consumables and equipment without sell value will no longer be considered junk by default, even with the corresponding options enabled.
+
 ====== 11.8
 * Scrap now accepts items with no sell value in the list. These will be deleted when trying to sell the scrap to the vendor.
 * Now properly detects wether an upgradable item is soulbound.

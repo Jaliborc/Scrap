@@ -157,52 +157,58 @@ end
 
 --[[ Filters ]]--
 
-function Scrap:CheckFilters(id, ...)
-	local _, link, quality, level, minLevel, class, subClass, _, equipSlot = GetItemInfo(id)
-	local isGray = quality == ITEM_QUALITY_POOR
+function Scrap:CheckFilters(...)
+	local _, link, quality, level, minLevel, category, class, _, equipSlot, _, value = GetItemInfo(...)
+	local level = max(level or 0, minLevel or 0)
+	local gray = quality == ITEM_QUALITY_POOR
+	local value = value and value > 0
 
-	level = level > minLevel and level or minLevel
-	
-	-- Equipment
-	if class == ARMOR or class == WEAPON then
-			
-		-- "Gray" Equipment
-		if isGray then
-			return level > 10 or UnitLevel('player') > 8
-		
-		else
-			local slotID = equipSlot:sub(SLOT_SLICE)
-			
-			-- Tabards, Shirts, Fishing Poles...
-			if slotID == 'TABARD' or slotID == 'BODY' or subClass == FISHING_ROD then
-				return nil
-			
-			-- "Green, Blue and Epic" Equipment
-			elseif quality >= ITEM_QUALITY_UNCOMMON and quality <= ITEM_QUALITY_EPIC then
-				local bag, slot = self:GetSlot(id, ...)
-				self:LoadTooltip(link, bag, slot)
-			
-				if not self:BelongsToSet() and self:IsSoulbound(bag, slot) then
-					local unusable = not self:IsEnchanter() and (Unfit:IsClassUnusable(subClass, equipSlot) or self:IsOtherClass())
-					return unusable or self:IsLowEquip(id, subClass, slotID, level, quality)
-				end
-			end
+	local equipment = category == ARMOR or category == WEAPON
+	local consumable = category == CONSUMABLES
+
+	if gray then
+		return not equipment or self:HighLevel(level)
+
+	elseif equipment then
+		local slot = equipSlot:sub(SLOT_SLICE)
+
+		if value and self:StandardQuality(quality) and self:CombatSlot(slot, class) then
+			return self:EvaluateTooltip(class, equipSlot, slot, level, quality, link, ...)
 		end
-		
-	-- "Grays"
-	elseif isGray then
-		return true
-		
-	-- Consumables
-	elseif Scrap_LowConsume and class == CONSUMABLES then
-		return level ~= 0 and (UnitLevel('player') - level) > 10
+
+	elseif consumable then
+		return value and Scrap_LowConsume and self:LowLevel(level)
+	end
+end
+
+function Scrap:HighLevel(level)
+	return level > 10 or UnitLevel('player') > 8
+end
+
+function Scrap:LowLevel(level)
+	return level ~= 0 and level < (UnitLevel('player') - 10)
+end
+
+function Scrap:StandardQuality(quality)
+	return quality >= ITEM_QUALITY_UNCOMMON and quality <= ITEM_QUALITY_EPIC
+end
+
+function Scrap:CombatSlot(slot, class)
+	return slot ~= 'TABARD' and slot ~= 'BODY' and class ~= FISHING_ROD
+end
+
+function Scrap:EvaluateTooltip(class, equipSlot, slotID, level, quality, link, id, ...)
+	local bag, slot = self:GetSlot(id, ...)
+	self:LoadTooltip(link, bag, slot)
+			
+	if not self:BelongsToSet() and self:IsSoulbound(bag, slot) then
+		local unusable = not self:IsEnchanter() and (Unfit:IsClassUnusable(class, equipSlot) or self:IsOtherClass())
+		return unusable or self:IsLowEquip(id, class, slotID, level, quality)
 	end
 end
 
 function Scrap:BelongsToSet()
-	if CanUseEquipmentSets() then
-		return GetLine(self.numLines - 1):find(IN_SET)
-	end
+	return CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
 end
 
 function Scrap:IsSoulbound(bag, slot)
@@ -233,7 +239,7 @@ function Scrap:IsOtherClass()
 	end
 end
 
-function Scrap:IsLowEquip(id, subClass, slot, ...)
+function Scrap:IsLowEquip(id, class, slot, ...)
 	if slot ~= '' and slot ~= 'TRINKET' then
 		return self:HasBetterEquip(id, slot, ...)
 	end
