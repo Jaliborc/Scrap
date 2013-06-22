@@ -59,7 +59,11 @@ Scrap_BaseList = {
 	[92680] = false,
 	[92681] = false,
 	[92682] = false,
-	[92683] = false
+	[92683] = false,
+
+	[33820] = false,
+	[19969] = false,
+	[89124] = false
 }
 
 Scrap_BaseList.__index = Scrap_BaseList

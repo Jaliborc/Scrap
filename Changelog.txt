@@ -1,5 +1,10 @@
+====== 12.5
+* Updated for patch 5.3: Escalation!
+* Now the merchant button properly highlights whenever there is junk, not only when it has a value.
+* Improvements to the merchant tooltip.
+
 ====== 12.4
-* Updated for patch 5.2: The Thunder King!
+* Updated for patch 5.2: The Thunder King.
 * Pet stones are now considered not junk by default, even with the "Low Consumables" option enabled.
 
 ====== 12.3
@@ -358,4 +363,4 @@
 
 ====== Beta 1
 * Initial Releaselease1
-* Initial Releaselease Releaseleasee
+* Initial Releaselease Release
