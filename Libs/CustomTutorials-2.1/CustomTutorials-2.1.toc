@@ -1,0 +1,1 @@
+## Interface: 50300## Title: CustomTutorials-2.1## Notes: Makes easy the creation of custom tutorials for addons## Author: Jaliborc (João Cardoso)## X-Licence: GNU General Public License - Version 3## OptionalDeps: LibStub## X-Category: LibraryCustomTutorials-2.1.lua
