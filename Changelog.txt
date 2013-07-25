@@ -1,3 +1,6 @@
+====== 12.6
+* Now translated for Korean clients! ^^(by 강남쌍칼)^^
+
 ====== 12.5
 * Updated for patch 5.3: Escalation!
 * Now the merchant button properly highlights whenever there is junk, not only when it has a value.

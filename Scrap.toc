@@ -22,6 +22,7 @@ Localization\es.lua
 Localization\fr.lua
 Localization\ru.lua
 Localization\tw.lua
+Localization\ko.lua
 
 BaseList.lua
 Scrap.lua
