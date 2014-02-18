@@ -1,10 +1,14 @@
 Art/Disabled Box.tga
+
 Libs/CustomTutorials-2.1/CustomTutorials-2.1.toc
 Libs/Poncho-1.0/Poncho-1.0.toc
+Libs/Sushi-3.0/Sushi-3.0.toc
+Libs/Unfit-1.0/Unfit-1.0.toc
 
 Libs/Sushi-3.0/Classes/ColorPicker.lua
 Libs/Sushi-3.0/Classes/Dropdown.lua
 Libs/Sushi-3.0/Classes/EditBox.lua
+Libs/Sushi-3.0/Classes/GlowBox.lua
 Libs/Sushi-3.0/Classes/GrayButton.lua
 Libs/Sushi-3.0/Classes/HelpButton.lua
 Libs/Sushi-3.0/Classes/IconCheck.lua
@@ -15,5 +19,5 @@ Libs/Sushi-3.0/Classes/TextButton.lua
 Libs/Sushi-3.0/Classes/TextureButton.lua
 Libs/Sushi-3.0/Classes/TextureDropdown.lua
 
-Libs/WoWTest-1.0
+Libs/Unfit-1.0/Tests.lua
 Tests.lua

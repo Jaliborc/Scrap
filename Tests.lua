@@ -1,12 +1,12 @@
-local Replace = WoWTest.Replace
-local Tests = WoWTest('Scrap')
+local Replace = WoWUnit.Replace
+local Tests = WoWUnit('Scrap')
 
 local function NotJunk(id)
 	Replace('Scrap_Junk', Scrap_BaseList)
 	Replace('Scrap_LowConsume', true)
 	Replace('Scrap_LowEquip', true)
 
-	return WoWTest.IsFalse(
+	return WoWUnit.IsFalse(
 		Scrap:IsJunk(id))
 end
 

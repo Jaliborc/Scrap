@@ -1,3 +1,18 @@
+====== 12.11
+* Added dirty hack to prevent a Blizzard issue from causing dialog errors to pop up.
+
+====== 12.10
+* Added option to disable the usage of guild funds for repairs.
+
+====== 12.9
+* Hotfix.
+
+====== 12.8
+* Updated for Siege of Ogrimmar.
+
+====== 12.7
+* Updated Unfit-1.0.
+
 ====== 12.6
 * Now translated for Korean clients! ^^(by 강남쌍칼)^^
 
