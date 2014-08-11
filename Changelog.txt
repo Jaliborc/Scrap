@@ -1,3 +1,9 @@
+====== 12.13
+* Now the addon properly indicates it works in patch 5.4.
+
+====== 12.12
+* Fixed issue ocurring when printing messages in the chat frames.
+
 ====== 12.11
 * Added dirty hack to prevent a Blizzard issue from causing dialog errors to pop up.
 

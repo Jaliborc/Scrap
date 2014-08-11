@@ -1,11 +1,11 @@
-## Interface: 50300
-## Title: |cffE5E5E5Scrap|r
+## Interface: 50400
+## Title: |cffFFDE73Scrap|r
 ## Notes: Sells all your junk at the merchant.
 
 ## Author: Jaliborc (João Cardoso)
 ## X-License: GNU General Public License Version 3
 ## X-Category: Inventory
-## Version: 12.5
+## Version: 12.13
 
 ## SavedVariables: Scrap_AutoSell, Scrap_AutoRepair, Scrap_Safe, Scrap_Learn, Scrap_Glow, Scrap_Icons, Scrap_Tut, Scrap_Version
 ## SavedVariablesPerCharacter: Scrap_Junk, Scrap_NotJunk, Scrap_AI, Scrap_LowEquip, Scrap_LowConsume
