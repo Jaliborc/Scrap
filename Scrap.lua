@@ -60,9 +60,9 @@ local function GetLine(i)
 end
 
 local function GetValue(level, quality)
-	if quality == ITEM_QUALITY_EPIC then
+	if quality == LE_LE_ITEM_QUALITY_EPIC then
 		return (level + 344.36) / 106.29
-	elseif quality == ITEM_QUALITY_RARE then
+	elseif quality == LE_ITEM_QUALITY_RARE then
 		return (level + 287.14) / 97.632
 	else
 		return (level + 292.23) / 101.18
@@ -160,7 +160,7 @@ end
 function Scrap:CheckFilters(...)
 	local _, link, quality, level, minLevel, category, class, _, equipSlot, _, value = GetItemInfo(...)
 	local level = max(level or 0, minLevel or 0)
-	local gray = quality == ITEM_QUALITY_POOR
+	local gray = quality == LE_ITEM_QUALITY_POOR
 	local value = value and value > 0
 
 	local equipment = category == ARMOR or category == WEAPON
@@ -177,7 +177,7 @@ function Scrap:CheckFilters(...)
 		end
 
 	elseif consumable then
-		return value and Scrap_LowConsume and self:LowLevel(level)
+		return value and Scrap_LowConsume and quality < LE_ITEM_QUALITY_RARE and self:LowLevel(level)
 	end
 end
 
@@ -190,7 +190,7 @@ function Scrap:LowLevel(level)
 end
 
 function Scrap:StandardQuality(quality)
-	return quality >= ITEM_QUALITY_UNCOMMON and quality <= ITEM_QUALITY_EPIC
+	return quality >= LE_ITEM_QUALITY_UNCOMMON and quality <= LE_ITEM_QUALITY_EPIC
 end
 
 function Scrap:CombatSlot(slot, class)

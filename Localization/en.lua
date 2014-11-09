@@ -10,6 +10,7 @@ L.AutoSell = "Automatically Sell"
 L.AutoSellTip = "If enabled, Scrap will automatically sell your junk when you visit a merchant."
 L.AutoRepair = "Automatically Repair"
 L.AutoRepairTip = "If enabled, Scrap will automatically repair your armor when you visit a merchant."
+L.GuildRepair = "Guild Repair"
 
 L.Junk = "Junk"
 L.Learn = "Intelligent Learning"

@@ -6,6 +6,8 @@
 	</Binding>
 	<Binding name = "SCRAP_TOGGLE" header = "SCRAP">
 		local item = GameTooltip:IsVisible() and select(2, GameTooltip:GetItem())
-    Scrap:ToggleJunk(tonumber(item:match('item:(%d+)')))
+		if item then
+    		Scrap:ToggleJunk(tonumber(item:match('item:(%d+)')))
+    	end
 	</Binding>
 </Bindings>

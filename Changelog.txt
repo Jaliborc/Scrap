@@ -1,3 +1,21 @@
+====== 12.19
+* Updated chinese locale ^^(by scars377)^^
+
+====== 12.18
+* Fixed issue with Scrap keybinding on ElvUI.
+
+====== 12.17
+* Now "Low Consumables" option does not sell consumables with epic or rare quality.
+
+====== 12.16
+* Fixed issue with guild repair option.
+
+====== 12.15
+* Updated for The Iron Tide.
+
+====== 12.14
+* Guild masters can now prevent automatic guild repairs by writiing '[noautorepair]' in the guild information box.
+
 ====== 12.13
 * Now the addon properly indicates it works in patch 5.4.
 
