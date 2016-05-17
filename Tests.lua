@@ -1,13 +1,16 @@
-local Replace = WoWUnit.Replace
+if not WoWUnit then
+	return
+end
+
+local Replace, IsFalse = WoWUnit.Replace, WoWUnit.IsFalse
 local Tests = WoWUnit('Scrap')
 
 local function NotJunk(id)
-	Replace('Scrap_Junk', Scrap_BaseList)
+	Replace(Scrap, 'Junk', Scrap_BaseList)
 	Replace('Scrap_LowConsume', true)
 	Replace('Scrap_LowEquip', true)
 
-	return WoWUnit.IsFalse(
-		Scrap:IsJunk(id))
+	return IsFalse(Scrap:IsJunk(id))
 end
 
 function Tests:ChefHat()

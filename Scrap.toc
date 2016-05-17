@@ -1,14 +1,14 @@
-## Interface: 60000
+## Interface: 60200
 ## Title: |cffFFDE73Scrap|r
 ## Notes: Sells all your junk at the merchant.
 
 ## Author: Jaliborc (João Cardoso)
 ## X-License: GNU General Public License Version 3
 ## X-Category: Inventory
-## Version: 12.17
+## Version: 12.25
 
-## SavedVariables: Scrap_AutoSell, Scrap_AutoRepair, Scrap_GuildRepair, Scrap_Safe, Scrap_Learn, Scrap_Glow, Scrap_Icons, Scrap_Tut, Scrap_Version
-## SavedVariablesPerCharacter: Scrap_Junk, Scrap_NotJunk, Scrap_AI, Scrap_LowEquip, Scrap_LowConsume
+## SavedVariables: Scrap_SharedJunk, Scrap_AutoSell, Scrap_AutoRepair, Scrap_GuildRepair, Scrap_Safe, Scrap_Learn, Scrap_Glow, Scrap_Icons, Scrap_Tut, Scrap_Version
+## SavedVariablesPerCharacter: Scrap_Junk, Scrap_AI, Scrap_LowEquip, Scrap_LowConsume, Scrap_Unusable, Scrap_ShareList
 ## OptionalDeps: LibStub, Unfit-1.0, WoWTest
 
 Libs\LibStub\LibStub.lua

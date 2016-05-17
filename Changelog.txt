@@ -1,3 +1,34 @@
+===== 13
+* Now you can choose between having character specific junk lists or a single shared list among your characters.
+
+====== 12.25
+* Made Eternium Rose not junk by default.
+
+====== 12.24
+* Updated for Fury of Hellfire
+
+====== 12.23
+* Updated for WoW patch 6.2.
+* Big Crates of Salvage are now considered not junk by default.
+
+====== 12.24
+* Updated for WoW patch 6.1
+
+====== 12.23
+* Follower upgrade items should no longer be sold by default.
+* Slight changes to inteligent learning behaviour.
+* Fixed chatframe possible bug.
+
+====== 12.22
+* Keybindings are now in the Addons category
+
+====== 12.21
+* Options menu now loads properly on first try.
+
+====== 12.20
+* Selling soulbound unusable equipment is now optional.
+* Minor changes for preventing bugs.
+
 ====== 12.19
 * Updated chinese locale ^^(by scars377)^^
 
