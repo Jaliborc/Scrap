@@ -1,3 +1,7 @@
+===== 13.1
+* Updated for Legion.
+* Merchant tooltip now counts the number of items, and not the number of slots being sold.
+
 ===== 13
 * Now you can choose between having character specific junk lists or a single shared list among your characters.
 

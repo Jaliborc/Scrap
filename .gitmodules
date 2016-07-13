@@ -13,3 +13,6 @@
 [submodule "CustomTutorials-2.1"]
 	path = Libs/CustomTutorials-2.1
 	url = https://github.com/Jaliborc/CustomTutorials-2.1.git
+[submodule "Libs/CustomTutorials-2.1"]
+	path = Libs/CustomTutorials-2.1
+	url = https://github.com/Jaliborc/CustomTutorials-2.1

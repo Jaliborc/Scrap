@@ -24,8 +24,8 @@ local L = Scrap_Locals
 --[[ Constants ]]--
 
 local CLASS_NAME = LOCALIZED_CLASS_NAMES_MALE[select(2, UnitClass('player'))]
-local WEAPON, ARMOR, _, CONSUMABLES = GetAuctionItemClasses()
-local FISHING_ROD = select(17 , GetAuctionItemSubClasses(1))
+local WEAPON, ARMOR, CONSUMABLES = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, LE_ITEM_CLASS_CONSUMABLE
+local FISHING_POLE = LE_ITEM_WEAPON_FISHINGPOLE
 
 local CAN_TRADE = BIND_TRADE_TIME_REMAINING:format('.*')
 local CAN_REFUND = REFUND_TIME_REMAINING:format('.*')
@@ -34,14 +34,14 @@ local IN_SET = EQUIPMENT_SETS:format('.*')
 local SLOT_SLICE = ('INVTYPE_'):len() + 1
 
 local ACTUAL_SLOTS = {
-	ROBE = 'CHEST',
-	CLOAK = 'BACK',
-	RANGEDRIGHT = 'RANGED',
-	THROWN = 'RANGED',
-	WEAPONMAINHAND = 'MAINHAND',
-	WEAPONOFFHAND = 'OFFHAND',
-	HOLDABLE = 'OFFHAND',
-	SHIELD = 'OFFHAND',
+	INVTYPE_ROBE = 'INVTYPE_CHEST',
+	INVTYPE_CLOAK = 'INVTYPE_BACK',
+	INVTYPE_RANGEDRIGHT = 'INVTYPE_RANGED',
+	INVTYPE_THROWN = 'INVTYPE_RANGED',
+	INVTYPE_WEAPONMAINHAND = 'INVTYPE_MAINHAND',
+	INVTYPE_WEAPONOFFHAND = 'INVTYPE_OFFHAND',
+	INVTYPE_HOLDABLE = 'INVTYPE_OFFHAND',
+	INVTYPE_SHIELD = 'INVTYPE_OFFHAND',
 }
 
 BINDING_NAME_SCRAP_TOGGLE = L.ToggleJunk
@@ -162,22 +162,26 @@ end
 --[[ Filters ]]--
 
 function Scrap:CheckFilters(...)
-	local _, link, quality, level, minLevel, category, class, _, equipSlot, _, value = GetItemInfo(...)
+	local _, link, quality, level, minLevel, _,_,_, equipSlot, _, value, class, subclass = GetItemInfo(...)
 	local level = max(level or 0, minLevel or 0)
 	local gray = quality == LE_ITEM_QUALITY_POOR
 	local value = value and value > 0
 
-	local equipment = category == ARMOR or category == WEAPON
-	local consumable = category == CONSUMABLES
+	local equipment = class == ARMOR or class == WEAPON
+	local consumable = class == CONSUMABLES
 
 	if gray then
 		return not equipment or self:HighLevel(level)
 
 	elseif equipment then
-		local slot = equipSlot:sub(SLOT_SLICE)
-
-		if value and self:StandardQuality(quality) and self:CombatSlot(slot, class) then
-			return self:EvaluateTooltip(class, equipSlot, slot, level, quality, link, ...)
+		if value and self:StandardQuality(quality) and self:CombatItem(class, subclass, equipSlot) then
+			local bag, slot = self:GetSlot(...)
+			self:LoadTooltip(link, bag, slot)
+					
+			if not self:BelongsToSet() and self:IsSoulbound(bag, slot) then
+				local unusable = Scrap_Unusable and (Unfit:IsClassUnusable(class, subclass, equipSlot) or self:IsOtherClass())
+				return unusable or self:IsLowEquip(equipSlot, level, quality)
+			end
 		end
 
 	elseif consumable then
@@ -197,67 +201,24 @@ function Scrap:StandardQuality(quality)
 	return quality >= LE_ITEM_QUALITY_UNCOMMON and quality <= LE_ITEM_QUALITY_EPIC
 end
 
-function Scrap:CombatSlot(slot, class)
-	return slot ~= 'TABARD' and slot ~= 'BODY' and class ~= FISHING_ROD
+function Scrap:CombatItem(class, subclass, slot)
+	return slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE
 end
 
-function Scrap:EvaluateTooltip(class, equipSlot, slotID, level, quality, link, id, ...)
-	local bag, slot = self:GetSlot(id, ...)
-	self:LoadTooltip(link, bag, slot)
-			
-	if not self:BelongsToSet() and self:IsSoulbound(bag, slot) then
-		local unusable = Scrap_Unusable and (Unfit:IsClassUnusable(class, equipSlot) or self:IsOtherClass())
-		return unusable or self:IsLowEquip(id, class, slotID, level, quality)
-	end
-end
-
-function Scrap:BelongsToSet()
-	return CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
-end
-
-function Scrap:IsSoulbound(bag, slot)
-	local lastLine = GetLine(self.numLines)
-	local soulbound = bag and slot and ITEM_SOULBOUND or ITEM_BIND_ON_PICKUP
-
-	if not lastLine:find(CAN_TRADE) and not lastLine:find(CAN_REFUND) then
-		for i = 2,7 do
-			if GetLine(i) == soulbound then
-				self.limit = i
-				return true
-			end
-		end
-	end
-end
-
-function Scrap:IsOtherClass()
-	for i = self.numLines, self.limit, -1 do
-		local text = GetLine(i)
-		if text:find(MATCH_CLASS) then
-			return not text:find(CLASS_NAME)
-		end
-	end
-end
-
-function Scrap:IsLowEquip(id, class, slot, ...)
-	if slot ~= '' and slot ~= 'TRINKET' then
-		return self:HasBetterEquip(id, slot, ...)
-	end
-end
-
-function Scrap:HasBetterEquip(id, slot, level, quality)
-	if Scrap_LowEquip then
+function Scrap:IsLowEquip(slot, level, quality)
+	if Scrap_LowEquip and slot ~= ''  then
 		local slot1, slot2 = ACTUAL_SLOTS[slot] or slot
 		local value = GetValue(level or 0, quality)
 		local double
 		
-		if slot1 == 'WEAPON' or slot1 == '2HWEAPON' then
-			if slot1 == '2HWEAPON' then
+		if slot1 == 'INVTYPE_WEAPON' or slot1 == 'INVTYPE_2HWEAPON' then
+			if slot1 == 'INVTYPE_2HWEAPON' then
 				double = true
 			end
 			
-			slot1, slot2 = 'MAINHAND', 'OFFHAND'
-		elseif slot1 == 'FINGER' then
-			slot1, slot2 = 'FINGER1', 'FINGER2'
+			slot1, slot2 = 'INVTYPE_MAINHAND', 'INVTYPE_OFFHAND'
+		elseif slot1 == 'INVTYPE_FINGER' then
+			slot1, slot2 = 'INVTYPE_FINGER1', 'INVTYPE_FINGER2'
 		end
 		
 		return self:IsBetterEquip(slot1, value) and (not slot2 or self:IsBetterEquip(slot2, value, double))
@@ -265,7 +226,7 @@ function Scrap:HasBetterEquip(id, slot, level, quality)
 end
 
 function Scrap:IsBetterEquip(slot, value, empty)
-	local item = GetInventoryItemID('player', _G['INVSLOT_'..slot])
+	local item = GetInventoryItemID('player', slot)
 	if item then
 		local _,_, quality, level = GetItemInfo(item)
 		return GetValue(level or 0, quality) / value > 1.1
@@ -275,7 +236,7 @@ function Scrap:IsBetterEquip(slot, value, empty)
 end
 
 
---[[ Data Mining ]]--
+--[[ Data Retrieval ]]--
 
 function Scrap:GetSlot(id, bag, slot)
 	if bag and slot then
@@ -305,6 +266,33 @@ function Scrap:LoadTooltip(link, bag, slot)
 	end
 	
 	self.numLines = Tooltip:NumLines()
+end
+
+function Scrap:BelongsToSet()
+	return CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
+end
+
+function Scrap:IsSoulbound(bag, slot)
+	local lastLine = GetLine(self.numLines)
+	local soulbound = bag and slot and ITEM_SOULBOUND or ITEM_BIND_ON_PICKUP
+
+	if not lastLine:find(CAN_TRADE) and not lastLine:find(CAN_REFUND) then
+		for i = 2,7 do
+			if GetLine(i) == soulbound then
+				self.limit = i
+				return true
+			end
+		end
+	end
+end
+
+function Scrap:IsOtherClass()
+	for i = self.numLines, self.limit, -1 do
+		local text = GetLine(i)
+		if text:find(MATCH_CLASS) then
+			return not text:find(CLASS_NAME)
+		end
+	end
 end
 
 

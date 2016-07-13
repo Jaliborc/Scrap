@@ -1,11 +1,11 @@
-## Interface: 60200
+## Interface: 70000
 ## Title: |cffFFDE73Scrap|r
 ## Notes: Sells all your junk at the merchant.
 
 ## Author: Jaliborc (João Cardoso)
 ## X-License: GNU General Public License Version 3
 ## X-Category: Inventory
-## Version: 12.25
+## Version: 13
 
 ## SavedVariables: Scrap_SharedJunk, Scrap_AutoSell, Scrap_AutoRepair, Scrap_GuildRepair, Scrap_Safe, Scrap_Learn, Scrap_Glow, Scrap_Icons, Scrap_Tut, Scrap_Version
 ## SavedVariablesPerCharacter: Scrap_Junk, Scrap_AI, Scrap_LowEquip, Scrap_LowConsume, Scrap_Unusable, Scrap_ShareList
