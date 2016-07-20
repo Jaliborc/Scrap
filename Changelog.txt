@@ -1,4 +1,7 @@
-===== 13.1
+====== 13.2
+* Tagging as release.
+
+===== 13.1 (beta)
 * Updated for Legion.
 * Merchant tooltip now counts the number of items, and not the number of slots being sold.
 
