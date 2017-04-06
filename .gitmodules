@@ -10,12 +10,10 @@
 	path = Libs/Unfit-1.0
 	url = https://github.com/Jaliborc/Unfit-1.0.git
 
-[submodule "CustomTutorials-2.1"]
-	path = Libs/CustomTutorials-2.1
-	url = https://github.com/Jaliborc/CustomTutorials-2.1.git
 [submodule "Libs/CustomTutorials-2.1"]
 	path = Libs/CustomTutorials-2.1
 	url = https://github.com/Jaliborc/CustomTutorials-2.1
+	
 [submodule "Libs/SecureTabs-2.0"]
 	path = Libs/SecureTabs-2.0
 	url = https://github.com/Jaliborc/SecureTabs-2.0.git
