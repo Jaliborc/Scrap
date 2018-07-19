@@ -269,7 +269,7 @@ function Scrap:LoadTooltip(link, bag, slot)
 end
 
 function Scrap:BelongsToSet()
-	return CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
+	return C_EquipmentSet.CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
 end
 
 function Scrap:IsSoulbound(bag, slot)
