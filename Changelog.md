@@ -1,3 +1,9 @@
+##### 13.7
+* Updated for Battle for Azeroth.
+
+##### 13.6
+* Updated for Shadow of Argus.
+
 ##### 13.5
 * Updated for Tomb of Sargeras.
 

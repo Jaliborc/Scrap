@@ -4,7 +4,7 @@
 			Scrap:SellJunk()
 		end
 	</Binding>
-	<Binding name="SCRAP_TOGGLE" header="SCRAP" category="ADDONS">
+	<Binding name="SCRAP_TOGGLE" category="ADDONS">
 		local item = GameTooltip:IsVisible() and select(2, GameTooltip:GetItem())
 		if item then
     		Scrap:ToggleJunk(tonumber(item:match('item:(%d+)')))
