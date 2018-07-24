@@ -1,3 +1,6 @@
+##### 13.8
+* Now knows that Shamans cant use plate.
+
 ##### 13.7
 * Updated for Battle for Azeroth.
 
