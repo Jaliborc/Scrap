@@ -1,3 +1,9 @@
+##### 13.10
+* Added patron list.
+
+##### 13.9
+* Including unnecessary files because game client is now picky about missing files.
+
 ##### 13.8
 * Now knows that Shamans cant use plate.
 

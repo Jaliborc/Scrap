@@ -14,6 +14,7 @@ L["LowConsume"] = "Vendre les consommables de faible niveau"
 L["LowConsumeTip"] = "Si cette option est activée, Scrap vendra |cffff2020touts|r les objets consommables qui sont trop faibles pour votre niveau."
 L["LowEquip"] = "Vendre l'équipement de faible niveau"
 L["LowEquipTip"] = "Si cette option est activée, Scrap vendra |cffff2020tout|r l'équipement lié ayant un niveau beaucoup plus bas que celui que vous portez."
+L["MissingOptions"] = "\"Scrap Options\" n'a pas pu être chargé parce que l'addon est %s."
 L["NotJunk"] = "Utile"
 L["Description"] = "Ces options vous permettent de configurer Scrap encore mieux. La camelote ne passera pas !"
 L["Glow"] = "Bordures éclatantes"
@@ -34,4 +35,3 @@ L["Tutorial_Button"] = "Scrap vend automatiquement toute votre camelote à chaqu
 L["Tutorial_Drag"] = "Que faire si vous voulez dire à Scrap quels articles il doit vendre ou pas? Il suffit simplement de |cffffd200glisser-déposer|r vos objets de vos sacs sur le bouton Scrap.|n|nVous pouvez également définir un |cffffd200raccourci clavier|r dans les options du |cffffd200menu du jeu|r. Appuyez dessus tout en survolant l'élément."
 L["Tutorial_Visualizer"] = "Pour voir les articles que vous avez spécifié comme indésirables ou non, ouvrez l'onglet |cffffd200Scrap|r.|n|nRemarquez qu'il n'affichera que les articles que vous aurez |cffffd200spécifié|r indésirables, et non pas chaque élément unique dans le jeu."
 L["Tutorial_Bye"] = "Bonne chance dans vos aventures et puissent les |cffb400ffobjets épiques|r être avec vous.|nLes déchets ne passeront pas!"
-

@@ -5,7 +5,7 @@
 ## Author: Jaliborc (João Cardoso)
 ## X-License: GNU General Public License Version 3
 ## X-Category: Inventory
-## Version: 13.8
+## Version: 13.10
 
 ## SavedVariables: Scrap_SharedJunk, Scrap_AutoSell, Scrap_AutoRepair, Scrap_GuildRepair, Scrap_Safe, Scrap_Learn, Scrap_Glow, Scrap_Icons, Scrap_Tut, Scrap_Version
 ## SavedVariablesPerCharacter: Scrap_Junk, Scrap_AI, Scrap_LowEquip, Scrap_LowConsume, Scrap_Unusable, Scrap_ShareList
@@ -16,12 +16,12 @@ Libs\Unfit-1.0\Unfit-1.0.lua
 
 Localization\en.lua
 Localization\pt.lua
+Localization\tw.lua
 Localization\cn.lua
 Localization\de.lua
 Localization\es.lua
 Localization\fr.lua
 Localization\ru.lua
-Localization\tw.lua
 Localization\ko.lua
 
 BaseList.lua
