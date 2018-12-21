@@ -1,4 +1,4 @@
-## Interface: 80000
+## Interface: 80100
 ## Title: |cffFFDE73Scrap|r
 ## Notes: Sells all your junk at the merchant.
 
