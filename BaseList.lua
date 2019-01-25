@@ -41,7 +41,7 @@ Scrap_BaseList = {
 	[51557] = false,
 	[40585] = false,
 	[43157] = false,
-	
+
 	[63206] = false,
 	[63207] = false,
 	[65274] = false,
@@ -50,7 +50,7 @@ Scrap_BaseList = {
 	[64401] = false,
 	[64400] = false,
 	[63352] = false,
-	
+
 	[86143] = false,
 	[92742] = false,
 	[92741] = false,
@@ -76,7 +76,6 @@ Scrap_BaseList = {
 	[114128] = false,
 	[120301] = false,
 	[120302] = false,
-	[114128] = false,
 
 	[114002] = false,
 }

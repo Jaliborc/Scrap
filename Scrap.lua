@@ -27,6 +27,7 @@ local CLASS_NAME = LOCALIZED_CLASS_NAMES_MALE[select(2, UnitClass('player'))]
 local WEAPON, ARMOR, CONSUMABLES = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, LE_ITEM_CLASS_CONSUMABLE
 local FISHING_POLE = LE_ITEM_WEAPON_FISHINGPOLE
 
+local ITEM_LEVEL = ITEM_LEVEL:gsub('%%d', '(%%d+)')
 local CAN_TRADE = BIND_TRADE_TIME_REMAINING:format('.*')
 local CAN_REFUND = REFUND_TIME_REMAINING:format('.*')
 local MATCH_CLASS = ITEM_CLASSES_ALLOWED:format('')
@@ -77,22 +78,19 @@ function Scrap:Startup()
 	self:SetScript('OnEvent', function(self, event) self[event](self) end)
 	self:RegisterEvent('VARIABLES_LOADED')
 	self:RegisterEvent('MERCHANT_SHOW')
-end
-
-function Scrap:SettingsUpdated()
-	self.Junk = setmetatable(Scrap_ShareList and Scrap_SharedJunk or Scrap_Junk, Scrap_BaseList)
+	self.Startup = nil
 end
 
 function Scrap:VARIABLES_LOADED()
-	self.Startup, self.VARIABLES_LOADED = nil
-	self:SettingsUpdated()
-
-	if not Scrap_Tut then
-		Scrap_AutoSell, Scrap_Safe = true, true
-	end
+	self.Junk = setmetatable(Scrap_ShareList and Scrap_SharedJunk or Scrap_Junk, Scrap_BaseList)
 
 	if not Scrap_Version then
-		Scrap_Icons = true
+		Scrap_ShareList = nil
+		Scrap_AutoRepair, Scrap_GuildRepair, Scrap_Learn = nil
+		Scrap_Unusable, Scrap_LowEquip, Scrap_LowConsume = nil
+
+		Scrap_AutoSell, Scrap_Safe = true, true
+		Scrap_Icons, Scrap_Glow = true, true
 	end
 
 	Scrap_Version = 11
@@ -180,7 +178,7 @@ function Scrap:CheckFilters(...)
 
 			if not self:BelongsToSet() and self:IsSoulbound(bag, slot) then
 				local unusable = Scrap_Unusable and (Unfit:IsClassUnusable(class, subclass, equipSlot) or self:IsOtherClass())
-				return unusable or self:IsLowEquip(equipSlot, level, quality)
+				return unusable or self:IsLowEquip(equipSlot, max(level, self:GetLevel() or 0), quality)
 			end
 		end
 
@@ -265,11 +263,21 @@ function Scrap:LoadTooltip(link, bag, slot)
 		Tooltip:SetHyperlink(link)
 	end
 
+	self.limit = 2
 	self.numLines = Tooltip:NumLines()
 end
 
 function Scrap:BelongsToSet()
 	return C_EquipmentSet.CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
+end
+
+function Scrap:GetLevel()
+	for i = 2, self.limit do
+		local level = GetLine(i):match(ITEM_LEVEL)
+		if level then
+			return tonumber(level)
+		end
+	end
 end
 
 function Scrap:IsSoulbound(bag, slot)

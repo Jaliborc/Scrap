@@ -1,5 +1,15 @@
+##### 13.13
+* Updated for Tides of Vengeance.
+* Improved how equipment item level is detected.
+
+##### 13.12
+* Minor internal modification.
+
+##### 13.11
+* Fixed issue with settings default reset.
+
 ##### 13.10
-* Added patron list.
+* Added patron list in the configuration options. See patreon.com/jaliborc to learn how to join the list.
 
 ##### 13.9
 * Including unnecessary files because game client is now picky about missing files.
