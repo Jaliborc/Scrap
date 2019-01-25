@@ -1,5 +1,6 @@
 local L = Scrap_Locals
-if GetLocale() ~= 'zhTW' then return end
+local Locale = GetLocale()
+if Locale ~= 'zhTW' and Locale ~= 'zhCN' then return end
 
 L.Add = "添加到垃圾清單"
 L.Added = "%s 已添加到垃圾清單"
@@ -19,6 +20,7 @@ L.LowConsume = "低等級消耗品"
 L.LowConsumeTip = "開啟此功能，Scrap 會自動出售|cffff2020任何|r等級較你人物低的消耗品。"
 L.LowEquip = "低等裝備"
 L.LowEquipTip = "開啟此功能，Scrap 會自動出售|cffff2020任何|r等級較你人物身上裝備低的已綁定裝備。"
+L.MissingOptions = "由於插件%s導致\"Scrap Options\" 無法載入"
 L.NotJunk = "非垃圾"
 L.Description = "這些選項讓你可更詳盡的設定 Scrap。\n不留垃圾！"
 

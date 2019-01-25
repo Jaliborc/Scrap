@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2017 João Cardoso
+Copyright 2008-2018 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -86,21 +86,21 @@ end
 function Scrap:VARIABLES_LOADED()
 	self.Startup, self.VARIABLES_LOADED = nil
 	self:SettingsUpdated()
-	
+
 	if not Scrap_Tut then
 		Scrap_AutoSell, Scrap_Safe = true, true
 	end
-	
-	if not Scrap_Version then	
+
+	if not Scrap_Version then
 		Scrap_Icons = true
 	end
-	
+
 	Scrap_Version = 11
 end
 
 function Scrap:MERCHANT_SHOW()
 	self.MERCHANT_SHOW = nil
-	
+
 	if LoadAddOn('Scrap_Merchant') then
 		self:MERCHANT_SHOW()
 	else
@@ -120,10 +120,10 @@ end
 function Scrap:IterateJunk()
 	local bagNumSlots, bag, slot = GetContainerNumSlots(BACKPACK_CONTAINER), BACKPACK_CONTAINER, 0
 	local match, id
-	
+
 	return function()
 		match = nil
-		
+
 		while not match do
 			if slot < bagNumSlots then
 				slot = slot + 1
@@ -135,11 +135,11 @@ function Scrap:IterateJunk()
 				bag, slot = nil
 				break
 			end
-			
+
 			id = GetContainerItemID(bag, slot)
 			match = self:IsJunk(id, bag, slot)
 		end
-		
+
 		return bag, slot, id
 	end
 end
@@ -177,7 +177,7 @@ function Scrap:CheckFilters(...)
 		if value and self:StandardQuality(quality) and self:CombatItem(class, subclass, equipSlot) then
 			local bag, slot = self:GetSlot(...)
 			self:LoadTooltip(link, bag, slot)
-					
+
 			if not self:BelongsToSet() and self:IsSoulbound(bag, slot) then
 				local unusable = Scrap_Unusable and (Unfit:IsClassUnusable(class, subclass, equipSlot) or self:IsOtherClass())
 				return unusable or self:IsLowEquip(equipSlot, level, quality)
@@ -210,17 +210,17 @@ function Scrap:IsLowEquip(slot, level, quality)
 		local slot1, slot2 = ACTUAL_SLOTS[slot] or slot
 		local value = GetValue(level or 0, quality)
 		local double
-		
+
 		if slot1 == 'INVTYPE_WEAPON' or slot1 == 'INVTYPE_2HWEAPON' then
 			if slot1 == 'INVTYPE_2HWEAPON' then
 				double = true
 			end
-			
+
 			slot1, slot2 = 'INVTYPE_MAINHAND', 'INVTYPE_OFFHAND'
 		elseif slot1 == 'INVTYPE_FINGER' then
 			slot1, slot2 = 'INVTYPE_FINGER1', 'INVTYPE_FINGER2'
 		end
-		
+
 		return self:IsBetterEquip(slot1, value) and (not slot2 or self:IsBetterEquip(slot2, value, double))
 	end
 end
@@ -264,12 +264,12 @@ function Scrap:LoadTooltip(link, bag, slot)
 	else
 		Tooltip:SetHyperlink(link)
 	end
-	
+
 	self.numLines = Tooltip:NumLines()
 end
 
 function Scrap:BelongsToSet()
-	return CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
+	return C_EquipmentSet.CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
 end
 
 function Scrap:IsSoulbound(bag, slot)
@@ -299,7 +299,7 @@ end
 --[[ Utility ]]--
 
 function Scrap:PrintMoney(pattern, value)
-	self:Print(pattern, GetCoinTextureString(value), 'MONEY')
+	self:Print(pattern, GetMoneyString(value, true), 'MONEY')
 end
 
 function Scrap:Print (pattern, value, channel)
