@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2018 João Cardoso
+Copyright 2008-2019 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -27,7 +27,6 @@ local CLASS_NAME = LOCALIZED_CLASS_NAMES_MALE[select(2, UnitClass('player'))]
 local WEAPON, ARMOR, CONSUMABLES = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, LE_ITEM_CLASS_CONSUMABLE
 local FISHING_POLE = LE_ITEM_WEAPON_FISHINGPOLE
 
-local ITEM_LEVEL = ITEM_LEVEL:gsub('%%d', '(%%d+)')
 local CAN_TRADE = BIND_TRADE_TIME_REMAINING:format('.*')
 local CAN_REFUND = REFUND_TIME_REMAINING:format('.*')
 local MATCH_CLASS = ITEM_CLASSES_ALLOWED:format('')
@@ -160,8 +159,8 @@ end
 --[[ Filters ]]--
 
 function Scrap:CheckFilters(...)
-	local _, link, quality, level, minLevel, _,_,_, equipSlot, _, value, class, subclass = GetItemInfo(...)
-	local level = max(level or 0, minLevel or 0)
+	local _, link, quality, _,_,_,_,_, equipSlot, _, value, class, subclass = GetItemInfo(...)
+	local level =  GetDetailedItemLevelInfo(link) or 0
 	local gray = quality == LE_ITEM_QUALITY_POOR
 	local value = value and value > 0
 
@@ -178,7 +177,7 @@ function Scrap:CheckFilters(...)
 
 			if not self:BelongsToSet() and self:IsSoulbound(bag, slot) then
 				local unusable = Scrap_Unusable and (Unfit:IsClassUnusable(class, subclass, equipSlot) or self:IsOtherClass())
-				return unusable or self:IsLowEquip(equipSlot, max(level, self:GetLevel() or 0), quality)
+				return unusable or self:IsLowEquip(equipSlot, level, quality)
 			end
 		end
 
@@ -205,18 +204,18 @@ end
 
 function Scrap:IsLowEquip(slot, level, quality)
 	if Scrap_LowEquip and slot ~= ''  then
-		local slot1, slot2 = ACTUAL_SLOTS[slot] or slot
+		local slot1, slot2 = gsub(ACTUAL_SLOTS[slot] or slot, 'INVTYPE', 'INVSLOT')
 		local value = GetValue(level or 0, quality)
 		local double
 
-		if slot1 == 'INVTYPE_WEAPON' or slot1 == 'INVTYPE_2HWEAPON' then
-			if slot1 == 'INVTYPE_2HWEAPON' then
+		if slot1 == 'INVSLOT_WEAPON' or slot1 == 'INVSLOT_2HWEAPON' then
+			if slot1 == 'INVSLOT_2HWEAPON' then
 				double = true
 			end
 
-			slot1, slot2 = 'INVTYPE_MAINHAND', 'INVTYPE_OFFHAND'
-		elseif slot1 == 'INVTYPE_FINGER' then
-			slot1, slot2 = 'INVTYPE_FINGER1', 'INVTYPE_FINGER2'
+			slot1, slot2 = 'INVSLOT_MAINHAND', 'INVSLOT_OFFHAND'
+		elseif slot1 == 'INVSLOT_FINGER' then
+			slot1, slot2 = 'INVSLOT_FINGER1', 'INVSLOT_FINGER2'
 		end
 
 		return self:IsBetterEquip(slot1, value) and (not slot2 or self:IsBetterEquip(slot2, value, double))
@@ -224,10 +223,11 @@ function Scrap:IsLowEquip(slot, level, quality)
 end
 
 function Scrap:IsBetterEquip(slot, value, empty)
-	local item = GetInventoryItemID('player', slot)
+	local item = GetInventoryItemID('player', _G[slot])
 	if item then
-		local _,_, quality, level = GetItemInfo(item)
-		return GetValue(level or 0, quality) / value > 1.1
+		local level = GetDetailedItemLevelInfo(item) or 0
+		local _,_, quality = GetItemInfo(item)
+		return GetValue(level, quality) / value > 1.1
 	elseif empty then
 		return true
 	end
@@ -269,15 +269,6 @@ end
 
 function Scrap:BelongsToSet()
 	return C_EquipmentSet.CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
-end
-
-function Scrap:GetLevel()
-	for i = 2, self.limit do
-		local level = GetLine(i):match(ITEM_LEVEL)
-		if level then
-			return tonumber(level)
-		end
-	end
 end
 
 function Scrap:IsSoulbound(bag, slot)

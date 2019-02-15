@@ -1,6 +1,8 @@
 ##### 13.13
 * Updated for Tides of Vengeance.
 * Improved how equipment item level is detected.
+* Updated Russian localization.
+* Fixed English localization error.
 
 ##### 13.12
 * Minor internal modification.

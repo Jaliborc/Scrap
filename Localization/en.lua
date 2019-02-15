@@ -21,7 +21,7 @@ L.IconsTip = 'If enabled, small gold coins will appear on your Scrap items.'
 
 L.Junk = 'Junk'
 L.Learn = 'Intelligent Learning'
-L.LearnTip = 'If enabled, Srcap will learn which items you usually sell to the merchant and automatically consider them junk.'
+L.LearnTip = 'If enabled, Scrap will learn which items you usually sell to the merchant and automatically consider them junk.'
 L.Loading = 'Loading...'
 L.LowConsume = 'Low Consumables'
 L.LowConsumeTip = 'If enabled, Scrap will sell |cffff2020any|r consumable which is too low for your level.'
