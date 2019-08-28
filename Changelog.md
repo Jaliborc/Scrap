@@ -1,3 +1,20 @@
+##### 13.18
+* Fixed issue with patron list.
+
+##### 13.17
+* Now compatible with World of Warcraft Classic
+
+##### 13.16
+* Updated for World of Warcraft patch 8.2.0.
+
+##### 13.15
+* Hotfix
+
+##### 13.14
+* Fixed issue causing Visualizer tab button to display even if the module is disabled.
+* Fixed issue with item comparison to current equipment.
+* Item level detection is now faster (no longer requires internal tooltip scanning).
+
 ##### 13.13
 * Updated for Tides of Vengeance.
 * Improved how equipment item level is detected.

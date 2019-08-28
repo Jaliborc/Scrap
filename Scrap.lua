@@ -78,6 +78,7 @@ function Scrap:Startup()
 	self:RegisterEvent('VARIABLES_LOADED')
 	self:RegisterEvent('MERCHANT_SHOW')
 	self.Startup = nil
+	self.Junk = {}
 end
 
 function Scrap:VARIABLES_LOADED()
@@ -145,12 +146,12 @@ function Scrap:ToggleJunk(id)
 	local message
 
 	if self:IsJunk(id) then
-	   	self.Junk[id] = false
+		self.Junk[id] = false
 		message = L.Removed
 	else
-	   	self.Junk[id] = true
+		self.Junk[id] = true
 		message = L.Added
-  	end
+  end
 
 	self:Print(message, select(2, GetItemInfo(id)), 'LOOT')
 end
@@ -160,7 +161,7 @@ end
 
 function Scrap:CheckFilters(...)
 	local _, link, quality, _,_,_,_,_, equipSlot, _, value, class, subclass = GetItemInfo(...)
-	local level =  GetDetailedItemLevelInfo(link) or 0
+	local level =  GetDetailedItemLevelInfo(...) or 0
 	local gray = quality == LE_ITEM_QUALITY_POOR
 	local value = value and value > 0
 
@@ -268,7 +269,7 @@ function Scrap:LoadTooltip(link, bag, slot)
 end
 
 function Scrap:BelongsToSet()
-	return C_EquipmentSet.CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
+	return C_EquipmentSet and C_EquipmentSet.CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
 end
 
 function Scrap:IsSoulbound(bag, slot)
@@ -311,7 +312,7 @@ function Scrap:Print (pattern, value, channel)
 	end
 end
 
-function Scrap:GetID (link)
+function Scrap:GetID(link)
 	return link and tonumber(link:match('item:(%d+)'))
 end
 
