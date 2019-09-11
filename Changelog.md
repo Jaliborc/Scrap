@@ -1,3 +1,6 @@
+##### 13.19
+* Fixed issue with auto repair in classic.
+
 ##### 13.18
 * Fixed issue with patron list.
 
