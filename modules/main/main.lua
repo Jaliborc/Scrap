@@ -53,13 +53,13 @@ BINDING_NAME_SCRAP_TOGGLE = L.ToggleJunk
 BINDING_NAME_SCRAP_SELL = L.SellJunk
 BINDING_HEADER_SCRAP = 'Scrap'
 
+Scrap_CharSets = Scrap_CharSets or {list = {}, ml = {}}
+Scrap_Sets = Scrap_Sets or {list = {}}
+
 
 --[[ Startup ]]--
 
 function Scrap:Startup()
-	Scrap_CharSets = Scrap_CharSets or {list = {}, ml = {}}
-	Scrap_Sets = Scrap_Sets or {list = {}}
-
 	self:SetScript('OnEvent', function(self, event) self[event](self) end)
 	self:RegisterEvent('VARIABLES_LOADED')
 	self:RegisterEvent('MERCHANT_SHOW')
@@ -67,6 +67,21 @@ function Scrap:Startup()
 	self.tip = CreateFrame('GameTooltip', 'ScrapTooltip', nil, 'GameTooltipTemplate')
 	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
 	self.junk, self.baseList = {}, {}
+
+	self.options = CreateFrame('Frame', nil, InterfaceOptionsFrame)
+	self.options.name = '|TInterface\\Addons\\Scrap\\art\\enabled-icon:13:13:0:0:128:128:10:118:10:118|t Scrap'
+	self.options:SetScript('OnShow', function()
+		local loaded, reason = LoadAddOn('Scrap_Options')
+		if not loaded then
+			local string = Options:CreateFontString(nil, nil, 'GameFontHighlight')
+			string:SetText(L.MissingOptions:format(_G['ADDON_'..reason]:lower()))
+			string:SetPoint('RIGHT', -40, 0)
+			string:SetPoint('LEFT', 40, 0)
+			string:SetHeight(30)
+		end
+	end)
+
+	InterfaceOptions_AddCategory(self.options)
 end
 
 function Scrap:VARIABLES_LOADED()
@@ -276,7 +291,7 @@ function Scrap:ScanBagSlot(id, bag, slot)
 	if bag and slot then
 		return bag, slot
 	elseif GetItemCount(id) > 0 then
-		for bag = 0, NUM_BAG_FRAMES do
+		for bag = BACKPACK_CONTAINER, NUM_BAG_FRAMES do
 		  	 for slot = 1, GetContainerNumSlots(bag) do
 		  	 	if id == GetContainerItemID(bag, slot) then
 		  	 		return bag, slot

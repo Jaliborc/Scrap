@@ -6,9 +6,8 @@ local Replace, IsFalse = WoWUnit.Replace, WoWUnit.IsFalse
 local Tests = WoWUnit('Scrap')
 
 local function NotJunk(id)
-	Replace(Scrap, 'Junk', Scrap_BaseList)
-	Replace('Scrap_LowConsume', true)
-	Replace('Scrap_LowEquip', true)
+	Replace(Scrap, 'junk', Scrap.baseList.__index)
+	Replace(Scrap, 'charsets', {consumable = true, equip = true})
 
 	return IsFalse(Scrap:IsJunk(id))
 end

@@ -11,10 +11,6 @@
 ## SavedVariables: Scrap_Sets
 ## OptionalDeps: WoWTest
 
-libs\libs.xml
+libs\main.xml
 localization\localization.xml
-
-Scrap.lua
-BaseList.lua
-Options.lua
-Tests.lua
+modules\main\main.xml
