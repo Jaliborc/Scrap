@@ -16,7 +16,7 @@ This file is part of Scrap.
 --]]
 
 local Options = CreateFrame('Frame', 'ScrapOptions', InterfaceOptionsFrame)
-Options.name = '|TInterface\\Addons\\Scrap\\Art\\Enabled Icon:13:13:0:0:128:128:10:118:10:118|t Scrap'
+Options.name = '|TInterface\\Addons\\Scrap\\art\\Enabled Icon:13:13:0:0:128:128:10:118:10:118|t Scrap'
 Options:SetScript('OnShow', function()
 	local loaded, reason = LoadAddOn('Scrap_Options')
 	if not loaded then

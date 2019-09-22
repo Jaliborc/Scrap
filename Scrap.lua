@@ -15,13 +15,9 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-local Tooltip = CreateFrame('GameTooltip', 'ScrapTooltip', nil, 'GameTooltipTemplate')
-local Scrap = CreateFrame('Button', 'Scrap', MerchantBuyBackItem)
+local Scrap = CreateFrame('Button', ADDON, MerchantBuyBackItem)
 local Unfit = LibStub('Unfit-1.0')
 local L = Scrap_Locals
-
-
---[[ Constants ]]--
 
 local CLASS_NAME = LOCALIZED_CLASS_NAMES_MALE[select(2, UnitClass('player'))]
 local WEAPON, ARMOR, CONSUMABLES = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, LE_ITEM_CLASS_CONSUMABLE
@@ -31,7 +27,6 @@ local CAN_TRADE = BIND_TRADE_TIME_REMAINING:format('.*')
 local CAN_REFUND = REFUND_TIME_REMAINING:format('.*')
 local MATCH_CLASS = ITEM_CLASSES_ALLOWED:format('')
 local IN_SET = EQUIPMENT_SETS:format('.*')
-local SLOT_SLICE = ('INVTYPE_'):len() + 1
 
 local ACTUAL_SLOTS = {
 	INVTYPE_ROBE = 'INVTYPE_CHEST',
@@ -44,22 +39,6 @@ local ACTUAL_SLOTS = {
 	INVTYPE_SHIELD = 'INVTYPE_OFFHAND',
 }
 
-BINDING_NAME_SCRAP_TOGGLE = L.ToggleJunk
-BINDING_NAME_SCRAP_SELL = L.SellJunk
-BINDING_HEADER_SCRAP = 'Scrap'
-
-Scrap_SharedJunk = Scrap_SharedJunk or {}
-Scrap_Junk = Scrap_Junk or {}
-Scrap_AI = Scrap_AI or {}
-
-
---[[ Locals ]]
-
-local function GetLine(i)
-	local line = _G['ScrapTooltipTextLeft'..i]
-	return line and line:GetText() or ''
-end
-
 local function GetValue(level, quality)
 	if quality == LE_LE_ITEM_QUALITY_EPIC then
 		return (level + 344.36) / 106.29
@@ -70,48 +49,61 @@ local function GetValue(level, quality)
 	end
 end
 
+BINDING_NAME_SCRAP_TOGGLE = L.ToggleJunk
+BINDING_NAME_SCRAP_SELL = L.SellJunk
+BINDING_HEADER_SCRAP = 'Scrap'
 
---[[ Events ]]--
+
+--[[ Startup ]]--
 
 function Scrap:Startup()
+	Scrap_CharSets = Scrap_CharSets or {list = {}, ml = {}}
+	Scrap_Sets = Scrap_Sets or {list = {}}
+
 	self:SetScript('OnEvent', function(self, event) self[event](self) end)
 	self:RegisterEvent('VARIABLES_LOADED')
 	self:RegisterEvent('MERCHANT_SHOW')
-	self.Startup = nil
-	self.Junk = {}
+
+	self.tip = CreateFrame('GameTooltip', 'ScrapTooltip', nil, 'GameTooltipTemplate')
+	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
+	self.junk, self.baseList = {}, {}
 end
 
 function Scrap:VARIABLES_LOADED()
-	self.Junk = setmetatable(Scrap_ShareList and Scrap_SharedJunk or Scrap_Junk, Scrap_BaseList)
+	if Scrap_Version then
+		self.sets.list = Scrap_SharedJunk
+		self.sets.sell = Scrap_AutoSell
+		self.sets.repair = Scrap_AutoRepair
+		self.sets.guildRepair = Scrap_GuildRepair
+		self.sets.learn = Scrap_Learn
+		self.sets.safe = Scrap_Safe
+		self.sets.icons = Scrap_Icons
+		self.sets.glow = Scrap_Glow
+		self.sets.tutorial = Scrap_Tut
 
-	if not Scrap_Version then
-		Scrap_ShareList = nil
-		Scrap_AutoRepair, Scrap_GuildRepair, Scrap_Learn = nil
-		Scrap_Unusable, Scrap_LowEquip, Scrap_LowConsume = nil
-
-		Scrap_AutoSell, Scrap_Safe = true, true
-		Scrap_Icons, Scrap_Glow = true, true
+		self.charsets.list = Scrap_Junk
+		self.charsets.ml = Scrap_AI
+		self.charsets.equip = Scrap_LowEquip
+		self.charsets.consumable = Scrap_LowConsume
+		self.charsets.unusable = Scrap_Unusable
+		self.charsets.share = Scrap_ShareList
 	end
 
-	Scrap_Version = 11
+	self.junk = setmetatable(self.charsets.share and self.sets.list or self.charsets.list, self.baseList)
 end
 
 function Scrap:MERCHANT_SHOW()
-	self.MERCHANT_SHOW = nil
-
 	if LoadAddOn('Scrap_Merchant') then
 		self:MERCHANT_SHOW()
-	else
-		self:UnregisterEvent('MERCHANT_SHOW')
 	end
 end
 
 
---[[ Junk Public Methods ]]--
+--[[ Main Methods ]]--
 
 function Scrap:IsJunk(id, ...)
-	if id and self.Junk[id] ~= false then
-		return self.Junk[id] or (Scrap_Learn and Scrap_AI[id] and Scrap_AI[id] > 2) or self:CheckFilters(id, ...)
+	if id and self.junk[id] ~= false then
+		return self.junk[id] or (self.sets.learn and self.sets.ml[id] and self.sets.ml[id] > 2) or self:CheckFilters(id, ...)
 	end
 end
 
@@ -143,68 +135,62 @@ function Scrap:IterateJunk()
 end
 
 function Scrap:ToggleJunk(id)
-	local message
+	local junk = self:IsJunk(id)
 
-	if self:IsJunk(id) then
-		self.Junk[id] = false
-		message = L.Removed
-	else
-		self.Junk[id] = true
-		message = L.Added
-  end
-
-	self:Print(message, select(2, GetItemInfo(id)), 'LOOT')
+	self:Print(junk and L.Removed or L.Added, select(2, GetItemInfo(id)), 'LOOT')
+	self.junk[id] = !junk
 end
 
 
 --[[ Filters ]]--
 
 function Scrap:CheckFilters(...)
-	local _, link, quality, _,_,_,_,_, equipSlot, _, value, class, subclass = GetItemInfo(...)
+	local _, link, quality, _,_,_,_,_, slot, _, value, class, subclass = GetItemInfo(...)
 	local level =  GetDetailedItemLevelInfo(...) or 0
-	local gray = quality == LE_ITEM_QUALITY_POOR
-	local value = value and value > 0
 
-	local equipment = class == ARMOR or class == WEAPON
-	local consumable = class == CONSUMABLES
+	if not value or value == 0 then
+		return
 
-	if gray then
-		return not equipment or self:HighLevel(level)
+	elseif class == ARMOR or class == WEAPON then
+		if value and self:IsCombatItem(class, subclass, slot) then
+			if self:IsGray(quality) then
+				return (slot ~= 'INVTYPE_SHOULDER' and level > 15) or level > 25
+			elseif self:IsStandardQuality(quality) then
+				local bag, position = self:ScanBagSlot(...)
+				self:LoadTip(link, bag, position)
 
-	elseif equipment then
-		if value and self:StandardQuality(quality) and self:CombatItem(class, subclass, equipSlot) then
-			local bag, slot = self:GetSlot(...)
-			self:LoadTooltip(link, bag, slot)
-
-			if not self:BelongsToSet() and self:IsSoulbound(bag, slot) then
-				local unusable = Scrap_Unusable and (Unfit:IsClassUnusable(class, subclass, equipSlot) or self:IsOtherClass())
-				return unusable or self:IsLowEquip(equipSlot, level, quality)
+				if not self:BelongsToSet() and self:IsSoulbound(bag, position) then
+					local unusable = self.charsets.unusable and (Unfit:IsClassUnusable(class, subclass, slot) or self:IsOtherClass())
+					return unusable or self:IsLowEquip(slot, level, quality)
+				end
 			end
 		end
 
-	elseif consumable then
-		return value and Scrap_LowConsume and quality < LE_ITEM_QUALITY_RARE and self:LowLevel(level)
+	elseif self:IsGray(quality) then
+		return true
+	elseif class == CONSUMABLES then
+		return self.charsets.consumable and quality < LE_ITEM_QUALITY_RARE and self:IsLowLevel(level)
 	end
 end
 
-function Scrap:HighLevel(level)
-	return level > 10 or UnitLevel('player') > 8
+function Scrap:IsGray(quality)
+	return quality == LE_ITEM_QUALITY_POOR
 end
 
-function Scrap:LowLevel(level)
+function Scrap:IsLowLevel(level)
 	return level ~= 0 and level < (UnitLevel('player') - 10)
 end
 
-function Scrap:StandardQuality(quality)
+function Scrap:IsStandardQuality(quality)
 	return quality >= LE_ITEM_QUALITY_UNCOMMON and quality <= LE_ITEM_QUALITY_EPIC
 end
 
-function Scrap:CombatItem(class, subclass, slot)
+function Scrap:IsCombatItem(class, subclass, slot)
 	return slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE
 end
 
 function Scrap:IsLowEquip(slot, level, quality)
-	if Scrap_LowEquip and slot ~= ''  then
+	if self.charsets.equip and slot ~= ''  then
 		local slot1, slot2 = gsub(ACTUAL_SLOTS[slot] or slot, 'INVTYPE', 'INVSLOT')
 		local value = GetValue(level or 0, quality)
 		local double
@@ -237,7 +223,56 @@ end
 
 --[[ Data Retrieval ]]--
 
-function Scrap:GetSlot(id, bag, slot)
+function Scrap:IsSoulbound(bag, slot)
+	local lastLine = self:ScanLine(self.numLines)
+	local soulbound = bag and slot and ITEM_SOULBOUND or ITEM_BIND_ON_PICKUP
+
+	if not lastLine:find(CAN_TRADE) and not lastLine:find(CAN_REFUND) then
+		for i = 2,7 do
+			if self:ScanLine(i) == soulbound then
+				self.limit = i
+				return true
+			end
+		end
+	end
+end
+
+function Scrap:IsOtherClass()
+	for i = self.numLines, self.limit, -1 do
+		local text = self:ScanLine(i)
+		if text:find(MATCH_CLASS) then
+			return not text:find(CLASS_NAME)
+		end
+	end
+end
+
+function Scrap:BelongsToSet()
+	return C_EquipmentSet and C_EquipmentSet.CanUseEquipmentSets() and self:ScanLine(self.numLines - 1):find(IN_SET)
+end
+
+function Scrap:LoadTip(link, bag, slot)
+	self.tip:SetOwner(UIParent, 'ANCHOR_NONE')
+
+	if bag and slot then
+		if bag ~= BANK_CONTAINER then
+			self.tip:SetBagItem(bag, slot)
+		else
+			self.tip:SetInventoryItem('player', BankButtonIDToInvSlotID(slot))
+		end
+	else
+		self.tip:SetHyperlink(link)
+	end
+
+	self.limit = 2
+	self.numLines = self.tip:NumLines()
+end
+
+function Scrap:ScanLine(i)
+	local line = _G[self.tip:GetName() .. 'TextLeft' .. i]
+	return line and line:GetText() or ''
+end
+
+function Scrap:ScanBagSlot(id, bag, slot)
 	if bag and slot then
 		return bag, slot
 	elseif GetItemCount(id) > 0 then
@@ -251,50 +286,6 @@ function Scrap:GetSlot(id, bag, slot)
 	end
 end
 
-function Scrap:LoadTooltip(link, bag, slot)
-	Tooltip:SetOwner(UIParent, 'ANCHOR_NONE')
-
-	if bag and slot then
-		if bag ~= BANK_CONTAINER then
-			Tooltip:SetBagItem(bag, slot)
-		else
-			Tooltip:SetInventoryItem('player', BankButtonIDToInvSlotID(slot))
-		end
-	else
-		Tooltip:SetHyperlink(link)
-	end
-
-	self.limit = 2
-	self.numLines = Tooltip:NumLines()
-end
-
-function Scrap:BelongsToSet()
-	return C_EquipmentSet and C_EquipmentSet.CanUseEquipmentSets() and GetLine(self.numLines - 1):find(IN_SET)
-end
-
-function Scrap:IsSoulbound(bag, slot)
-	local lastLine = GetLine(self.numLines)
-	local soulbound = bag and slot and ITEM_SOULBOUND or ITEM_BIND_ON_PICKUP
-
-	if not lastLine:find(CAN_TRADE) and not lastLine:find(CAN_REFUND) then
-		for i = 2,7 do
-			if GetLine(i) == soulbound then
-				self.limit = i
-				return true
-			end
-		end
-	end
-end
-
-function Scrap:IsOtherClass()
-	for i = self.numLines, self.limit, -1 do
-		local text = GetLine(i)
-		if text:find(MATCH_CLASS) then
-			return not text:find(CLASS_NAME)
-		end
-	end
-end
-
 
 --[[ Utility ]]--
 
@@ -302,7 +293,7 @@ function Scrap:PrintMoney(pattern, value)
 	self:Print(pattern, GetMoneyString(value, true), 'MONEY')
 end
 
-function Scrap:Print (pattern, value, channel)
+function Scrap:Print(pattern, value, channel)
  	local channel = 'CHAT_MSG_'..channel
  	for i = 1, 10 do
 		local frame = _G['ChatFrame'..i]

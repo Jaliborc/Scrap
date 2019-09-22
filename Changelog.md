@@ -1,3 +1,6 @@
+##### 13.20
+* Changed when low level gray equipment is classified as junk by default.
+
 ##### 13.19
 * Fixed issue with auto repair in classic.
 

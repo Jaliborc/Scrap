@@ -15,7 +15,7 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-Scrap_BaseList = {
+Scrap.baseList.__index = {
 	[90561] = false,
 
 	[12709] = false,
@@ -79,5 +79,3 @@ Scrap_BaseList = {
 
 	[114002] = false,
 }
-
-Scrap_BaseList.__index = Scrap_BaseList
