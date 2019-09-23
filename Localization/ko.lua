@@ -10,8 +10,8 @@ L["Behaviour"] = "행동"
 L["Filters"] = "필터"
 L["Visuals"] = "시각화"
 
-L["AutoSell"] = "자동 판매"
-L["AutoSellTip"] = "활성화된 경우, 상점을 방문하면 자동으로 잡템을 판매합니다."
+L["Sell"] = "자동 판매"
+L["SellTip"] = "활성화된 경우, 상점을 방문하면 자동으로 잡템을 판매합니다."
 L["AutoRepair"] = "자동 수리"
 L["AutoRepairTip"] = "활성화된 경우, 상점을 방문하면 자동으로 장비를 수리합니다."
 

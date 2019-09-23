@@ -9,8 +9,8 @@ L["Behaviour"] = "Verhalten"
 L["Filters"] = "Filter"
 L["Visuals"] = "Anzeigen"
 
-L["AutoSell"] = "Automatisch verkaufen"
-L["AutoSellTip"] = "Wenn aktiviert, wird Scrap deinen Müll automatisch beim Händler verkaufen."
+L["Sell"] = "Automatisch verkaufen"
+L["SellTip"] = "Wenn aktiviert, wird Scrap deinen Müll automatisch beim Händler verkaufen."
 L["AutoRepair"] = "Automatisch reparieren"
 L["AutoRepairTip"] = "Wenn aktiviert, wird Scrap automatisch deine Ausrüstung reparieren, sobald du einen Händler besuchst."
 

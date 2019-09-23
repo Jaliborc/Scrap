@@ -15,7 +15,7 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-local Scrap = CreateFrame('Button', ADDON, MerchantBuyBackItem)
+local Scrap = CreateFrame('Button', 'Scrap', MerchantBuyBackItem)
 local Unfit = LibStub('Unfit-1.0')
 local L = Scrap_Locals
 
@@ -53,8 +53,8 @@ BINDING_NAME_SCRAP_TOGGLE = L.ToggleJunk
 BINDING_NAME_SCRAP_SELL = L.SellJunk
 BINDING_HEADER_SCRAP = 'Scrap'
 
+Scrap_Sets = Scrap_Sets or {list = {}, sell = true, repair = true, safe = true, glow = true, icons = true}
 Scrap_CharSets = Scrap_CharSets or {list = {}, ml = {}}
-Scrap_Sets = Scrap_Sets or {list = {}}
 
 
 --[[ Startup ]]--
@@ -65,15 +65,14 @@ function Scrap:Startup()
 	self:RegisterEvent('MERCHANT_SHOW')
 
 	self.tip = CreateFrame('GameTooltip', 'ScrapTooltip', nil, 'GameTooltipTemplate')
-	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
-	self.junk, self.baseList = {}, {}
+	self.baseList = {}
 
 	self.options = CreateFrame('Frame', nil, InterfaceOptionsFrame)
 	self.options.name = '|TInterface\\Addons\\Scrap\\art\\enabled-icon:13:13:0:0:128:128:10:118:10:118|t Scrap'
 	self.options:SetScript('OnShow', function()
-		local loaded, reason = LoadAddOn('Scrap_Options')
+		local loaded, reason = LoadAddOn('Scrap_Config')
 		if not loaded then
-			local string = Options:CreateFontString(nil, nil, 'GameFontHighlight')
+			local string = self.options:CreateFontString(nil, nil, 'GameFontHighlight')
 			string:SetText(L.MissingOptions:format(_G['ADDON_'..reason]:lower()))
 			string:SetPoint('RIGHT', -40, 0)
 			string:SetPoint('LEFT', 40, 0)
@@ -87,9 +86,9 @@ end
 function Scrap:VARIABLES_LOADED()
 	if Scrap_Version then
 		self.sets.list = Scrap_SharedJunk
-		self.sets.sell = Scrap_AutoSell
+		self.sets.sell = Scrap_Sell
 		self.sets.repair = Scrap_AutoRepair
-		self.sets.guildRepair = Scrap_GuildRepair
+		self.sets.guild = Scrap_GuildRepair
 		self.sets.learn = Scrap_Learn
 		self.sets.safe = Scrap_Safe
 		self.sets.icons = Scrap_Icons
@@ -104,6 +103,7 @@ function Scrap:VARIABLES_LOADED()
 		self.charsets.share = Scrap_ShareList
 	end
 
+	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
 	self.junk = setmetatable(self.charsets.share and self.sets.list or self.charsets.list, self.baseList)
 end
 
@@ -153,7 +153,7 @@ function Scrap:ToggleJunk(id)
 	local junk = self:IsJunk(id)
 
 	self:Print(junk and L.Removed or L.Added, select(2, GetItemInfo(id)), 'LOOT')
-	self.junk[id] = !junk
+	self.junk[id] = not junk
 end
 
 

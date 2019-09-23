@@ -1,0 +1,5 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Include file="Poncho-1.0\Poncho-1.0.xml"/>
+    <Include file="Sushi-3.0\Sushi-3.0.xml"/>
+    <Script file="CustomTutorials-2.1\CustomTutorials-2.1.lua"/>
+</Ui>

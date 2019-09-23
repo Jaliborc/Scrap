@@ -1,5 +1,9 @@
-##### 13.20
+#### 8.2.0
 * Changed when low level gray equipment is classified as junk by default.
+* Complete internal rewrite of settings, variables and file internal structure.
+   * `Scrap_Visualizer` is not part of `Scrap_Merchant`
+   * Renamed `Scrap_Options` to `Scrap_Config`
+   * Heavily reduced globals polution.
 
 ##### 13.19
 * Fixed issue with auto repair in classic.
@@ -458,48 +462,3 @@
 ** As the junk lists are saved per-character, most of the window's space is empty. Ideas for new options are welcome.
 * Now items with no sell value can be added to the junk lists
 * No longer beta
-
-##### Beta 5.1
-* Fixed several bugs causing add/remove item functionalities not to work properly
-
-##### Beta 5
-* Updated for 3.2
-* Scrap is going trough a "transitional phase": there are many upcoming changes, which will make Scrap profiles from previous versions incompatible with the new version. An additional addon, //Scrap BetaUpdater//, has been included, which will make the transition of enUS profiles a smooth process, but users with other clients may find transitioning their junk lists a difficult process. Our apologies, but this will be better for the users on a long term.
-* Added a new module: //Scrap Merchant//, which will make the Scrap merchant button load on demand. What does this means? Faster loading and less use of memory and cpu on startup.
-* Now Scrap does not allows items which can't be sold to the merchant to be added to the junk lists.
-* Chat messages now behave depending of your chat settings
-* Removed the profiles chat messages
-* More changes coming in a close future...
-
-##### Beta 4.1
-* Updated TOC for 3.1
-
-##### Beta 4
-* Updated for 3.0.2
-* Scrap now prints how much you profit by selling your junk when you visit the merchant
-* Fixed a bug causing the buttons to not be correctly placed after using the 'Buypack' tab
-* Scrap no longer has a 'module API'. Combuctor Scrap and Baggins Scrap now 'hook' Scrap to work properly.
-* Combuctor Scrap and Baggins Scrap are now separate downloads
-* Before you start asking, this is still not the version which includes the library I've been working for the last year. That will be a closed beta.
-
-##### Beta 3
-* All: Code improvements
-* Added: Baggins Scrap and Combuctor Scrap
-
-##### Beta 2
-* Core: Fixed a bug causing an error message when trying to drag a spell to the Scrap button
-* Options: Current profile is now checked instead of disabled in the "Set Profile" option
-
-##### Beta 1
-* Initial Releaseleasecausing an error message when trying to drag a spell to the Scrap button
-* Options: Current profile is now checked instead of disabled in the "Set Profile" option
-
-##### Beta 1
-* Initial Releaseleaseed instead of disabled in the "Set Profile" option
-
-##### Beta 1
-* Initial Releaseleaseeseleasead of disabled in the "Set Profile" option
-
-##### Beta 1
-* Initial Releaselease1
-* Initial Releaselease Release
