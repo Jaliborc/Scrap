@@ -15,12 +15,6 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-if not Scrap.hasSpotlight then
-	Scrap.hasSpotlight = true
-else
-	return
-end
-
 local R,G,B  = GetItemQualityColor(0)
 local Glows, Icons = {}, {}
 
@@ -46,8 +40,8 @@ local function CreateIcon(button)
 	return icon
 end
 
-hooksecurefunc('ContainerFrame_Update', function(self)
-  local bag = self:GetID()
+local function UpdateContainer(self)
+	local bag = self:GetID()
   local name = self:GetName()
   local size = self.size
 
@@ -63,15 +57,16 @@ hooksecurefunc('ContainerFrame_Update', function(self)
 		glow:SetShown(isJunk and Scrap.sets.glow)
 		icon:SetShown(isJunk and Scrap.sets.icons)
 	end
-end)
+end
 
-hooksecurefunc(Scrap, 'ToggleJunk', function()
+hooksecurefunc('ContainerFrame_Update', UpdateContainer)
+LibStub('AceEvent-3.0').RegisterMessage('ScrapSpotlight', 'SCRAP_LIST_CHANGED', function()
 	local i = 1
 	local frame = _G['ContainerFrame' .. i]
 
 	while frame do
 		if frame:IsShown() then
-			ContainerFrame_Update(frame)
+			UpdateContainer(frame)
 		end
 
 		i = i + 1

@@ -42,10 +42,7 @@
 		</Layers>
 		<Scripts>
 			<OnClick>
-				Scrap.visualizer.selectionType = Scrap.visualizer.selectedTab
-				Scrap.visualizer.selection = self.item
-				Scrap.visualizer.scroll:update()
-				Scrap.visualizer:UpdateButton()
+				self:GetParent():GetParent():GetParent():SetItem(self.item)
 			</OnClick>
 			<OnEnter>
 				GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -59,7 +56,7 @@
 		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD"/>
 	</Button>
 
-	<Frame name="ScrapVisualizer" inherits="ButtonFrameTemplate" hidden="true">
+	<Frame name="ScrapVisualizerTemplate" inherits="ButtonFrameTemplate" virtual="true" hidden="true">
 	  <Frames>
 			<Button parentKey='tab1' name="$parentTab1" inherits="ScrapVisualizerTabTemplate" id="1">
 				<Anchors>
@@ -93,8 +90,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						Scrap.visualizer.selectionType = nil
-						Scrap:ToggleJunk(Scrap.visualizer.selection)
+						self:GetParent():ToggleCurrent()
 					</OnClick>
 				</Scripts>
 			</Button>

@@ -15,179 +15,148 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-local MONEY_TYPES = {'Gold', 'Silver', 'Copper'}
-local Background, Icon, Border
-local L = Scrap_Locals
-
-
---[[ Startup ]]--
-
-function Scrap:StartupMerchant()
-	-- Regions --
-	Background = self:CreateTexture(nil, 'BORDER')
-	Background:SetHeight(27) Background:SetWidth(27)
-	Background:SetPoint('CENTER', -0.5, -1.2)
-	Background:SetColorTexture(0, 0, 0)
-
-	Icon = self:CreateTexture(self:GetName()..'Icon')
-	Icon:SetTexture('Interface\\Addons\\Scrap\\art\\enabled-box')
-	Icon:SetPoint('CENTER')
-	Icon:SetSize(33, 33)
-
-	Border = self:CreateTexture(self:GetName() .. 'Border', 'OVERLAY')
-	Border:SetTexture('Interface\\Addons\\Scrap\\art\\merchant-border')
-	Border:SetSize(35.9, 35.9)
-	Border:SetPoint('CENTER')
-
-	-- Appearance --
-	self:SetHighlightTexture('Interface/Buttons/ButtonHilight-Square', 'ADD')
-	self:SetPushedTexture('Interface/Buttons/UI-Quickslot-Depress')
-	self:SetSize(37, 37)
-
-	-- Scripts --
-	self:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
-	self:SetScript('OnReceiveDrag', function() self:OnReceiveDrag() end)
-	self:SetScript('OnEnter', self.OnEnter)
-	self:SetScript('OnLeave', self.OnLeave)
-	self:SetScript('OnClick', self.OnClick)
-
-	-- Misc --
-	self:RegisterEvent('MERCHANT_CLOSED')
-	self:UpdateButtonPosition()
-
-	-- Hooks --
-	hooksecurefunc('MerchantFrame_UpdateRepairButtons', function()
-		self:UpdateButtonPosition()
-	end)
-
-	hooksecurefunc(Scrap, 'ToggleJunk', function()
-   		self:UpdateButtonState()
-  	end)
-
-	hooksecurefunc('UseContainerItem', function(...)
-		self:OnItemSold(...)
-	end)
-
-	local buyBack = BuybackItem
-	BuybackItem = function(...)
-		self:OnItemRefund(...)
-		return buyBack(...)
-	end
-
-	-- Visualizer Tab
-	local tab = LibStub('SecureTabs-2.0'):Add(MerchantFrame)
-	tab.frame = Scrap.visualizer
-	tab:SetText('Scrap')
-end
+local Button = Scrap:NewModule('Merchant', CreateFrame('Button', nil, MerchantBuyBackItem))
+local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
 
 --[[ Events ]]--
 
-function Scrap:MERCHANT_SHOW()
-	if MerchantFrame:IsShown() then
-		self:SetScript('OnUpdate', nil)
-		self:OnMerchant()
-	else
-		self:SetScript('OnUpdate', self.MERCHANT_SHOW) -- Keep trying
-	end
+function Button:OnEnable()
+	local background = self:CreateTexture(nil, 'BACKGROUND')
+	background:SetPoint('CENTER', -0.5, -1.2)
+	background:SetColorTexture(0, 0, 0)
+	background:SetSize(27, 27)
+
+	local icon = self:CreateTexture()
+	icon:SetTexture('Interface\\Addons\\Scrap\\art\\enabled-box')
+	icon:SetPoint('CENTER')
+	icon:SetSize(33, 33)
+
+	local border = self:CreateTexture(nil, 'OVERLAY')
+	border:SetTexture('Interface\\Addons\\Scrap\\art\\merchant-border')
+	border:SetSize(35.9, 35.9)
+	border:SetPoint('CENTER')
+
+	self.background, self.icon, self.border, self.tab = background, icon, border, tab
+	self.dropdown = CreateFrame('Frame', nil, nil, 'UIDropDownMenuTemplate')
+	self:SetHighlightTexture('Interface/Buttons/ButtonHilight-Square', 'ADD')
+	self:SetPushedTexture('Interface/Buttons/UI-Quickslot-Depress')
+	self:RegisterForClicks('AnyUp')
+	self:SetSize(37, 37)
+	self:OnMerchant()
+
+	self:SetScript('OnReceiveDrag', self.OnReceiveDrag)
+	self:SetScript('OnEnter', self.OnEnter)
+	self:SetScript('OnLeave', self.OnLeave)
+	self:SetScript('OnClick', self.OnClick)
+
+	self:RegisterEvent('MERCHANT_SHOW', 'OnMerchant')
+	self:RegisterEvent('MERCHANT_CLOSED', 'OnClose')
+
+	hooksecurefunc('MerchantFrame_UpdateRepairButtons', function()
+		self:UpdatePosition()
+	end)
 end
 
-function Scrap:OnMerchant()
+function Button:OnMerchant()
 	if Scrap.sets.sell then
-		self:SellJunk()
+		self:Sell()
 	end
 
 	if Scrap.sets.repair then
 		self:Repair()
 	end
 
-	if not Scrap.sets.tutorial or Scrap.sets.tutorial < 5 then
-		if LoadAddOn('Scrap_Config') then
-			self:BlastTutorials()
-		end
+	if (Scrap.sets.tutorial or 0) < 5 and LoadAddOn('Scrap_Config') then
+		Scrap.Tutorials:Start()
 	end
 
-	self:RegisterEvent('BAG_UPDATE_DELAYED')
-	self:UpdateButtonState()
+	self:RegisterEvent('BAG_UPDATE_DELAYED', 'UpdateState')
+	self:RegisterSignal('LIST_CHANGED', 'UpdateState')
+	self:UpdatePosition()
+	self:UpdateState()
 end
 
-function Scrap:MERCHANT_CLOSED()
+function Button:OnClose()
 	self:UnregisterEvent('BAG_UPDATE_DELAYED')
-	self:SetScript('OnUpdate', nil)
-end
-
-function Scrap:BAG_UPDATE_DELAYED()
-	self:UpdateButtonState()
-end
-
-
---[[ Tooltip ]]--
-
-function Scrap:OnEnter()
-	GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
-	self:ShowTooltip(GameTooltip, L.SellJunk)
-	GameTooltip:Show()
-end
-
-function Scrap:ShowTooltip(tooltip, title)
-	local infoType, itemID = GetCursorInfo()
-	if infoType == 'item' then
-		if self:IsJunk(itemID) then
-			tooltip:SetText(L.Remove, 1, 1, 1)
-		else
-			tooltip:SetText(L.Add, 1, 1, 1)
-		end
-	else
-		local value = self:GetJunkValue()
-		local counters = {}
-
-		for bag, slot in self:IterateJunk() do
-			local _, count, _, quality = GetContainerItemInfo(bag, slot)
-			counters[quality] = (counters[quality] or 0) + count
-		end
-
-		tooltip:SetText(title)
-		for qual, count in pairs(counters) do
-			local r,g,b = GetItemQualityColor(qual)
-			tooltip:AddDoubleLine(_G['ITEM_QUALITY' .. qual .. '_DESC'], count, r,g,b, r,g,b)
-		end
-		tooltip:AddLine(value > 0 and (SELL_PRICE .. ':  ' .. GetCoinTextureString(value)) or ITEM_UNSELLABLE, 1,1,1)
-	end
-end
-
-function Scrap:OnLeave()
-	GameTooltip:Hide()
+	self:UnregisterSignal('LIST_CHANGED')
 end
 
 
 --[[ Interaction ]]--
 
-function Scrap:OnClick(button, ...)
-	if button == 'LeftButton' then
-		if not self:ToggleCursorJunk() then
-			self:SellJunk()
-		end
+function Button:OnClick(button)
+	if GetCursorInfo() then
+		self:OnReceiveDrag()
+	elseif button == 'LeftButton' then
+		self:Sell()
 	elseif button == 'RightButton' then
-		Scrap.Dropdown:Toggle(...)
-	end
+		local info = {
+			{ text = 'Scrap', notCheckable = 1, isTitle = 1 },
+			{
+				text = OPTIONS, notCheckable = 1,
+				func = function()
+					InterfaceOptionsFrame_OpenToCategory(Scrap.options)
+					InterfaceOptionsFrame_OpenToCategory(Scrap.options)
+				end
+			},
+			{
+				text = SHOW_TUTORIALS, notCheckable = 1,
+				func = function()
+					if LoadAddOn('Scrap_Config') then
+						Scrap.Tutorials:Reset()
+					end
+				end
+			}
+		}
 
-	self:GetScript('OnLeave')()
+		EasyMenu(info, self.dropdown, self, 0, 0, 'MENU')
+	end
 end
 
-function Scrap:OnReceiveDrag()
-	self:ToggleCursorJunk()
+function Button:OnReceiveDrag()
+	local type, id = GetCursorInfo()
+	if type == 'item' then
+		Scrap:ToggleJunk(id)
+		ClearCursor()
+	end
+end
+
+function Button:OnEnter()
+	GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
+
+	local type, id = GetCursorInfo()
+	if type == 'item' then
+		GameTooltip:SetText(Scrap:IsJunk(id) and L.Remove or L.Add, 1, 1, 1)
+	else
+		GameTooltip:SetText(L.SellJunk)
+
+		local value, qualities = self:GetReport()
+		for quality, count in pairs(qualities) do
+			local r,g,b = GetItemQualityColor(quality)
+			GameTooltip:AddDoubleLine(_G['ITEM_QUALITY' .. quality .. '_DESC'], count, r,g,b, r,g,b)
+		end
+
+		GameTooltip:AddLine(value > 0 and GetCoinTextureString(value) or ITEM_UNSELLABLE, 1,1,1)
+	end
+
+	GameTooltip:Show()
+end
+
+function Button:OnLeave()
+	GameTooltip:Hide()
 end
 
 
 --[[ Button ]]--
 
-function Scrap:UpdateButtonState()
+function Button:UpdateState()
 	local disabled = not self:AnyJunk()
-	Border:SetDesaturated(disabled)
-	Icon:SetDesaturated(disabled)
+	self.border:SetDesaturated(disabled)
+	self.icon:SetDesaturated(disabled)
 end
 
-function Scrap:UpdateButtonPosition()
+function Button:UpdatePosition()
 	if CanMerchantRepair() then
 		local off, scale
 		if CanGuildBankRepair and CanGuildBankRepair() then
@@ -203,19 +172,21 @@ function Scrap:UpdateButtonPosition()
 		self:SetPoint('RIGHT', MerchantBuyBackItem, 'LEFT', -17, 0.5)
 		self:SetScale(1.1)
 	end
+
+	MerchantRepairText:Hide()
 end
 
 
---[[ Junk ]]--
+--[[ Actions ]]--
 
-function Scrap:SellJunk ()
-	self.selling = true
-
-	local value = self:GetJunkValue()
+function Button:Sell()
+	local total = self:GetReport()
 	local count = 0
 
-	for bag, slot, id in self:IterateJunk() do
-		if Scrap.sets.safe and count == 12 then
+	for bag, slot, id in Scrap:IterateJunk() do
+		if not Scrap.sets.safe or count < 12 then
+			count = count + 1
+		else
 			break
 		end
 
@@ -226,131 +197,48 @@ function Scrap:SellJunk ()
 			PickupContainerItem(bag, slot)
 			DeleteCursorItem()
 		end
-
-		count = count + 1
 	end
 
-	value = value - self:GetJunkValue()
 	if count > 0 then
-		self:PrintMoney(L.SoldJunk, value)
-	end
-
-	self:UpdateButtonState()
-	self.selling = nil
-end
-
-function Scrap:ToggleCursorJunk ()
-	local type, id = GetCursorInfo()
-
-	if type == 'item' then
-		GameTooltip:Hide()
-		ClearCursor()
-
-		self:ToggleJunk(id)
-		return true
+		Scrap:PrintMoney(L.SoldJunk, total - self:GetReport())
 	end
 end
 
-function Scrap:GetJunkValue ()
-	local value = 0
+function Button:GetReport()
+	local qualities = {}
+	local total = 0
 
-	for bag, slot, id in self:IterateJunk() do
-		local stack, locked = select(2, GetContainerItemInfo(bag, slot))
-		local itemValue = select(11, GetItemInfo(id))
+	for bag, slot, id in Scrap:IterateJunk() do
+		local _, count, locked, quality = GetContainerItemInfo(bag, slot)
+		local value = select(11, GetItemInfo(id)) or 0
 
-		if not locked and itemValue then
-			value = value + itemValue * stack
+		if not locked then
+			qualities[quality] = (qualities[quality] or 0) + count
+			total = total + value * count
 		end
 	end
 
-	return value
+	return total, qualities
 end
 
-function Scrap:AnyJunk()
-	return self:IterateJunk()()
+function Button:AnyJunk()
+	return Scrap:IterateJunk()()
 end
 
-
---[[ Repair ]]--
-
-function Scrap:Repair()
+function Button:Repair()
 	local cost = GetRepairAllCost()
 	if cost > 0 then
-		local guildMoney = GetGuildBankWithdrawMoney and GetGuildBankWithdrawMoney() or -1
-		local useGuild = self:CanGuildRepair() and (guildMoney == -1 or guildMoney >= cost)
-
-		if useGuild or GetMoney() >= cost then
-			RepairAllItems(useGuild)
-			self:PrintMoney(L.Repaired, cost)
+		local guild = self:CanGuildRepair(cost)
+		if guild or GetMoney() >= cost then
+			Scrap:PrintMoney(L.Repaired, cost)
+			RepairAllItems(guild)
 		end
 	end
 end
 
-function Scrap:CanGuildRepair()
-	return Scrap.sets.guild and CanGuildBankRepair() and not GetGuildInfoText():find('%[noautorepair%]')
-end
-
-
---[[ AI ]]--
-
-function Scrap:OnItemSold (...)
-	if Scrap.sets.learn and self:IsVisible() and not self.selling then
-		local id = GetContainerItemID(...)
-		if not id or self.Junk[id] ~= nil or self:CheckFilters(id, ...) then
-			return
-		end
-
-		local stack = select(2, GetContainerItemInfo(...))
-		if GetItemCount(id, true) == stack then
-			local link = GetContainerItemLink(...)
-			local maxStack = select(8, GetItemInfo(id))
-			local stack = self:GetBuypackStack(link) + stack
-
-			local old = Scrap.charsets.ml[id] or 0
-			local new = old + stack / maxStack
-
-			if old < 2 and new >= 2 then
-				self:Print(L.Added, link, 'LOOT')
-			end
-
-			Scrap.charsets.ml[id] = new
-		end
+function Button:CanGuildRepair(cost)
+	if Scrap.sets.guild and CanGuildBankRepair and CanGuildBankRepair() and not GetGuildInfoText():find('%[noautorepair%]') then
+		local money = GetGuildBankWithdrawMoney() or -1
+		return money < 0 or money >= cost
 	end
 end
-
-function Scrap:OnItemRefund (index)
-	if Scrap.sets.learn then
-		local link = GetBuybackItemLink(index)
-		local id = self:GetID(link)
-		local old = Scrap.charsets.ml[id]
-
-		if old then
-			local maxStack = select(8, GetItemInfo(id))
-			local stack = self:GetBuypackStack(link)
-
-			local new = old - stack / maxStack
-			if old >= 2 and new < 2 then
-				self:Print(L.Removed, link, 'LOOT')
-			end
-
-			if new <= 0 then
-				Scrap.charsets.ml[id] = nil
-			else
-				Scrap.charsets.ml[id] = new
-			end
-		end
-	end
-end
-
-function Scrap:GetBuypackStack (link)
-	local stack = 0
-	for i = 1, GetNumBuybackItems() do
-		if GetBuybackItemLink(i) == link then
-			stack = stack + select(4, GetBuybackItemInfo(i))
-		end
-	end
-	return stack
-end
-
-MerchantRepairText:SetAlpha(0)
-Scrap:StartupMerchant()

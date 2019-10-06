@@ -2,5 +2,4 @@
 	<Include file="visualizer.xml"/>
 	<Script file="visualizer.lua"/>
 	<Script file="button.lua"/>
-  <Script file="dropdown.lua"/>
 </Ui>

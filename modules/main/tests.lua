@@ -12,6 +12,10 @@ local function NotJunk(id)
 	return IsFalse(Scrap:IsJunk(id))
 end
 
+function Tests:GrayShoulders()
+	NotJunk(1769)
+end
+
 function Tests:ChefHat()
 	NotJunk(46349)
 end

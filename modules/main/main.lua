@@ -15,9 +15,9 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-local Scrap = CreateFrame('Button', 'Scrap', MerchantBuyBackItem)
+local Scrap = LibStub('WildAddon-1.0'):NewAddon('Scrap')
+local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 local Unfit = LibStub('Unfit-1.0')
-local L = Scrap_Locals
 
 local CLASS_NAME = LOCALIZED_CLASS_NAMES_MALE[select(2, UnitClass('player'))]
 local WEAPON, ARMOR, CONSUMABLES = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, LE_ITEM_CLASS_CONSUMABLE
@@ -39,17 +39,7 @@ local ACTUAL_SLOTS = {
 	INVTYPE_SHIELD = 'INVTYPE_OFFHAND',
 }
 
-local function GetValue(level, quality)
-	if quality == LE_LE_ITEM_QUALITY_EPIC then
-		return (level + 344.36) / 106.29
-	elseif quality == LE_ITEM_QUALITY_RARE then
-		return (level + 287.14) / 97.632
-	else
-		return (level + 292.23) / 101.18
-	end
-end
-
-BINDING_NAME_SCRAP_TOGGLE = L.ToggleJunk
+BINDING_NAME_SCRAP_TOGGLE = L.ToggleMousehover
 BINDING_NAME_SCRAP_SELL = L.SellJunk
 BINDING_HEADER_SCRAP = 'Scrap'
 
@@ -59,16 +49,16 @@ Scrap_CharSets = Scrap_CharSets or {list = {}, ml = {}}
 
 --[[ Startup ]]--
 
-function Scrap:Startup()
-	self:SetScript('OnEvent', function(self, event) self[event](self) end)
-	self:RegisterEvent('VARIABLES_LOADED')
-	self:RegisterEvent('MERCHANT_SHOW')
-
+function Scrap:OnEnable()
+	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
 	self.tip = CreateFrame('GameTooltip', 'ScrapTooltip', nil, 'GameTooltipTemplate')
-	self.baseList = {}
+	self:RegisterEvent('MERCHANT_SHOW', function() LoadAddOn('Scrap_Merchant') end)
+	self:RegisterSignal('SETS_CHANGED', 'OnSettings')
+	self:OnSettings()
 
 	self.options = CreateFrame('Frame', nil, InterfaceOptionsFrame)
-	self.options.name = '|TInterface\\Addons\\Scrap\\art\\enabled-icon:13:13:0:0:128:128:10:118:10:118|t Scrap'
+	self.options.name = 'Scrap'
+	self.options:Hide()
 	self.options:SetScript('OnShow', function()
 		local loaded, reason = LoadAddOn('Scrap_Config')
 		if not loaded then
@@ -83,8 +73,10 @@ function Scrap:Startup()
 	InterfaceOptions_AddCategory(self.options)
 end
 
-function Scrap:VARIABLES_LOADED()
-	if Scrap_Version then
+function Scrap:OnSettings()
+	self.junk = setmetatable(self.charsets.share and self.sets.list or self.charsets.list, self.baseList)
+
+	if Scrap_Version then -- remove in a couple of versions
 		self.sets.list = Scrap_SharedJunk
 		self.sets.sell = Scrap_Sell
 		self.sets.repair = Scrap_AutoRepair
@@ -102,23 +94,14 @@ function Scrap:VARIABLES_LOADED()
 		self.charsets.unusable = Scrap_Unusable
 		self.charsets.share = Scrap_ShareList
 	end
-
-	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
-	self.junk = setmetatable(self.charsets.share and self.sets.list or self.charsets.list, self.baseList)
-end
-
-function Scrap:MERCHANT_SHOW()
-	if LoadAddOn('Scrap_Merchant') then
-		self:MERCHANT_SHOW()
-	end
 end
 
 
---[[ Main Methods ]]--
+--[[ Public API ]]--
 
 function Scrap:IsJunk(id, ...)
-	if id and self.junk[id] ~= false then
-		return self.junk[id] or (self.sets.learn and self.sets.ml[id] and self.sets.ml[id] > 2) or self:CheckFilters(id, ...)
+	if id and self.junk and self.junk[id] ~= false then
+		return self.junk[id] or (self.sets.learn and self.sets.ml[id] and self.sets.ml[id] >= 1) or self:IsFiltered(id, ...)
 	end
 end
 
@@ -152,16 +135,17 @@ end
 function Scrap:ToggleJunk(id)
 	local junk = self:IsJunk(id)
 
-	self:Print(junk and L.Removed or L.Added, select(2, GetItemInfo(id)), 'LOOT')
 	self.junk[id] = not junk
+	self:Print(junk and L.Removed or L.Added, select(2, GetItemInfo(id)), 'LOOT')
+	self:SendSignal('LIST_CHANGED', id)
 end
 
 
 --[[ Filters ]]--
 
-function Scrap:CheckFilters(...)
+function Scrap:IsFiltered(...)
 	local _, link, quality, _,_,_,_,_, slot, _, value, class, subclass = GetItemInfo(...)
-	local level =  GetDetailedItemLevelInfo(...) or 0
+	local level = GetDetailedItemLevelInfo(...) or 0
 
 	if not value or value == 0 then
 		return
@@ -207,7 +191,7 @@ end
 function Scrap:IsLowEquip(slot, level, quality)
 	if self.charsets.equip and slot ~= ''  then
 		local slot1, slot2 = gsub(ACTUAL_SLOTS[slot] or slot, 'INVTYPE', 'INVSLOT')
-		local value = GetValue(level or 0, quality)
+		local value = self:GetEquipValue(level or 0, quality)
 		local double
 
 		if slot1 == 'INVSLOT_WEAPON' or slot1 == 'INVSLOT_2HWEAPON' then
@@ -229,9 +213,19 @@ function Scrap:IsBetterEquip(slot, value, empty)
 	if item then
 		local level = GetDetailedItemLevelInfo(item) or 0
 		local _,_, quality = GetItemInfo(item)
-		return GetValue(level, quality) / value > 1.1
+		return self:GetEquipValue(level, quality) / value > 1.1
 	elseif empty then
 		return true
+	end
+end
+
+function Scrap:GetEquipValue(level, quality)
+	if quality == LE_LE_ITEM_QUALITY_EPIC then
+		return (level + 344.36) / 106.29
+	elseif quality == LE_ITEM_QUALITY_RARE then
+		return (level + 287.14) / 97.632
+	else
+		return (level + 292.23) / 101.18
 	end
 end
 
@@ -302,24 +296,23 @@ function Scrap:ScanBagSlot(id, bag, slot)
 end
 
 
---[[ Utility ]]--
+--[[ Chat ]]--
 
 function Scrap:PrintMoney(pattern, value)
 	self:Print(pattern, GetMoneyString(value, true), 'MONEY')
 end
 
 function Scrap:Print(pattern, value, channel)
- 	local channel = 'CHAT_MSG_'..channel
- 	for i = 1, 10 do
-		local frame = _G['ChatFrame'..i]
+	local i = 1
+	local frame = _G['ChatFrame' .. i]
+ 	local channel = 'CHAT_MSG_' .. channel
+
+	while frame do
 		if frame:IsEventRegistered(channel) then
 			ChatFrame_MessageEventHandler(frame, channel, pattern:format(value), '', nil, '')
 		end
+
+		i = i + 1
+		frame = _G['ChatFrame' .. i]
 	end
 end
-
-function Scrap:GetID(link)
-	return link and tonumber(link:match('item:(%d+)'))
-end
-
-Scrap:Startup()

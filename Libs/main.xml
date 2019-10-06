@@ -1,5 +1,11 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="LibStub\LibStub.lua"/>
-  <Script file="Unfit-1.0\Unfit-1.0.lua"/>
+	<Script file="CallbackHandler-1.0\CallbackHandler-1.0.lua"/>
+
+	<Script file="AceEvent-3.0\AceEvent-3.0.lua"/>
+	<Script file="AceLocale-3.0\AceLocale-3.0.lua"/>
+	<Script file="WildAddon-1.0\WildAddon-1.0.lua"/>
+
+	<Script file="Unfit-1.0\Unfit-1.0.lua"/>
 	<Script file="Unfit-1.0\Tests.lua"/>
 </Ui>

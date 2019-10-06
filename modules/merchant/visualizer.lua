@@ -15,52 +15,66 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-local Visualizer = ScrapVisualizer
-local L = Scrap_Locals
-local List = {}
+local Visualizer = Scrap:NewModule('Visualizer', CreateFrame('Frame', 'ScrapVisualizer', MerchantFrame, 'ScrapVisualizerTemplate'))
+local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
 
---[[ Startup ]]--
+--[[ UI Events ]]--
 
-function Visualizer:Startup()
-	self.tab1:SetText(L.Junk)
+function Visualizer:OnEnable()
+	local portraitBack = self:CreateTexture(nil, 'BORDER')
+	portraitBack:SetPoint('TOPRIGHT', self.portrait, -5, -5)
+	portraitBack:SetPoint('BOTTOMLEFT', self.portrait, 6, 5)
+	portraitBack:SetColorTexture(0, 0, 0)
+
+	local tab = LibStub('SecureTabs-2.0'):Add(MerchantFrame)
+	tab:SetText('Scrap')
+	tab.frame = self
+
+	self.tab, self.list, self.item = tab, {}, {}
+	self.portrait:SetTexture('Interface\\Addons\\Scrap\\art\\enabled-icon')
+	self.loading:SetText(L.Loading)
+	self.TitleText:SetText('Scrap')
 	self.tab2:SetText(L.NotJunk)
+	self.tab1:SetText(L.Junk)
 
 	PanelTemplates_TabResize(self.tab1, 0)
 	PanelTemplates_TabResize(self.tab2, 0)
 	PanelTemplates_SetNumTabs(self, 2)
-
-	self.portrait:SetTexture('Interface\\Addons\\Scrap\\art\\enabled-icon')
-	self.loading:SetText(L.Loading)
-	self.TitleText:SetText('Scrap')
 
 	self:SetScript('OnUpdate', self.QueryItems)
 	self:SetScript('OnShow', self.OnShow)
 	self:SetScript('OnHide', self.OnHide)
 	self:UpdateButton()
 	self:SetTab(1)
-
-	local portraitBack = self:CreateTexture(nil, 'BORDER')
-	portraitBack:SetPoint('TOPRIGHT', self.portrait, -5, -5)
-	portraitBack:SetPoint('BOTTOMLEFT', self.portrait, 6, 5)
-	portraitBack:SetColorTexture(0, 0, 0)
 end
+
+function Visualizer:OnShow()
+	CloseDropDownMenus()
+	self:UpdateList()
+end
+
+function Visualizer:OnHide()
+	wipe(self.list)
+end
+
+
+-- [[ API ]]--
 
 function Visualizer:SetTab(i)
 	PanelTemplates_SetTab(self, i)
 	self:UpdateList()
 end
 
-
---[[ Shoe/Hide ]]--
-
-function Visualizer:OnShow()
-	self:UpdateList()
-	CloseDropDownMenus()
+function Visualizer:SetItem(id)
+	self.item = {id = id, type = self.selectedTab}
+	self.scroll:update()
+	self:UpdateButton()
 end
 
-function Visualizer:OnHide()
-	List = nil
+function Visualizer:ToggleItem()
+	Scrap:ToggleJunk(self.item.id)
+	self.item = {}
 end
 
 
@@ -69,20 +83,20 @@ end
 function Visualizer:QueryItems()
 	if self:QueryList() then
 		return
+	else
+		HybridScrollFrame_CreateButtons(self.scroll, 'ScrapVisualizerButtonTemplate', 1, -2, 'TOPLEFT', 'TOPLEFT', 0, -3)
 	end
 
-	HybridScrollFrame_CreateButtons(self.scroll, 'ScrapVisualizerButtonTemplate', 1, -2, 'TOPLEFT', 'TOPLEFT', 0, -3)
-	hooksecurefunc(Scrap, 'ToggleJunk', function() self:UpdateList() end)
-
-	self.Startup, self.QueryItems, self.QueryList = nil
+	self.QueryItems, self.QueryList = nil
+	self:RegisterSignal('LIST_CHANGED', 'UpdateList')
 	self:SetScript('OnUpdate', nil)
 	self.loading:Hide()
 	self:UpdateList()
 end
 
 function Visualizer:QueryList()
-	for itemID in pairs(Scrap.junk) do
-		if not GetItemInfo(itemID) then
+	for id in pairs(Scrap.junk) do
+		if not GetItemInfo(id) then
 			return true
 		end
 	end
@@ -93,16 +107,16 @@ end
 
 function Visualizer:UpdateList()
 	if not self.QueryItems and self:IsShown() then
-		List = {}
+		self.list = {}
 
-		local showJunk = self.selectedTab == 1
-		for itemID, itemType in pairs(Scrap.junk) do
-			if itemType == showJunk then
-				tinsert(List, itemID)
+		local mode = self.selectedTab == 1
+		for id, classification in pairs(Scrap.junk) do
+			if classification == mode then
+				tinsert(self.list, id)
 			end
 		end
 
-		sort(List, function(A, B)
+		sort(self.list, function(A, B)
 			if not A then
 				return true
 			elseif not B or A == B then
@@ -124,40 +138,27 @@ function Visualizer:UpdateList()
 	self:UpdateButton()
 end
 
-function Visualizer:UpdateButton()
-	local tab = self.selectedTab
-	if tab == self.selectionType then
-		self.button:Enable()
-	else
-		self.button:Disable()
-	end
-
-	self.button:SetText(tab == 1 and L.Remove or L.Add)
-	self.button:SetWidth(self.button:GetTextWidth() + 20)
-end
-
 function Visualizer.scroll:update()
-	local self = Visualizer.scroll
-	local selection = Visualizer.selection
-	local offset = HybridScrollFrame_GetOffset(self)
-	local width = #List > 18 and 296 or 318
+	local self = Visualizer
+	local offset = HybridScrollFrame_GetOffset(self.scroll)
+	local width = #self.list > 18 and 296 or 318
 	local focus = GetMouseFocus()
 
-	for i, button in ipairs(self.buttons) do
+	for i, button in ipairs(self.scroll.buttons) do
 		local index = i + offset
-		local itemID = List[index]
+		local id = self.list[index]
 
-		if itemID then
-			local name, link, quality = GetItemInfo(itemID)
+		if id then
+			local name, link, quality = GetItemInfo(id)
 			button.text:SetTextColor(GetItemQualityColor(quality))
-			button.icon:SetTexture(GetItemIcon(itemID))
+			button.icon:SetTexture(GetItemIcon(id))
 			button.text:SetText(name)
 			button:SetWidth(width)
-			button.item = itemID
+			button.item = id
 			button.link = link
 			button:Show()
 
-			if itemID == selection then
+			if id == self.item.id then
 				button:LockHighlight()
 			else
 				button:UnlockHighlight()
@@ -177,9 +178,12 @@ function Visualizer.scroll:update()
 		end
 	end
 
-	HybridScrollFrame_Update(self, #List * 20 + 2, #self.buttons * 18)
-	self:SetWidth(width + 5)
+	HybridScrollFrame_Update(self.scroll, #self.list * 20 + 2, #self.scroll.buttons * 18)
+	self.scroll:SetWidth(width + 5)
 end
 
-Visualizer:Startup()
-Scrap.visualizer = Visualizer
+function Visualizer:UpdateButton()
+	self.button:SetEnabled(self.selectedTab == self.item.type)
+	self.button:SetText(self.selectedTab == 1 and L.Remove or L.Add)
+	self.button:SetWidth(self.button:GetTextWidth() + 20)
+end
