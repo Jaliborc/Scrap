@@ -9,7 +9,7 @@
 
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
-## OptionalDeps: WoWTest
+## OptionalDeps: WoWUnit
 
 libs\main.xml
 localization\localization.xml
