@@ -19,7 +19,7 @@ local Visualizer = Scrap:NewModule('Visualizer', CreateFrame('Frame', 'ScrapVisu
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
 
---[[ UI Events ]]--
+--[[ Events ]]--
 
 function Visualizer:OnEnable()
 	local portraitBack = self:CreateTexture(nil, 'BORDER')
@@ -32,14 +32,14 @@ function Visualizer:OnEnable()
 	tab.frame = self
 
 	self.tab, self.list, self.item = tab, {}, {}
-	self.portrait:SetTexture('Interface\\Addons\\Scrap\\art\\enabled-icon')
-	self.loading:SetText(L.Loading)
+	self.portrait:SetTexture('Interface/Addons/Scrap/art/enabled-icon')
 	self.TitleText:SetText('Scrap')
-	self.tab2:SetText(L.NotJunk)
-	self.tab1:SetText(L.Junk)
+	self.Tab2:SetText(L.NotJunk)
+	self.Tab1:SetText(L.Junk)
+	self.Spinner.Anim:Play()
 
-	PanelTemplates_TabResize(self.tab1, 0)
-	PanelTemplates_TabResize(self.tab2, 0)
+	PanelTemplates_TabResize(self.Tab1, 0)
+	PanelTemplates_TabResize(self.Tab2, 0)
 	PanelTemplates_SetNumTabs(self, 2)
 
 	self:SetScript('OnUpdate', self.QueryItems)
@@ -68,7 +68,7 @@ end
 
 function Visualizer:SetItem(id)
 	self.item = {id = id, type = self.selectedTab}
-	self.scroll:update()
+	self.Scroll:update()
 	self:UpdateButton()
 end
 
@@ -84,13 +84,13 @@ function Visualizer:QueryItems()
 	if self:QueryList() then
 		return
 	else
-		HybridScrollFrame_CreateButtons(self.scroll, 'ScrapVisualizerButtonTemplate', 1, -2, 'TOPLEFT', 'TOPLEFT', 0, -3)
+		HybridScrollFrame_CreateButtons(self.Scroll, 'ScrapVisualizerButtonTemplate', 1, -2, 'TOPLEFT', 'TOPLEFT', 0, -3)
 	end
 
 	self.QueryItems, self.QueryList = nil
 	self:RegisterSignal('LIST_CHANGED', 'UpdateList')
 	self:SetScript('OnUpdate', nil)
-	self.loading:Hide()
+	self.Spinner:Hide()
 	self:UpdateList()
 end
 
@@ -132,19 +132,19 @@ function Visualizer:UpdateList()
 			end
 		end)
 
-		self.scroll:update()
+		self.Scroll:update()
 	end
 
 	self:UpdateButton()
 end
 
-function Visualizer.scroll:update()
+function Visualizer.Scroll:update()
 	local self = Visualizer
-	local offset = HybridScrollFrame_GetOffset(self.scroll)
+	local offset = HybridScrollFrame_GetOffset(self.Scroll)
 	local width = #self.list > 18 and 296 or 318
 	local focus = GetMouseFocus()
 
-	for i, button in ipairs(self.scroll.buttons) do
+	for i, button in ipairs(self.Scroll.buttons) do
 		local index = i + offset
 		local id = self.list[index]
 
@@ -178,12 +178,12 @@ function Visualizer.scroll:update()
 		end
 	end
 
-	HybridScrollFrame_Update(self.scroll, #self.list * 20 + 2, #self.scroll.buttons * 18)
-	self.scroll:SetWidth(width + 5)
+	HybridScrollFrame_Update(self.Scroll, #self.list * 20 + 2, #self.Scroll.buttons * 18)
+	self.Scroll:SetWidth(width + 5)
 end
 
 function Visualizer:UpdateButton()
-	self.button:SetEnabled(self.selectedTab == self.item.type)
-	self.button:SetText(self.selectedTab == 1 and L.Remove or L.Add)
-	self.button:SetWidth(self.button:GetTextWidth() + 20)
+	self.Button:SetEnabled(self.selectedTab == self.item.type)
+	self.Button:SetText(self.selectedTab == 1 and L.Remove or L.Add)
+	self.Button:SetWidth(self.Button:GetTextWidth() + 20)
 end

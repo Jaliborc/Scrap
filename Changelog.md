@@ -1,9 +1,12 @@
 #### 8.2.0
 * Changed when low level gray equipment is classified as junk by default.
+* Added new items to default junk exclusion as requested by users.
+* Added options to not destroy items with no sale value at the vendor.
 * Complete internal rewrite of settings, variables and file internal structure.
    * `Scrap_Visualizer` is not part of `Scrap_Merchant`
    * Renamed `Scrap_Options` to `Scrap_Config`
    * Heavily reduced globals polution.
+   * Now running on new libraries.
 
 ##### 13.19
 * Fixed issue with auto repair in classic.

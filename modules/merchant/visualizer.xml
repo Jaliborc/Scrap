@@ -58,18 +58,18 @@
 
 	<Frame name="ScrapVisualizerTemplate" inherits="ButtonFrameTemplate" virtual="true" hidden="true">
 	  <Frames>
-			<Button parentKey='tab1' name="$parentTab1" inherits="ScrapVisualizerTabTemplate" id="1">
+			<Button parentKey='Tab1' name="$parentTab1" inherits="ScrapVisualizerTabTemplate" id="1">
 				<Anchors>
 					<Anchor point="TOPLEFT" x="70" y="-30"/>
 				</Anchors>
 			</Button>
-			<Button parentKey='tab2' name="$parentTab2" inherits="ScrapVisualizerTabTemplate" id="2">
+			<Button parentKey='Tab2' name="$parentTab2" inherits="ScrapVisualizerTabTemplate" id="2">
 				<Anchors>
-					<Anchor point="LEFT" relativeKey="$parent.tab1" relativePoint="RIGHT"/>
+					<Anchor point="LEFT" relativeKey="$parent.Tab1" relativePoint="RIGHT"/>
 				</Anchors>
 			</Button>
 
-			<ScrollFrame parentKey='scroll' name="$parentScroll" inherits="HybridScrollFrameTemplate">
+			<ScrollFrame parentKey='Scroll' name="$parentScroll" inherits="HybridScrollFrameTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentInset" x="4" y="-4"/>
 					<Anchor point="BOTTOM" relativeTo="$parentInset" x="-9" y="4"/>
@@ -84,7 +84,13 @@
 				</Frames>
 			</ScrollFrame>
 
-			<Button parentKey="button" name="$parentButton" inherits="MagicButtonTemplate">
+			<Frame parentKey="Spinner" inherits="LoadingSpinnerTemplate">
+				<Anchors>
+					<Anchor point="CENTER" relativeTo="$parentInset"/>
+				</Anchors>
+			</Frame>
+
+			<Button parentKey="Button" name="$parentButton" inherits="MagicButtonTemplate">
 				<Anchors>
 					<Anchor point="BOTTOMRIGHT"/>
 				</Anchors>
@@ -95,14 +101,5 @@
 				</Scripts>
 			</Button>
 		</Frames>
-		<Layers>
-			<Layer level="OVERLAY">
-				<FontString parentKey="loading" inherits="GameFontHighlightLarge">
-					<Anchors>
-						<Anchor point="CENTER" relativeTo="$parentInset"/>
-					</Anchors>
-				</FontString>
-			</Layer>
-		</Layers>
 	</Frame>
 </Ui>

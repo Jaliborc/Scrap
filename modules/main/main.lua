@@ -43,37 +43,25 @@ BINDING_NAME_SCRAP_TOGGLE = L.ToggleMousehover
 BINDING_NAME_SCRAP_SELL = L.SellJunk
 BINDING_HEADER_SCRAP = 'Scrap'
 
-Scrap_Sets = Scrap_Sets or {list = {}, sell = true, repair = true, safe = true, glow = true, icons = true}
-Scrap_CharSets = Scrap_CharSets or {list = {}, ml = {}}
-
 
 --[[ Startup ]]--
 
 function Scrap:OnEnable()
-	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
 	self.tip = CreateFrame('GameTooltip', 'ScrapTooltip', nil, 'GameTooltipTemplate')
 	self:RegisterEvent('MERCHANT_SHOW', function() LoadAddOn('Scrap_Merchant') end)
 	self:RegisterSignal('SETS_CHANGED', 'OnSettings')
 	self:OnSettings()
 
-	self.options = CreateFrame('Frame', nil, InterfaceOptionsFrame)
-	self.options.name = 'Scrap'
-	self.options:Hide()
-	self.options:SetScript('OnShow', function()
-		local loaded, reason = LoadAddOn('Scrap_Config')
-		if not loaded then
-			local string = self.options:CreateFontString(nil, nil, 'GameFontHighlight')
-			string:SetText(L.MissingOptions:format(_G['ADDON_'..reason]:lower()))
-			string:SetPoint('RIGHT', -40, 0)
-			string:SetPoint('LEFT', 40, 0)
-			string:SetHeight(30)
-		end
+	CreateFrame('Frame', nil, InterfaceOptionsFrame):SetScript('OnShow', function()
+		LoadAddOn('Scrap_Config')
 	end)
-
-	InterfaceOptions_AddCategory(self.options)
 end
 
 function Scrap:OnSettings()
+	Scrap_Sets = Scrap_Sets or {list = {}, sell = true, repair = true, safe = true, destroy = true, glow = true, icons = true}
+	Scrap_CharSets = Scrap_CharSets or {list = {}, ml = {}}
+
+	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
 	self.junk = setmetatable(self.charsets.share and self.sets.list or self.charsets.list, self.baseList)
 
 	if Scrap_Version then -- remove in a couple of versions
@@ -94,6 +82,8 @@ function Scrap:OnSettings()
 		self.charsets.unusable = Scrap_Unusable
 		self.charsets.share = Scrap_ShareList
 	end
+
+	self:SendSignal('LIST_CHANGED')
 end
 
 

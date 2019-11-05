@@ -1,7 +1,4 @@
-if not WoWUnit then
-	return
-end
-
+if not WoWUnit then return end
 local Replace, IsFalse = WoWUnit.Replace, WoWUnit.IsFalse
 local Tests = WoWUnit('Scrap')
 

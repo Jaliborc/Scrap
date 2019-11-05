@@ -193,7 +193,7 @@ function Button:Sell()
 		local value = select(11, GetItemInfo(id)) or 0
 		if value > 0 then
 			UseContainerItem(bag, slot)
-		else
+		elseif Scrap.sets.destroy then
 			PickupContainerItem(bag, slot)
 			DeleteCursorItem()
 		end

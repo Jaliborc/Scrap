@@ -17,13 +17,11 @@ This file is part of Scrap.
 
 Scrap.baseList = {__index = {
 	[90561] = false,
-
 	[12709] = false,
 	[2459] = false,
 	[29532] = false,
 	[29530] = false,
 	[39878] = false,
-
 	[40586] = false,
 	[48954] = false,
 	[48955] = false,
@@ -41,7 +39,6 @@ Scrap.baseList = {__index = {
 	[51557] = false,
 	[40585] = false,
 	[43157] = false,
-
 	[63206] = false,
 	[63207] = false,
 	[65274] = false,
@@ -50,7 +47,6 @@ Scrap.baseList = {__index = {
 	[64401] = false,
 	[64400] = false,
 	[63352] = false,
-
 	[86143] = false,
 	[92742] = false,
 	[92741] = false,
@@ -64,11 +60,9 @@ Scrap.baseList = {__index = {
 	[92681] = false,
 	[92682] = false,
 	[92683] = false,
-
 	[33820] = false,
 	[19969] = false,
 	[89124] = false,
-
 	[114131] = false,
 	[114808] = false,
 	[114129] = false,
@@ -76,6 +70,10 @@ Scrap.baseList = {__index = {
 	[114128] = false,
 	[120301] = false,
 	[120302] = false,
-
 	[114002] = false,
+	[156631] = false,
+	[24368] = false,
+	[40772] = false,
+	[114943] = false,
+	[109253] = false,
 }}

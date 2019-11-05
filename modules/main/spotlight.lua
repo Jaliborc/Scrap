@@ -15,35 +15,39 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-local R,G,B  = GetItemQualityColor(0)
-local Glows, Icons = {}, {}
+local Spotlight = Scrap:NewModule('Spotlight')
+local R,G,B = GetItemQualityColor(0)
 
-local function CreateGlow(button)
-	local glow = button:CreateTexture(nil, 'OVERLAY')
-	glow:SetTexture('Interface\\Buttons\\UI-ActionButton-Border')
-	glow:SetVertexColor(R,G,B, .7)
-	glow:SetBlendMode('ADD')
-	glow:SetPoint('CENTER')
-	glow:SetSize(67, 67)
 
-	Glows[button] = glow
-	return glow
+--[[ Display ]]--
+
+function Spotlight:OnEnable()
+	self.Glows, self.Icons = {}, {}
+	self:RegisterSignal('LIST_CHANGED', 'UpdateAll')
+
+	hooksecurefunc('ContainerFrame_Update', function(frame)
+		self:UpdateContainer(frame)
+	end)
 end
 
-local function CreateIcon(button)
-	local icon = button:CreateTexture(nil, 'OVERLAY')
-	icon:SetTexture('Interface\\Buttons\\UI-GroupLoot-Coin-Up')
-	icon:SetPoint('TOPLEFT', 2, -2)
-	icon:SetSize(15, 15)
+function Spotlight:UpdateAll()
+	local i = 1
+	local frame = _G['ContainerFrame' .. i]
 
-	Icons[button] = icon
-	return icon
+	while frame do
+		if frame:IsShown() then
+			self:UpdateContainer(frame)
+		end
+
+		i = i + 1
+		frame = _G['ContainerFrame' .. i]
+	end
 end
 
-local function UpdateContainer(self)
-	local bag = self:GetID()
-  local name = self:GetName()
-  local size = self.size
+function Spotlight:UpdateContainer(frame)
+	local bag = frame:GetID()
+  local name = frame:GetName()
+  local size = frame.size
 
 	for i = 1, size do
 		local slot = size - i + 1
@@ -51,25 +55,35 @@ local function UpdateContainer(self)
 		local id = GetContainerItemID(bag, i)
 
 		local isJunk = id and Scrap:IsJunk(id, bag, slot)
-		local glow = Glows[button] or CreateGlow(button)
-		local icon = Icons[button] or CreateIcon(button)
+		local glow = self.Glows[button] or self:NewGlow(button)
+		local icon = self.Icons[button] or self:NewIcon(button)
 
 		glow:SetShown(isJunk and Scrap.sets.glow)
 		icon:SetShown(isJunk and Scrap.sets.icons)
 	end
 end
 
-hooksecurefunc('ContainerFrame_Update', UpdateContainer)
-LibStub('AceEvent-3.0').RegisterMessage('ScrapSpotlight', 'SCRAP_LIST_CHANGED', function()
-	local i = 1
-	local frame = _G['ContainerFrame' .. i]
 
-	while frame do
-		if frame:IsShown() then
-			UpdateContainer(frame)
-		end
+--[[ Construct ]]--
 
-		i = i + 1
-		frame = _G['ContainerFrame' .. i]
-	end
-end)
+function Spotlight:NewGlow(button)
+	local glow = button:CreateTexture(nil, 'OVERLAY')
+	glow:SetTexture('Interface/Buttons/UI-ActionButton-Border')
+	glow:SetVertexColor(R,G,B, .7)
+	glow:SetBlendMode('ADD')
+	glow:SetPoint('CENTER')
+	glow:SetSize(67, 67)
+
+	self.Glows[button] = glow
+	return glow
+end
+
+function Spotlight:NewIcon(button)
+	local icon = button:CreateTexture(nil, 'OVERLAY')
+	icon:SetTexture('Interface/Buttons/UI-GroupLoot-Coin-Up')
+	icon:SetPoint('TOPLEFT', 2, -2)
+	icon:SetSize(15, 15)
+
+	self.Icons[button] = icon
+	return icon
+end

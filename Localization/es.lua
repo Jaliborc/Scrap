@@ -3,8 +3,8 @@ if not L then return end
 
 L.Add = 'Añadir a la Lista de Basura'
 L.Added = 'Añadido a la Lista de Basura: %s'
-L.Sell = 'Auto Vender'
-L.SellTip = 'Si está habilitado, Scrap venderá automáticamente toda tu basura cuando visites a un mercader.'
+L.AutoSell = 'Auto Vender'
+L.AutoSellTip = 'Si está habilitado, Scrap venderá automáticamente toda tu basura cuando visites a un mercader.'
 L.Junk = 'Basura'
 L.Loading = 'Cargando...'
 L.Remove = 'Eliminar de la Lista de Basura'
