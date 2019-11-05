@@ -1,4 +1,4 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">
+<Ui>
 	<Include file="visualizer.xml"/>
 	<Script file="visualizer.lua"/>
 	<Script file="button.lua"/>

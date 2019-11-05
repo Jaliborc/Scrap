@@ -1,4 +1,4 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/">
+<Ui>
 	<Script file="main.lua"/>
 	<Script file="spotlight.lua"/>
   <Script file="baseList.lua"/>
