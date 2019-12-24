@@ -17,3 +17,7 @@
 [submodule "SecureTabs-2.0"]
 	path = libs/SecureTabs-2.0
 	url = https://github.com/Jaliborc/SecureTabs-2.0.git
+
+	[submodule "WildAddon-1.0"]
+		path = libs/WildAddon-1.0
+		url = https://github.com/Jaliborc/WildAddon-1.0.git
