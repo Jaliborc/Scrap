@@ -9,8 +9,8 @@
 
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
-## OptionalDeps: WoWUnit
+## OptionalDeps: WoWUnit, TestPoncho
 
 libs\main.xml
 localization\localization.xml
-modules\main\main.xml
+addons\main\main.xml

@@ -6,7 +6,6 @@ L.Added = 'Zur Müll-Liste hinzugefügt: %s'
 L.AdvancedOptions = 'Erweiterte Einstellungen'
 
 L.Behaviour = 'Verhalten'
-L.Filters = 'Filter'
 L.Visuals = 'Anzeigen'
 
 L.AutoSell = 'Automatisch verkaufen'
@@ -17,7 +16,6 @@ L.AutoRepairTip = 'Wenn aktiviert, wird Scrap automatisch deine Ausrüstung repa
 L.Junk = 'Müll'
 L.Learning = 'Intelligentes Lernen'
 L.LearningTip = 'Wenn aktiviert, wird Scrap lernen, welche Gegenstände du normalerweise beim Händler verkaufst und sie automatisch als Müll einstufen.'
-L.Loading = 'Lade...'
 L.LowConsume = 'Niedrigstufige Verbrauchsgüter'
 L.LowConsumeTip = 'Wenn aktiviert, wird Scrap |cffff2020alle|r Verbrauchsgüter verkaufen, die für deine Stufe zu niedrig sind.'
 L.LowEquip = 'Niedrigstufige Ausrüstung'

@@ -13,7 +13,6 @@ L.ToggleMousehover = 'Toggle mousehover item'
 -- visualizer
 L.Junk = 'Junk'
 L.NotJunk = 'Useful'
-L.Loading = 'Loading...'
 
 -- options
 L.CharSpecific = 'Character Specific Junk List'
@@ -37,7 +36,6 @@ L.LowConsume = 'Low Consumables'
 L.LowConsumeTip = 'If enabled, Scrap will sell |cffff2020any|r consumable which is too low for your level.'
 L.LowEquip = 'Low Equipment'
 L.LowEquipTip = 'If enabled, Scrap will sell |cffff2020any|r soulbound equipment which has a much lower value than the one you are wearing.'
-L.MissingOptions = '"Scrap Config" could not be loaded because the addon is %s.'
 L.SafeMode = 'Safe Mode'
 L.SafeModeTip = 'If enabled, Scrap will not sell more than 12 items at once, so that you may always buy them back.'
 L.Unusable = 'Unusable Equipment'

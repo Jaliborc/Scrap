@@ -15,7 +15,7 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-local Scrap = LibStub('WildAddon-1.0'):NewAddon('Scrap')
+local Scrap = LibStub('WildAddon-1.0'):NewAddon(...)
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 local Unfit = LibStub('Unfit-1.0')
 

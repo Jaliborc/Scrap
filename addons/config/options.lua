@@ -53,7 +53,7 @@ function Options:OnDefaults()
 end
 
 function Options:Populate()
-	self:AddHeader('Behaviour')
+	self:AddHeader(L.Behaviour)
 	self:AddCheck {set = 'sell', text = 'AutoSell'}
 	self:AddCheck {set = 'repair', text = 'AutoRepair'}
 	self:AddCheck {set = 'guild', text = 'GuildRepair', parent = 'repair'}
@@ -66,7 +66,7 @@ function Options:Populate()
 	self:AddCheck {set = 'consumable', text = 'LowConsume', char = true}
 	self:AddCheck {set = 'learn', text = 'Learning'}
 
-	self:AddHeader('Visuals')
+	self:AddHeader(L.Visuals)
 	self:AddCheck {set = 'glow', text = 'Glow'}
 	self:AddCheck {set = 'icons', text = 'Icons'}
 end

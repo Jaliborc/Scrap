@@ -28,17 +28,16 @@ function Button:OnEnable()
 	background:SetSize(27, 27)
 
 	local icon = self:CreateTexture()
-	icon:SetTexture('Interface\\Addons\\Scrap\\art\\enabled-box')
+	icon:SetTexture('Interface/Addons/Scrap/art/enabled-box')
 	icon:SetPoint('CENTER')
 	icon:SetSize(33, 33)
 
 	local border = self:CreateTexture(nil, 'OVERLAY')
-	border:SetTexture('Interface\\Addons\\Scrap\\art\\merchant-border')
+	border:SetTexture('Interface/Addons/Scrap/art/merchant-border')
 	border:SetSize(35.9, 35.9)
 	border:SetPoint('CENTER')
 
 	self.background, self.icon, self.border, self.tab = background, icon, border, tab
-	self.dropdown = CreateFrame('Frame', nil, nil, 'UIDropDownMenuTemplate')
 	self:SetHighlightTexture('Interface/Buttons/ButtonHilight-Square', 'ADD')
 	self:SetPushedTexture('Interface/Buttons/UI-Quickslot-Depress')
 	self:RegisterForClicks('AnyUp')
@@ -90,27 +89,27 @@ function Button:OnClick(button)
 		self:OnReceiveDrag()
 	elseif button == 'LeftButton' then
 		self:Sell()
-	elseif button == 'RightButton' then
-		local info = {
-			{ text = 'Scrap', notCheckable = 1, isTitle = 1 },
-			{
-				text = OPTIONS, notCheckable = 1,
-				func = function()
-					InterfaceOptionsFrame_OpenToCategory(Scrap.options)
-					InterfaceOptionsFrame_OpenToCategory(Scrap.options)
-				end
-			},
-			{
-				text = SHOW_TUTORIALS, notCheckable = 1,
-				func = function()
-					if LoadAddOn('Scrap_Config') then
+	elseif button == 'RightButton' and LoadAddOn('Scrap_Config') then
+		local drop = LibStub('Sushi-3.1').Dropdown:Toggle(self)
+		if drop then
+			drop:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 0, -12)
+			drop:SetChildren {
+				{ text = 'Scrap', isTitle = 1 },
+				{
+					text = OPTIONS, notCheckable = 1,
+					func = function()
+						Scrap.Options:Open()
+					end
+				},
+				{
+					text = SHOW_TUTORIALS, notCheckable = 1,
+					func = function()
 						Scrap.Tutorials:Reset()
 					end
-				end
+				},
+				{ text = CANCEL, notCheckable = 1 }
 			}
-		}
-
-		EasyMenu(info, self.dropdown, self, 0, 0, 'MENU')
+		end
 	end
 end
 

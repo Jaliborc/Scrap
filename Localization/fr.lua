@@ -9,7 +9,6 @@ L.AutoSellTip = "Si cette option est activée, Scrap vendra automatiquement tout
 L.Junk = "Camelote"
 L.Learning = "Apprentissage Intelligent"
 L.LearningTip = "Si cette option est activée, Scrap apprendra de lui même quels articles vous vendez généralement aux marchands et les considérera automatiquement comme de la camelote."
-L.Loading = "Chargement..."
 L.LowConsume = "Vendre les consommables de faible niveau"
 L.LowConsumeTip = "Si cette option est activée, Scrap vendra |cffff2020touts|r les objets consommables qui sont trop faibles pour votre niveau."
 L.LowEquip = "Vendre l'équipement de faible niveau"
