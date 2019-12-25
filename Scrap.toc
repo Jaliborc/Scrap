@@ -11,6 +11,4 @@
 ## SavedVariables: Scrap_Sets
 ## OptionalDeps: WoWUnit, TestPoncho
 
-libs\main.xml
-localization\localization.xml
 addons\main\main.xml

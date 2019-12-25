@@ -89,7 +89,7 @@ function Button:OnClick(button)
 		self:OnReceiveDrag()
 	elseif button == 'LeftButton' then
 		self:Sell()
-	elseif button == 'RightButton' and LoadAddOn('Scrap_Config') then
+	elseif button == 'RightButton' then
 		local drop = LibStub('Sushi-3.1').Dropdown:Toggle(self)
 		if drop then
 			drop:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 0, -12)

@@ -11,6 +11,9 @@ L.AutoRepair = '自動修理'
 L.AutoRepairTip = '開啟此功能，Scrap 會在你訪問商人時自動修理裝備。'
 L.GuildRepair = '公會修理'
 
+L.ConfirmDelete = '你确定要摧毁所有垃圾物品吗？此操作无法撤销。'
+L.DeleteJunk = '摧毁垃圾'
+
 L.Junk = '垃圾'
 L.Learning = '智能學習'
 L.LearningTip = '開啟此功能，Scrap 會學習哪些物品經常被你出售，而將該物分類為垃圾。'

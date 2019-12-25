@@ -5,6 +5,9 @@ L.Add = 'Zur Müll-Liste hinzufügen'
 L.Added = 'Zur Müll-Liste hinzugefügt: %s'
 L.AdvancedOptions = 'Erweiterte Einstellungen'
 
+L.ConfirmDelete = 'Bist Du sicher, dass Du alle Deine Müllgegenstände zerstören möchtest? Du kannst dies nicht rückgängig machen.'
+L.DeleteJunk = 'Müll zerstören'
+
 L.Behaviour = 'Verhalten'
 L.Visuals = 'Anzeigen'
 

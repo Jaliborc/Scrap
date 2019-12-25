@@ -5,6 +5,9 @@ L.Add = '添加到垃圾清單'
 L.Added = '%s 已添加到垃圾清單'
 L.AdvancedOptions = '進階設定'
 
+L.ConfirmDelete = '你確實要摧毀所有垃圾物品嗎？此動作無法撤銷。'
+L.DeleteJunk = '摧毀垃圾'
+
 L.AutoSell = '自動出售'
 L.AutoSellTip = '開啟此功能，Scrap 會在你訪問商人時自動出售所有垃圾。'
 L.AutoRepair = '自動修理'

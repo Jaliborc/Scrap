@@ -40,6 +40,7 @@ local ACTUAL_SLOTS = {
 }
 
 BINDING_NAME_SCRAP_TOGGLE = L.ToggleMousehover
+BINDING_NAME_SCRAP_DESTROY = L.DestroyJunk
 BINDING_NAME_SCRAP_SELL = L.SellJunk
 BINDING_HEADER_SCRAP = 'Scrap'
 
@@ -95,6 +96,14 @@ function Scrap:IsJunk(id, ...)
 	end
 end
 
+function Scrap:ToggleJunk(id)
+	local junk = self:IsJunk(id)
+
+	self.junk[id] = not junk
+	self:Print(junk and L.Removed or L.Added, select(2, GetItemInfo(id)), 'LOOT')
+	self:SendSignal('LIST_CHANGED', id)
+end
+
 function Scrap:IterateJunk()
 	local bagNumSlots, bag, slot = GetContainerNumSlots(BACKPACK_CONTAINER), BACKPACK_CONTAINER, 0
 	local match, id
@@ -122,12 +131,18 @@ function Scrap:IterateJunk()
 	end
 end
 
-function Scrap:ToggleJunk(id)
-	local junk = self:IsJunk(id)
-
-	self.junk[id] = not junk
-	self:Print(junk and L.Removed or L.Added, select(2, GetItemInfo(id)), 'LOOT')
-	self:SendSignal('LIST_CHANGED', id)
+function Scrap:DestroyJunk()
+	LibStub('Sushi-3.1').Popup {
+		id = 'DeleteScrap',
+		text = L.ConfirmDelete, button1 = OKAY, button2 = CANCEL,
+		hideOnEscape = 1, showAlert = 1, whileDead = 1,
+		OnAccept = function()
+			for bag, slot in self:IterateJunk() do
+				PickupContainerItem(bag, slot)
+				DeleteCursorItem()
+			end
+		end
+	}
 end
 
 
