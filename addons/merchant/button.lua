@@ -123,31 +123,17 @@ end
 
 function Button:OnEnter()
 	GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
-
-	local type, id = GetCursorInfo()
-	if type == 'item' then
-		GameTooltip:SetText(Scrap:IsJunk(id) and L.Remove or L.Add, 1, 1, 1)
-	else
-		GameTooltip:SetText(L.SellJunk)
-
-		local value, qualities = self:GetReport()
-		for quality, count in pairs(qualities) do
-			local r,g,b = GetItemQualityColor(quality)
-			GameTooltip:AddDoubleLine(_G['ITEM_QUALITY' .. quality .. '_DESC'], count, r,g,b, r,g,b)
-		end
-
-		GameTooltip:AddLine(value > 0 and GetCoinTextureString(value) or ITEM_UNSELLABLE, 1,1,1)
-	end
-
-	GameTooltip:Show()
+	self:UpdateTip(GameTooltip)
 end
 
 function Button:OnLeave()
-	GameTooltip:Hide()
+	if GameTooltip:IsOwned(self) then
+		GameTooltip:Hide()
+	end
 end
 
 
---[[ Button ]]--
+--[[ Update ]]--
 
 function Button:UpdateState()
 	local disabled = not self:AnyJunk()
@@ -173,6 +159,25 @@ function Button:UpdatePosition()
 	end
 
 	MerchantRepairText:Hide()
+end
+
+function Button:UpdateTip(tooltip)
+	local type, id = GetCursorInfo()
+	if type == 'item' then
+		tooltip:SetText(Scrap:IsJunk(id) and L.Remove or L.Add, 1, 1, 1)
+	else
+		tooltip:SetText(MerchantFrame:IsShown() and L.SellJunk or L.DeleteJunk)
+
+		local value, qualities = self:GetReport()
+		for quality, count in pairs(qualities) do
+			local r,g,b = GetItemQualityColor(quality)
+			tooltip:AddDoubleLine(_G['ITEM_QUALITY' .. quality .. '_DESC'], count, r,g,b, r,g,b)
+		end
+
+		tooltip:AddLine(value > 0 and GetCoinTextureString(value) or ITEM_UNSELLABLE, 1,1,1)
+	end
+
+	tooltip:Show()
 end
 
 
