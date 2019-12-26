@@ -1,0 +1,10 @@
+[project]
+  5422
+[modules]
+  Scrap_Config
+  Scrap_Merchant
+[ignore]
+  art/disabled-box.tga
+  libs/Poncho-2.0/Tests.lua
+  libs/Sushi-3.1/tests
+  libs/Unfit-1.0/Tests.lua

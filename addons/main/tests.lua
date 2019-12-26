@@ -1,7 +1,4 @@
-if not WoWUnit then
-	return
-end
-
+if not WoWUnit then return end
 local Replace, IsFalse = WoWUnit.Replace, WoWUnit.IsFalse
 local Tests = WoWUnit('Scrap')
 
@@ -10,6 +7,10 @@ local function NotJunk(id)
 	Replace(Scrap, 'charsets', {consumable = true, equip = true})
 
 	return IsFalse(Scrap:IsJunk(id))
+end
+
+function Tests:GrayShoulders()
+	NotJunk(1769)
 end
 
 function Tests:ChefHat()

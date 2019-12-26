@@ -1,0 +1,105 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Button name="ScrapVisualizerTabTemplate" inherits="TabButtonTemplate" virtual="true">
+		<Scripts>
+			<OnClick>
+				self:GetParent():SetTab(self:GetID())
+			</OnClick>
+		</Scripts>
+	</Button>
+
+	<Button name="ScrapVisualizerButtonTemplate" virtual="true">
+		<Size x="295" y="17"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="stripe">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="1" y="0"/>
+						<Anchor point="BOTTOMRIGHT" x="-1" y="0"/>
+					</Anchors>
+					<Color a=".08" r="1" g="1" b="1"/>
+				</Texture>
+			</Layer>
+
+			<Layer level="BORDER">
+				<Texture parentKey="icon">
+					<Size>
+						<AbsDimension x="15" y="15"/>
+					</Size>
+					<Anchors>
+						<Anchor point="RIGHT" x="-20" y="0"/>
+					</Anchors>
+				</Texture>
+				<FontString parentKey="text" inherits="GameFontHighlightLeft">
+					<Size>
+						<AbsDimension x="210" y="11"/>
+					</Size>
+					<Anchors>
+						<Anchor point="LEFT" x="11" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnClick>
+				self:GetParent():GetParent():GetParent():SetItem(self.item)
+			</OnClick>
+			<OnEnter>
+				GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+				GameTooltip:SetHyperlink(self.link)
+				GameTooltip:Show()
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide()
+			</OnLeave>
+		</Scripts>
+		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD"/>
+	</Button>
+
+	<Frame name="ScrapVisualizerTemplate" inherits="ButtonFrameTemplate" virtual="true" hidden="true">
+	  <Frames>
+			<Button parentKey='Tab1' name="$parentTab1" inherits="ScrapVisualizerTabTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="70" y="-30"/>
+				</Anchors>
+			</Button>
+			<Button parentKey='Tab2' name="$parentTab2" inherits="ScrapVisualizerTabTemplate" id="2">
+				<Anchors>
+					<Anchor point="LEFT" relativeKey="$parent.Tab1" relativePoint="RIGHT"/>
+				</Anchors>
+			</Button>
+
+			<ScrollFrame parentKey='Scroll' name="$parentScroll" inherits="HybridScrollFrameTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentInset" x="4" y="-4"/>
+					<Anchor point="BOTTOM" relativeTo="$parentInset" x="-9" y="4"/>
+				</Anchors>
+				<Frames>
+					<Slider name="$parentBar" inherits="HybridScrollBarTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="-1" y="-12"/>
+							<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-1" y="11"/>
+						</Anchors>
+					</Slider>
+				</Frames>
+			</ScrollFrame>
+
+			<Frame parentKey="Spinner" inherits="LoadingSpinnerTemplate">
+				<Anchors>
+					<Anchor point="CENTER" relativeTo="$parentInset"/>
+				</Anchors>
+			</Frame>
+
+			<Button parentKey="Button" name="$parentButton" inherits="MagicButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():ToggleCurrent()
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+	</Frame>
+</Ui>

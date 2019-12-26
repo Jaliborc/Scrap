@@ -1,0 +1,8 @@
+<Ui>
+	<Include file="..\..\libs\merchant.xml"/>
+
+	<Include file="visualizer.xml"/>
+	<Script file="visualizer.lua"/>
+	<Script file="button.lua"/>
+	<Script file="learning.lua"/>
+</Ui>
