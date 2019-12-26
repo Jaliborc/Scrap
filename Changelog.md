@@ -1,3 +1,6 @@
+#### 8.2.1
+* Fixed issue starting `Usage Learning` feature.
+
 #### 8.2.0
 * Changed when low level gray equipment is classified as junk by default.
 * Added new items to default junk exclusion as requested by users.

@@ -92,7 +92,7 @@ end
 
 function Scrap:IsJunk(id, ...)
 	if id and self.junk and self.junk[id] ~= false then
-		return self.junk[id] or (self.sets.learn and self.sets.ml[id] and self.sets.ml[id] >= 1) or self:IsFiltered(id, ...)
+		return self.junk[id] or (self.sets.learn and self.charsets.ml[id] and self.charsets.ml[id] >= 1) or self:IsFiltered(id, ...)
 	end
 end
 
