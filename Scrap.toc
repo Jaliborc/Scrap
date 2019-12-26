@@ -1,4 +1,4 @@
-## Interface: 11302
+## Interface: 11303
 ## Title: |cffFFDE73Scrap|r
 ## Notes: Sells all your junk at the merchant.
 

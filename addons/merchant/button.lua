@@ -89,7 +89,7 @@ function Button:OnClick(button)
 		self:OnReceiveDrag()
 	elseif button == 'LeftButton' then
 		self:Sell()
-	elseif button == 'RightButton' then
+	elseif button == 'RightButton' and LoadAddOn('Scrap_Config') then
 		local drop = LibStub('Sushi-3.1').Dropdown:Toggle(self)
 		if drop then
 			drop:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 0, -12)
@@ -166,7 +166,7 @@ function Button:UpdateTip(tooltip)
 	if type == 'item' then
 		tooltip:SetText(Scrap:IsJunk(id) and L.Remove or L.Add, 1, 1, 1)
 	else
-		tooltip:SetText(MerchantFrame:IsShown() and L.SellJunk or L.DeleteJunk)
+		tooltip:SetText(MerchantFrame:IsShown() and L.SellJunk or L.DestroyJunk)
 
 		local value, qualities = self:GetReport()
 		for quality, count in pairs(qualities) do
