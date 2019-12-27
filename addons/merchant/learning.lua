@@ -38,7 +38,7 @@ end
 
 function Learn:OnItemSold(...)
 	local id = GetContainerItemID(...)
-	if not id or Scrap.junk[id] ~= nil or Scrap:CheckFilters(id, ...) then
+	if not id or Scrap.junk[id] ~= nil or Scrap:IsFiltered(id, ...) then
 		return
 	end
 

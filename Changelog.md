@@ -1,3 +1,6 @@
+#### 8.2.2
+* Fixed another issue with `Usage Learning` feature.
+
 #### 8.2.1
 * Fixed issue starting `Usage Learning` feature.
 
