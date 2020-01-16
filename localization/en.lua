@@ -9,7 +9,7 @@ L.SoldJunk = 'You sold your junk for %s'
 L.Remove = 'Set as Useful'
 L.Removed = 'Set as useful: %s'
 L.Repaired = 'You repaired your armor for %s'
-L.ToggleMousehover = 'Toggle Mouse-Hover Item'
+L.ToggleMousehover = 'Toggle Item Under Cursor'
 
 -- dialogs
 L.ConfirmDelete = 'Are you sure you want to destroy all your junk items? You cannot undo this action.'

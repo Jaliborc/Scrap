@@ -1,3 +1,7 @@
+#### 8.2.3
+* Fixed issue with `Sell Junk` keybinding.
+* Fixed visual issue with `Character Specific Junk List` option.
+
 #### 8.2.2
 * Fixed another issue with `Usage Learning` feature.
 

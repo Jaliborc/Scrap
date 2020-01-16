@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2019 João Cardoso
+Copyright 2008-2020 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -19,8 +19,8 @@ local Sushi = LibStub('Sushi-3.1')
 local Options = Scrap:NewModule('Options', Sushi.OptionsGroup('Scrap |TInterface/Addons/Scrap/art/enabled-icon:13:13:0:0|t'))
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
-local PATRONS = {{title='Jenkins',people={'Gnare','ProfessahX','Zaneius Valentine'}},{},{title='Ambassador',people={'Fernando Bandeira','Michael Irving','Julia F','Peggy Webb','Lolari','Craig Falb','Mary Barrentine','Patryk Kalis','Lifeprayer','Steve Lund','Grimmcanuck'}}} -- generated patron list
-local FOOTER = 'Copyright 2008-2019 João Cardoso'
+local PATRONS = {{title='Jenkins',people={'Gnare','ProfessahX','Zaneius Valentine'}},{},{title='Ambassador',people={'Sembiance','Fernando Bandeira','Michael Irving','Julia F','Peggy Webb','Lolari','Craig Falb','Mary Barrentine','Patryk Kalis','Lifeprayer','Steve Lund','Grimmcanuck'}}} -- generated patron list
+local FOOTER = 'Copyright 2008-2020 João Cardoso'
 
 
 --[[ Startup ]]--
@@ -31,7 +31,7 @@ function Options:OnEnable()
 	credits:SetFooter(FOOTER)
 
 	local share = Sushi.Check(self)
-	share:SetChecked(not Scrap_CharSets.shared)
+	share:SetChecked(not Scrap_CharSets.share)
 	share:SetPoint('TOPRIGHT', -30, 36)
 	share:SetText(L.CharSpecific)
 	share:SetScale(.9)

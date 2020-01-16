@@ -1,7 +1,7 @@
 <Bindings>
 	<Binding name="SCRAP_SELL" header="SCRAP" category="ADDONS">
 		if MerchantFrame:IsShown() and LoadAddOn('Scrap_Merchant') then
-			Scrap:SellJunk()
+			Scrap.Merchant:Sell()
 		end
 	</Binding>
 	<Binding name="SCRAP_DESTROY" category="ADDONS">
