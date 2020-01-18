@@ -1,11 +1,17 @@
-#### 8.2.3
+##### 8.3.1
+* Fixed issue with dropdown.
+
+#### 8.3.0
+* Updated for Visions of Nzoth.
+
+##### 8.2.3
 * Fixed issue with `Sell Junk` keybinding.
 * Fixed visual issue with `Character Specific Junk List` option.
 
-#### 8.2.2
+##### 8.2.2
 * Fixed another issue with `Usage Learning` feature.
 
-#### 8.2.1
+##### 8.2.1
 * Fixed issue starting `Usage Learning` feature.
 
 #### 8.2.0

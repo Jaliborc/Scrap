@@ -1,6 +1,6 @@
-if not WoWUnit then return end
+local Tests = WoWUnit and WoWUnit('Scrap')
+if not Tests then return end
 local Replace, IsFalse = WoWUnit.Replace, WoWUnit.IsFalse
-local Tests = WoWUnit('Scrap')
 
 local function NotJunk(id)
 	Replace(Scrap, 'junk', Scrap.baseList.__index)
