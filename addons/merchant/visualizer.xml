@@ -96,7 +96,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						self:GetParent():ToggleCurrent()
+						self:GetParent():ToggleItem()
 					</OnClick>
 				</Scripts>
 			</Button>

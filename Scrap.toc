@@ -5,7 +5,7 @@
 ## Author: Jaliborc (João Cardoso)
 ## X-License: GNU General Public License Version 3
 ## X-Category: Inventory
-## Version: 8.3.0
+## Version: 8.3.2
 
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets

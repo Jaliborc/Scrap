@@ -19,7 +19,7 @@ local Sushi = LibStub('Sushi-3.1')
 local Options = Scrap:NewModule('Options', Sushi.OptionsGroup('Scrap |TInterface/Addons/Scrap/art/enabled-icon:13:13:0:0|t'))
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
-local PATRONS = {{title='Jenkins',people={'Gnare','ProfessahX','Zaneius Valentine'}},{},{title='Ambassador',people={'Fernando Bandeira','Michael Irving','Julia F','Peggy Webb','Lolari','Craig Falb','Mary Barrentine','Patryk Kalis','Lifeprayer','Steve Lund','Grimmcanuck','Donna Wasson'}}} -- generated patron list
+local PATRONS = {{title='Jenkins',people={'Gnare','ProfessahX','Zaneius Valentine','Gloria Horton-Young'}},{},{title='Ambassador',people={'Fernando Bandeira','Michael Irving','Julia F','Peggy Webb','Lolari','Craig Falb','Mary Barrentine','Patryk Kalis','Lifeprayer','Steve Lund','Grimmcanuck','Donna Wasson','Mónica Sanchez Calzado','Jack Glazko'}}} -- generated patron list
 local FOOTER = 'Copyright 2008-2020 João Cardoso'
 
 
@@ -42,7 +42,7 @@ function Options:OnEnable()
 
 	self:SetFooter(FOOTER)
 	self:SetSubtitle(L.Description)
-	self:SetChildren(self.Populate)
+	self:SetChildren(self.OnPopulate)
 	self:SetCall('OnDefaults', self.OnDefaults)
 end
 
@@ -52,7 +52,7 @@ function Options:OnDefaults()
 	self:Update()
 end
 
-function Options:Populate()
+function Options:OnPopulate()
 	self:AddHeader(L.Behaviour)
 	self:AddCheck {set = 'sell', text = 'AutoSell'}
 	self:AddCheck {set = 'repair', text = 'AutoRepair'}

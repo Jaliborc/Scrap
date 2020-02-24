@@ -1,3 +1,6 @@
+##### 8.3.2
+* Fixed bug with the visualizer's "set as useful" button.
+
 ##### 8.3.1
 * Fixed issue with dropdown.
 
