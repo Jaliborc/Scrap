@@ -5,6 +5,7 @@
 	<Script file="es.lua"/>
 	<Script file="fr.lua"/>
 	<Script file="ko.lua"/>
+	<Script file="nl.lua"/>
   <Script file="pt.lua"/>
   <Script file="ru.lua"/>
   <Script file="tw.lua"/>

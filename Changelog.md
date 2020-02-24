@@ -1,3 +1,7 @@
+##### 8.3.3
+* Added Dutch localization (thanks to Barrosy).
+* Updated French localization (thanks to Nelfym).
+
 ##### 8.3.2
 * Fixed bug with the visualizer's "set as useful" button.
 
