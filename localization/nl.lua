@@ -50,4 +50,4 @@ L.Tutorial_Welcome = 'Welkom bij |cffffd200Scrap|r, het intelligente rommel verk
 L.Tutorial_Button = 'Scrap zal, wanneer een handelaar wordt bezocht, al uw rommel automatisch verkopen. U kunt het ook handmatig verkopen: simpelweg |cffffd200Links-Klik|r op de Scrap knop.|n|n|cffffd200Rechts-Klik|r op de knop om extra opties te krijgen.'
 L.Tutorial_Drag = 'Wat nou als u Scrap wilt vertellen welke items wel en niet verkocht moeten worden? U kunt het dan simpelweg van uw tassen naar de Scrap knop|cffffd200slepen|r.|n|nAls alternatief kunt u een |cffffd200Sneltoets|r instellen in het spel opties menu. Druk het wanneer de muis boven het item zweeft.'
 L.Tutorial_Visualizer = 'Om te zien welke items u als rommel heeft gespecificeerd, open de |cffffd200Scrap Visualizer|r tab.|n|nLet erop dat dit alleen door u |cffffd200gespecificeerde|r items zal tonen, dus niet elke mogelijke item in-game.'
-L.Tutorial_Bye = 'Veel succes met je reizen en moge de |cffb400ffthe epics|r met u zijn. De rommel zal neit voorbijgaan!'
+L.Tutorial_Bye = 'Veel succes met je reizen en moge de |cffb400ffthe epics|r met u zijn. De rommel zal niet voorbijgaan!'
