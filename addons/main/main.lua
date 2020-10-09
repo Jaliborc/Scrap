@@ -21,6 +21,7 @@ local Unfit = LibStub('Unfit-1.0')
 
 local CLASS_NAME = LOCALIZED_CLASS_NAMES_MALE[select(2, UnitClass('player'))]
 local WEAPON, ARMOR, CONSUMABLES = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, LE_ITEM_CLASS_CONSUMABLE
+local GEM, ARTIFACT_RELIC = LE_ITEM_CLASS_GEM, LE_ITEM_GEM_ARTIFACTRELIC
 local FISHING_POLE = LE_ITEM_WEAPON_FISHINGPOLE
 
 local CAN_TRADE = BIND_TRADE_TIME_REMAINING:format('.*')
@@ -149,7 +150,7 @@ end
 --[[ Filters ]]--
 
 function Scrap:IsFiltered(...)
-	local _, link, quality, _,_,_,_,_, slot, _, value, class, subclass = GetItemInfo(...)
+	local _, link, quality, _,minlevel,_,_,_, slot, _, value, class, subclass = GetItemInfo(...)
 	local level = GetDetailedItemLevelInfo(...) or 0
 
 	if not value or value == 0 then
@@ -170,8 +171,15 @@ function Scrap:IsFiltered(...)
 			end
 		end
 
+	elseif class == GEM and subclass == ARTIFACT_RELIC then
+		local currExpansion = GetMaximumExpansionLevel()
+		local lastExpansion = currExpansion - 1
+		local expansionLevelGap = GetMaxLevelForExpansionLevel(currExpansion) - GetMaxLevelForExpansionLevel(lastExpansion)
+		return minlevel <= UnitLevel('player') - expansionLevelGap
+
 	elseif self:IsGray(quality) then
 		return true
+
 	elseif class == CONSUMABLES then
 		return self.charsets.consumable and quality < LE_ITEM_QUALITY_RARE and self:IsLowLevel(level)
 	end
