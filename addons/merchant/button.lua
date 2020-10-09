@@ -3,21 +3,57 @@ Copyright 2008-2020 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
-
 This addon is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License
 along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
-
 This file is part of Scrap.
 --]]
 
 local Button = Scrap:NewModule('Merchant', CreateFrame('Button', nil, MerchantBuyBackItem))
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
+
+SCRAP_ADDON_SETTINGS_BATCH_SIZE = 5
+SCRAP_ADDON_SETTINGS_INTERVAL = 0.15
+local timer = 0
+local OnUpdate = CreateFrame("Frame", nil, Button)
+OnUpdate:SetScript("OnUpdate", function(self, elapsed)
+	if not self.co then return end
+
+	timer = timer + elapsed
+	if timer >= SCRAP_ADDON_SETTINGS_INTERVAL then
+		timer = 0
+
+		-- Check its not already running
+		if coroutine.status(self.co) == "running" then
+			return
+		end
+
+		-- If thread finished then start a new one to catch any errors with not selling some stuff
+		if coroutine.status(self.co) == "dead" then
+			self.co = coroutine.create(Button.SellNotSafe)
+		end
+
+		coroutine.resume(self.co)
+
+		if self.count > 0 and not Button:AnyJunk() then
+			Scrap:PrintMoney(L.SoldJunk, self.total - Button:GetReport())
+			self:Hide()
+		end
+	end
+end)
+
+
+function OnUpdate:StartSelling()
+	self.total = Button:GetReport()
+	self.co = coroutine.create(Button.SellNotSafe)
+	self.startGold = GetMoney()
+	self.count = 0
+	self:Show()
+end
 
 --[[ Events ]]--
 
@@ -59,7 +95,11 @@ end
 
 function Button:OnMerchant()
 	if Scrap.sets.sell then
-		self:Sell()
+		if Scrap.sets.safe then
+			self:Sell()
+		else
+			OnUpdate:StartSelling()
+		end
 	end
 
 	if Scrap.sets.repair then
@@ -88,7 +128,11 @@ function Button:OnClick(button)
 	if GetCursorInfo() then
 		self:OnReceiveDrag()
 	elseif button == 'LeftButton' then
-		self:Sell()
+		if Scrap.sets.safe then
+			self:Sell()
+		else
+			OnUpdate:StartSelling()
+		end
 	elseif button == 'RightButton' and LoadAddOn('Scrap_Config') then
 		local drop = LibStub('Sushi-3.1').Dropdown:Toggle(self)
 		if drop then
@@ -188,7 +232,7 @@ function Button:Sell()
 	local count = 0
 
 	for bag, slot, id in Scrap:IterateJunk() do
-		if not Scrap.sets.safe or count < 12 then
+		if count < 12 then
 			count = count + 1
 		else
 			break
@@ -197,6 +241,7 @@ function Button:Sell()
 		local value = select(11, GetItemInfo(id)) or 0
 		if value > 0 then
 			UseContainerItem(bag, slot)
+			StaticPopup1Button1:Click()
 		elseif Scrap.sets.destroy then
 			PickupContainerItem(bag, slot)
 			DeleteCursorItem()
@@ -207,6 +252,31 @@ function Button:Sell()
 		Scrap:PrintMoney(L.SoldJunk, total - self:GetReport())
 	end
 end
+
+
+function Button:SellNotSafe()
+	local count = 0
+
+	for bag, slot, id in Scrap:IterateJunk() do
+		OnUpdate.count = OnUpdate.count +  1
+		count = count + 1
+
+		local value = select(11, GetItemInfo(id)) or 0
+		if value > 0 then
+			UseContainerItem(bag, slot)
+			StaticPopup1Button1:Click()
+		elseif Scrap.sets.destroy then
+			PickupContainerItem(bag, slot)
+			DeleteCursorItem()
+		end
+
+		if mod(count, SCRAP_ADDON_SETTINGS_BATCH_SIZE) == 0 then
+			coroutine.yield()
+		end
+	end
+end
+
+
 
 function Button:GetReport()
 	local qualities = {}
