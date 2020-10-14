@@ -181,12 +181,12 @@ function Scrap:IsFiltered(...)
 		return true
 
 	elseif class == CONSUMABLES then
-		return self.charsets.consumable and quality < LE_ITEM_QUALITY_RARE and self:IsLowLevel(level)
+		return self.charsets.consumable and quality < Enum.ItemQuality.Rare and self:IsLowLevel(level)
 	end
 end
 
 function Scrap:IsGray(quality)
-	return quality == LE_ITEM_QUALITY_POOR
+	return quality == Enum.ItemQuality.Poor
 end
 
 function Scrap:IsLowLevel(level)
@@ -194,7 +194,7 @@ function Scrap:IsLowLevel(level)
 end
 
 function Scrap:IsStandardQuality(quality)
-	return quality >= LE_ITEM_QUALITY_UNCOMMON and quality <= LE_ITEM_QUALITY_EPIC
+	return quality >= Enum.ItemQuality.Uncommon and quality <= Enum.ItemQuality.Epic
 end
 
 function Scrap:IsCombatItem(class, subclass, slot)
@@ -233,9 +233,9 @@ function Scrap:IsBetterEquip(slot, value, empty)
 end
 
 function Scrap:GetEquipValue(level, quality)
-	if quality == LE_LE_ITEM_QUALITY_EPIC then
+	if quality == Enum.ItemQuality.Epic then
 		return (level + 344.36) / 106.29
-	elseif quality == LE_ITEM_QUALITY_RARE then
+	elseif quality == Enum.ItemQuality.Rare then
 		return (level + 287.14) / 97.632
 	else
 		return (level + 292.23) / 101.18
