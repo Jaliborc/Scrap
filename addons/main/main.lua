@@ -50,7 +50,7 @@ BINDING_HEADER_SCRAP = 'Scrap'
 
 function Scrap:OnEnable()
 	self.tip = CreateFrame('GameTooltip', 'ScrapTooltip', nil, 'GameTooltipTemplate')
-	self:RegisterEvent('MERCHANT_SHOW', function() LoadAddOn('Scrap_Merchant') end)
+	self:RegisterEvent('MERCHANT_SHOW', function() LoadAddOn('Scrap_Merchant'); self:SendSignal('MERCHANT_SHOW') end)
 	self:RegisterSignal('SETS_CHANGED', 'OnSettings')
 	self:OnSettings()
 
