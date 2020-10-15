@@ -1,4 +1,9 @@
-##### 9.0.0
+##### 9.0.1
+* Fixed issue with auto sell.
+* Fixed issue with auto learning.
+* Updated chinese locales.
+
+#### 9.0.0
 * Updated for Shadowlands
 * Fixed minor issue that could occur in plugins that load merchant API outside of merchant.
 
