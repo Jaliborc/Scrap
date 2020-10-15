@@ -28,6 +28,7 @@ local CAN_REFUND = REFUND_TIME_REMAINING:format('.*')
 local MATCH_CLASS = ITEM_CLASSES_ALLOWED:format('')
 local IN_SET = EQUIPMENT_SETS:format('.*')
 
+local POOR, COMMON, UNCOMMON, RARE, EPIC = 0,1,2,3,4
 local ACTUAL_SLOTS = {
 	INVTYPE_ROBE = 'INVTYPE_CHEST',
 	INVTYPE_CLOAK = 'INVTYPE_BACK',
@@ -173,12 +174,12 @@ function Scrap:IsFiltered(...)
 	elseif self:IsGray(quality) then
 		return true
 	elseif class == CONSUMABLES then
-		return self.charsets.consumable and quality < LE_ITEM_QUALITY_RARE and self:IsLowLevel(level)
+		return self.charsets.consumable and quality < RARE and self:IsLowLevel(level)
 	end
 end
 
 function Scrap:IsGray(quality)
-	return quality == LE_ITEM_QUALITY_POOR
+	return quality == POOR
 end
 
 function Scrap:IsLowLevel(level)
@@ -186,7 +187,7 @@ function Scrap:IsLowLevel(level)
 end
 
 function Scrap:IsStandardQuality(quality)
-	return quality >= LE_ITEM_QUALITY_UNCOMMON and quality <= LE_ITEM_QUALITY_EPIC
+	return quality >= UNCOMMON and quality <= EPIC
 end
 
 function Scrap:IsCombatItem(class, subclass, slot)
@@ -225,9 +226,9 @@ function Scrap:IsBetterEquip(slot, value, empty)
 end
 
 function Scrap:GetEquipValue(level, quality)
-	if quality == LE_LE_ITEM_QUALITY_EPIC then
+	if quality == EPIC then
 		return (level + 344.36) / 106.29
-	elseif quality == LE_ITEM_QUALITY_RARE then
+	elseif quality == RARE then
 		return (level + 287.14) / 97.632
 	else
 		return (level + 292.23) / 101.18

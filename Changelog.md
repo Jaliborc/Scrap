@@ -1,3 +1,7 @@
+##### 9.0.0
+* Updated for Shadowlands
+* Fixed minor issue that could occur in plugins that load merchant API outside of merchant.
+
 ##### 8.3.3
 * Added Dutch localization (thanks to Barrosy).
 * Updated French localization (thanks to Nelfym).

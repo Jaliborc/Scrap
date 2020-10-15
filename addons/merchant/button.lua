@@ -42,7 +42,6 @@ function Button:OnEnable()
 	self:SetPushedTexture('Interface/Buttons/UI-Quickslot-Depress')
 	self:RegisterForClicks('AnyUp')
 	self:SetSize(37, 37)
-	self:OnMerchant()
 
 	self:SetScript('OnReceiveDrag', self.OnReceiveDrag)
 	self:SetScript('OnEnter', self.OnEnter)
@@ -51,6 +50,7 @@ function Button:OnEnable()
 
 	self:RegisterEvent('MERCHANT_SHOW', 'OnMerchant')
 	self:RegisterEvent('MERCHANT_CLOSED', 'OnClose')
+	self:OnMerchant()
 
 	hooksecurefunc('MerchantFrame_UpdateRepairButtons', function()
 		self:UpdatePosition()
@@ -58,22 +58,24 @@ function Button:OnEnable()
 end
 
 function Button:OnMerchant()
-	if Scrap.sets.sell then
-		self:Sell()
-	end
+	if MerchantFrame:IsShown() then
+		if Scrap.sets.sell then
+			self:Sell()
+		end
 
-	if Scrap.sets.repair then
-		self:Repair()
-	end
+		if Scrap.sets.repair then
+			self:Repair()
+		end
 
-	if (Scrap.sets.tutorial or 0) < 5 and LoadAddOn('Scrap_Config') then
-		Scrap.Tutorials:Start()
-	end
+		if (Scrap.sets.tutorial or 0) < 5 and LoadAddOn('Scrap_Config') then
+			Scrap.Tutorials:Start()
+		end
 
-	self:RegisterEvent('BAG_UPDATE_DELAYED', 'UpdateState')
-	self:RegisterSignal('LIST_CHANGED', 'UpdateState')
-	self:UpdatePosition()
-	self:UpdateState()
+		self:RegisterEvent('BAG_UPDATE_DELAYED', 'UpdateState')
+		self:RegisterSignal('LIST_CHANGED', 'UpdateState')
+		self:UpdatePosition()
+		self:UpdateState()
+	end
 end
 
 function Button:OnClose()

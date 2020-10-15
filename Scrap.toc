@@ -1,11 +1,11 @@
-## Interface: 11303
+## Interface: 11305
 ## Title: |cffFFDE73Scrap|r
 ## Notes: Sells all your junk at the merchant.
 
 ## Author: Jaliborc (João Cardoso)
 ## X-License: GNU General Public License Version 3
 ## X-Category: Inventory
-## Version: 8.3.2
+## Version: 9.0.0
 
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
