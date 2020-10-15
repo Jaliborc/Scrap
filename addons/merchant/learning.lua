@@ -16,6 +16,7 @@ This file is part of Scrap.
 --]]
 
 local Learn = Scrap:NewModule('Learning') -- a really really dumb ml algortihm
+local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
 
 --[[ Events ]] --
