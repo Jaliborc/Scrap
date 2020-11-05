@@ -65,26 +65,6 @@ function Scrap:OnSettings()
 
 	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
 	self.junk = setmetatable(self.charsets.share and self.sets.list or self.charsets.list, self.baseList)
-
-	if Scrap_Version then -- remove in a couple of versions
-		self.sets.list = Scrap_SharedJunk
-		self.sets.sell = Scrap_Sell
-		self.sets.repair = Scrap_AutoRepair
-		self.sets.guild = Scrap_GuildRepair
-		self.sets.learn = Scrap_Learn
-		self.sets.safe = Scrap_Safe
-		self.sets.icons = Scrap_Icons
-		self.sets.glow = Scrap_Glow
-		self.sets.tutorial = Scrap_Tut
-
-		self.charsets.list = Scrap_Junk
-		self.charsets.ml = Scrap_AI
-		self.charsets.equip = Scrap_LowEquip
-		self.charsets.consumable = Scrap_LowConsume
-		self.charsets.unusable = Scrap_Unusable
-		self.charsets.share = Scrap_ShareList
-	end
-
 	self:SendSignal('LIST_CHANGED')
 end
 
