@@ -49,10 +49,9 @@ function Spotlight:UpdateContainer(frame)
   local name = frame:GetName()
   local size = frame.size
 
-	for i = 1, size do
-		local slot = size - i + 1
-    local button = _G[name .. 'Item' .. slot]
-		local id = GetContainerItemID(bag, i)
+	for slot = 1, size do
+    local button = _G[name .. 'Item' .. (size - slot + 1)]
+		local id = GetContainerItemID(bag, slot)
 
 		local isJunk = id and Scrap:IsJunk(id, bag, slot)
 		local glow = self.Glows[button] or self:NewGlow(button)
