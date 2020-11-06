@@ -135,7 +135,7 @@ end
 function Scrap:IsFiltered(id, ...)
 	local location = self:GuessLocation(id, ...)
 	local _, link, quality, level,_,_,_,_, slot, _, value, class, subclass = GetItemInfo(id)
-	local level = location and C_Item.GetCurrentItemLevel(location) or level or 0
+	local level = link and location and C_Item.GetCurrentItemLevel(location) or level or 0
 
 	if not value or value == 0 then
 		return
@@ -145,7 +145,7 @@ function Scrap:IsFiltered(id, ...)
 			if self:IsGray(quality) then
 				return (slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT
 			elseif self:IsStandardQuality(quality) then
-				self:LoadTip(link, location:GetBagAndSlot())
+				self:LoadTip(link, location and location.bagID, location and location.slotIndex)
 
 				if not self:BelongsToSet() and location and C_Item.IsBound(location) then
 					local unusable = self.charsets.unusable and (Unfit:IsClassUnusable(class, subclass, slot) or self:IsOtherClass())
@@ -212,12 +212,14 @@ end
 
 function Scrap:GuessLocation(id, bag, slot)
 	if bag and slot then
-		return ItemLocation:CreateFromBagAndSlot(bag, slot), bag, slot
+		if bag >= BACKPACK_CONTAINER and bag < NUM_BAG_FRAMES then
+			return ItemLocation:CreateFromBagAndSlot(bag, slot)
+		end
 	elseif GetItemCount(id) > 0 then
 		for bag = BACKPACK_CONTAINER, NUM_BAG_FRAMES do
 		  	 for slot = 1, GetContainerNumSlots(bag) do
 		  	 	if id == GetContainerItemID(bag, slot) then
-		  	 		return ItemLocation:CreateFromBagAndSlot(bag, slot), bag, slot
+		  	 		return ItemLocation:CreateFromBagAndSlot(bag, slot)
 		  	 	end
 			end
 		end
