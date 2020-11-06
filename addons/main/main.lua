@@ -221,20 +221,6 @@ function Scrap:GuessLocation(id, bag, slot)
 	end
 end
 
-function Scrap:IsSoulbound(bag, slot)
-	local lastLine = self:ScanLine(self.numLines)
-	local soulbound = bag and slot and ITEM_SOULBOUND or ITEM_BIND_ON_PICKUP
-
-	if not lastLine:find(CAN_TRADE) and not lastLine:find(CAN_REFUND) then
-		for i = 2,7 do
-			if self:ScanLine(i) == soulbound then
-				self.limit = i
-				return true
-			end
-		end
-	end
-end
-
 function Scrap:IsOtherClass()
 	for i = self.numLines, self.limit, -1 do
 		local text = self:ScanLine(i)
