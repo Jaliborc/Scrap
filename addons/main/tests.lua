@@ -9,10 +9,8 @@ local function NotJunk(id)
 	return IsFalse(Scrap:IsJunk(id))
 end
 
-if WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE then
-	function Tests:GrayShoulders()
-		NotJunk(1769)
-	end
+function Tests:GrayShoulders()
+	NotJunk(1769)
 end
 
 function Tests:ChefHat()

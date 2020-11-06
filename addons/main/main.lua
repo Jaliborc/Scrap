@@ -28,6 +28,9 @@ local CAN_REFUND = REFUND_TIME_REMAINING:format('.*')
 local MATCH_CLASS = ITEM_CLASSES_ALLOWED:format('')
 local IN_SET = EQUIPMENT_SETS:format('.*')
 
+local SHOULDER_BREAKPOINT = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and 15 or 25
+local INTRO_BREAKPOINT = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and 5 or 15
+
 local POOR, COMMON, UNCOMMON, RARE, EPIC = 0,1,2,3,4
 local ACTUAL_SLOTS = {
 	INVTYPE_ROBE = 'INVTYPE_CHEST',
@@ -140,7 +143,7 @@ function Scrap:IsFiltered(id, ...)
 	elseif class == ARMOR or class == WEAPON then
 		if value and self:IsCombatItem(class, subclass, slot) then
 			if self:IsGray(quality) then
-				return WOW_PROJECT_ID == WOW_PROJECT_MAINLINE or (slot ~= 'INVTYPE_SHOULDER' and level > 15) or level > 25
+				return (slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT
 			elseif self:IsStandardQuality(quality) then
 				self:LoadTip(link, location:GetBagAndSlot())
 
