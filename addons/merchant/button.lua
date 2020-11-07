@@ -68,10 +68,19 @@ function Button:OnMerchant()
 		Scrap.Tutorials:Start()
 	end
 
-	self:RegisterEvent('BAG_UPDATE_DELAYED', 'UpdateState')
+	self:RegisterEvent('BAG_UPDATE_DELAYED', 'OnBagUpdate')
 	self:RegisterSignal('LIST_CHANGED', 'UpdateState')
 	self:UpdatePosition()
 	self:UpdateState()
+end
+
+function Button:OnBagUpdate()
+	if self.keepSelling then
+		self.keepSelling = nil
+		self:Sell()
+	else
+		self:UpdateState()
+	end
 end
 
 function Button:OnClose()
@@ -186,23 +195,31 @@ function Button:Sell()
 	local count = 0
 
 	for bag, slot, id in Scrap:IterateJunk() do
-		if not Scrap.sets.safe or count < 12 then
-			count = count + 1
-		else
-			break
-		end
+		local _, _, locked = GetContainerItemInfo(bag, slot)
+		if not locked then
+			local value = select(11, GetItemInfo(id)) or 0
+			if value > 0 then
+				UseContainerItem(bag, slot)
+			elseif Scrap.sets.destroy then
+				PickupContainerItem(bag, slot)
+				DeleteCursorItem()
+			end
 
-		local value = select(11, GetItemInfo(id)) or 0
-		if value > 0 then
-			UseContainerItem(bag, slot)
-		elseif Scrap.sets.destroy then
-			PickupContainerItem(bag, slot)
-			DeleteCursorItem()
+			if count < 11 then
+				count = count + 1
+			else
+				break
+			end
 		end
 	end
 
 	if count > 0 then
-		Scrap:PrintMoney(L.SoldJunk, total - self:GetReport())
+		local remaining = self:GetReport()
+		if remaining == 0 or Scrap.sets.safe then
+			Scrap:PrintMoney(L.SoldJunk, total - remaining)
+		else
+			self.keepSelling = true
+		end
 	end
 end
 
@@ -212,11 +229,9 @@ function Button:GetReport()
 
 	for bag, slot, id in Scrap:IterateJunk() do
 		local _, count, locked, quality = GetContainerItemInfo(bag, slot)
-		local value = select(11, GetItemInfo(id)) or 0
-
 		if not locked then
 			qualities[quality] = (qualities[quality] or 0) + count
-			total = total + value * count
+			total = total + count * (select(11, GetItemInfo(id)) or 0)
 		end
 	end
 

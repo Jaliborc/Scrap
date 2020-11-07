@@ -1,3 +1,6 @@
+##### 9.0.3
+* Fixed "unsafe auto sell" mode.
+
 ##### 9.0.2
 * Largely improved low level equipment detection in Shadowlands.
 * Fixed issue with marking junk in default bags.

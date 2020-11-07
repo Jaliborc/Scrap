@@ -135,7 +135,7 @@ end
 function Scrap:IsFiltered(id, ...)
 	local location = self:GuessLocation(id, ...)
 	local _, link, quality, level,_,_,_,_, slot, _, value, class, subclass = GetItemInfo(id)
-	local level = link and location and C_Item.GetCurrentItemLevel(location) or level or 0
+	local level = location and C_Item.GetCurrentItemLevel(location) or level or 0
 
 	if not value or value == 0 then
 		return
@@ -210,16 +210,26 @@ end
 
 --[[ Data Retrieval ]]--
 
-function Scrap:GuessLocation(id, bag, slot)
+function Scrap:GuessLocation(...)
+	local bag, slot = self:GuessBagSlot(...)
+	if bag and slot then
+		local location = ItemLocation:CreateFromBagAndSlot(bag, slot)
+		if C_Item.DoesItemExist(location) then
+			return location
+		end
+	end
+end
+
+function Scrap:GuessBagSlot(id, bag, slot)
 	if bag and slot then
 		if bag >= BACKPACK_CONTAINER and bag < NUM_BAG_FRAMES then
-			return ItemLocation:CreateFromBagAndSlot(bag, slot)
+			return bag, slot
 		end
 	elseif GetItemCount(id) > 0 then
 		for bag = BACKPACK_CONTAINER, NUM_BAG_FRAMES do
 		  	 for slot = 1, GetContainerNumSlots(bag) do
 		  	 	if id == GetContainerItemID(bag, slot) then
-		  	 		return ItemLocation:CreateFromBagAndSlot(bag, slot)
+		  	 		return bag, slot
 		  	 	end
 			end
 		end
