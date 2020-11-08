@@ -21,3 +21,7 @@
 [submodule "WildAddon-1.0"]
 	path = libs/WildAddon-1.0
 	url = https://github.com/Jaliborc/WildAddon-1.0.git
+
+	[submodule "MutexDelay-1.0"]
+		path = libs/MutexDelay-1.0
+		url = https://github.com/Jaliborc/MutexDelay-1.0.git

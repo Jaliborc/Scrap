@@ -15,7 +15,7 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-local Button = Scrap:NewModule('Merchant', CreateFrame('Button', nil, MerchantBuyBackItem))
+local Button = Scrap:NewModule('Merchant', CreateFrame('Button', nil, MerchantBuyBackItem), 'MutexDelay-1.0')
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
 
@@ -75,9 +75,8 @@ function Button:OnMerchant()
 end
 
 function Button:OnBagUpdate()
-	if self.keepSelling then
-		self.keepSelling = nil
-		self:Sell()
+	if self.saleTotal then
+		self:Delay(0.3, 'Sell')
 	else
 		self:UpdateState()
 	end
@@ -191,9 +190,9 @@ end
 --[[ Actions ]]--
 
 function Button:Sell()
-	local total = self:GetReport()
-	local count = 0
+	self.saleTotal = self.saleTotal or self:GetReport()
 
+	local count = 0
 	for bag, slot, id in Scrap:IterateJunk() do
 		local _, _, locked = GetContainerItemInfo(bag, slot)
 		if not locked then
@@ -213,13 +212,13 @@ function Button:Sell()
 		end
 	end
 
-	if count > 0 then
-		local remaining = self:GetReport()
-		if remaining == 0 or Scrap.sets.safe then
-			Scrap:PrintMoney(L.SoldJunk, total - remaining)
-		else
-			self.keepSelling = true
+	local remaining = self:GetReport()
+	if remaining == 0 or Scrap.sets.safe then
+		if count > 0 then
+			Scrap:PrintMoney(L.SoldJunk, self.saleTotal - remaining)
 		end
+
+		self.saleTotal = nil
 	end
 end
 
