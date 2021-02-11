@@ -184,6 +184,8 @@ end
 function Button:Sell()
 	local total = self:GetReport()
 	local count = 0
+	
+	print("Selling your scraps. This might take a few seconds.")
 
 	for bag, slot, id in Scrap:IterateJunk() do
 		if not Scrap.sets.safe or count < 200 then
@@ -191,8 +193,6 @@ function Button:Sell()
 		else
 			break
 		end
-		
-		print("Selling your scraps. This might take a few seconds.")
 
 		local value = select(11, GetItemInfo(id)) or 0
 		if value > 0 then
