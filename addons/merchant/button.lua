@@ -15,7 +15,7 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-local Button = Scrap:NewModule('Merchant', CreateFrame('Button', nil, MerchantBuyBackItem), 'MutexDelay-1.0')
+local Button = Scrap:NewModule('Merchant', CreateFrame('Button', nil, MerchantBuyBackItem))
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
 
@@ -68,18 +68,10 @@ function Button:OnMerchant()
 		Scrap.Tutorials:Start()
 	end
 
-	self:RegisterEvent('BAG_UPDATE_DELAYED', 'OnBagUpdate')
+	self:RegisterEvent('BAG_UPDATE_DELAYED', 'UpdateState')
 	self:RegisterSignal('LIST_CHANGED', 'UpdateState')
 	self:UpdatePosition()
 	self:UpdateState()
-end
-
-function Button:OnBagUpdate()
-	if self.saleTotal then
-		self:Delay(0.3, 'Sell')
-	else
-		self:UpdateState()
-	end
 end
 
 function Button:OnClose()
@@ -190,36 +182,38 @@ end
 --[[ Actions ]]--
 
 function Button:Sell()
-	self.saleTotal = self.saleTotal or self:GetReport()
-
+	local total = self:GetReport()
 	local count = 0
+
 	for bag, slot, id in Scrap:IterateJunk() do
-		local _, _, locked = GetContainerItemInfo(bag, slot)
-		if not locked then
-			local value = select(11, GetItemInfo(id)) or 0
-			if value > 0 then
-				UseContainerItem(bag, slot)
-			elseif Scrap.sets.destroy then
-				PickupContainerItem(bag, slot)
-				DeleteCursorItem()
-			end
-
-			if count < 11 then
-				count = count + 1
-			else
-				break
-			end
+		if not Scrap.sets.safe or count < 200 then
+			count = count + 1
+		else
+			break
 		end
+		
+		print("Selling your scraps. This might take a few seconds.")
+
+		local value = select(11, GetItemInfo(id)) or 0
+		if value > 0 then
+			--	Selling after modulo 12 delay based on count (number of calls/sec divided by 12 ?
+			C_Timer.After(count%14, function() UseContainerItem(bag, slot) end)
+			
+			--	Selling after a random delay
+			--C_Timer.After(math.random() * 6, function() UseContainerItem(bag, slot) end)
+			
+			--	Selling as fast as possible
+			--UseContainerItem(bag, slot)
+		elseif Scrap.sets.destroy then
+			PickupContainerItem(bag, slot)
+			DeleteCursorItem()
+		end
+		
 	end
 
-	local remaining = self:GetReport()
-	if remaining == 0 or Scrap.sets.safe then
-		if count > 0 then
-			Scrap:PrintMoney(L.SoldJunk, self.saleTotal - remaining)
-		end
-
-		self.saleTotal = nil
-	end
+	--if count > 0 then
+		--Scrap:PrintMoney(L.SoldJunk, total - self:GetReport())
+	--end
 end
 
 function Button:GetReport()
@@ -228,9 +222,11 @@ function Button:GetReport()
 
 	for bag, slot, id in Scrap:IterateJunk() do
 		local _, count, locked, quality = GetContainerItemInfo(bag, slot)
+		local value = select(11, GetItemInfo(id)) or 0
+
 		if not locked then
 			qualities[quality] = (qualities[quality] or 0) + count
-			total = total + count * (select(11, GetItemInfo(id)) or 0)
+			total = total + value * count
 		end
 	end
 
