@@ -1,5 +1,5 @@
-## Interface: 11305
-## Title: |cffFFDE73Scrap|r
+## Interface: 90002
+## Title: Scrap
 ## Notes: Sells all your junk at the merchant.
 
 ## Author: Jaliborc (João Cardoso)
