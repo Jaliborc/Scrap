@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2020 João Cardoso
+Copyright 2008-2021 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -19,8 +19,8 @@ local Sushi = LibStub('Sushi-3.1')
 local Options = Scrap:NewModule('Options', Sushi.OptionsGroup('Scrap |TInterface/Addons/Scrap/art/enabled-icon:13:13:0:0|t'))
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
-local PATRONS = {{title='Jenkins',people={'Gnare ','ProfessahX ','Justin Rusbatch'}},{},{title='Ambassador',people={'Fernando Bandeira','Michael Irving','Julia F','Peggy Webb','Lolari ','Craig Falb','Mónica Sanchez Calzado','Dr Jebus','Denny Hyde','Mary Daniels'}}} -- generated patron list
-local FOOTER = 'Copyright 2008-2020 João Cardoso'
+local PATRONS = {{title='Jenkins',people={'Gnare ','Justin Rusbatch','Redd Mikkelsen','DREWSKY '}},{},{title='Ambassador',people={'Fernando Bandeira','Michael Irving','Julia F','Lolari ','Craig Falb','Mónica Sanchez Calzado','Denny Hyde','Amanda Chesher','Lynx','Owen Pitcairn','Robert Cohen ','Louise McWilliams'}}} -- generated patron list
+local FOOTER = 'Copyright 2008-2021 João Cardoso'
 
 
 --[[ Startup ]]--

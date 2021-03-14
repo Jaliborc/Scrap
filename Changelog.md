@@ -1,3 +1,9 @@
+##### 9.0.5
+* Updated for WoW patches 9.0.5 and 1.13.6.
+
+##### 9.0.4
+* Updated for WoW patch 9.0.3.
+
 ##### 9.0.3
 * Fixed "unsafe auto sell" mode.
 
