@@ -1,3 +1,6 @@
+##### 9.0.6
+* Updated for the Burning Crusade
+
 ##### 9.0.5
 * Updated for WoW patches 9.0.5 and 1.13.6.
 
