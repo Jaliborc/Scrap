@@ -1,3 +1,6 @@
+#### 9.1.1
+* Updated for Shadowlands 9.1.5
+
 #### 9.1.0
 * Updated for Chains of Domination
 
