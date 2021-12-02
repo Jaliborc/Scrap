@@ -1,4 +1,4 @@
---[[
+--[[Enum.ItemClass.Armor
 Copyright 2008-2021 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
@@ -20,8 +20,8 @@ local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 local Unfit = LibStub('Unfit-1.0')
 
 local CLASS_NAME = LOCALIZED_CLASS_NAMES_MALE[select(2, UnitClass('player'))]
-local WEAPON, ARMOR, CONSUMABLES = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, LE_ITEM_CLASS_CONSUMABLE
-local FISHING_POLE = LE_ITEM_WEAPON_FISHINGPOLE
+local WEAPON, ARMOR, CONSUMABLES = Enum.ItemClass.Weapon, Enum.ItemClass.Armor, Enum.ItemClass.Consumable
+local FISHING_POLE = Enum.ItemWeaponSubclass.Fishingpole
 
 local CAN_TRADE = BIND_TRADE_TIME_REMAINING:format('.*')
 local CAN_REFUND = REFUND_TIME_REMAINING:format('.*')
