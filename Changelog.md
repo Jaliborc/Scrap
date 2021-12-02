@@ -1,3 +1,6 @@
+#### 9.1.0
+* Updated for Chains of Domination
+
 ##### 9.0.6
 * Updated for the Burning Crusade
 
