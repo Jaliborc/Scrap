@@ -1,7 +1,11 @@
-#### 9.1.2
+#### 9.2.0
+* Classic: Updated for Wrath of the Lich King.
+* All: Fixed issue with closing vendor window.
+
+##### 9.1.2
 * Updated libraries to Shadowlands 9.1.5 which were mistakenly not updated last version.
 
-#### 9.1.1
+##### 9.1.1
 * Updated for Shadowlands 9.1.5
 
 #### 9.1.0
