@@ -207,7 +207,7 @@ end
 function Scrap:IsBetterEquip(slot, level, empty)
 	local item = ItemLocation:CreateFromEquipmentSlot(_G[slot])
 	if C_Item.DoesItemExist(item) then
-		return (C_Item.GetCurrentItemLevel(item) or 0) >= (level + (level * 0.30))
+		return (C_Item.GetCurrentItemLevel(item) or 0) >= (level * 1.30)
 	elseif empty then
 		return true
 	end
