@@ -15,7 +15,7 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-local Learn = Scrap:NewModule('Learning') -- a really really dumb ml algortihm
+local Learn = Scrap:NewModule('Learning') -- dumb ml algortihm using exponential mean average
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
 
@@ -39,48 +39,33 @@ end
 
 function Learn:OnItemSold(...)
 	local id = GetContainerItemID(...)
-	if not id or Scrap.junk[id] ~= nil or Scrap:IsFiltered(id, ...) then
-		return
-	end
+	if id and Scrap.junk[id] == nil and not Scrap:IsFiltered(id, ...) then
+  	local rate = self:GetDecay(id, select(2, GetContainerItemInfo(...)))
+    local old = Scrap.charsets.auto[id] or 0
+    local new = old + (1 - old) * rate
 
-	local stack = select(2, GetContainerItemInfo(...))
-	if GetItemCount(id, true) == stack then
-		local link = GetContainerItemLink(...)
-		local maxStack = select(8, GetItemInfo(id))
-		local stack = self:GetBuypackStack(link) + stack
-
-		local old = Scrap.charsets.ml[id] or 0
-		local new = old + stack / maxStack
-		Scrap.charsets.ml[id] = new
-
-    if old < 2 and new >= 2 then
-      Scrap:Print(L.Added, link, 'LOOT')
+  	Scrap.charsets.auto[id] = new
+    if old <= .5 and new > .5 then
+      Scrap:Print(L.Added, GetContainerItemLink(...), 'LOOT')
       Scrap:SendSignal('LIST_CHANGED', id)
     end
-	end
+  end
 end
 
 function Learn:OnItemRefund(index)
 	local link = GetBuybackItemLink(index)
-	local id = ink and tonumber(link:match('item:(%d+)'))
-	local old = Scrap.charsets.ml[id]
-
+	local id = link and tonumber(link:match('item:(%d+)'))
+  local old = Scrap.charsets.auto[id]
 	if old then
-		local maxStack = select(8, GetItemInfo(id))
-		local stack = self:GetBuypackStack(link)
+    local rate = self:GetDecay(id, select(4, GetBuybackItemInfo(index)))
+    local new = (1 - rate * 2) * old
 
-		local new = old - stack / maxStack
-		if new <= 0 then
-			Scrap.charsets.ml[id] = nil
-		else
-			Scrap.charsets.ml[id] = new
-		end
-
-    if old >= 2 and new < 2 then
+  	Scrap.charsets.auto[id] = new > 0.1 and new or nil
+    if old > .5 and new <= .5 then
       Scrap:Print(L.Removed, link, 'LOOT')
       Scrap:SendSignal('LIST_CHANGED', id)
     end
-	end
+  end
 end
 
 
@@ -90,12 +75,7 @@ function Learn:IsActive()
   return Scrap.sets.learn and MerchantFrame:IsVisible()
 end
 
-function Learn:GetBuypackStack(link)
-	local stack = 0
-	for i = 1, GetNumBuybackItems() do
-		if GetBuybackItemLink(i) == link then
-			stack = stack + select(4, GetBuybackItemInfo(i))
-		end
-	end
-	return stack
+function Learn:GetDecay(id, stack)
+  local maxStack = select(8, GetItemInfo(id))
+  return 0.382 * stack / maxStack
 end

@@ -64,10 +64,16 @@ end
 
 function Scrap:OnSettings()
 	Scrap_Sets = Scrap_Sets or {list = {}, sell = true, repair = true, safe = true, destroy = true, glow = true, icons = true}
-	Scrap_CharSets = Scrap_CharSets or {list = {}, ml = {}}
+	Scrap_CharSets = Scrap_CharSets or {list = {}, auto = {}}
 
 	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
 	self.junk = setmetatable(self.charsets.share and self.sets.list or self.charsets.list, self.baseList)
+
+	-- remove deprecated data. keep until next major game update
+	self.charsets.ml = nil
+	self.charsets.auto = self.charsets.auto or {}
+	--
+
 	self:SendSignal('LIST_CHANGED')
 end
 
@@ -76,7 +82,7 @@ end
 
 function Scrap:IsJunk(id, ...)
 	if id and self.junk and self.junk[id] ~= false then
-		return self.junk[id] or (self.sets.learn and self.charsets.ml[id] and self.charsets.ml[id] >= 1) or self:IsFiltered(id, ...)
+		return self.junk[id] or (self.sets.learn and (self.charsets.auto[id] or 0) > .5) or self:IsFiltered(id, ...)
 	end
 end
 
