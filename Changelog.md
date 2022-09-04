@@ -1,3 +1,7 @@
+##### 9.2.1
+* Improved ilevel threshold for low level equipment/consumables.
+* Fixed bug and improved logic of the Usage Learning feature.
+
 #### 9.2.0
 * Classic: Updated for Wrath of the Lich King.
 * All: Fixed issue with closing vendor window.
