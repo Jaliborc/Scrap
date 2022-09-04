@@ -172,7 +172,7 @@ function Scrap:IsGray(quality)
 end
 
 function Scrap:IsLowLevel(level)
-	return level ~= 0 and level < (UnitLevel('player') - 10)
+	return level > 1 and (level * 1.3) < UnitLevel('player')
 end
 
 function Scrap:IsStandardQuality(quality)
@@ -207,7 +207,7 @@ end
 function Scrap:IsBetterEquip(slot, level, empty)
 	local item = ItemLocation:CreateFromEquipmentSlot(_G[slot])
 	if C_Item.DoesItemExist(item) then
-		return (C_Item.GetCurrentItemLevel(item) or 0) >= (level * 1.30)
+		return (C_Item.GetCurrentItemLevel(item) or 0) >= (level * 1.3)
 	elseif empty then
 		return true
 	end
