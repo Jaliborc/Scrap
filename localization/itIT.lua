@@ -1,4 +1,4 @@
-local L = LibStub('AceLocale-3.0'):NewLocale('Scrap', 'enUS', true, true)
+local L = LibStub('AceLocale-3.0'):NewLocale('Scrap', 'itIT', true, true)
 
 -- main
 L.Add = 'Imposta come Cinfrusaglia'
@@ -33,7 +33,7 @@ L.GuildRepairTip = 'Se abilitato, Scrap userà per riparare i fondi di gilda dis
 L.Glow = 'Bordi Luccicanti'
 L.GlowTip = 'Se abilitato, appariranno bordi |cffBBBBBBgrigi|r sugli oggetti che Scrap considera cianfrusaglie.'
 L.Icons = 'Icona Moneta'
-L.IconsTip = 'Se abilitato, appariranno piccole monete d'oro sugli oggetti che Scrap considera cianfrusaglie.'
+L.IconsTip = 'Se abilitato, appariranno piccole monete dorate sugli oggetti che Scrap considera cianfrusaglie.'
 L.Learning = 'Auto Apprendimento'
 L.LearningTip = 'Se abilitato, Scrap autoapprenderà quali oggetti vendi generalmente ad un mercante e li considererà |cffff2020automaticamente|r come cianfrusaglie.'
 L.LowConsume = 'Consimabili Minori'
