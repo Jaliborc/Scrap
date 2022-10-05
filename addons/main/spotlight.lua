@@ -25,40 +25,55 @@ function Spotlight:OnEnable()
 	self.Glows, self.Icons = {}, {}
 	self:RegisterSignal('LIST_CHANGED', 'UpdateAll')
 
-	hooksecurefunc('ContainerFrame_Update', function(frame)
+	if ContainerFrame_Update then
+		hooksecurefunc('ContainerFrame_Update', function(frame) self:UpdateContainer(frame) end)
+	else
+		self:IterateFrames('ContainerFrame', function(frame)
+			hooksecurefunc(frame, 'Update', function(frame) self:UpdateContainer(frame) end)
+		end)
+
+		hooksecurefunc(ContainerFrameCombinedBags, 'Update', function() self:UpdateAll() end)
+	end
+end
+
+function Spotlight:UpdateAll()
+	self:IterateFrames('ContainerFrame', function(frame)
 		self:UpdateContainer(frame)
 	end)
 end
 
-function Spotlight:UpdateAll()
-	local i = 1
-	local frame = _G['ContainerFrame' .. i]
+function Spotlight:UpdateContainer(frame)
+	self:IterateFrames(frame:GetName() .. 'Item', function(button)
+		self:UpdateButton(button)
+	end)
+end
 
-	while frame do
-		if frame:IsShown() then
-			self:UpdateContainer(frame)
+function Spotlight:UpdateButton(button)
+	if button:IsShown() then
+		local bag, slot = button.bagID or frame:GetID(), button:GetID()
+		local id = GetContainerItemID(bag, slot)
+		local isJunk = id and Scrap:IsJunk(id, bag, slot)
+
+		local icon = (button.JunkIcon or self.Icons[button] or self:NewIcon(button))
+		local glow = (self.Glows[button] or self:NewGlow(button))
+
+		icon:SetShown(isJunk and Scrap.sets.icons)
+		glow:SetShown(isJunk and Scrap.sets.glow)
+
+		if button.IconBorder then
+			button.IconBorder:SetShown(id and not glow:IsShown())
 		end
-
-		i = i + 1
-		frame = _G['ContainerFrame' .. i]
 	end
 end
 
-function Spotlight:UpdateContainer(frame)
-	local bag = frame:GetID()
-  local name = frame:GetName()
-  local size = frame.size
+function Spotlight:IterateFrames(namePrefix, call)
+	local i = 1
+	local frame = _G[namePrefix .. i]
+	while frame do
+		call(frame)
 
-	for slot = 1, size do
-    local button = _G[name .. 'Item' .. (size - slot + 1)]
-		local id = GetContainerItemID(bag, slot)
-
-		local isJunk = id and Scrap:IsJunk(id, bag, slot)
-		local glow = self.Glows[button] or self:NewGlow(button)
-		local icon = self.Icons[button] or self:NewIcon(button)
-
-		glow:SetShown(isJunk and Scrap.sets.glow)
-		icon:SetShown(isJunk and Scrap.sets.icons)
+		i = i + 1
+		frame = _G[namePrefix .. i]
 	end
 end
 
