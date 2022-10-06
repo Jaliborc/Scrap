@@ -22,31 +22,35 @@ local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 --[[ Events ]]--
 
 function Visualizer:OnEnable()
-	local portraitBack = self:CreateTexture(nil, 'BORDER')
-	portraitBack:SetPoint('TOPRIGHT', self.portrait, -5, -5)
-	portraitBack:SetPoint('BOTTOMLEFT', self.portrait, 6, 5)
-	portraitBack:SetColorTexture(0, 0, 0)
+	local title = self.TitleText or self.TitleContainer.TitleText
+	title:SetText('Scrap')
+
+	local portrait = self.portrait or self.PortraitContainer.portrait
+	portrait:SetTexture('Interface/Addons/Scrap/art/enabled-icon')
+
+	local backdrop = self:CreateTexture(nil, 'BORDER')
+	backdrop:SetPoint('TOPRIGHT', portrait, -5, -5)
+	backdrop:SetPoint('BOTTOMLEFT', portrait, 6, 5)
+	backdrop:SetColorTexture(0, 0, 0)
 
 	local tab = LibStub('SecureTabs-2.0'):Add(MerchantFrame)
 	tab:SetText('Scrap')
 	tab.frame = self
 
 	self.tab, self.list, self.item = tab, {}, {}
-	self.portrait:SetTexture('Interface/Addons/Scrap/art/enabled-icon')
-	self.TitleText:SetText('Scrap')
 	self.Tab2:SetText(L.NotJunk)
 	self.Tab1:SetText(L.Junk)
 	self.Spinner.Anim:Play()
 
-	PanelTemplates_TabResize(self.Tab1, 0)
-	PanelTemplates_TabResize(self.Tab2, 0)
-	PanelTemplates_SetNumTabs(self, 2)
+	--PanelTemplates_TabResize(self.Tab1, 0)
+	--PanelTemplates_TabResize(self.Tab2, 0)
+	--PanelTemplates_SetNumTabs(self, 2)
 
 	self:SetScript('OnUpdate', self.QueryItems)
 	self:SetScript('OnShow', self.OnShow)
 	self:SetScript('OnHide', self.OnHide)
 	self:UpdateButton()
-	self:SetTab(1)
+	--self:SetTab(1)
 end
 
 function Visualizer:OnShow()

@@ -1,6 +1,53 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-	<Button name="ScrapVisualizerTabTemplate" inherits="TabButtonTemplate" virtual="true">
+	<Button name="ScrapVisualizerTabTemplate" virtual="true">
+		<Size x="115" y="32"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="LeftDisabled" file="Interface\HelpFrame\HelpFrameTab-Active">
+					<Size x="16" y="32"/>
+					<TexCoords left="0" right="0.25" top="0" bottom="1.0"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="0" y="-3"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="MiddleDisabled" file="Interface\HelpFrame\HelpFrameTab-Active">
+					<Size x="32" y="32"/>
+					<TexCoords left="0.25" right="0.75" top="0" bottom="1.0"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.LeftDisabled" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="RightDisabled" file="Interface\HelpFrame\HelpFrameTab-Active">
+					<Size x="16" y="32"/>
+					<TexCoords left="0.75" right="1.0" top="0" bottom="1.0"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.MiddleDisabled" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="Left" file="Interface\HelpFrame\HelpFrameTab-Inactive">
+					<Size x="16" y="32"/>
+					<TexCoords left="0" right="0.25" top="0" bottom="1.0"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="Middle" file="Interface\HelpFrame\HelpFrameTab-Inactive">
+					<Size x="32" y="32"/>
+					<TexCoords left="0.25" right="0.75" top="0" bottom="1.0"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Left" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentRight" parentKey="Right" file="Interface\HelpFrame\HelpFrameTab-Inactive">
+					<Size x="16" y="32"/>
+					<TexCoords left="0.75" right="1.0" top="0" bottom="1.0"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Middle" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
 		<Scripts>
 			<OnClick>
 				self:GetParent():SetTab(self:GetID())
