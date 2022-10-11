@@ -44,11 +44,11 @@ end
 
 function Spotlight:UpdateContainer(frame)
 	self:IterateFrames(frame:GetName() .. 'Item', function(button)
-		self:UpdateButton(button)
+		self:UpdateButton(frame, button)
 	end)
 end
 
-function Spotlight:UpdateButton(button)
+function Spotlight:UpdateButton(frame, button)
 	if button:IsShown() then
 		local bag, slot = button.bagID or frame:GetID(), button:GetID()
 		local id = GetContainerItemID(bag, slot)
