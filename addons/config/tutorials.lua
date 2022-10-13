@@ -66,7 +66,7 @@ function Tutorials:Load()
 			image = 'Interface\\Addons\\Scrap\\art\\tutorial-visualizer',
 			shineRight = -2, shineLeft = 2, shineTop = 6,
 			point = 'TOPLEFT', relPoint = 'TOPRIGHT',
-			shine = Scrap.Visualizer.tab,
+			shine = Scrap.Visualizer.ParentTab,
 			anchor = MerchantFrame,
 			y = -16,
 		},

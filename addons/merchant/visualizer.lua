@@ -26,31 +26,33 @@ function Visualizer:OnEnable()
 	title:SetText('Scrap')
 
 	local portrait = self.portrait or self.PortraitContainer.portrait
-	portrait:SetTexture('Interface/Addons/Scrap/art/enabled-icon')
+	portrait:SetTexture('Interface/Addons/Scrap/Art/Enabled-Icon')
 
-	local backdrop = self:CreateTexture(nil, 'BORDER')
-	backdrop:SetPoint('TOPRIGHT', portrait, -5, -5)
-	backdrop:SetPoint('BOTTOMLEFT', portrait, 6, 5)
+	local backdrop = portrait:GetParent():CreateTexture(nil, 'BORDER')
 	backdrop:SetColorTexture(0, 0, 0)
+	backdrop:SetAllPoints(portrait)
+
+	local mask = portrait:GetParent():CreateMaskTexture()
+	mask:SetTexture('Interface/CHARACTERFRAME/TempPortraitAlphaMask')
+	mask:SetAllPoints(backdrop)
+	backdrop:AddMaskTexture(mask)
+	portrait:AddMaskTexture(mask)
 
 	local tab = LibStub('SecureTabs-2.0'):Add(MerchantFrame)
 	tab:SetText('Scrap')
 	tab.frame = self
 
-	self.tab, self.list, self.item = tab, {}, {}
-	self.Tab2:SetText(L.NotJunk)
-	self.Tab1:SetText(L.Junk)
+	self.numTabs, self.list, self.item = 2, {}, {}
+	self.Tab1:SetText('|TInterface/Addons/Scrap/Art/Thumbsup:14:14:-2:2:16:16:0:16:0:16:73:255:73|t ' .. L.NotJunk)
+	self.Tab2:SetText('|TInterface/Addons/Scrap/Art/Thumbsdown:14:14:-2:-2:16:16:0:16:0:16:255:73:73|t ' .. L.Junk)
 	self.Spinner.Anim:Play()
-
-	--PanelTemplates_TabResize(self.Tab1, 0)
-	--PanelTemplates_TabResize(self.Tab2, 0)
-	--PanelTemplates_SetNumTabs(self, 2)
+	self.ParentTab = tab
 
 	self:SetScript('OnUpdate', self.QueryItems)
 	self:SetScript('OnShow', self.OnShow)
 	self:SetScript('OnHide', self.OnHide)
 	self:UpdateButton()
-	--self:SetTab(1)
+	self:SetTab(1)
 end
 
 function Visualizer:OnShow()
@@ -113,7 +115,7 @@ function Visualizer:UpdateList()
 	if not self.QueryItems and self:IsShown() then
 		self.list = {}
 
-		local mode = self.selectedTab == 1
+		local mode = self.selectedTab == 2
 		for id, classification in pairs(Scrap.junk) do
 			if classification == mode then
 				tinsert(self.list, id)
@@ -145,7 +147,7 @@ end
 function Visualizer.Scroll:update()
 	local self = Visualizer
 	local offset = HybridScrollFrame_GetOffset(self.Scroll)
-	local width = #self.list > 18 and 296 or 318
+	local width = #self.list > 17 and 296 or 318
 	local focus = GetMouseFocus()
 
 	for i, button in ipairs(self.Scroll.buttons) do
@@ -154,12 +156,11 @@ function Visualizer.Scroll:update()
 
 		if id then
 			local name, link, quality = GetItemInfo(id)
-			button.text:SetTextColor(GetItemQualityColor(quality))
-			button.icon:SetTexture(GetItemIcon(id))
-			button.text:SetText(name)
+			button.item, button.link = id, link
+			button.Text:SetTextColor(ITEM_QUALITY_COLORS[quality].color:GetRGB())
+			button.Icon:SetTexture(GetItemIcon(id))
+			button.Text:SetText(name)
 			button:SetWidth(width)
-			button.item = id
-			button.link = link
 			button:Show()
 
 			if id == self.item.id then
@@ -173,9 +174,9 @@ function Visualizer.Scroll:update()
 			end
 
 			if mod(index, 2) == 0 then
-				button.stripe:Show()
+				button.Stripe:Show()
 			else
-				button.stripe:Hide()
+				button.Stripe:Hide()
 			end
 		else
 			button:Hide()
@@ -188,6 +189,6 @@ end
 
 function Visualizer:UpdateButton()
 	self.Button:SetEnabled(self.selectedTab == self.item.type)
-	self.Button:SetText(self.selectedTab == 1 and L.Remove or L.Add)
+	self.Button:SetText(self.selectedTab == 1 and L.Add or L.Remove)
 	self.Button:SetWidth(self.Button:GetTextWidth() + 20)
 end

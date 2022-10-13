@@ -1,8 +1,14 @@
+#### 10 (beta)
+* Updated for the Dragonflight PTR.
+* Improved display of junk items in inventory and bank.
+* Updated design of Scrap's merchant tab.
+* Optimized download size using texture RLE compression.
+
 ##### 9.2.1
 * Improved ilevel threshold for low level equipment/consumables.
 * Fixed bug and improved logic of the Usage Learning feature.
 
-#### 9.2.0
+#### 9.2
 * Classic: Updated for Wrath of the Lich King.
 * All: Fixed issue with closing vendor window.
 
@@ -12,7 +18,7 @@
 ##### 9.1.1
 * Updated for Shadowlands 9.1.5
 
-#### 9.1.0
+#### 9.1
 * Updated for Chains of Domination
 
 ##### 9.0.6
@@ -36,7 +42,7 @@
 * Fixed issue with auto learning.
 * Updated chinese locales.
 
-#### 9.0.0
+#### 9
 * Updated for Shadowlands
 * Fixed minor issue that could occur in plugins that load merchant API outside of merchant.
 

@@ -4,50 +4,67 @@
 		<Size x="115" y="32"/>
 		<Layers>
 			<Layer level="BACKGROUND">
-				<Texture parentKey="LeftDisabled" file="Interface\HelpFrame\HelpFrameTab-Active">
-					<Size x="16" y="32"/>
+				<Texture parentKey="LeftActive" name="$parentLeftDisabled" file="Interface\HelpFrame\HelpFrameTab-Active">
+					<Size x="16" y="34"/>
 					<TexCoords left="0" right="0.25" top="0" bottom="1.0"/>
 					<Anchors>
 						<Anchor point="BOTTOMLEFT" x="0" y="-3"/>
 					</Anchors>
 				</Texture>
-				<Texture parentKey="MiddleDisabled" file="Interface\HelpFrame\HelpFrameTab-Active">
-					<Size x="32" y="32"/>
-					<TexCoords left="0.25" right="0.75" top="0" bottom="1.0"/>
-					<Anchors>
-						<Anchor point="LEFT" relativeKey="$parent.LeftDisabled" relativePoint="RIGHT"/>
-					</Anchors>
-				</Texture>
-				<Texture parentKey="RightDisabled" file="Interface\HelpFrame\HelpFrameTab-Active">
-					<Size x="16" y="32"/>
+				<Texture parentKey="RightActive" name="$parentRightDisabled" file="Interface\HelpFrame\HelpFrameTab-Active">
+					<Size x="16" y="34"/>
 					<TexCoords left="0.75" right="1.0" top="0" bottom="1.0"/>
 					<Anchors>
-						<Anchor point="LEFT" relativeKey="$parent.MiddleDisabled" relativePoint="RIGHT"/>
+						<Anchor point="BOTTOMRIGHT" x="0" y="-3"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="MiddleActive" name="$parentMiddleDisabled" file="Interface\HelpFrame\HelpFrameTab-Active">
+					<Size x="32" y="34"/>
+					<TexCoords left="0.25" right="0.75" top="0" bottom="1.0"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.LeftActive" relativePoint="RIGHT"/>
+						<Anchor point="RIGHT" relativeKey="$parent.RightActive" relativePoint="LEFT"/>
 					</Anchors>
 				</Texture>
 				<Texture parentKey="Left" file="Interface\HelpFrame\HelpFrameTab-Inactive">
-					<Size x="16" y="32"/>
+					<Size x="16" y="34"/>
 					<TexCoords left="0" right="0.25" top="0" bottom="1.0"/>
 					<Anchors>
 						<Anchor point="BOTTOMLEFT"/>
 					</Anchors>
 				</Texture>
+				<Texture parentKey="Right" file="Interface\HelpFrame\HelpFrameTab-Inactive">
+					<Size x="16" y="34"/>
+					<TexCoords left="0.75" right="1.0" top="0" bottom="1.0"/>
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+				</Texture>
 				<Texture parentKey="Middle" file="Interface\HelpFrame\HelpFrameTab-Inactive">
-					<Size x="32" y="32"/>
+					<Size x="32" y="34"/>
 					<TexCoords left="0.25" right="0.75" top="0" bottom="1.0"/>
 					<Anchors>
 						<Anchor point="LEFT" relativeKey="$parent.Left" relativePoint="RIGHT"/>
-					</Anchors>
-				</Texture>
-				<Texture name="$parentRight" parentKey="Right" file="Interface\HelpFrame\HelpFrameTab-Inactive">
-					<Size x="16" y="32"/>
-					<TexCoords left="0.75" right="1.0" top="0" bottom="1.0"/>
-					<Anchors>
-						<Anchor point="LEFT" relativeKey="$parent.Middle" relativePoint="RIGHT"/>
+						<Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="LEFT"/>
 					</Anchors>
 				</Texture>
 			</Layer>
 		</Layers>
+		<ButtonText parentKey="Text">
+			<Size x="0" y="13"/>
+			<Anchors>
+				<Anchor point="BOTTOM" x="-4" y="4"/>
+			</Anchors>
+		</ButtonText>
+		<NormalFont style="GameFontNormalSmall"/>
+		<HighlightFont style="GameFontHighlightSmall"/>
+		<DisabledFont style="GameFontDisableSmall"/>
+		<HighlightTexture parentKey="HighlightTexture" file="Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight" alphaMode="ADD">
+			<Anchors>
+				<Anchor point="BOTTOMLEFT" x="-2" y="-9"/>
+				<Anchor point="TOPRIGHT" x="2" y="-5"/>
+			</Anchors>
+		</HighlightTexture>
 		<Scripts>
 			<OnClick>
 				self:GetParent():SetTab(self:GetID())
@@ -59,28 +76,19 @@
 		<Size x="295" y="17"/>
 		<Layers>
 			<Layer level="BACKGROUND">
-				<Texture parentKey="stripe">
-					<Anchors>
-						<Anchor point="TOPLEFT" x="1" y="0"/>
-						<Anchor point="BOTTOMRIGHT" x="-1" y="0"/>
-					</Anchors>
+				<Texture parentKey="Stripe" setAllPoints="true">
 					<Color a=".08" r="1" g="1" b="1"/>
 				</Texture>
 			</Layer>
-
 			<Layer level="BORDER">
-				<Texture parentKey="icon">
-					<Size>
-						<AbsDimension x="15" y="15"/>
-					</Size>
+				<Texture parentKey="Icon">
+					<Size x="15" y="15"/>
 					<Anchors>
-						<Anchor point="RIGHT" x="-20" y="0"/>
+						<Anchor point="RIGHT" x="-10" y="0"/>
 					</Anchors>
 				</Texture>
-				<FontString parentKey="text" inherits="GameFontHighlightLeft">
-					<Size>
-						<AbsDimension x="210" y="11"/>
-					</Size>
+				<FontString parentKey="Text" inherits="GameFontHighlightLeft">
+					<Size x="210" y="11"/>
 					<Anchors>
 						<Anchor point="LEFT" x="11" y="0"/>
 					</Anchors>
@@ -107,7 +115,7 @@
 	  <Frames>
 			<Button parentKey='Tab1' name="$parentTab1" inherits="ScrapVisualizerTabTemplate" id="1">
 				<Anchors>
-					<Anchor point="TOPLEFT" x="70" y="-30"/>
+					<Anchor point="TOPLEFT" x="70" y="-28"/>
 				</Anchors>
 			</Button>
 			<Button parentKey='Tab2' name="$parentTab2" inherits="ScrapVisualizerTabTemplate" id="2">
@@ -118,7 +126,7 @@
 
 			<ScrollFrame parentKey='Scroll' name="$parentScroll" inherits="HybridScrollFrameTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parentInset" x="4" y="-4"/>
+					<Anchor point="TOPLEFT" relativeTo="$parentInset" x="3" y="-4"/>
 					<Anchor point="BOTTOM" relativeTo="$parentInset" x="-9" y="4"/>
 				</Anchors>
 				<Frames>
