@@ -102,13 +102,13 @@ function Button:OnClick(button)
 			drop:SetChildren {
 				{ text = 'Scrap', isTitle = 1 },
 				{
-					text = OPTIONS, notCheckable = 1,
+					text = OPTIONS ..'  '.. CreateAtlasMarkup('worldquest-icon-engineering', 12,12, 2), notCheckable = 1,
 					func = function()
 						Scrap.Options:Open()
 					end
 				},
 				{
-					text = SHOW_TUTORIALS, notCheckable = 1,
+					text = SHOW_TUTORIALS .. '  |T516770:12:12:0:0:64:64:14:50:14:50|t', notCheckable = 1,
 					func = function()
 						Scrap.Tutorials:Reset()
 					end
