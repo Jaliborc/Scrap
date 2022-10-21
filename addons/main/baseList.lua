@@ -76,4 +76,13 @@ Scrap.baseList = {__index = {
 	[40772] = false,
 	[114943] = false,
 	[109253] = false,
+	[67410] = false,
+	[11406] = false,
+	[11944] = false,
+	[25402] = false,
+	[3300] = false,
+	[3670] = false,
+	[6150] = false,
+	[36812] = false,
+	[62072] = false,
 }}
