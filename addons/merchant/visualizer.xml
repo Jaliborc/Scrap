@@ -111,7 +111,7 @@
 		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD"/>
 	</Button>
 
-	<Frame name="ScrapVisualizerTemplate" inherits="ButtonFrameTemplate" virtual="true" hidden="true">
+	<Frame name="ScrapVisualizer" inherits="ButtonFrameTemplate" parent="MerchantFrame" hidden="true">
 	  <Frames>
 			<Button parentKey='Tab1' name="$parentTab1" inherits="ScrapVisualizerTabTemplate" id="1">
 				<Anchors>
@@ -141,7 +141,7 @@
 
 			<Frame parentKey="Spinner" inherits="LoadingSpinnerTemplate">
 				<Anchors>
-					<Anchor point="CENTER" relativeTo="$parentInset"/>
+					<Anchor point="BOTTOM" relativeTo="$parentInset"/>
 				</Anchors>
 			</Frame>
 

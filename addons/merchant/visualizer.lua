@@ -15,11 +15,11 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
-local Visualizer = Scrap:NewModule('Visualizer', CreateFrame('Frame', 'ScrapVisualizer', MerchantFrame, 'ScrapVisualizerTemplate'))
+local Visualizer = Scrap:NewModule('Visualizer', ScrapVisualizer, 'MutexDelay-1.0')
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
 
---[[ Events ]]--
+--[[ Startup ]]--
 
 function Visualizer:OnEnable()
 	local title = self.TitleText or self.TitleContainer.TitleText
@@ -48,7 +48,6 @@ function Visualizer:OnEnable()
 	self.Spinner.Anim:Play()
 	self.ParentTab = tab
 
-	self:SetScript('OnUpdate', self.QueryItems)
 	self:SetScript('OnShow', self.OnShow)
 	self:SetScript('OnHide', self.OnHide)
 	self:UpdateButton()
@@ -57,15 +56,31 @@ end
 
 function Visualizer:OnShow()
 	CloseDropDownMenus()
-	self:UpdateList()
+	self:RegisterSignal('LIST_CHANGED', 'UpdateList')
+	self:Delay(0, 'QueryItems')
 end
 
 function Visualizer:OnHide()
+	self:UnregisterSignal('LIST_CHANGED')
 	wipe(self.list)
 end
 
 
 -- [[ API ]]--
+
+function Visualizer:QueryItems()
+	local ready = true
+	for id in pairs(Scrap.junk) do
+		ready = ready and GetItemInfo(id)
+	end
+
+	if not ready then
+		self:Delay(0.2, 'QueryItems')
+	end
+
+	self.Spinner:SetShown(not ready)
+	self:UpdateList()
+end
 
 function Visualizer:SetTab(i)
 	PanelTemplates_SetTab(self, i)
@@ -84,40 +99,15 @@ function Visualizer:ToggleItem()
 end
 
 
---[[ Query ]]--
-
-function Visualizer:QueryItems()
-	if self:QueryList() then
-		return
-	else
-		HybridScrollFrame_CreateButtons(self.Scroll, 'ScrapVisualizerButtonTemplate', 1, -2, 'TOPLEFT', 'TOPLEFT', 0, -3)
-	end
-
-	self.QueryItems, self.QueryList = nil
-	self:RegisterSignal('LIST_CHANGED', 'UpdateList')
-	self:SetScript('OnUpdate', nil)
-	self.Spinner:Hide()
-	self:UpdateList()
-end
-
-function Visualizer:QueryList()
-	for id in pairs(Scrap.junk) do
-		if not GetItemInfo(id) then
-			return true
-		end
-	end
-end
-
-
 --[[ Update ]]--
 
 function Visualizer:UpdateList()
-	if not self.QueryItems and self:IsShown() then
+	if self:IsVisible() then
 		self.list = {}
 
 		local mode = self.selectedTab == 2
 		for id, classification in pairs(Scrap.junk) do
-			if classification == mode then
+			if classification == mode and GetItemInfo(id) then
 				tinsert(self.list, id)
 			end
 		end
@@ -139,16 +129,19 @@ function Visualizer:UpdateList()
 		end)
 
 		self.Scroll:update()
+		self:UpdateButton()
 	end
-
-	self:UpdateButton()
 end
 
 function Visualizer.Scroll:update()
 	local self = Visualizer
+	if not self.Scroll.buttons then
+		HybridScrollFrame_CreateButtons(self.Scroll, 'ScrapVisualizerButtonTemplate', 1, -2, 'TOPLEFT', 'TOPLEFT', 0, -3)
+	end
+
+	local focus = GetMouseFocus()
 	local offset = HybridScrollFrame_GetOffset(self.Scroll)
 	local width = #self.list > 17 and 296 or 318
-	local focus = GetMouseFocus()
 
 	for i, button in ipairs(self.Scroll.buttons) do
 		local index = i + offset
