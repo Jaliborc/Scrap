@@ -1,3 +1,9 @@
+##### 10.0.1
+* Added pretty icons to merchant dropdown menu.
+* Visualizer now displays items as it queries the client for more. This should help players with very long lists.
+* Set "Baubleworms greys" as not junk by default.
+* Tagging release.
+
 #### 10 (beta)
 * Updated for the Dragonflight PTR.
 * Improved display of junk items in inventory and bank.

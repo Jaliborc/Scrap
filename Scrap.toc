@@ -1,14 +1,11 @@
 ## Interface: 11403
-## Title: |cffFFDE73Scrap|r
-## Notes: Sells all your junk at the merchant.
-
+## Title: |TInterface/Addons/Scrap/Art/Enabled-Icon:16:16|t Scrap
+## Notes: Sells all your junk at the merchant.|n|cffbbbbbbBy João Cardoso|r|n|n|TInterface/Addons/Scrap/Art/Paypal:12:12|t |cff82c5ffpaypal.me/jaliborc|r|n|TInterface/Addons/Scrap/Art/Patreon:12:12:0:-4|t |cff82c5ffpatreon.com/jaliborc|r
 ## Author: Jaliborc (João Cardoso)
-## X-License: GNU General Public License Version 3
-## X-Category: Inventory
 ## Version: 10
 
-## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
+## SavedVariablesPerCharacter: Scrap_CharSets
 ## OptionalDeps: WoWUnit, TestPoncho
 
 addons\main\main.xml
