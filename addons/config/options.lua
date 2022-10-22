@@ -16,7 +16,7 @@ This file is part of Scrap.
 --]]
 
 local Sushi = LibStub('Sushi-3.1')
-local Options = Scrap:NewModule('Options', Sushi.OptionsGroup('|TInterface/Addons/Scrap/art/enabled-icon:13:13:0:0|t Scrap'))
+local Options = Scrap:NewModule('Options', Sushi.OptionsGroup('|Tinterface/addons/scrap/art/enabled-icon:12:12:0:0|t Scrap'))
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
 local PATRONS = {{title='Jenkins',people={'Gnare'}},{},{title='Ambassador',people={'Fernando Bandeira','Julia F','Lolari ','Owen Pitcairn','Rafael Lins','Mediocre Monk','Joanie Nelson','David A. Smith','Nitro ','Guidez ','Christopher Rhea'}}} -- generated patron list
@@ -26,7 +26,7 @@ local FOOTER = 'Copyright 2008-2022 João Cardoso'
 --[[ Startup ]]--
 
 function Options:OnEnable()
-	local credits = Sushi.CreditsGroup(self, PATRONS, '|TInterface/Addons/Scrap/libs/Sushi-3.1/art/patreon:0|t Patrons')
+	local credits = Sushi.CreditsGroup(self, PATRONS, 'Patrons |Tinterface/addons/scrap/art/patreon:12:12|t')
 	credits:SetSubtitle('Scrap is distributed for free and supported trough donations. These are the people currently supporting development. Become a patron too |cFFF96854@patreon/jaliborc|r.', 'http://www.patreon.com/jaliborc')
 	credits:SetFooter(FOOTER)
 

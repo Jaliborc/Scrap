@@ -6,8 +6,8 @@
 
 #### 10 (beta)
 * Updated for the Dragonflight PTR.
-* Improved display of junk items in inventory and bank.
 * Updated design of Scrap's merchant tab.
+* Improved display of junk items in inventory and bank.
 * Optimized download size using texture RLE compression.
 
 ##### 9.2.1
