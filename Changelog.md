@@ -1,3 +1,6 @@
+##### 10.0.2
+* Classic: Fixed issue with junk tagging on default bag UI.
+
 ##### 10.0.1
 * Added pretty icons to merchant dropdown menu.
 * Visualizer now displays items as it queries the client for more. This should help players with very long lists.

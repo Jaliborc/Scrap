@@ -61,7 +61,7 @@ function Spotlight:UpdateButton(frame, button)
 		glow:SetShown(isJunk and Scrap.sets.glow)
 
 		if button.IconBorder then
-			button.IconBorder:SetShown(id and not glow:IsShown())
+			button.IconBorder:SetAlpha(glow:IsShown() and 0 or 1)
 		end
 	end
 end
