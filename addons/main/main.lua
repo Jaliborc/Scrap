@@ -204,13 +204,12 @@ function Scrap:IsLowEquip(slot, level)
 	end
 end
 
-function Scrap:IsBetterEquip(slot, level, canEmpty)
+function Scrap:IsBetterEquip(slot, level)
 	local item = ItemLocation:CreateFromEquipmentSlot(_G[slot])
-	if C_Item.GetItemID(item) then
+	if item:IsValid() then
 		return (C_Item.GetCurrentItemLevel(item) or 0) >= (level * 1.3)
-	elseif canEmpty then
-		return true
 	end
+	return true
 end
 
 
@@ -220,7 +219,7 @@ function Scrap:GuessLocation(...)
 	local bag, slot = self:GuessBagSlot(...)
 	if bag and slot then
 		local location = ItemLocation:CreateFromBagAndSlot(bag, slot)
-		if C_Item.GetItemID(location) then
+		if location:IsValid() then
 			return location
 		end
 	end
