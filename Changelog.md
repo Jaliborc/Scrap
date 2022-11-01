@@ -1,3 +1,8 @@
+##### 10.0.3
+* Dragonflight: Added support for new reagents bag.
+* Fixed "location.GetItemID" bug.
+* Added italian locales.
+
 ##### 10.0.2
 * Classic: Fixed issue with junk tagging on default bag UI.
 

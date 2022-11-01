@@ -19,7 +19,7 @@ local Sushi = LibStub('Sushi-3.1')
 local Options = Scrap:NewModule('Options', Sushi.OptionsGroup('|Tinterface/addons/scrap/art/enabled-icon:12:12:0:0|t Scrap'))
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
-local PATRONS = {{title='Jenkins',people={'Gnare'}},{},{title='Ambassador',people={'Fernando Bandeira','Julia F','Lolari ','Owen Pitcairn','Rafael Lins','Mediocre Monk','Joanie Nelson','David A. Smith','Nitro ','Guidez ','Christopher Rhea'}}} -- generated patron list
+local PATRONS = {{title='Jenkins',people={'Gnare'}},{},{title='Ambassador',people={'Fernando Bandeira','Julia F','Lolari ','Owen Pitcairn','Rafael Lins','Mediocre Monk','Joanie Nelson','Nitro ','Guidez ','Christopher Rhea'}}} -- generated patron list
 local FOOTER = 'Copyright 2008-2022 João Cardoso'
 
 

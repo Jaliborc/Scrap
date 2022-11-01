@@ -19,6 +19,7 @@ local Scrap = LibStub('WildAddon-1.0'):NewAddon(...)
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 local Unfit = LibStub('Unfit-1.0')
 
+local NUM_BAGS = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS
 local CLASS_NAME = LOCALIZED_CLASS_NAMES_MALE[select(2, UnitClass('player'))]
 local WEAPON, ARMOR, CONSUMABLES = Enum.ItemClass.Weapon, Enum.ItemClass.Armor, Enum.ItemClass.Consumable
 local FISHING_POLE = Enum.ItemWeaponSubclass.Fishingpole
@@ -95,29 +96,25 @@ function Scrap:ToggleJunk(id)
 end
 
 function Scrap:IterateJunk()
-	local bagNumSlots, bag, slot = GetContainerNumSlots(BACKPACK_CONTAINER), BACKPACK_CONTAINER, 0
-	local match, id
+	local numSlots = GetContainerNumSlots(BACKPACK_CONTAINER)
+	local bag, slot = BACKPACK_CONTAINER, 0
 
 	return function()
-		match = nil
-
-		while not match do
-			if slot < bagNumSlots then
+		while true do
+			if slot < numSlots then
 				slot = slot + 1
-			elseif bag < NUM_BAG_FRAMES then
-				bag = bag + 1
-				bagNumSlots = GetContainerNumSlots(bag)
-				slot = 1
+			elseif bag < NUM_BAGS then
+				bag, slot = bag + 1, 1
+				numSlots = GetContainerNumSlots(bag)
 			else
-				bag, slot = nil
-				break
+				return
 			end
 
-			id = GetContainerItemID(bag, slot)
-			match = self:IsJunk(id, bag, slot)
+			local id = GetContainerItemID(bag, slot)
+			if self:IsJunk(id, bag, slot) then
+				return bag, slot, id
+			end
 		end
-
-		return bag, slot, id
 	end
 end
 
@@ -206,11 +203,10 @@ end
 
 function Scrap:IsBetterEquip(slot, level, canEmpty)
 	local item = ItemLocation:CreateFromEquipmentSlot(_G[slot])
-	if C_Item.GetItemID(item) then
+	if C_Item.DoesItemExist(item) then
 		return (C_Item.GetCurrentItemLevel(item) or 0) >= (level * 1.3)
-	elseif canEmpty then
-		return true
 	end
+	return canEmpty
 end
 
 
@@ -220,19 +216,15 @@ function Scrap:GuessLocation(...)
 	local bag, slot = self:GuessBagSlot(...)
 	if bag and slot then
 		local location = ItemLocation:CreateFromBagAndSlot(bag, slot)
-		if C_Item.GetItemID(location) then
-			return location
-		end
+		return C_Item.DoesItemExist(location) and location
 	end
 end
 
 function Scrap:GuessBagSlot(id, bag, slot)
 	if bag and slot then
-		if bag >= BACKPACK_CONTAINER and bag < NUM_BAG_FRAMES then
-			return bag, slot
-		end
+		return bag, slot
 	elseif GetItemCount(id) > 0 then
-		for bag = BACKPACK_CONTAINER, NUM_BAG_FRAMES do
+		for bag = BACKPACK_CONTAINER, NUM_BAGS do
 		  	 for slot = 1, GetContainerNumSlots(bag) do
 		  	 	if id == GetContainerItemID(bag, slot) then
 		  	 		return bag, slot
