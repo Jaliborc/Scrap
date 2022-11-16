@@ -96,7 +96,7 @@ function Scrap:ToggleJunk(id)
 end
 
 function Scrap:IterateJunk()
-	local numSlots = GetContainerNumSlots(BACKPACK_CONTAINER)
+	local numSlots = C_Container.GetContainerNumSlots(BACKPACK_CONTAINER)
 	local bag, slot = BACKPACK_CONTAINER, 0
 
 	return function()
@@ -105,12 +105,12 @@ function Scrap:IterateJunk()
 				slot = slot + 1
 			elseif bag < NUM_BAGS then
 				bag, slot = bag + 1, 1
-				numSlots = GetContainerNumSlots(bag)
+				numSlots = C_Container.GetContainerNumSlots(bag)
 			else
 				return
 			end
 
-			local id = GetContainerItemID(bag, slot)
+			local id = C_Container.GetContainerItemID(bag, slot)
 			if self:IsJunk(id, bag, slot) then
 				return bag, slot, id
 			end
@@ -125,7 +125,7 @@ function Scrap:DestroyJunk()
 		hideOnEscape = 1, showAlert = 1, whileDead = 1,
 		OnAccept = function()
 			for bag, slot in self:IterateJunk() do
-				PickupContainerItem(bag, slot)
+				C_Container.PickupContainerItem(bag, slot)
 				DeleteCursorItem()
 			end
 		end
@@ -225,8 +225,8 @@ function Scrap:GuessBagSlot(id, bag, slot)
 		return bag, slot
 	elseif GetItemCount(id) > 0 then
 		for bag = BACKPACK_CONTAINER, NUM_BAGS do
-		  	 for slot = 1, GetContainerNumSlots(bag) do
-		  	 	if id == GetContainerItemID(bag, slot) then
+		  	 for slot = 1, C_Container.GetContainerNumSlots(bag) do
+		  	 	if id == C_Container.GetContainerItemID(bag, slot) then
 		  	 		return bag, slot
 		  	 	end
 			end
