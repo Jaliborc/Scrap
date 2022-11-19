@@ -51,7 +51,7 @@ end
 function Spotlight:UpdateButton(frame, button)
 	if button:IsShown() then
 		local bag, slot = button.bagID or frame:GetID(), button:GetID()
-		local id = GetContainerItemID(bag, slot)
+		local id = C_Container.GetContainerItemID(bag, slot)
 		local isJunk = id and Scrap:IsJunk(id, bag, slot)
 
 		local icon = (button.JunkIcon or self.Icons[button] or self:NewIcon(button))
