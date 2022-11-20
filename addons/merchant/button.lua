@@ -192,8 +192,8 @@ function Button:Sell()
 
 	local count = 0
 	for bag, slot, id in Scrap:IterateJunk() do
-		local _, _, locked = C_Container.GetContainerItemInfo(bag, slot)
-		if not locked then
+		local itemInfo = C_Container.GetContainerItemInfo(bag, slot)
+		if not itemInfo.isLocked then
 			local value = select(11, GetItemInfo(id)) or 0
 			if value > 0 then
 				C_Container.UseContainerItem(bag, slot)
