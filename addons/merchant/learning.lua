@@ -40,7 +40,8 @@ end
 function Learn:OnItemSold(...)
 	local id = C_Container.GetContainerItemID(...)
 	if id and Scrap.junk[id] == nil and not Scrap:IsFiltered(id, ...) then
-  	local rate = self:GetDecay(id, select(2, C_Container.GetContainerItemInfo(...)))
+    local itemInfo = C_Container.GetContainerItemInfo(...)
+  	local rate = self:GetDecay(id, itemInfo.stackCount)
     local old = Scrap.charsets.auto[id] or 0
     local new = old + (1 - old) * rate
 
