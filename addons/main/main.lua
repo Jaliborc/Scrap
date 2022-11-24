@@ -20,7 +20,7 @@ local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 local Unfit = LibStub('Unfit-1.0')
 
 local NUM_BAGS = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS
-local CLASS_NAME = LOCALIZED_CLASS_NAMES_MALE[select(2, UnitClass('player'))]
+local CLASS_NAME = LOCALIZED_CLASS_NAMES_MALE[UnitClassBase('player')]
 local WEAPON, ARMOR, CONSUMABLES = Enum.ItemClass.Weapon, Enum.ItemClass.Armor, Enum.ItemClass.Consumable
 local FISHING_POLE = Enum.ItemWeaponSubclass.Fishingpole
 
@@ -53,7 +53,8 @@ BINDING_HEADER_SCRAP = 'Scrap'
 --[[ Startup ]]--
 
 function Scrap:OnEnable()
-	self.tip = CreateFrame('GameTooltip', 'ScrapTooltip', nil, 'GameTooltipTemplate')
+	self.Tip = CreateFrame('GameTooltip', 'ScrapTooltip', nil, 'GameTooltipTemplate')
+	self.C = setmetatable({}, {__index = function(c, k) return C_Container and C_Container[k] or _G[k] end})
 	self:RegisterEvent('MERCHANT_SHOW', function() LoadAddOn('Scrap_Merchant'); self:SendSignal('MERCHANT_SHOW') end)
 	self:RegisterSignal('SETS_CHANGED', 'OnSettings')
 	self:OnSettings()
@@ -70,7 +71,7 @@ function Scrap:OnSettings()
 	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
 	self.junk = setmetatable(self.charsets.share and self.sets.list or self.charsets.list, self.baseList)
 
-	-- remove deprecated data. keep until next major game update
+	-- removes deprecated data. keep until next major game update
 	self.charsets.ml = nil
 	self.charsets.auto = self.charsets.auto or {}
 	--
@@ -96,7 +97,7 @@ function Scrap:ToggleJunk(id)
 end
 
 function Scrap:IterateJunk()
-	local numSlots = GetContainerNumSlots(BACKPACK_CONTAINER)
+	local numSlots = self.C.GetContainerNumSlots(BACKPACK_CONTAINER)
 	local bag, slot = BACKPACK_CONTAINER, 0
 
 	return function()
@@ -105,12 +106,12 @@ function Scrap:IterateJunk()
 				slot = slot + 1
 			elseif bag < NUM_BAGS then
 				bag, slot = bag + 1, 1
-				numSlots = GetContainerNumSlots(bag)
+				numSlots = self.C.GetContainerNumSlots(bag)
 			else
 				return
 			end
 
-			local id = GetContainerItemID(bag, slot)
+			local id = self.C.GetContainerItemID(bag, slot)
 			if self:IsJunk(id, bag, slot) then
 				return bag, slot, id
 			end
@@ -125,7 +126,7 @@ function Scrap:DestroyJunk()
 		hideOnEscape = 1, showAlert = 1, whileDead = 1,
 		OnAccept = function()
 			for bag, slot in self:IterateJunk() do
-				PickupContainerItem(bag, slot)
+				self.C.PickupContainerItem(bag, slot)
 				DeleteCursorItem()
 			end
 		end
@@ -225,8 +226,8 @@ function Scrap:GuessBagSlot(id, bag, slot)
 		return bag, slot
 	elseif GetItemCount(id) > 0 then
 		for bag = BACKPACK_CONTAINER, NUM_BAGS do
-		  	 for slot = 1, GetContainerNumSlots(bag) do
-		  	 	if id == GetContainerItemID(bag, slot) then
+		  	 for slot = 1, self.C.GetContainerNumSlots(bag) do
+		  	 	if id == self.C.GetContainerItemID(bag, slot) then
 		  	 		return bag, slot
 		  	 	end
 			end
@@ -248,25 +249,33 @@ function Scrap:BelongsToSet()
 end
 
 function Scrap:LoadTip(link, bag, slot)
-	self.tip:SetOwner(UIParent, 'ANCHOR_NONE')
+	self.Tip:SetOwner(UIParent, 'ANCHOR_NONE')
 
 	if bag and slot then
 		if bag ~= BANK_CONTAINER then
-			self.tip:SetBagItem(bag, slot)
+			self.Tip:SetBagItem(bag, slot)
 		else
-			self.tip:SetInventoryItem('player', BankButtonIDToInvSlotID(slot))
+			self.Tip:SetInventoryItem('player', BankButtonIDToInvSlotID(slot))
 		end
 	else
-		self.tip:SetHyperlink(link)
+		self.Tip:SetHyperlink(link)
 	end
 
 	self.limit = 2
-	self.numLines = self.tip:NumLines()
+	self.numLines = self.Tip:NumLines()
 end
 
 function Scrap:ScanLine(i)
-	local line = _G[self.tip:GetName() .. 'TextLeft' .. i]
+	local line = _G[self.Tip:GetName() .. 'TextLeft' .. i]
 	return line and line:GetText() or ''
+end
+
+function Scrap:GetContainerItemInfo(...)
+	local icon, count, locked, quality, readable, lootable, link, filtered, noValue, id, bound = self.C.GetContainerItemInfo(...)
+	return icon and (type(icon) == 'table' and icon or {
+		iconFileID = icon, stackCount = count, isLocked = locked, quality = quality, isReadable = readable, hasLoot = lootable,
+		hyperlink = link, isFiltered = filtered, hasNoValue = noValue, itemID = id, isBound = bound
+	})
 end
 
 

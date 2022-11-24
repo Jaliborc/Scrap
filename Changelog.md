@@ -1,3 +1,8 @@
+##### 10.0.4
+* Dragonflight: Updated for WoW patch 10.0.2.
+* Dragonflight: Added support for the new Evoker class.
+* All: Updated socials.
+
 ##### 10.0.3
 * Dragonflight: Added support for new reagents bag.
 * Fixed "location.GetItemID" bug.

@@ -192,13 +192,12 @@ function Button:Sell()
 
 	local count = 0
 	for bag, slot, id in Scrap:IterateJunk() do
-		local _, _, locked = GetContainerItemInfo(bag, slot)
-		if not locked then
+		if not Scrap:GetContainerItemInfo(bag, slot).isLocked then
 			local value = select(11, GetItemInfo(id)) or 0
 			if value > 0 then
-				UseContainerItem(bag, slot)
+				Scrap.C.UseContainerItem(bag, slot)
 			elseif Scrap.sets.destroy then
-				PickupContainerItem(bag, slot)
+				Scrap.C.PickupContainerItem(bag, slot)
 				DeleteCursorItem()
 			end
 
@@ -225,10 +224,10 @@ function Button:GetReport()
 	local total = 0
 
 	for bag, slot, id in Scrap:IterateJunk() do
-		local _, count, locked, quality = GetContainerItemInfo(bag, slot)
-		if not locked then
-			qualities[quality] = (qualities[quality] or 0) + count
-			total = total + count * (select(11, GetItemInfo(id)) or 0)
+		local info = Scrap:GetContainerItemInfo(bag, slot)
+		if not info.isLocked then
+			qualities[info.quality] = (qualities[info.quality] or 0) + info.stackCount
+			total = total + info.stackCount * (select(11, GetItemInfo(id)) or 0)
 		end
 	end
 

@@ -22,7 +22,7 @@ local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 --[[ Events ]] --
 
 function Learn:OnEnable()
-  hooksecurefunc('UseContainerItem', function(...)
+  hooksecurefunc(UseContainerItem and _G or C_Container, 'UseContainerItem', function(...)
     if self:IsActive() then
       self:OnItemSold(...)
     end
@@ -38,15 +38,15 @@ function Learn:OnEnable()
 end
 
 function Learn:OnItemSold(...)
-	local id = GetContainerItemID(...)
+	local id = Scrap.C.GetContainerItemID(...)
 	if id and Scrap.junk[id] == nil and not Scrap:IsFiltered(id, ...) then
-  	local rate = self:GetDecay(id, select(2, GetContainerItemInfo(...)))
+  	local rate = self:GetDecay(id, Scrap:GetContainerItemInfo(...).stackCount)
     local old = Scrap.charsets.auto[id] or 0
     local new = old + (1 - old) * rate
 
   	Scrap.charsets.auto[id] = new
     if old <= .5 and new > .5 then
-      Scrap:Print(L.Added, GetContainerItemLink(...), 'LOOT')
+      Scrap:Print(L.Added, Scrap.C.GetContainerItemLink(...), 'LOOT')
       Scrap:SendSignal('LIST_CHANGED', id)
     end
   end
