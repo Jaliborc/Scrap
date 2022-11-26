@@ -17,6 +17,7 @@ This file is part of Scrap.
 
 local Button = Scrap:NewModule('Merchant', CreateFrame('Button', nil, MerchantBuyBackItem), 'MutexDelay-1.0')
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
+local C = LibStub('C_Everywhere').Container
 
 
 --[[ Events ]]--
@@ -192,12 +193,12 @@ function Button:Sell()
 
 	local count = 0
 	for bag, slot, id in Scrap:IterateJunk() do
-		if not Scrap:GetContainerItemInfo(bag, slot).isLocked then
+		if not C.GetContainerItemInfo(bag, slot).isLocked then
 			local value = select(11, GetItemInfo(id)) or 0
 			if value > 0 then
-				Scrap.C.UseContainerItem(bag, slot)
+				C.UseContainerItem(bag, slot)
 			elseif Scrap.sets.destroy then
-				Scrap.C.PickupContainerItem(bag, slot)
+				C.PickupContainerItem(bag, slot)
 				DeleteCursorItem()
 			end
 
@@ -224,7 +225,7 @@ function Button:GetReport()
 	local total = 0
 
 	for bag, slot, id in Scrap:IterateJunk() do
-		local info = Scrap:GetContainerItemInfo(bag, slot)
+		local info = C.GetContainerItemInfo(bag, slot)
 		if not info.isLocked then
 			qualities[info.quality] = (qualities[info.quality] or 0) + info.stackCount
 			total = total + info.stackCount * (select(11, GetItemInfo(id)) or 0)

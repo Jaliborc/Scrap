@@ -17,12 +17,13 @@ This file is part of Scrap.
 
 local Learn = Scrap:NewModule('Learning') -- dumb ml algortihm using exponential mean average
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
+local C = LibStub('C_Everywhere').Container
 
 
 --[[ Events ]] --
 
 function Learn:OnEnable()
-  hooksecurefunc(UseContainerItem and _G or C_Container, 'UseContainerItem', function(...)
+  C.hooksecurefunc('UseContainerItem', function(...)
     if self:IsActive() then
       self:OnItemSold(...)
     end
@@ -38,15 +39,15 @@ function Learn:OnEnable()
 end
 
 function Learn:OnItemSold(...)
-	local id = Scrap.C.GetContainerItemID(...)
+	local id = C.GetContainerItemID(...)
 	if id and Scrap.junk[id] == nil and not Scrap:IsFiltered(id, ...) then
-  	local rate = self:GetDecay(id, Scrap:GetContainerItemInfo(...).stackCount)
-    local old = Scrap.charsets.auto[id] or 0
+  	local rate = self:GetDecay(id, C.GetContainerItemInfo(...).stackCount)
+    local old = Charsets.auto[id] or 0
     local new = old + (1 - old) * rate
 
-  	Scrap.charsets.auto[id] = new
+  	Charsets.auto[id] = new
     if old <= .5 and new > .5 then
-      Scrap:Print(L.Added, Scrap.C.GetContainerItemLink(...), 'LOOT')
+      Scrap:Print(L.Added, C.GetContainerItemLink(...), 'LOOT')
       Scrap:SendSignal('LIST_CHANGED', id)
     end
   end
@@ -55,12 +56,12 @@ end
 function Learn:OnItemRefund(index)
 	local link = GetBuybackItemLink(index)
 	local id = link and tonumber(link:match('item:(%d+)'))
-  local old = Scrap.charsets.auto[id]
+  local old = Charsets.auto[id]
 	if old then
     local rate = self:GetDecay(id, select(4, GetBuybackItemInfo(index)))
     local new = (1 - rate * 2) * old
 
-  	Scrap.charsets.auto[id] = new > 0.1 and new or nil
+  	Charsets.auto[id] = new > 0.1 and new or nil
     if old > .5 and new <= .5 then
       Scrap:Print(L.Removed, link, 'LOOT')
       Scrap:SendSignal('LIST_CHANGED', id)

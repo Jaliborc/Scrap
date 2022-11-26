@@ -1,3 +1,6 @@
+##### 10.0.5
+* All: Reimplemented using C_Everywhere.
+
 ##### 10.0.4
 * Dragonflight: Updated for WoW patch 10.0.2.
 * Dragonflight: Added support for the new Evoker class.

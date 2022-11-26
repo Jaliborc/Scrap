@@ -17,6 +17,7 @@ This file is part of Scrap.
 
 local Scrap = LibStub('WildAddon-1.0'):NewAddon(...)
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
+local C = LibStub('C_Everywhere').Container
 local Unfit = LibStub('Unfit-1.0')
 
 local NUM_BAGS = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS
@@ -54,7 +55,6 @@ BINDING_HEADER_SCRAP = 'Scrap'
 
 function Scrap:OnEnable()
 	self.Tip = CreateFrame('GameTooltip', 'ScrapTooltip', nil, 'GameTooltipTemplate')
-	self.C = setmetatable({}, {__index = function(c, k) return C_Container and C_Container[k] or _G[k] end})
 	self:RegisterEvent('MERCHANT_SHOW', function() LoadAddOn('Scrap_Merchant'); self:SendSignal('MERCHANT_SHOW') end)
 	self:RegisterSignal('SETS_CHANGED', 'OnSettings')
 	self:OnSettings()
@@ -97,7 +97,7 @@ function Scrap:ToggleJunk(id)
 end
 
 function Scrap:IterateJunk()
-	local numSlots = self.C.GetContainerNumSlots(BACKPACK_CONTAINER)
+	local numSlots = C.GetContainerNumSlots(BACKPACK_CONTAINER)
 	local bag, slot = BACKPACK_CONTAINER, 0
 
 	return function()
@@ -106,12 +106,12 @@ function Scrap:IterateJunk()
 				slot = slot + 1
 			elseif bag < NUM_BAGS then
 				bag, slot = bag + 1, 1
-				numSlots = self.C.GetContainerNumSlots(bag)
+				numSlots = C.GetContainerNumSlots(bag)
 			else
 				return
 			end
 
-			local id = self.C.GetContainerItemID(bag, slot)
+			local id = C.GetContainerItemID(bag, slot)
 			if self:IsJunk(id, bag, slot) then
 				return bag, slot, id
 			end
@@ -126,7 +126,7 @@ function Scrap:DestroyJunk()
 		hideOnEscape = 1, showAlert = 1, whileDead = 1,
 		OnAccept = function()
 			for bag, slot in self:IterateJunk() do
-				self.C.PickupContainerItem(bag, slot)
+				C.PickupContainerItem(bag, slot)
 				DeleteCursorItem()
 			end
 		end
@@ -226,8 +226,8 @@ function Scrap:GuessBagSlot(id, bag, slot)
 		return bag, slot
 	elseif GetItemCount(id) > 0 then
 		for bag = BACKPACK_CONTAINER, NUM_BAGS do
-		  	 for slot = 1, self.C.GetContainerNumSlots(bag) do
-		  	 	if id == self.C.GetContainerItemID(bag, slot) then
+		  	 for slot = 1, C.GetContainerNumSlots(bag) do
+		  	 	if id == C.GetContainerItemID(bag, slot) then
 		  	 		return bag, slot
 		  	 	end
 			end
@@ -268,14 +268,6 @@ end
 function Scrap:ScanLine(i)
 	local line = _G[self.Tip:GetName() .. 'TextLeft' .. i]
 	return line and line:GetText() or ''
-end
-
-function Scrap:GetContainerItemInfo(...)
-	local icon, count, locked, quality, readable, lootable, link, filtered, noValue, id, bound = self.C.GetContainerItemInfo(...)
-	return icon and (type(icon) == 'table' and icon or {
-		iconFileID = icon, stackCount = count, isLocked = locked, quality = quality, isReadable = readable, hasLoot = lootable,
-		hyperlink = link, isFiltered = filtered, hasNoValue = noValue, itemID = id, isBound = bound
-	})
 end
 
 
