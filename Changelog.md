@@ -1,5 +1,6 @@
 ##### 10.0.5
 * All: Reimplemented using C_Everywhere.
+* All: Updated italian locales (thanks to simoflorence).
 
 ##### 10.0.4
 * Dragonflight: Updated for WoW patch 10.0.2.
