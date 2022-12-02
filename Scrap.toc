@@ -5,6 +5,6 @@
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
 ## OptionalDeps: WoWUnit
-## Version: 10.0.5
+## Version: 10.0.6
 
 addons\main\main.xml

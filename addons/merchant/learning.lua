@@ -42,10 +42,10 @@ function Learn:OnItemSold(...)
 	local id = C.GetContainerItemID(...)
 	if id and Scrap.junk[id] == nil and not Scrap:IsFiltered(id, ...) then
   	local rate = self:GetDecay(id, C.GetContainerItemInfo(...).stackCount)
-    local old = Charsets.auto[id] or 0
+    local old = Scrap.charsets.auto[id] or 0
     local new = old + (1 - old) * rate
 
-  	Charsets.auto[id] = new
+  	Scrap.charsets.auto[id] = new
     if old <= .5 and new > .5 then
       Scrap:Print(L.Added, C.GetContainerItemLink(...), 'LOOT')
       Scrap:SendSignal('LIST_CHANGED', id)
@@ -56,12 +56,12 @@ end
 function Learn:OnItemRefund(index)
 	local link = GetBuybackItemLink(index)
 	local id = link and tonumber(link:match('item:(%d+)'))
-  local old = Charsets.auto[id]
+  local old = Scrap.charsets.auto[id]
 	if old then
     local rate = self:GetDecay(id, select(4, GetBuybackItemInfo(index)))
     local new = (1 - rate * 2) * old
 
-  	Charsets.auto[id] = new > 0.1 and new or nil
+  	Scrap.charsets.auto[id] = new > 0.1 and new or nil
     if old > .5 and new <= .5 then
       Scrap:Print(L.Removed, link, 'LOOT')
       Scrap:SendSignal('LIST_CHANGED', id)

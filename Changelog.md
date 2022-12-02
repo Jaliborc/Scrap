@@ -1,3 +1,6 @@
+##### 10.0.6
+* All: Fixed issue with automatic learning.
+
 ##### 10.0.5
 * All: Reimplemented using C_Everywhere.
 * All: Updated italian locales (thanks to simoflorence).
