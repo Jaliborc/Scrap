@@ -10,6 +10,14 @@
 	path = libs/Unfit-1.0
 	url = https://github.com/Jaliborc/Unfit-1.0.git
 
+[submodule "CustomSearch-1.0"]
+	path = libs/CustomSearch-1.0
+	url = https://github.com/Jaliborc/CustomSearch-1.0
+
+[submodule "ItemSearch-1.3"]
+	path = libs/ItemSearch-1.3
+	url = https://github.com/Jaliborc/ItemSearch-1.3
+
 [submodule "CustomTutorials-2.1"]
 	path = libs/CustomTutorials-2.1
 	url = https://github.com/Jaliborc/CustomTutorials-2.1

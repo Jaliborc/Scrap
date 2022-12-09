@@ -1,3 +1,13 @@
+##### 10.0.8
+* Update addresses the majority of hang issues:
+   * All: Now using ItemSearch-1.3 for tooltip queries.
+   * All: Updated C_Everywhere for classic tooltip support.
+   * All: Minor Unfit and CustomSearch optimizations.
+
+##### 10.0.7
+* All: Updated C_Everywhere
+* All: Embedded TaintLess.
+
 ##### 10.0.6
 * All: Fixed issue with automatic learning.
 

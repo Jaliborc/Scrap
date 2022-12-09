@@ -18,20 +18,14 @@ This file is part of Scrap.
 local Scrap = LibStub('WildAddon-1.0'):NewAddon(...)
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 local C = LibStub('C_Everywhere').Container
-local Unfit = LibStub('Unfit-1.0')
+local Search = LibStub('ItemSearch-1.3')
 
 local NUM_BAGS = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS
-local CLASS_NAME = LOCALIZED_CLASS_NAMES_MALE[UnitClassBase('player')]
 local WEAPON, ARMOR, CONSUMABLES = Enum.ItemClass.Weapon, Enum.ItemClass.Armor, Enum.ItemClass.Consumable
 local FISHING_POLE = Enum.ItemWeaponSubclass.Fishingpole
 
-local CAN_TRADE = BIND_TRADE_TIME_REMAINING:format('.*')
-local CAN_REFUND = REFUND_TIME_REMAINING:format('.*')
-local MATCH_CLASS = ITEM_CLASSES_ALLOWED:format('')
-local IN_SET = EQUIPMENT_SETS:format('.*')
-
-local SHOULDER_BREAKPOINT = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and 15 or 25
-local INTRO_BREAKPOINT = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and 5 or 15
+local SHOULDER_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 15 or 25
+local INTRO_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 5 or 15
 
 local POOR, COMMON, UNCOMMON, RARE, EPIC = 0,1,2,3,4
 local ACTUAL_SLOTS = {
@@ -145,40 +139,21 @@ function Scrap:IsFiltered(id, ...)
 		return
 
 	elseif class == ARMOR or class == WEAPON then
-		if value and self:IsCombatItem(class, subclass, slot) then
-			if self:IsGray(quality) then
+		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE then
+			if quality == POOR then
 				return (slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT
-			elseif self:IsStandardQuality(quality) then
-				self:LoadTip(link, location and location.bagID, location and location.slotIndex)
-
-				if not self:BelongsToSet() and location and C_Item.IsBound(location) then
-					local unusable = self.charsets.unusable and (Unfit:IsClassUnusable(class, subclass, slot) or self:IsOtherClass())
-					return unusable or self:IsLowEquip(slot, level)
+			elseif quality >= UNCOMMON and quality <= EPIC and location and C_Item.IsBound(location) then
+				if IsEquippableItem(id) and not Search:BelongsToSet(id) then
+					return self:IsLowEquip(slot, level) or self.charsets.unusable and Search:IsUnusable(id)
 				end
 			end
 		end
 
-	elseif self:IsGray(quality) then
+	elseif quality == POOR then
 		return true
 	elseif class == CONSUMABLES then
-		return self.charsets.consumable and quality < RARE and self:IsLowLevel(level)
+		return self.charsets.consumable and quality < RARE and self:IsLowConsumable(level)
 	end
-end
-
-function Scrap:IsGray(quality)
-	return quality == POOR
-end
-
-function Scrap:IsLowLevel(level)
-	return level > 1 and (level * 1.3) < UnitLevel('player')
-end
-
-function Scrap:IsStandardQuality(quality)
-	return quality >= UNCOMMON and quality <= EPIC
-end
-
-function Scrap:IsCombatItem(class, subclass, slot)
-	return slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE
 end
 
 function Scrap:IsLowEquip(slot, level)
@@ -210,8 +185,12 @@ function Scrap:IsBetterEquip(slot, level, canEmpty)
 	return canEmpty
 end
 
+function Scrap:IsLowConsumable(level)
+	return level > 1 and (level * 1.3) < UnitLevel('player')
+end
 
---[[ Data Retrieval ]]--
+
+--[[ Guessing ]]--
 
 function Scrap:GuessLocation(...)
 	local bag, slot = self:GuessBagSlot(...)
@@ -233,41 +212,6 @@ function Scrap:GuessBagSlot(id, bag, slot)
 			end
 		end
 	end
-end
-
-function Scrap:IsOtherClass()
-	for i = self.numLines, self.limit, -1 do
-		local text = self:ScanLine(i)
-		if text:find(MATCH_CLASS) then
-			return not text:find(CLASS_NAME)
-		end
-	end
-end
-
-function Scrap:BelongsToSet()
-	return C_EquipmentSet and C_EquipmentSet.CanUseEquipmentSets() and self:ScanLine(self.numLines - 1):find(IN_SET)
-end
-
-function Scrap:LoadTip(link, bag, slot)
-	self.Tip:SetOwner(UIParent, 'ANCHOR_NONE')
-
-	if bag and slot then
-		if bag ~= BANK_CONTAINER then
-			self.Tip:SetBagItem(bag, slot)
-		else
-			self.Tip:SetInventoryItem('player', BankButtonIDToInvSlotID(slot))
-		end
-	else
-		self.Tip:SetHyperlink(link)
-	end
-
-	self.limit = 2
-	self.numLines = self.Tip:NumLines()
-end
-
-function Scrap:ScanLine(i)
-	local line = _G[self.Tip:GetName() .. 'TextLeft' .. i]
-	return line and line:GetText() or ''
 end
 
 
