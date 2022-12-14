@@ -1,3 +1,7 @@
+##### 10.0.9
+* Classic: Fixed bug with relic items comparison.
+* All: Small optimization in equipment item comparison code.
+
 ##### 10.0.8
 * Update addresses the majority of hang issues:
    * All: Now using ItemSearch-1.3 for tooltip queries.

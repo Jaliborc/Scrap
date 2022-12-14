@@ -15,6 +15,7 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
+if Bagnon or Bagnonium then return end
 local Spotlight = Scrap:NewModule('Spotlight')
 local C = LibStub('C_Everywhere').Container
 local R,G,B = GetItemQualityColor(0)

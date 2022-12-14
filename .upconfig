@@ -4,9 +4,14 @@
   Scrap_Config
   Scrap_Merchant
 [ignore]
-  art/disabled-box.tga
-  libs/Poncho-2.0/Tests.lua
-  libs/Sushi-3.1/tests
-  libs/Unfit-1.0/Tests.lua
-  libs/C_Everywhere/Tests.lua
-  libs/ItemSearch-1.3/Tests.lua
+  Scrap/libs/C_Everywhere/Tests.lua
+  Scrap/libs/Unfit-1.0/Tests.lua
+  Scrap/libs/ItemSearch-1.3/Tests.lua
+  Scrap/libs/Poncho-2.0/Tests.lua
+  Scrap/libs/Sushi-3.1/Tests
+  Scrap/libs/Sushi-3.1/Classes/Buttons/Help.lua
+  Scrap/libs/Sushi-3.1/Classes/Buttons/Gray.lua
+  Scrap/libs/Sushi-3.1/Classes/Buttons/Icon.lua
+  Scrap/libs/Sushi-3.1/Classes/Buttons/Expand.lua
+  Scrap/libs/Sushi-3.1/Classes/Misc/GlowBox.lua
+  Scrap/art/disabled-box.tga

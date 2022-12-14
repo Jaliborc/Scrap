@@ -24,20 +24,14 @@ local NUM_BAGS = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS
 local WEAPON, ARMOR, CONSUMABLES = Enum.ItemClass.Weapon, Enum.ItemClass.Armor, Enum.ItemClass.Consumable
 local FISHING_POLE = Enum.ItemWeaponSubclass.Fishingpole
 
-local SHOULDER_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 15 or 25
-local INTRO_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 5 or 15
-
 local POOR, COMMON, UNCOMMON, RARE, EPIC = 0,1,2,3,4
 local ACTUAL_SLOTS = {
-	INVTYPE_ROBE = 'INVTYPE_CHEST',
-	INVTYPE_CLOAK = 'INVTYPE_BACK',
-	INVTYPE_RANGEDRIGHT = 'INVTYPE_RANGED',
-	INVTYPE_THROWN = 'INVTYPE_RANGED',
-	INVTYPE_WEAPONMAINHAND = 'INVTYPE_MAINHAND',
-	INVTYPE_WEAPONOFFHAND = 'INVTYPE_OFFHAND',
-	INVTYPE_HOLDABLE = 'INVTYPE_OFFHAND',
-	INVTYPE_SHIELD = 'INVTYPE_OFFHAND',
-}
+	ROBE = 'CHEST', CLOAK = 'BACK',
+	RANGEDRIGHT = 'RANGED', THROWN = 'RANGED', RELIC = 'RANGED',
+	WEAPONMAINHAND = 'MAINHAND', WEAPONOFFHAND = 'OFFHAND', HOLDABLE = 'OFFHAND', SHIELD = 'OFFHAND'}
+
+local SHOULDER_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 15 or 25
+local INTRO_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 5 or 15
 
 BINDING_NAME_SCRAP_TOGGLE = L.ToggleMousehover
 BINDING_NAME_SCRAP_DESTROY = L.DestroyJunk
@@ -63,7 +57,7 @@ function Scrap:OnSettings()
 	Scrap_CharSets = Scrap_CharSets or {list = {}, auto = {}}
 
 	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
-	self.junk = setmetatable(self.charsets.share and self.sets.list or self.charsets.list, self.baseList)
+	self.junk = setmetatable(self.charsets.share and self.sets.list or self.charsets.list, self.BaseList)
 
 	-- removes deprecated data. keep until next major game update
 	self.charsets.ml = nil
@@ -158,19 +152,21 @@ end
 
 function Scrap:IsLowEquip(slot, level)
 	if self.charsets.equip and slot ~= ''  then
-		local slot1 = gsub(ACTUAL_SLOTS[slot] or slot, 'INVTYPE', 'INVSLOT')
+		local slot1 = slot:sub(9)
 		local slot2, double
 
-		if slot1 == 'INVSLOT_WEAPON' or slot1 == 'INVSLOT_2HWEAPON' then
-			if slot1 == 'INVSLOT_2HWEAPON' then
+		if slot1 == 'WEAPON' or slot1 == '2HWEAPON' then
+			if slot1 == '2HWEAPON' then
 				double = true
 			end
 
-			slot1, slot2 = 'INVSLOT_MAINHAND', 'INVSLOT_OFFHAND'
-		elseif slot1 == 'INVSLOT_FINGER' then
-			slot1, slot2 = 'INVSLOT_FINGER1', 'INVSLOT_FINGER2'
-		elseif slot1 == 'INVSLOT_TRINKET' then
-			slot1, slot2 = 'INVSLOT_TRINKET1', 'INVSLOT_TRINKET2'
+			slot1, slot2 = 'MAINHAND', 'OFFHAND'
+		elseif slot1 == 'FINGER' then
+			slot1, slot2 = 'FINGER1', 'FINGER2'
+		elseif slot1 == 'TRINKET' then
+			slot1, slot2 = 'TRINKET1', 'TRINKET2'
+		else
+			slot1 = ACTUAL_SLOTS[slot1] or slot1
 		end
 
 		return self:IsBetterEquip(slot1, level) and (not slot2 or self:IsBetterEquip(slot2, level, double))
@@ -178,7 +174,7 @@ function Scrap:IsLowEquip(slot, level)
 end
 
 function Scrap:IsBetterEquip(slot, level, canEmpty)
-	local item = ItemLocation:CreateFromEquipmentSlot(_G[slot])
+	local item = ItemLocation:CreateFromEquipmentSlot(_G['INVSLOT_' .. slot])
 	if C_Item.DoesItemExist(item) then
 		return (C_Item.GetCurrentItemLevel(item) or 0) >= (level * 1.3)
 	end
