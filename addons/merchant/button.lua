@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2022 João Cardoso
+Copyright 2008-2023 João Cardoso
 Scrap is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -69,8 +69,8 @@ function Button:OnMerchant()
 		Scrap.Tutorials:Start()
 	end
 
-	self:RegisterEvent('BAG_UPDATE_DELAYED', 'OnBagUpdate')
 	self:RegisterSignal('LIST_CHANGED', 'UpdateState')
+	self:RegisterEvent('BAG_UPDATE', 'OnBagUpdate')
 	self:UpdatePosition()
 	self:UpdateState()
 end
@@ -79,13 +79,13 @@ function Button:OnBagUpdate()
 	if self.saleTotal then
 		self:Delay(0.5, 'Sell')
 	else
-		self:UpdateState()
+		self:Delay(0, 'UpdateState')
 	end
 end
 
 function Button:OnClose()
-	self:UnregisterEvent('BAG_UPDATE_DELAYED')
 	self:UnregisterSignal('LIST_CHANGED')
+	self:UnregisterEvent('BAG_UPDATE')
 end
 
 

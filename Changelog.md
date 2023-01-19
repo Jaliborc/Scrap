@@ -1,3 +1,6 @@
+##### 10.0.10
+* Wrath: Fixed for blizzard server bugs introduced with Secrets of Ulduar.
+
 ##### 10.0.9
 * Classic: Fixed bug with relic items comparison.
 * All: Small optimization in equipment item comparison code.
