@@ -131,7 +131,7 @@ function Scrap:IsFiltered(id, ...)
 
 	if not value or value == 0 then
 		return
-	elseif quality == POOR and slot ~= '' then
+	elseif quality == POOR and slot ~= '' and not C_Item.IsBound(location) then
 		return false
 		
 	elseif class == ARMOR or class == WEAPON then
