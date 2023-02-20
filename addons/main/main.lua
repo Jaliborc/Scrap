@@ -131,7 +131,9 @@ function Scrap:IsFiltered(id, ...)
 
 	if not value or value == 0 then
 		return
-
+	elseif quality == POOR and slot ~= '' then
+		return false
+		
 	elseif class == ARMOR or class == WEAPON then
 		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE then
 			if quality == POOR then
