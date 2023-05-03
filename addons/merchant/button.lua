@@ -224,11 +224,11 @@ function Button:GetReport()
 	local qualities = {}
 	local total = 0
 
-	for bag, slot, id in Scrap:IterateJunk() do
-		local info = C.GetContainerItemInfo(bag, slot)
-		if not info.isLocked then
-			qualities[info.quality] = (qualities[info.quality] or 0) + info.stackCount
-			total = total + info.stackCount * (select(11, GetItemInfo(id)) or 0)
+	for bag, slot in Scrap:IterateJunk() do
+		local item = C.GetContainerItemInfo(bag, slot)
+		if not item.isLocked then
+			qualities[item.quality] = (qualities[item.quality] or 0) + item.stackCount
+			total = total + item.stackCount * (select(11, GetItemInfo(item.itemID)) or 0)
 		end
 	end
 

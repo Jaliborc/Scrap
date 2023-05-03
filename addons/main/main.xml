@@ -3,7 +3,8 @@
 	<Include file="..\..\localization\localization.xml"/>
 
 	<Script file="main.lua"/>
+	<Script file="pricing.lua"/>
 	<Script file="spotlight.lua"/>
-  <Script file="baseList.lua"/>
+  	<Script file="defaults.lua"/>
 	<Script file="tests.lua"/>
 </Ui>

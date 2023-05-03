@@ -38,16 +38,16 @@ function Learn:OnEnable()
   end
 end
 
-function Learn:OnItemSold(...)
-	local id = C.GetContainerItemID(...)
-	if id and Scrap.junk[id] == nil and not Scrap:IsFiltered(id, ...) then
-  	local rate = self:GetDecay(id, C.GetContainerItemInfo(...).stackCount)
+function Learn:OnItemSold(bag, slot)
+	local id = C.GetContainerItemID(bag, slot)
+	if id and Scrap.junk[id] == nil and not Scrap:IsFiltered(id, bag, slot) then
+  	local rate = self:GetDecay(id, C.GetContainerItemInfo(bag, slot).stackCount)
     local old = Scrap.charsets.auto[id] or 0
     local new = old + (1 - old) * rate
 
   	Scrap.charsets.auto[id] = new
     if old <= .5 and new > .5 then
-      Scrap:Print(L.Added, C.GetContainerItemLink(...), 'LOOT')
+      Scrap:Print(L.Added:format(C.GetContainerItemLink(bag, slot)), 'LOOT')
       Scrap:SendSignal('LIST_CHANGED', id)
     end
   end
@@ -63,7 +63,7 @@ function Learn:OnItemRefund(index)
 
   	Scrap.charsets.auto[id] = new > 0.1 and new or nil
     if old > .5 and new <= .5 then
-      Scrap:Print(L.Removed, link, 'LOOT')
+      Scrap:Print(L.Removed:format(link), 'LOOT')
       Scrap:SendSignal('LIST_CHANGED', id)
     end
   end

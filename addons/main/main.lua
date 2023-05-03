@@ -34,7 +34,8 @@ local SHOULDER_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 15 or 25
 local INTRO_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 5 or 15
 
 BINDING_NAME_SCRAP_TOGGLE = L.ToggleMousehover
-BINDING_NAME_SCRAP_DESTROY = L.DestroyJunk
+BINDING_NAME_SCRAP_DESTROY_ONE = L.DestroyCheapest
+BINDING_NAME_SCRAP_DESTROY_ALL = L.DestroyJunk
 BINDING_NAME_SCRAP_SELL = L.SellJunk
 BINDING_HEADER_SCRAP = 'Scrap'
 
@@ -53,10 +54,10 @@ function Scrap:OnEnable()
 end
 
 function Scrap:OnSettings()
-	Scrap_Sets = Scrap_Sets or {list = {}, sell = true, repair = true, safe = true, destroy = true, glow = true, icons = true}
 	Scrap_CharSets = Scrap_CharSets or {list = {}, auto = {}}
+	Scrap_Sets = Scrap_Sets or {list = {}}
 
-	self.sets, self.charsets = Scrap_Sets, Scrap_CharSets
+	self.charsets, self.sets = Scrap_CharSets, setmetatable(Scrap_Sets, self.Defaults)
 	self.junk = setmetatable(self.charsets.share and self.sets.list or self.charsets.list, self.BaseList)
 
 	-- removes deprecated data. keep until next major game update
@@ -80,7 +81,7 @@ function Scrap:ToggleJunk(id)
 	local junk = self:IsJunk(id)
 
 	self.junk[id] = not junk
-	self:Print(junk and L.Removed or L.Added, select(2, GetItemInfo(id)), 'LOOT')
+	self:Print(format(junk and L.Removed or L.Added, select(2, GetItemInfo(id))), 'LOOT')
 	self:SendSignal('LIST_CHANGED', id)
 end
 
@@ -107,11 +108,34 @@ function Scrap:IterateJunk()
 	end
 end
 
+function Scrap:DestroyCheapest()
+	local best = {value = 2^128}
+
+	for bag, slot in self:IterateJunk() do
+		local _, family = C.GetContainerNumFreeSlots(bag)
+		if family == 0 then
+			local item = C.GetContainerItemInfo(bag, slot)
+			local _,_,_,_,_,_,_, maxStack, _,_, price = GetItemInfo(item.itemID) 
+
+			local value = price * (item.stackCount + sqrt(maxStack - item.stackCount) * 0.5)
+			if value < best.value then
+				best.bag, best.slot, best.item, best.value = bag, slot, item, value
+			end
+		end
+	end
+
+	if best.item then
+		C.PickupContainerItem(best.bag, best.slot)
+		DeleteCursorItem()
+		self:Print(L.Destroyed:format(best.item.hyperlink, best.item.stackCount), 'LOOT')
+	end
+end
+
 function Scrap:DestroyJunk()
 	LibStub('Sushi-3.1').Popup {
 		id = 'DeleteScrap',
 		text = L.ConfirmDelete, button1 = OKAY, button2 = CANCEL,
-		hideOnEscape = 1, showAlert = 1, whileDead = 1,
+		hideOnEscape = 1, showAlert = 1,
 		OnAccept = function()
 			for bag, slot in self:IterateJunk() do
 				C.PickupContainerItem(bag, slot)
@@ -214,17 +238,17 @@ end
 --[[ Chat ]]--
 
 function Scrap:PrintMoney(pattern, value)
-	self:Print(pattern, GetMoneyString(value, true), 'MONEY')
+	self:Print(pattern:format(GetMoneyString(value, true)), 'MONEY')
 end
 
-function Scrap:Print(pattern, value, channel)
+function Scrap:Print(text, channel)
 	local i = 1
 	local frame = _G['ChatFrame' .. i]
  	local channel = 'CHAT_MSG_' .. channel
 
 	while frame do
 		if frame:IsEventRegistered(channel) then
-			ChatFrame_MessageEventHandler(frame, channel, pattern:format(value), '', nil, '')
+			ChatFrame_MessageEventHandler(frame, channel, text, '', nil, '')
 		end
 
 		i = i + 1

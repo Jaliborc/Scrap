@@ -15,6 +15,7 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of Scrap.
 --]]
 
+Scrap.Defaults = {__index = {sell = true, repair = true, safe = true, destroy = true, glow = true, icons = true, prices=true}}
 Scrap.BaseList = {__index = {
 	[90561] = false,
 	[12709] = false,

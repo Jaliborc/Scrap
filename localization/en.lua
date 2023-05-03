@@ -2,21 +2,23 @@ local L = LibStub('AceLocale-3.0'):NewLocale('Scrap', 'enUS', true, true)
 
 -- main
 L.Add = 'Set as Junk'
-L.Added = 'Set as junk: %s'
+L.DestroyCheapest = 'Destroy Cheapest Junk Item'
 L.DestroyJunk = 'Destroy Junk'
+L.Junk = 'Junk'
+L.NotJunk = 'Useful'
 L.SellJunk = 'Sell Junk'
-L.SoldJunk = 'You sold your junk for %s'
 L.Remove = 'Set as Useful'
-L.Removed = 'Set as useful: %s'
+L.ToggleMousehover = 'Mousehover Toggle Junk'
+
+-- chat
+L.Added = 'Set as junk: %s'
+L.Destroyed = 'You destroyed: %s x %s'
+L.SoldJunk = 'You sold your junk for %s'
 L.Repaired = 'You repaired your armor for %s'
-L.ToggleMousehover = 'Toggle Item Under Cursor'
+L.Removed = 'Set as useful: %s'
 
 -- dialogs
 L.ConfirmDelete = 'Are you sure you want to destroy all your junk items? You cannot undo this action.'
-
--- visualizer
-L.Junk = 'Junk'
-L.NotJunk = 'Useful'
 
 -- options
 L.CharSpecific = 'Character Specific Junk List'
@@ -34,6 +36,8 @@ L.Glow = 'Glowing Borders'
 L.GlowTip = 'If enabled, |cffBBBBBBgray|r glowing borders will appear on your Scrap items.'
 L.Icons = 'Coin Icons'
 L.IconsTip = 'If enabled, small gold coins will appear on your Scrap items.'
+L.SellPrices = 'Tooltip Prices'
+L.SellPricesTip = 'If enabled, item sale prices will be shown in tooltips even when not at a merchant.'
 L.Learning = 'Automatic Optimization'
 L.LearningTip = 'If enabled, Scrap will watch and learn which items you usually sell to the merchant and |cffff2020automatically|r consider them junk.'
 L.LowConsume = 'Low Consumables'
