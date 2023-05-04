@@ -1,3 +1,14 @@
+#### 10.1
+* Dragonflight: Updated for Embers of Neltharion.
+* All: Added keybinding to destroy single cheapest junk item stack, given destroying all the junk is not blocked in Dragonflight servers.
+* All: Changed how default settings are handled, so new features that are meant to be enabled by default do so for existing users.
+* All: Destroying cheapest item not prints in chat what was destroyed, just like looting does.
+* Classic: Fixed two bugs in the new vendor prices feature triggered on inventory items.
+* Wrath: Fixed issue turning the sell prices feature on.
+
+##### 10.0.11
+* Classic: Now shows item sell price in tooltips even when not at the vendor.
+
 ##### 10.0.10
 * Wrath: Fixed for blizzard server bugs introduced with Secrets of Ulduar.
 

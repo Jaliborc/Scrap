@@ -19,7 +19,7 @@ local Sushi = LibStub('Sushi-3.1')
 local Options = Scrap:NewModule('Options', Sushi.OptionsGroup('|Tinterface/addons/scrap/art/enabled-icon:12:12:0:0|t Scrap'))
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
-local PATRONS = {{},{title='Jenkins',people={'Gnare','Seventeen','Grumpyitis','Justin Hall','Debora S Ogormanw','Angryclown','Johnny Rabbit'}},{title='Ambassador',people={'Fernando Bandeira','Julia F','Lolari ','Owen Pitcairn','Rafael Lins','Mediocre Monk','Joanie Nelson','Nitro ','Dodgen','Guidez ','Ptsdthegamer','Denise Mckinlay','Frosted(mrp)','Burt Humburg','Marinoco ','Keks','Connie ','Adam Mann','Christie Hopkins','Kopernikus ','Bc Spear','Kendall Lane','Jury ','Dominik','Jeff Stokes','Tigran Andrew','Jeffrey Jones','Swallow@area52','Daniel Foster','Peter Hollaubek','Daniel  Di Battis','Teofan Bobarnea','Bobby Pagiazitis','Metadata','Michael Kinasz','Lars Norberg','Sam Ramji','The Patron'}}} -- generated patron list
+local PATRONS = {{},{title='Jenkins',people={'Gnare','Seventeen','Grumpyitis','Justin Hall','Debora S Ogormanw','Johnny Rabbit'}},{title='Ambassador',people={'Julia F','Lolari ','Rafael Lins','Mediocre Monk','Joanie Nelson','Dodgen','Nitro ','Guidez ','Ptsdthegamer','Denise Mckinlay','Frosted(mrp)','Burt Humburg','Adam Mann','Christie Hopkins','Kopernikus ','Bc Spear','Jury ','Oromisism','Jeff Stokes','Tigran Andrew','Jeffrey Jones','Swallow@area52','Peter Hollaubek','Daniel  Di Battis','Bobby Pagiazitis','Michael Kinasz','Lars Norberg','Sam Ramji','Dave Burlingame'}}} -- generated patron list
 local FOOTER = 'Copyright 2008-2023 João Cardoso'
 
 
@@ -69,6 +69,10 @@ function Options:OnPopulate()
 	self:AddHeader(L.Visuals)
 	self:AddCheck {set = 'glow', text = 'Glow'}
 	self:AddCheck {set = 'icons', text = 'Icons'}
+
+	if not TooltipDataProcessor then
+		self:AddCheck {set = 'prices', text = 'SellPrices'}
+	end
 end
 
 

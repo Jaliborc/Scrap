@@ -4,8 +4,11 @@
 			Scrap.Merchant:Sell()
 		end
 	</Binding>
-	<Binding name="SCRAP_DESTROY" category="ADDONS">
+	<Binding name="SCRAP_DESTROY_ALL" category="ADDONS">
 		Scrap:DestroyJunk()
+	</Binding>
+	<Binding name="SCRAP_DESTROY_ONE" category="ADDONS">
+		Scrap:DestroyCheapest()
 	</Binding>
 	<Binding name="SCRAP_TOGGLE" category="ADDONS">
 		local item = GameTooltip:IsVisible() and select(2, GameTooltip:GetItem())
