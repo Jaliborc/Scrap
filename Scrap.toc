@@ -6,6 +6,6 @@
 ## OptionalDeps: Bagnon, WoWUnit
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
-## Version: 10.0.11
+## Version: 10.1
 
 addons\main\main.xml
