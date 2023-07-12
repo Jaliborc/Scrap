@@ -136,22 +136,13 @@ end
 
 function Button:UpdatePosition()
 	if CanMerchantRepair() then
-		local off, scale
-		if CanGuildBankRepair and CanGuildBankRepair() then
-			off, scale = -3.5, 0.9
-			MerchantRepairAllButton:SetPoint('BOTTOMRIGHT', MerchantFrame, 'BOTTOMLEFT', 120, 35)
-		else
-			off, scale = -1.5, 1
-		end
-
-		self:SetPoint('RIGHT', MerchantRepairItemButton, 'LEFT', off, 0)
-		self:SetScale(scale)
+		MerchantRepairAllButton:SetPoint('BOTTOMRIGHT', MerchantFrame, 'BOTTOMLEFT', 140, 33)
+		self:SetPoint('RIGHT', MerchantRepairItemButton, 'LEFT', -5, 0)
 	else
-		self:SetPoint('RIGHT', MerchantBuyBackItem, 'LEFT', -17, 0.5)
-		self:SetScale(1.1)
+		self:SetPoint('RIGHT', MerchantBuyBackItem, 'LEFT', -135, 0)
 	end
-
-	MerchantRepairText:Hide()
+	
+	self:SetScale(1.13)
 end
 
 function Button:UpdateTip(tooltip)
