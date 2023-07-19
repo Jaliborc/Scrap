@@ -3,12 +3,12 @@ local L = LibStub('AceLocale-3.0'):NewLocale('Scrap', 'enUS', true, true)
 -- main
 L.Add = 'Set as Junk'
 L.DestroyCheapest = 'Destroy Cheapest Junk Item'
-L.DestroyJunk = 'Destroy Junk'
+L.DestroyJunk = 'Destroy All Junk'
 L.Junk = 'Junk'
 L.NotJunk = 'Useful'
 L.SellJunk = 'Sell Junk'
 L.Remove = 'Set as Useful'
-L.ToggleMousehover = 'Mousehover Toggle Junk'
+L.ToggleMousehover = 'Toggle Item Under Mouse'
 
 -- chat
 L.Added = 'Set as junk: %s'

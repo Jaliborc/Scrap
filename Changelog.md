@@ -1,3 +1,13 @@
+##### 10.1.1
+* Dragonflight: Updated for new merchant stock UI.
+* Dragonflight: Added support for the new addon logos API and multiple-TOC format. (no Compartiment support yet).
+* Dragonflight: Cosmetic items are now not considered junk by default.
+* Wrath: Updated TaintLess (previous version was causing issues on this version of the game).
+* All: Marked multiple items to be not junk by default given community feedback.
+* All: Fixed layout of the addon keybindings to fit both retail and classic.
+* All: Merchant button tooltip now updates as expected when button is clicked.
+* All: Removed need for 2 unused textures (smaller install size).
+
 #### 10.1
 * Dragonflight: Updated for Embers of Neltharion.
 * All: Added keybinding to destroy single least valuable junk item stack.

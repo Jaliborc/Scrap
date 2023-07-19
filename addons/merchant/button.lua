@@ -11,22 +11,12 @@ local C = LibStub('C_Everywhere').Container
 --[[ Events ]]--
 
 function Button:OnEnable()
-	local background = self:CreateTexture(nil, 'BACKGROUND')
-	background:SetPoint('CENTER', -0.5, -1.2)
-	background:SetColorTexture(0, 0, 0)
-	background:SetSize(27, 27)
-
 	local icon = self:CreateTexture()
-	icon:SetTexture('Interface/Addons/Scrap/art/enabled-box')
-	icon:SetPoint('CENTER')
+	icon:SetTexture('Interface/Addons/Scrap/art/scrap-enabled')
+	icon:SetPoint('CENTER', 1, MerchantSellAllJunkButton and 1 or 0)
 	icon:SetSize(33, 33)
 
-	local border = self:CreateTexture(nil, 'OVERLAY')
-	border:SetTexture('Interface/Addons/Scrap/art/merchant-border')
-	border:SetSize(35.9, 35.9)
-	border:SetPoint('CENTER')
-
-	self.background, self.icon, self.border, self.tab = background, icon, border, tab
+	self.icon, self.border = icon, self:CreateTexture(nil, 'OVERLAY')
 	self:SetHighlightTexture('Interface/Buttons/ButtonHilight-Square', 'ADD')
 	self:SetPushedTexture('Interface/Buttons/UI-Quickslot-Depress')
 	self:RegisterForClicks('AnyUp')
@@ -39,9 +29,21 @@ function Button:OnEnable()
 	self:SetScript('OnLeave', self.OnLeave)
 	self:SetScript('OnClick', self.OnClick)
 
-	hooksecurefunc('MerchantFrame_UpdateRepairButtons', function()
-		self:UpdatePosition()
-	end)
+	if MerchantSellAllJunkButton then
+		hooksecurefunc('MerchantFrame_UpdateMerchantInfo', function() MerchantSellAllJunkButton:Show() end)
+		self:SetAllPoints(MerchantSellAllJunkButton)
+	else
+		local background = self:CreateTexture(nil, 'BACKGROUND')
+		background:SetPoint('CENTER', -0.5, -1.2)
+		background:SetColorTexture(0, 0, 0)
+		background:SetSize(27, 27)
+
+		self.border:SetTexture('Interface/Addons/Scrap/art/merchant-border')
+		self.border:SetSize(35.9, 35.9)
+		self.border:SetPoint('CENTER')
+
+		hooksecurefunc('MerchantFrame_UpdateRepairButtons', function() self:UpdatePosition() end)
+	end
 end
 
 function Button:OnMerchant()
@@ -84,6 +86,7 @@ function Button:OnClick(button)
 		self:OnReceiveDrag()
 	elseif button == 'LeftButton' then
 		self:Sell()
+		self:UpdateTip(GameTooltip)
 	elseif button == 'RightButton' and LoadAddOn('Scrap_Config') then
 		local drop = LibStub('Sushi-3.1').Dropdown:Toggle(self)
 		if drop then
@@ -134,26 +137,6 @@ function Button:UpdateState()
 	self.icon:SetDesaturated(disabled)
 end
 
-function Button:UpdatePosition()
-	if CanMerchantRepair() then
-		local off, scale
-		if CanGuildBankRepair and CanGuildBankRepair() then
-			off, scale = -3.5, 0.9
-			MerchantRepairAllButton:SetPoint('BOTTOMRIGHT', MerchantFrame, 'BOTTOMLEFT', 120, 35)
-		else
-			off, scale = -1.5, 1
-		end
-
-		self:SetPoint('RIGHT', MerchantRepairItemButton, 'LEFT', off, 0)
-		self:SetScale(scale)
-	else
-		self:SetPoint('RIGHT', MerchantBuyBackItem, 'LEFT', -17, 0.5)
-		self:SetScale(1.1)
-	end
-
-	MerchantRepairText:Hide()
-end
-
 function Button:UpdateTip(tooltip)
 	local type, id = GetCursorInfo()
 	if type == 'item' then
@@ -171,6 +154,30 @@ function Button:UpdateTip(tooltip)
 	end
 
 	tooltip:Show()
+end
+
+if MerchantSellAllJunkButton then
+	function Button:UpdatePosition() end
+else
+	function Button:UpdatePosition()
+		if CanMerchantRepair() then
+			local off, scale
+			if CanGuildBankRepair and CanGuildBankRepair() then
+				off, scale = -3.5, 0.9
+				MerchantRepairAllButton:SetPoint('BOTTOMRIGHT', MerchantFrame, 'BOTTOMLEFT', 120, 35)
+			else
+				off, scale = -1.5, 1
+			end
+
+			self:SetPoint('RIGHT', MerchantRepairItemButton, 'LEFT', off, 0)
+			self:SetScale(scale)
+		else
+			self:SetPoint('RIGHT', MerchantBuyBackItem, 'LEFT', -17, 0.5)
+			self:SetScale(1.1)
+		end
+
+		MerchantRepairText:Hide()
+	end
 end
 
 

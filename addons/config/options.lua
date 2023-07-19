@@ -4,10 +4,10 @@ All Rights Reserved
 --]]
 
 local Sushi = LibStub('Sushi-3.1')
-local Options = Scrap:NewModule('Options', Sushi.OptionsGroup('|Tinterface/addons/scrap/art/enabled-icon:12:12:0:0|t Scrap'))
+local Options = Scrap:NewModule('Options', Sushi.OptionsGroup('|Tinterface/addons/scrap/art/scrap-enabled:12:12:0:0|t Scrap'))
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
-local PATRONS = {{},{title='Jenkins',people={'Gnare','Seventeen','Justin Hall','Debora S Ogormanw','Johnny Rabbit'}},{title='Ambassador',people={'Julia F','Lolari ','Rafael Lins','Joanie Nelson','Kopernikus ','Dodgen','Nitro ','Guidez ','Ptsdthegamer','Denise Mckinlay','Burt Humburg','Adam Mann','Christie Hopkins','Bc Spear','Jury ','Jeff Stokes','Tigran Andrew','Jeffrey Jones','Swallow@area52','Peter Hollaubek','Lars Norberg','Bobby Pagiazitis','Michael Kinasz','Sam Ramji','Dave Burlingame','Syed Hamdani'}}} -- generated patron list
+local PATRONS = {{},{title='Jenkins',people={'Gnare','Seventeen','Justin Hall','Debora S Ogormanw','Johnny Rabbit'}},{title='Ambassador',people={'Julia F','Lolari ','Rafael Lins','Kopernikus ','Dodgen','Kelly Wolf','Ptsdthegamer','Denise Mckinlay','Burt Humburg','Adam Mann','Christie Hopkins','Bc Spear','Jury ','Jeff Stokes','Tigran Andrew','Jeffrey Jones','Swallow@area52','Peter Hollaubek','Bobby Pagiazitis','Michael Kinasz','Sam Ramji','Syed Hamdani','Thinkdesigner '}}} -- generated patron list
 local FOOTER = 'Copyright 2008-2023 João Cardoso'
 
 

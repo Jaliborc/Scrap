@@ -25,13 +25,13 @@ function Tutorials:Load()
 
 		{
 			text = L.Tutorial_Welcome,
-			image = 'Interface\\Addons\\Scrap\\art\\enabled-icon',
+			image = 'Interface/Addons/Scrap/art/scrap-enabled',
 			point = 'CENTER',
 			height = 150,
 		},
 		{
 			text = L.Tutorial_Button,
-			image = 'Interface\\Addons\\Scrap\\art\\tutorial-button',
+			image = 'Interface/Addons/Scrap/art/tutorial-button',
 			point = 'TOPLEFT', relPoint = 'TOPRIGHT',
 			shineTop = 5, shineBottom = -5,
 			shineRight = 5, shineLeft = -5,
@@ -41,7 +41,7 @@ function Tutorials:Load()
 		},
 		{
 			text = L.Tutorial_Drag,
-			image = 'Interface\\Addons\\Scrap\\art\\tutorial-drag',
+			image = 'Interface/Addons/Scrap/art/tutorial-drag',
 			point = 'BOTTOMRIGHT', relPoint = 'BOTTOMRIGHT',
 			anchor = MainMenuBarBackpackButton,
 			shine = MainMenuBarBackpackButton,
@@ -51,7 +51,7 @@ function Tutorials:Load()
 		},
 		{
 			text = L.Tutorial_Visualizer,
-			image = 'Interface\\Addons\\Scrap\\art\\tutorial-visualizer',
+			image = 'Interface/Addons/Scrap/art/tutorial-visualizer',
 			shineRight = -2, shineLeft = 2, shineTop = 6,
 			point = 'TOPLEFT', relPoint = 'TOPRIGHT',
 			shine = Scrap.Visualizer.ParentTab,
@@ -60,7 +60,7 @@ function Tutorials:Load()
 		},
 		{
 			text = L.Tutorial_Bye,
-			image = 'Interface\\Addons\\Scrap\\art\\enabled-icon',
+			image = 'Interface/Addons/Scrap/art/scrap-enabled',
 			point = 'CENTER',
 			height = 150,
 		},

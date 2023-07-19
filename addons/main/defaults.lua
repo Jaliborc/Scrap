@@ -74,4 +74,8 @@ Scrap.BaseList = {__index = {
 	[6150] = false,
 	[36812] = false,
 	[62072] = false,
+	[87216] = false,
+	[6529] = false,
+	[136377] = false,
+	[160705] = false,
 }}

@@ -3,7 +3,7 @@ Copyright 2008-2023 João Cardoso
 All Rights Reserved
 --]]
 
-if Bagnon or Bagnonium then return end
+if BagBrother then return end
 local Spotlight = Scrap:NewModule('Spotlight')
 local C = LibStub('C_Everywhere').Container
 local R,G,B = GetItemQualityColor(0)
