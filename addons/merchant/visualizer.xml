@@ -145,13 +145,23 @@
 				</Anchors>
 			</Frame>
 
-			<Button parentKey="Button" name="$parentButton" inherits="MagicButtonTemplate">
+			<Button parentKey="ToggleButton" name="$parentButton" inherits="MagicButtonTemplate">
 				<Anchors>
 					<Anchor point="BOTTOMRIGHT"/>
 				</Anchors>
 				<Scripts>
 					<OnClick>
 						self:GetParent():ToggleItem()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button parentKey="ForgetButton" name="$parentButton" inherits="MagicButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():ForgetItem()
 					</OnClick>
 				</Scripts>
 			</Button>

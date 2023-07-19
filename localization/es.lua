@@ -5,6 +5,8 @@ if not L then return end
 L.Add = 'Añadir a la lista de basura'
 L.Added = 'Añadido a la lista de basura: %s'
 L.DestroyJunk = 'Destruir basura'
+L.Forget = 'Olvidar'
+L.Forgetten = 'Definición se es basura olvidada: %s'
 L.SellJunk = 'Vender basura'
 L.SoldJunk = 'Has vendido basura por un valor de: %s'
 L.Remove = 'Retirar de la lista de basura'
