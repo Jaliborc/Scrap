@@ -1,14 +1,14 @@
-![Preview](http://jaliborc.com/images/addons/large/scrap/tutorial.jpg)
+![Preview](http://jaliborc.com/media/addons/large/scrap/sell-junk.webp)
 
-[![Install](http://img.shields.io/badge/install-curseforge-484266)](https://www.curseforge.com/wow/addons/scrap/)
-[![Patreon](http://img.shields.io/badge/news%20&%20rewards-patreon-ff4d42)](https://www.patreon.com/jaliborc)
-[![Paypal](http://img.shields.io/badge/donate-paypal-1d3fe5)](https://www.paypal.me/jaliborc)
-[![Discord](http://img.shields.io/badge/community-discord-5865F2)](https://bit.ly/discord-jaliborc)
+[![Install](http://img.shields.io/badge/install-curseforge-f16436)](https://www.curseforge.com/wow/addons/pettracker)
+[![Patreon](http://img.shields.io/badge/news-patreon-ff424d)](https://www.patreon.com/jaliborc)
+[![Community](http://img.shields.io/badge/community-discord-5865F2)](https://bit.ly/discord-jaliborc)
 
 # Scrap :moneybag:
-Scrap is a World of Warcraft addon that sells all your junk when you visit a merchant. It is designed to be easy to use and set which items it should sell. Furthermore:
-* Intelligent junk filters.
-* Tags junk items in inventory.
-* Can automatically repair your equipment.
-* Many available plugins for extra functionality.
-* In-game tutorials.
+Scrap sells all your junk when you visit a merchant, but not just grays.
+
+It comes with multiple (optional) intelligent junk filters, and can even memorize which items you normally sell. More importantly, it is designed to be very easy to configure which items to sell and tags junk items in the inventory accordingly.
+It can also automatically repair your equipment.
+Finally, a wide assortment of plugins are available that add extra functionality, such as support for [Bagnon](https://www.curseforge.com/wow/addons/bagnon-scrap), [ElvUI](https://www.curseforge.com/wow/addons/scrap-elvui) [DataBroker](https://www.curseforge.com/wow/addons/scrap-broker), or an automatic [inventory cleaner](https://www.curseforge.com/wow/addons/scrap-cleaner).
+
+![Preview](http://jaliborc.com/media/addons/large/scrap/bagnon.webp)
