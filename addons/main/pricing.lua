@@ -37,7 +37,7 @@ end
 --[[ Events ]]--
 
 function Prices.OnBag(tip, bag, slot)
-    local _, count, _,_,_,_,_,_,_, id = GetContainerItemInfo(bag, slot)
+    local _, count, _,_,_,_,_,_,_, id = C_Container.GetContainerItemInfo(bag, slot)
     Prices:AddLine(tip, id, count, true)
 end
 
