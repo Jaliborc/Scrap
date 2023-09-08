@@ -5,6 +5,7 @@ All Rights Reserved
 
 if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then return end
 local Prices = Scrap:NewModule('TooltipPrices')
+local C = LibStub('C_Everywhere').Container
 
 
 --[[ Main ]]--
@@ -37,8 +38,8 @@ end
 --[[ Events ]]--
 
 function Prices.OnBag(tip, bag, slot)
-    local _, count, _,_,_,_,_,_,_, id = GetContainerItemInfo(bag, slot)
-    Prices:AddLine(tip, id, count, true)
+    local info = C.GetContainerItemInfo(bag, slot)
+    Prices:AddLine(tip, info.itemID, info.itemStack, true)
 end
 
 function Prices.OnInventory(tip, unit, slot)
