@@ -36,7 +36,7 @@ function Scrap:OnEnable()
 	self:RegisterSignal('SETS_CHANGED', 'OnSettings')
 	self:OnSettings()
 
-	CreateFrame('Frame', nil, InterfaceOptionsFrame or SettingsPanel):SetScript('OnShow', function()
+	CreateFrame('Frame', nil, SettingsPanel or InterfaceOptionsFrame):SetScript('OnShow', function()
 		LoadAddOn('Scrap_Config')
 	end)
 end
