@@ -1,7 +1,10 @@
+##### 10.1.3
+* All: Bound on equip items marked as gray quality by Blizzard are no longer considered junk by default. (cheers to Ketrel for initial draft)
+
 ##### 10.1.2
 * All: Added a "Forget Item" button to the Scrap merchant tab.
 * Dragonflight: Fixed issue that caused merchant "undo arrow" to appear while on the Scrap merchant tab.
-* 
+
 ##### 10.1.1
 * Dragonflight: Updated for new merchant stock UI.
 * Dragonflight: Added support for the new addon logos API and multiple-TOC format. (no Compartiment support yet).
