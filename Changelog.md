@@ -1,5 +1,10 @@
+##### 10.1.4
+* Vanilla & Wrath: Fixed issues with loading config in modern option panels.
+* All: Reorganized options.
+
 ##### 10.1.3
 * All: Bound on equip items marked as gray quality by Blizzard are no longer considered junk by default. (cheers to Ketrel for initial draft)
+* Vanilla: Updated to Vanilla now using C_Container that was causing errors on mousehover.
 
 ##### 10.1.2
 * All: Added a "Forget Item" button to the Scrap merchant tab.
@@ -20,10 +25,10 @@
 * All: Added keybinding to destroy single least valuable junk item stack.
 * All: Changed how default settings are handled, so new features that are meant to be enabled by default do so for existing users.
 * Wrath: Fixed issue unintentionally turning the sell prices feature on.
-* Classic: Fixed two bugs in the new vendor prices feature triggered on inventory items.
+* Vanilla: Fixed two bugs in the new vendor prices feature triggered on inventory items.
 
 ##### 10.0.11
-* Classic: Now shows item sell price in tooltips even when not at the vendor.
+* Vanilla: Now shows item sell price in tooltips even when not at the vendor.
 
 ##### 10.0.10
 * Wrath: Fixed for blizzard server bugs introduced with Secrets of Ulduar.
