@@ -35,7 +35,7 @@ function Options:OnEnable()
 	end)
 
 
-	local filters = BasePanel(self, 'Junk List '.. CreateAtlasMarkup('poi-workorders'))
+	local filters = BasePanel(self, L.JunkList .. CreateAtlasMarkup('poi-workorders'))
 	filters:SetSubtitle(L.FiltersDesc)
 	filters:SetFooter(FOOTER)
 	filters:SetChildren(function(self)

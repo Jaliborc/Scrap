@@ -3,30 +3,36 @@ if not L then return end
 
 -- main
 L.Add = 'Imposta come Cianfrusaglia'
-L.Added = 'Imposta come Cianfrusaglia: %s'
+L.DestroyCheapest = 'Distruggi l\'oggetto Cianfrusaglia più Economico'
 L.DestroyJunk = 'Distruggi Cianfrusaglie'
+L.Forget = 'Dimentica'
+L.Junk = 'Cianfrusaglia'
+L.JunkList = 'Lista Rifiuti'
+L.NotJunk = 'Utile'
 L.SellJunk = 'Vendi Cianfrusaglie'
-L.SoldJunk = 'Hai venduto le tue Cianfrusaglie per %s'
 L.Remove = 'Imposta come Utile'
-L.Removed = 'Imposta come Utile: %s'
-L.Repaired = 'Hai riparato il tuo equipaggiamento per %s'
 L.ToggleMousehover = 'Attiva/Disattiva Oggetto Sotto il Cursore'
+
+-- chat
+L.Added = 'Imposta come Cianfrusaglia: %s'
+L.Destroyed = 'Hai distrutto: %s x %s'
+L.Forgotten = 'Hai dimenticato lo stato di cianfrusaglia di: %s'
+L.SoldJunk = 'Hai venduto le tue Cianfrusaglie per %s'
+L.Repaired = 'Hai riparato il tuo equipaggiamento per %s'
+L.Removed = 'Imposta come Utile: %s'
 
 -- dialogs
 L.ConfirmDelete = 'Sei sicuro di voler distruggere tutte le tue cianfrusaglie? Non puoi cancellare questa azione.'
 
--- visualizer
-L.Junk = 'Cianfrusaglia'
-L.NotJunk = 'Utile'
-
 -- options
-L.CharSpecific = 'Lista Specifica del Personaggio di Cianfrusaglie'
-L.Description = 'Queste opzioni ti permettono di configurare Scrap sempre più accuratamente. Le cianfrusaglie non passeranno!'
+L.GeneralDesc = 'Queste opzioni ti permettono di configurare Scrap sempre più accuratamente. Le cianfrusaglie non passeranno!'
+L.FiltersDesc = 'Queste opzioni ti permettono di configurare ulteriormente la tua lista di cianfrusaglie e il rilevamento automatico di cianfrusaglie.'
 
 L.AutoSell = 'Vendi Automaticamente'
 L.AutoSellTip = 'Se abilitato, Scrap venderà automaticamente tutte le tue cianfrusaglie quando visiti un mercante.'
 L.AutoRepair = 'Ripara Automaticamente'
 L.AutoRepairTip = 'Se abilitato, Scrap riparerà automaticamente tutto il tuo equipaggiamento quando visiti un mercante.'
+L.CharSpecific = 'Lista Specifica del Personaggio di Cianfrusaglie'
 L.DestroyWorthless = 'Distruggi Senza Valore'
 L.DestroyWorthlessTip = 'Se abilitato, Scrap distruggerà tutte le cianfrusaglie senza un valore di vendita.'
 L.GuildRepair = 'Usa Fondi di Gilda'
@@ -35,6 +41,8 @@ L.Glow = 'Bordi Luccicanti'
 L.GlowTip = 'Se abilitato, appariranno bordi |cffBBBBBBgrigi|r sugli oggetti che Scrap considera cianfrusaglie.'
 L.Icons = 'Icona Moneta'
 L.IconsTip = 'Se abilitato, appariranno piccole monete dorate sugli oggetti che Scrap considera cianfrusaglie.'
+L.SellPrices = 'Prezzi sul Tooltip'
+L.SellPricesTip = 'Se abilitato, i prezzi di vendita degli oggetti saranno mostrati nei tooltip anche quando non si è presso un mercante.'
 L.Learning = 'Auto Apprendimento'
 L.LearningTip = 'Se abilitato, Scrap autoapprenderà quali oggetti vendi generalmente ad un mercante e li considererà |cffff2020automaticamente|r come cianfrusaglie.'
 L.LowConsume = 'Consumabili Minori'

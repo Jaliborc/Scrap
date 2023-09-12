@@ -1,4 +1,10 @@
-##### 10.1.4
+##### 10.1.6 (unreleased)
+* All: Added assets for the new recommended addon list format for plugins.
+
+##### 10.1.5 (unreleased)
+* All: Massive overall update to localizations.
+
+##### 10.1.4 (unreleased)
 * Vanilla & Wrath: Fixed issues with loading config in modern option panels.
 * All: Reorganized options.
 
@@ -17,7 +23,7 @@
 * Wrath: Updated TaintLess (previous version was causing issues on this version of the game).
 * All: Marked multiple items to be not junk by default given community feedback.
 * All: Fixed layout of the addon keybindings to fit both retail and classic.
-* All: Merchant button tooltip now updates as expected when button is clicked.
+* All: Merccd "C:\Users\Jaliborc\Documents\Documents\Work\Addons\upmod"node cli hant button tooltip now updates as expected when button is clicked.
 * All: Removed need for 2 unused textures (smaller install size).
 
 #### 10.1

@@ -1,11 +1,12 @@
 local L = LibStub('AceLocale-3.0'):NewLocale('Scrap', 'enUS', true, true)
 
--- main
+-- general
 L.Add = 'Set as Junk'
 L.DestroyCheapest = 'Destroy Cheapest Junk Item'
 L.DestroyJunk = 'Destroy All Junk'
 L.Forget = 'Forget'
 L.Junk = 'Junk'
+L.JunkList = 'Junk List'
 L.NotJunk = 'Useful'
 L.SellJunk = 'Sell Junk'
 L.Remove = 'Set as Useful'
@@ -24,31 +25,33 @@ L.ConfirmDelete = 'Are you sure you want to destroy all your junk items? You can
 
 -- options
 L.GeneralDesc = 'These are general features that can be toggled depending on your preferences. The trash shall not pass!'
-L.FiltersDesc = 'These options allow you to configure your junk list and automatic junk detection further.'
+L.ListDesc = 'These options allow you to configure your junk list and automatic junk detection further.'
 
 L.AutoSell = 'Automatically Sell'
 L.AutoSellTip = 'If enabled, Scrap will automatically sell your junk when you visit a merchant.'
 L.AutoRepair = 'Automatically Repair'
 L.AutoRepairTip = 'If enabled, Scrap will automatically repair your armor when you visit a merchant.'
-L.CharSpecific = 'Character Specific'
 L.DestroyWorthless = 'Destroy Worthless'
 L.DestroyWorthlessTip = 'If enabled, Scrap will destroy junk items with no vendor sale value.'
 L.GuildRepair = 'Use Guild Funds'
 L.GuildRepairTip = 'If enabled, Scrap will use available guild funds for repairs before your own money.'
+L.SafeMode = 'Safe Mode'
+L.SafeModeTip = 'If enabled, Scrap will not sell more than 12 items at once, so that you may always buy them back.'
+
 L.Glow = 'Glowing Borders'
 L.GlowTip = 'If enabled, |cffBBBBBBgray|r glowing borders will appear on your Scrap items.'
 L.Icons = 'Coin Icons'
 L.IconsTip = 'If enabled, small gold coins will appear on your Scrap items.'
 L.SellPrices = 'Tooltip Prices'
 L.SellPricesTip = 'If enabled, item sale prices will be shown in tooltips even when not at a merchant.'
+
+L.CharSpecific = 'Character Specific'
 L.Learning = 'Automatic Optimization'
 L.LearningTip = 'If enabled, Scrap will watch and learn which items you usually sell to the merchant and |cffff2020automatically|r mark them junk.'
 L.LowConsume = 'Low Consumables'
 L.LowConsumeTip = 'If enabled, Scrap will sell |cffff2020any|r consumable which is too low for your level.'
 L.LowEquip = 'Low Equipment'
 L.LowEquipTip = 'If enabled, Scrap will sell |cffff2020any|r soulbound equipment which has a much lower value than the one you are wearing.'
-L.SafeMode = 'Safe Mode'
-L.SafeModeTip = 'If enabled, Scrap will not sell more than 12 items at once, so that you may always buy them back.'
 L.Unusable = 'Unusable Equipment'
 L.UnusableTip = 'If enabled, Scrap will sell |cffff2020any|r soulbound equipment that could never be used by your character.'
 

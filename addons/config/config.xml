@@ -2,5 +2,5 @@
 	<Include file="..\..\libs\config.xml"/>
 
 	<Script file="options.lua"/>
-  <Script file="tutorials.lua"/>
+	<Script file="tutorials.lua"/>
 </Ui>
