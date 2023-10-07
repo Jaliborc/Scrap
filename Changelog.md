@@ -1,10 +1,15 @@
-##### 10.1.6 (unreleased)
-* All: Added assets for the new recommended addon list format for plugins.
+##### 10.1.7
+* Classic: Fixed bug that caused away-from-vendor item prices to not account for the size of the stack.
+* All: Tweaked some locales.
 
-##### 10.1.5 (unreleased)
+##### 10.1.6
+* All: Added assets for the new recommended addon list format for plugins.
+* All: Fixed bug in the new filters configuration panel that prevented changing settings.
+
+##### 10.1.5
 * All: Massive overall update to localizations.
 
-##### 10.1.4 (unreleased)
+##### 10.1.4
 * Vanilla & Wrath: Fixed issues with loading config in modern option panels.
 * All: Reorganized options.
 

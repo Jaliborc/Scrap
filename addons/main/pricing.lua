@@ -39,7 +39,7 @@ end
 
 function Prices.OnBag(tip, bag, slot)
     local info = C.GetContainerItemInfo(bag, slot)
-    Prices:AddLine(tip, info.itemID, info.itemStack, true)
+    Prices:AddLine(tip, info.itemID, info.stackCount, true)
 end
 
 function Prices.OnInventory(tip, unit, slot)

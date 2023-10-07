@@ -3,7 +3,7 @@ local L = LibStub('AceLocale-3.0'):NewLocale('Scrap', 'enUS', true, true)
 -- general
 L.Add = 'Set as Junk'
 L.DestroyCheapest = 'Destroy Cheapest Junk Item'
-L.DestroyJunk = 'Destroy All Junk'
+L.DestroyJunk = 'Destroy Junk'
 L.Forget = 'Forget'
 L.Junk = 'Junk'
 L.JunkList = 'Junk List'

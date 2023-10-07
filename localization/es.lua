@@ -2,16 +2,16 @@ local L = LibStub('AceLocale-3.0'):NewLocale('Scrap', 'esES') or LibStub('AceLoc
 if not L then return end
 
 -- main
-L.Add = 'Añadir a la lista de basura'
-L.DestroyCheapest = 'Destruir objeto basura más barato'
-L.DestroyJunk = 'Destruir basura'
+L.Add = 'Añadir a la Lista de Basura'
+L.DestroyCheapest = 'Destruir Basura Más Barata'
+L.DestroyJunk = 'Destruir Basura'
 L.Forget = 'Olvidar'
 L.Junk = 'Basura'
 L.JunkList = 'Lista de Basura'
 L.NotJunk = 'Útil'
-L.SellJunk = 'Vender basura'
-L.Remove = 'Retirar de la lista de basura'
-L.ToggleMousehover = 'Alternar artículo bajo el cursor'
+L.SellJunk = 'Vender Basura'
+L.Remove = 'Retirar de la Lista de Basura'
+L.ToggleMousehover = 'Alternar Artículo Bajo el Cursor'
 
 -- chat
 L.Added = 'Añadido a la lista de basura: %s'

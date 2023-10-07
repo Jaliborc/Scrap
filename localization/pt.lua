@@ -4,7 +4,7 @@ if not L then return end
 -- main
 L.Add = 'Definir como Lixo'
 L.DestroyCheapest = 'Destruir Lixo Mais Barato'
-L.DestroyJunk = 'Destruir Todo o Lixo'
+L.DestroyJunk = 'Destruir Lixo'
 L.Forget = 'Esquecer'
 L.Junk = 'Lixo'
 L.JunkList = 'Lista do Lixo'
