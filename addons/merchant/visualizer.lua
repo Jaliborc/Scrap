@@ -21,7 +21,7 @@ function Visualizer:OnEnable()
 	backdrop:SetAllPoints(portrait)
 
 	local mask = portrait:GetParent():CreateMaskTexture()
-	mask:SetTexture('Interface/CHARACTERFRAME/TempPortraitAlphaMask')
+	mask:SetTexture('Interface/CharacterFrame/TempPortraitAlphaMask')
 	mask:SetAllPoints(backdrop)
 	backdrop:AddMaskTexture(mask)
 	portrait:AddMaskTexture(mask)

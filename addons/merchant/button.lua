@@ -94,7 +94,7 @@ function Button:OnClick(button)
 			drop:SetChildren {
 				{ text = 'Scrap', isTitle = 1 },
 				{
-					text = OPTIONS ..'  '.. '|A:worldquest-icon-engineering:12:12|a',
+					text = OPTIONS ..'  |A:worldquest-icon-engineering:12:12|a',
 					func = function() Scrap.Options:Open() end,
 					notCheckable = 1
 				},

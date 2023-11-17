@@ -1,5 +1,8 @@
+#### 10.2
+* Retail: TOC update.
+
 ##### 10.1.8
-* Updated for Wrath of the Lich King 3.4.3
+* Wrath: Updated for 3.4.3.
 
 ##### 10.1.7
 * Classic: Fixed bug that caused away-from-vendor item prices to not account for the size of the stack.

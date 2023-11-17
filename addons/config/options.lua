@@ -5,10 +5,10 @@ All Rights Reserved
 
 local Sushi = LibStub('Sushi-3.1')
 local BasePanel = LibStub('Sushi-3.1').OptionsGroup:NewClass()
-local Options = Scrap:NewModule('Options', BasePanel('|Tinterface/addons/scrap/art/scrap-enabled:12:12:0:0|t Scrap'))
+local Options = Scrap:NewModule('Options', BasePanel('|Tinterface/addons/scrap/art/scrap-enabled:12:12:4:0|t  Scrap'))
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
-local PATRONS = {{},{title='Jenkins',people={'Gnare','Adcantu','Justin Hall','Debora S Ogormanw','Johnny Rabbit'}},{title='Ambassador',people={'Julia F','Lolari ','Rafael Lins','Dodgen','Kopernikus ','Ptsdthegamer','Burt Humburg','Adam Mann','Christie Hopkins','Bc Spear','Jury ','Tigran Andrew','Jeffrey Jones','Swallow@area52','Peter Hollaubek','Michael Kinasz','Kelly Wolf','Sam Ramji','Syed Hamdani','Raidek ','Thinkdesigner '}}} -- generated patron list
+local PATRONS = {{},{title='Jenkins',people={'Gnare','Adcantu','Justin Hall','Debora S Ogormanw','Johnny Rabbit','Francesco Rollo'}},{title='Ambassador',people={'Julia F','Lolari ','Dodgen','Kopernikus ','Ptsdthegamer','Burt Humburg','Adam Mann','Christie Hopkins','Bc Spear','Jury ','Tigran Andrew','Jeffrey Jones','Swallow@area52','Peter Hollaubek','Michael Kinasz','Sam Ramji','Kelly Wolf','Syed Hamdani','Thinkdesigner ','Charles Howarth','Harry J Hightower'}}} -- generated patron list
 local FOOTER = 'Copyright 2008-2023 João Cardoso'
 
 
@@ -35,8 +35,8 @@ function Options:OnEnable()
 	end)
 
 
-	local filters = BasePanel(self, L.JunkList .. CreateAtlasMarkup('poi-workorders'))
-	filters:SetSubtitle(L.FiltersDesc)
+	local filters = BasePanel(self, L.JunkList .. ' ' .. CreateAtlasMarkup('poi-workorders'))
+	filters:SetSubtitle(L.ListDesc)
 	filters:SetFooter(FOOTER)
 	filters:SetChildren(function(self)
 		local share = self:Add('Check', L.CharSpecific)
@@ -53,7 +53,7 @@ function Options:OnEnable()
 		self:AddCheck {set = 'consumable', text = 'LowConsume', char = true}
 	end)
 
-	local credits = Sushi.CreditsGroup(self, PATRONS, 'Patrons |Tinterface/addons/scrap/art/patreon:12:12|t')
+	local credits = Sushi.CreditsGroup(self, PATRONS, 'Patrons  |Tinterface/addons/scrap/art/patreon:12:12|t')
 	credits:SetSubtitle('Scrap is distributed for free and supported trough donations. A massive thank you to all the supporters on Patreon and Paypal who keep development alive. You can become a patron too at |cFFF96854patreon.com/jaliborc|r.', 'http://www.patreon.com/jaliborc')
 	credits:SetFooter(FOOTER)
 end
