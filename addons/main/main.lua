@@ -120,10 +120,8 @@ function Scrap:DestroyCheapest()
 end
 
 function Scrap:DestroyJunk()
-	LibStub('Sushi-3.1').Popup {
-		id = 'DeleteScrap',
-		text = L.ConfirmDelete, button1 = OKAY, button2 = CANCEL,
-		hideOnEscape = 1, showAlert = 1,
+	LibStub('Sushi-3.2').Popup {
+		text = L.ConfirmDelete, showAlert = true, button1 = OKAY, button2 = CANCEL,
 		OnAccept = function()
 			for bag, slot in self:IterateJunk() do
 				C.PickupContainerItem(bag, slot)

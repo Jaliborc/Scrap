@@ -25,8 +25,8 @@ L.Removed = 'Definido como útil: %s'
 L.ConfirmDelete = 'Tem certeza de que deseja destruir todos os seus itens inúteis? Esta ação não pode ser desfeita.'
 
 -- options
-L.GeneralDesc = 'Estas são funcionalidades gerais que podem ser ativadas ou desativadas de acordo com suas preferências. O lixo não passará!'
-L.FiltersDesc = 'Estas opções permitem que você configure sua lista de lixo e detecção automática de lixo ainda mais.'
+L.GeneralDescription = 'Estas são funcionalidades gerais que podem ser ativadas ou desativadas de acordo com suas preferências. O lixo não passará!'
+L.ListDescription = 'Estas opções permitem que você configure sua lista de lixo e detecção automática de lixo ainda mais.'
 L.AutoSell = 'Vender Automaticamente'
 L.AutoSellTip = 'Se ativado, o Scrap venderá automaticamente todo o seu lixo quando visitar um comerciante.'
 L.AutoRepair = 'Reparar Automaticamente'

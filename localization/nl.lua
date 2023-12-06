@@ -25,8 +25,8 @@ L.Removed = 'Als nuttig instellen: %s'
 L.ConfirmDelete = 'Is het zeker dat al deze items vernietigd moeten worden? Deze actie kan niet ongedaan worden.'
 
 -- options
-L.GeneralDesc = 'Dit zijn algemene functies die kunnen worden in- of uitgeschakeld op basis van je voorkeuren. De rommel zal niet voorbijgaan!' -- modified
-L.FiltersDesc = 'Deze opties staan toe om Scrap nog verder in te stellen.'
+L.GeneralDescription = 'Dit zijn algemene functies die kunnen worden in- of uitgeschakeld op basis van je voorkeuren. De rommel zal niet voorbijgaan!' -- modified
+L.ListDescription = 'Deze opties staan toe om Scrap nog verder in te stellen.'
 
 L.AutoSell = 'Automatische Verkoop'
 L.AutoSellTip = 'Scrap zal automatisch alle rommel verkopen wanneer een handelaar wordt bezocht, in het geval dit is ingesteld.'

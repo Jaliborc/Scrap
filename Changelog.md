@@ -1,3 +1,19 @@
+##### 10.2.3
+* New Help menu!
+* Merchant Scrap button now has entry to redirect to the new Help menu, instead of the tutorial alone.
+* Upgraded to Sushi-3.2:
+  * Popup rework, with bugfixes and improved design.
+  * Fixed dropdown issue that could create lag, improved design.
+  * Function-chaining now possible.
+  * Other minor optimizations.
+* Fixed a bug in all localizations.
+
+##### 10.2.2
+* Season of Discovery: Prevented strange usage of the tooltip APIs from causing errors.
+
+##### 10.2.1
+* Classic: Fixed positioning of Visualizer tab.
+
 #### 10.2
 * Retail: TOC update.
 

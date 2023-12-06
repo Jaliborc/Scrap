@@ -25,8 +25,8 @@ L.Removed = 'Von der Müll-Liste entfernt: %s'
 L.ConfirmDelete = 'Bist Du sicher, dass Du alle Deine Müllgegenstände zerstören möchtest? Du kannst dies nicht rückgängig machen.'
 
 -- options
-L.GeneralDesc = 'Diese Optionen gestatten dir, Scrap noch weiter anzupassen. Auf das kein Müll durchkomme!'
-L.FiltersDesc = 'Diese Optionen gestatten dir, deine Müll-Liste und die automatische Müll-Erkennung weiter anzupassen.'
+L.GeneralDescription = 'Diese Optionen gestatten dir, Scrap noch weiter anzupassen. Auf das kein Müll durchkomme!'
+L.ListDescription = 'Diese Optionen gestatten dir, deine Müll-Liste und die automatische Müll-Erkennung weiter anzupassen.'
 
 L.AutoSell = 'Automatisch verkaufen'
 L.AutoSellTip = 'Wenn aktiviert, wird Scrap deinen Müll automatisch beim Händler verkaufen.'

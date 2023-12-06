@@ -25,8 +25,8 @@ L.Removed = 'Enlevé de la liste de camelote: %s'
 L.ConfirmDelete = 'Voulez-vous vraiment supprimer toute votre camelote ? Cette action ne peut pas être annulée.'
 
 -- options
-L.GeneralDesc = 'Ces options vous permettent de configurer Scrap encore mieux. La camelote ne passera pas !'
-L.FiltersDesc = 'Ces options vous permettent de configurer votre liste de camelote et la détection automatique de camelote encore plus loin.'
+L.GeneralDescription = 'Ces options vous permettent de configurer Scrap encore mieux. La camelote ne passera pas !'
+L.ListDescription = 'Ces options vous permettent de configurer votre liste de camelote et la détection automatique de camelote encore plus loin.'
 
 L.AutoSell = 'Vente Automatique'
 L.AutoSellTip = 'Si cette option est activée, Scrap vendra automatiquement toute votre camelote lors d\'une visite chez un marchand.'

@@ -25,8 +25,8 @@ L.Removed = '%s 已从垃圾列表移除'
 L.ConfirmDelete = '你确定要摧毁所有垃圾物品吗？此操作无法撤销。'
 
 -- options
-L.GeneralDesc = '这些选项让你可以更详尽地设置 Scrap。\n不留垃圾！'
-L.FiltersDesc = '这些选项允许你进一步配置你的垃圾列表和自动垃圾检测。'
+L.GeneralDescription = '这些选项让你可以更详尽地设置 Scrap。\n不留垃圾！'
+L.ListDescription = '这些选项允许你进一步配置你的垃圾列表和自动垃圾检测。'
 
 L.AutoSell = '自动出售'
 L.AutoSellTip = '开启此功能，Scrap 会在你访问商人时自动出售所有垃圾。'

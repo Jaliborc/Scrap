@@ -38,42 +38,56 @@ end
 --[[ Events ]]--
 
 function Prices.OnBag(tip, bag, slot)
-    local info = C.GetContainerItemInfo(bag, slot)
-    Prices:AddLine(tip, info.itemID, info.stackCount, true)
+    if bag and slot then
+        local info = C.GetContainerItemInfo(bag, slot)
+        Prices:AddLine(tip, info.itemID, info.stackCount, true)
+    end
 end
 
 function Prices.OnInventory(tip, unit, slot)
-    local count = GetInventoryItemCount(unit, slot)
-    local id = GetInventoryItemID(unit, slot)
-    Prices:AddLine(tip, id, count)
+    if unit and slot then
+        local count = GetInventoryItemCount(unit, slot)
+        local id = GetInventoryItemID(unit, slot)
+        Prices:AddLine(tip, id, count)
+    end
 end
 
 function Prices.OnQuest(tip, type, index)
-    local _,_, count, _,_, id = (type == 'reward' and GetQuestLogRewardInfo or GetQuestLogChoiceInfo)(index)
-    Prices:AddLine(tip, id, count)
+    if index then
+        local _,_, count, _,_, id = (type == 'reward' and GetQuestLogRewardInfo or GetQuestLogChoiceInfo)(index)
+        Prices:AddLine(tip, id, count)
+    end
 end
 
 function Prices.OnLoot(tip, slot)
-    Prices:AddLine(tip, GetLootSlotLink(slot), GetLootInfo()[slot].quantity)
+    if slot then
+        Prices:AddLine(tip, GetLootSlotLink(slot), GetLootInfo()[slot].quantity)
+    end
 end
 
 function Prices.OnMail(tip, message, slot)
-    local _, id, _, count = GetInboxItem(message, slot)
-    Prices:AddLine(tip, id, count)
+    if message and slot then
+        local _, id, _, count = GetInboxItem(message, slot)
+        Prices:AddLine(tip, id, count)
+    end
 end
 
 function Prices.OnSetTradeSkillItem(tip, skill, index)
 	if index then
 		Prices:AddLine(tip, GetTradeSkillReagentItemLink(skill, index))
-	else
+    elseif skill then
 		Prices:AddLine(tip, GetTradeSkillItemLink(skill))
 	end
 end
 
 function Prices.OnSetCraftItem(tip, ...)
-	Prices:AddLine(tip, GetCraftReagentItemLink(...))
+    if ... then
+	    Prices:AddLine(tip, GetCraftReagentItemLink(...))
+    end
 end
 
 function Prices.OnLink(tip, link)
-    Prices:AddLine(tip, link)
+    if link then
+        Prices:AddLine(tip, link)
+    end
 end

@@ -25,8 +25,8 @@ L.Removed = 'Has retirado de la lista de basura: %s'
 L.ConfirmDelete = '¿Estás seguro de que quieres destruir todos tus items basura? ¡No puedes deshacer esta acción!.'
 
 -- options
-L.GeneralDesc = 'Estas opciones te permiten configurar Scrap aún más. ¡La basura no dominará tus bolsas!'
-L.FiltersDesc = 'Estas opciones te permiten configurar tu lista de basura y detección de basura automática más a fondo.'
+L.GeneralDescription = 'Estas opciones te permiten configurar Scrap aún más. ¡La basura no dominará tus bolsas!'
+L.ListDescription = 'Estas opciones te permiten configurar tu lista de basura y detección de basura automática más a fondo.'
 
 L.AutoSell = 'Vender automáticamente'
 L.AutoSellTip = 'Si está activado, Scrap venderá automáticamente tu basura cuando visites a un mercader.'

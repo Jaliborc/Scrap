@@ -99,8 +99,8 @@ function Button:OnClick(button)
 					notCheckable = 1
 				},
 				{
-					text = SHOW_TUTORIALS .. '  |T516770:12:12:0:0:64:64:14:50:14:50|t',
-					func = function() Scrap.Tutorials:Reset() end,
+					text = HELP_LABEL .. '  |T516770:12:12:0:0:64:64:14:50:14:50|t',
+					func = function() Scrap.Options.Help:Open() end,
 					notCheckable = 1
 				},
 				{ text = CANCEL, notCheckable = 1 }

@@ -25,8 +25,8 @@ L.Removed = 'Imposta come Utile: %s'
 L.ConfirmDelete = 'Sei sicuro di voler distruggere tutte le tue cianfrusaglie? Non puoi cancellare questa azione.'
 
 -- options
-L.GeneralDesc = 'Queste opzioni ti permettono di configurare Scrap sempre più accuratamente. Le cianfrusaglie non passeranno!'
-L.FiltersDesc = 'Queste opzioni ti permettono di configurare ulteriormente la tua lista di cianfrusaglie e il rilevamento automatico di cianfrusaglie.'
+L.GeneralDescription = 'Queste opzioni ti permettono di configurare Scrap sempre più accuratamente. Le cianfrusaglie non passeranno!'
+L.ListDescription = 'Queste opzioni ti permettono di configurare ulteriormente la tua lista di cianfrusaglie e il rilevamento automatico di cianfrusaglie.'
 
 L.AutoSell = 'Vendi Automaticamente'
 L.AutoSellTip = 'Se abilitato, Scrap venderà automaticamente tutte le tue cianfrusaglie quando visiti un mercante.'
