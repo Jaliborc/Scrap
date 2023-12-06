@@ -9,7 +9,7 @@ local Options = Scrap:NewModule('Options', BasePanel('|Tinterface/addons/scrap/a
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
 local PATRONS = {{title='Jenkins',people={'Gnare','Adcantu','Justin Hall','Debora S Ogormanw','Johnny Rabbit','Francesco Rollo'}},{title='Ambassador',people={'Julia F','Lolari ','Dodgen','Kopernikus ','Ptsdthegamer','Burt Humburg','Adam Mann','Christie Hopkins','Bc Spear','Jury ','Tigran Andrew','Jeffrey Jones','Swallow@area52','Peter Hollaubek','Michael Kinasz','Sam Ramji','Kelly Wolf','Syed Hamdani','Thinkdesigner ','Charles Howarth','Harry J Hightower'}}} -- generated patron list
-local PATREON_ICON = '  |TInterface/Addons/PetTracker/art/patreon:12:12|t'
+local PATREON_ICON = '  |TInterface/Addons/Scrap/art/patreon:12:12|t'
 local HELP_ICON = '  |T516770:13:13:0:0:64:64:14:50:14:50|t'
 local FOOTER = 'Copyright 2012-2023 João Cardoso'
 
