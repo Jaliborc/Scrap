@@ -37,6 +37,7 @@ function Scrap:OnEnable()
 	self:OnSettings()
 
 	CreateFrame('Frame', nil, SettingsPanel or InterfaceOptionsFrame):SetScript('OnShow', function()
+		LoadAddOn('Scrap_Merchant')
 		LoadAddOn('Scrap_Config')
 	end)
 end
