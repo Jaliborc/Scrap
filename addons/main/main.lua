@@ -4,8 +4,8 @@ All Rights Reserved
 --]]
 
 local Scrap = LibStub('WildAddon-1.0'):NewAddon(...)
+local C, LoadAddOn = LibStub('C_Everywhere').Container, LibStub('C_Everywhere').AddOns.LoadAddOn
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
-local C = LibStub('C_Everywhere').Container
 local Search = LibStub('ItemSearch-1.3')
 
 local NUM_BAGS = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS
@@ -31,28 +31,33 @@ SCRAP = 'Scrap'
 --[[ Startup ]]--
 
 function Scrap:OnEnable()
-	self.Tip = CreateFrame('GameTooltip', 'ScrapTooltip', nil, 'GameTooltipTemplate')
 	self:RegisterEvent('MERCHANT_SHOW', function() LoadAddOn('Scrap_Merchant'); self:SendSignal('MERCHANT_SHOW') end)
 	self:RegisterSignal('SETS_CHANGED', 'OnSettings')
 	self:OnSettings()
 
-	CreateFrame('Frame', nil, SettingsPanel or InterfaceOptionsFrame):SetScript('OnShow', function()
+	Scrap_Sets, Scrap_CharSets = self.sets, self.charsets
+	if (Scrap_Sets.tutorial or 0) > 0 then
+		SettingsPanel.CategoryList:HookScript('OnShow', function() LoadAddOn('Scrap_Config') end)
+	else
 		LoadAddOn('Scrap_Config')
-	end)
+	end
+
+	if AddonCompartmentFrame then
+		AddonCompartmentFrame:RegisterAddon {
+			text = 'Scrap', keepShownOnClick = true, notCheckable = true,
+			icon = 'interface/addons/scrap/art/scrap-small',
+			func = function()
+				if LoadAddOn('Scrap_Config') then
+					self.Options:Open()
+				end
+			end
+		}
+	end
 end
 
 function Scrap:OnSettings()
-	Scrap_CharSets = Scrap_CharSets or {list = {}, auto = {}}
-	Scrap_Sets = Scrap_Sets or {list = {}}
-
-	self.charsets, self.sets = Scrap_CharSets, setmetatable(Scrap_Sets, self.Defaults)
-	self.junk = setmetatable(self.charsets.share and self.sets.list or self.charsets.list, self.BaseList)
-
-	-- removes deprecated data. keep until next major game update
-	self.charsets.ml = nil
-	self.charsets.auto = self.charsets.auto or {}
-	--
-
+	self.sets, self.charsets = self:SetDefaults(Scrap_Sets or {}, self.Defaults), self:SetDefaults(Scrap_CharSets or {}, self.CharDefaults)
+	self.junk = self:SetDefaults(self.charsets.share and self.sets.list or self.charsets.list, self.BaseList)
 	self:SendSignal('LIST_CHANGED')
 end
 
@@ -186,13 +191,13 @@ end
 function Scrap:IsBetterEquip(slot, level, canEmpty)
 	local item = ItemLocation:CreateFromEquipmentSlot(_G['INVSLOT_' .. slot])
 	if C_Item.DoesItemExist(item) then
-		return (C_Item.GetCurrentItemLevel(item) or 0) >= (level * 1.3)
+		return (C_Item.GetCurrentItemLevel(item) or 0) >= (level * self.charsets.equipFactor)
 	end
 	return canEmpty
 end
 
 function Scrap:IsLowConsumable(level)
-	return level > 1 and (level * 1.3) < UnitLevel('player')
+	return level > 1 and (level * self.charsets.consumableFactor) < UnitLevel('player')
 end
 
 

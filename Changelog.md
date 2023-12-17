@@ -1,11 +1,24 @@
+##### 10.2.6 (unreleased)
+* Retail: Added support to the new native Addon Compartment functionality.
+
+##### 10.2.5
+* Now users can optionally configure the item level thresholds for an item to be considered too low level.
+* Removed deprecated hidden tooltip.
+
+##### 10.2.4
+* Updated main artwork!
+
 ##### 10.2.3
 * New Help menu!
-* Merchant Scrap button now has entry to redirect to the new Help menu, instead of the tutorial alone.
+  * Merchant Scrap button now has entry to redirect to the new Help menu, instead of the tutorial alone.
+  * Small tweaks to the tutorial to fit within the new setup.
 * Upgraded to Sushi-3.2:
   * Popup rework, with bugfixes and improved design.
   * Fixed dropdown issue that could create lag, improved design.
   * Function-chaining now possible.
   * Other minor optimizations.
+* Now prevents Titan from causing errors by requesting non-existing tooltips.
+* Now makes use of ExecuteFrameScript where sensible.
 * Fixed a bug in all localizations.
 
 ##### 10.2.2

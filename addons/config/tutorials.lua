@@ -6,18 +6,7 @@ All Rights Reserved
 local Tutorials = Scrap:NewModule('Tutorials', 'CustomTutorials-2.1')
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
-function Tutorials:Start()
-	self:Load()
-	self:TriggerTutorial(5)
-end
-
-function Tutorials:Reset()
-	self:Load()
-	self:ResetTutorials()
-	self:TriggerTutorial(5)
-end
-
-function Tutorials:Load()
+function Tutorials:OnEnable()
 	self:RegisterTutorials {
 		savedvariable = Scrap.sets,
 		key = 'tutorial',
@@ -25,9 +14,9 @@ function Tutorials:Load()
 
 		{
 			text = L.Tutorial_Welcome,
-			image = 'Interface/Addons/Scrap/art/scrap-enabled',
+			image = 'Interface/Addons/Scrap/art/scrap-big',
+			imageW = 128, imageH = 128,
 			point = 'CENTER',
-			height = 150,
 		},
 		{
 			text = L.Tutorial_Button,
@@ -60,9 +49,20 @@ function Tutorials:Load()
 		},
 		{
 			text = L.Tutorial_Bye,
-			image = 'Interface/Addons/Scrap/art/scrap-enabled',
+			image = 'Interface/Addons/Scrap/art/scrap-big',
+			imageW = 128, imageH = 128,
 			point = 'CENTER',
-			height = 150,
 		},
 	}
+
+	self:TriggerTutorial(1)
+end
+
+function Tutorials:Start()
+	self:TriggerTutorial(5)
+end
+
+function Tutorials:Restart()
+	self:ResetTutorials()
+	self:TriggerTutorial(1)
 end

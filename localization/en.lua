@@ -54,6 +54,7 @@ L.LowEquip = 'Low Equipment'
 L.LowEquipTip = 'If enabled, Scrap will sell |cffff2020any|r soulbound equipment which has a much lower value than the one you are wearing.'
 L.Unusable = 'Unusable Equipment'
 L.UnusableTip = 'If enabled, Scrap will sell |cffff2020any|r soulbound equipment that could never be used by your character.'
+L.iLevelTreshold = 'Item Level Threshold'
 
 -- help
 L.PatronsDescription = 'Scrap is distributed for free and supported trough donations. A massive thank you to all the supporters on Patreon and Paypal who keep development alive. You can become a patron too at |cFFF96854patreon.com/jaliborc|r.'
@@ -66,8 +67,8 @@ L.FAQ = {
     'That functionallity is not part of core Scrap, it is part of a separate plugin. Try installing or updating |cffffd200Bagnon Scrap Support|r.'
 }
 
-L.Tutorial_Welcome = 'Welcome to |cffffd200Scrap|r, the intelligent junk vending solution by |cffffd200Jaliborc|r. This short tutorial will help you to get started selling your junk items.|n|nIt will save you time, and your pockets will certainly appreciate. Shall we get started?'
+L.Tutorial_Welcome = 'Welcome to |cffffd200Scrap|r, the intelligent junk vending solution by |cffffd200Jaliborc|r.|n|nPlease start this short tutorial by |cffffd200visiting a merchant|r. It will save you time, and your pockets will certainly appreciate. Shall we get started?'
 L.Tutorial_Button = 'Scrap will automatically sell all your junk whenever you visit a merchant. But you can manually sell it: simply |cffffd200Left-Click|r on the Scrap button.|n|n|cffffd200Right-Click|r on the button to bring extra options.'
 L.Tutorial_Drag = 'What if you want to tell Scrap which items to sell or not? Simply |cffffd200Drag|r it from your bags into the Scrap button.|n|nAlternatively, you may set a |cffffd200Keybinding|r at the |cffffd200Game Menu|r options. Press it while hovering the item.'
 L.Tutorial_Visualizer = 'To see what items you have specified as junk or not, open the |cffffd200Scrap Visualizer|r tab.|n|nNotice it will only display items which you have |cffffd200specified|r, not every single item in-game.'
-L.Tutorial_Bye = 'Good luck on your journeys, and may |cffb400ffthe epics|r be with you. The trash shall not pass!'
+L.Tutorial_Bye = 'Good luck on your journeys, and may the |cffb400ffEpics|r be with you. The trash shall not pass!'

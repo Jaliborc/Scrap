@@ -5,10 +5,10 @@ All Rights Reserved
 
 local Sushi = LibStub('Sushi-3.2')
 local BasePanel = Sushi.OptionsGroup:NewClass()
-local Options = Scrap:NewModule('Options', BasePanel('|Tinterface/addons/scrap/art/scrap-enabled:12:12:4:0|t  Scrap'))
+local Options = Scrap:NewModule('Options', BasePanel('|Tinterface/addons/scrap/art/scrap-small:16:16:2:0|t  Scrap'))
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
-local PATRONS = {{title='Jenkins',people={'Gnare','Adcantu','Justin Hall','Debora S Ogormanw','Johnny Rabbit','Francesco Rollo'}},{title='Ambassador',people={'Julia F','Lolari ','Dodgen','Kopernikus ','Ptsdthegamer','Burt Humburg','Adam Mann','Christie Hopkins','Bc Spear','Jury ','Tigran Andrew','Jeffrey Jones','Swallow@area52','Peter Hollaubek','Michael Kinasz','Sam Ramji','Kelly Wolf','Syed Hamdani','Thinkdesigner ','Charles Howarth','Harry J Hightower'}}} -- generated patron list
+local PATRONS = {{title='Jenkins',people={'Gnare','Adcantu','Justin Hall','Debora S Ogormanw','Johnny Rabbit','Francesco Rollo'}},{title='Ambassador',people={'Julia F','Lolari ','Dodgen','Kelly Wolf','Kopernikus ','Ptsdthegamer','Burt Humburg','Adam Mann','Christie Hopkins','Bc Spear','Jury ','Tigran Andrew','Swallow@area52','Peter Hollaubek','Michael Kinasz','Sam Ramji','Syed Hamdani','Ds9293','Charles Howarth'}}} -- generated patron list
 local PATREON_ICON = '  |TInterface/Addons/Scrap/art/patreon:12:12|t'
 local HELP_ICON = '  |T516770:13:13:0:0:64:64:14:50:14:50|t'
 local FOOTER = 'Copyright 2012-2023 João Cardoso'
@@ -47,8 +47,8 @@ function Options:OnMain()
 end
 
 function Options:OnFilters()
-	self:Add('Check', L.CharSpecific):SetChecked(not Scrap_CharSets.share):SetCall('OnInput', function(share, v)
-		Scrap_CharSets.share = not v
+	self:Add('Check', L.CharSpecific):SetChecked(not Scrap.charsets.share):SetCall('OnInput', function(share, v)
+		Scrap.charsets.share = not v
 		self:SendSignal('SETS_CHANGED')
 	end)
 	self:AddCheck {set = 'learn', text = 'Learning'}
@@ -56,7 +56,9 @@ function Options:OnFilters()
 	self:AddHeader(CALENDAR_FILTERS)
 	self:AddCheck {set = 'unusable', text = 'Unusable', char = true}
 	self:AddCheck {set = 'equip', text = 'LowEquip', char = true}
+	self:AddTreshold ('equip')
 	self:AddCheck {set = 'consumable', text = 'LowConsume', char = true}
+	self:AddTreshold ('consumable')
 end
 
 function Options:OnHelp()
@@ -69,7 +71,7 @@ function Options:OnHelp()
 		end
 	end
 
-	self:Add('RedButton', 'Show Tutorial'):SetWidth(200):SetCall('OnClick', function() Scrap.Tutorials:Reset() end).top = 10
+	self:Add('RedButton', 'Show Tutorial'):SetWidth(200):SetCall('OnClick', function() Scrap.Tutorials:Restart() end).top = 10
 	self:Add('RedButton', 'Ask Community'):SetWidth(200):SetCall('OnClick', function()
 		Sushi.Popup:External('bit.ly/discord-jaliborc')
 		SettingsPanel:Close(true)
@@ -102,7 +104,7 @@ function BasePanel:AddHeader(text)
 end
 
 function BasePanel:AddCheck(info)
-	local sets = info.char and Scrap_CharSets or Scrap_Sets
+	local sets = info.char and Scrap.charsets or Scrap.sets
 	local b = self:Add('Check', L[info.text])
 	b.left = b.left + (info.parent and 10 or 0)
 	b:SetEnabled(not info.parent or sets[info.parent])
@@ -115,8 +117,14 @@ function BasePanel:AddCheck(info)
 	end)
 end
 
-function BasePanel:SetDefaults()
-	Scrap_Sets, Scrap_CharSets = nil
-	self:SendSignal('SETS_CHANGED')
-	self:Update()
+function BasePanel:AddTreshold(set)
+	if Scrap.charsets[set] then
+		local set = set .. 'Factor'
+		local s = self:Add('Slider', L.iLevelTreshold, (Scrap.charsets[set] - 1) * 100, 0,100,1, '%s%')
+		s:SetSmall(true):SetKeys {top = 5, left = 40, bottom = 15}
+		s:SetCall('OnInput', function(s, v)
+			Scrap.charsets[set] = 1 + v / 100
+			Options:SendSignal('LIST_CHANGED')
+		end)
+	end
 end

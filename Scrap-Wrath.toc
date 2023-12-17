@@ -1,4 +1,4 @@
-## Title: |TInterface/Addons/Scrap/art/scrap-enabled:16:16|t Scrap
+## Title: |TInterface/Addons/Scrap/art/scrap-small:16:16|t Scrap
 ## Notes: Sells all your junk at the merchant.|n|cffbbbbbbBy João Cardoso|r|n|n|TInterface/Addons/Scrap/art/patreon:12:12|t |cff82c5ffpatreon.com/jaliborc|r|n|TInterface/Addons/Scrap/art/paypal:12:12|t |cff82c5ffpaypal.me/jaliborc|r|n|TInterface/Addons/Scrap/art/discord:12:12:0:-2|t |cff82c5ffbit.ly/discord-jaliborc|r
 ## Author: Jaliborc (João Cardoso)
 ## X-License: All Rights Reserved
@@ -8,6 +8,6 @@
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
 ## Interface: 30403
-## Version: 10.2.2
+## Version: 10.2.5
 
 addons\main\main.xml
