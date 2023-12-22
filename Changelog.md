@@ -1,5 +1,6 @@
-##### 10.2.6 (unreleased)
+##### 10.2.6
 * Retail: Added support to the new native Addon Compartment functionality.
+* All: Made the existence of keybinding options more obvious.
 
 ##### 10.2.5
 * Now users can optionally configure the item level thresholds for an item to be considered too low level.

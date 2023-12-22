@@ -30,6 +30,10 @@ function Options:OnEnable()
 end
 
 function Options:OnMain()
+	self:Add('RedButton', SETTINGS_KEYBINDINGS_LABEL):SetKeys{top = -5, bottom = 15}:SetCall('OnClick', function()
+		SettingsPanel:SelectCategory(SettingsPanel.keybindingsCategory)
+	end)
+
 	self:AddHeader(L.Behaviour)
 	self:AddCheck {set = 'sell', text = 'AutoSell'}
 	self:AddCheck {set = 'repair', text = 'AutoRepair'}
