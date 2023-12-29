@@ -1,3 +1,6 @@
+##### 10.2.7
+* All: Fixed a bug with tutorials on new installs.
+
 ##### 10.2.6
 * Retail: Added support to the new native Addon Compartment functionality.
 * All: Made the existence of keybinding options more obvious.
