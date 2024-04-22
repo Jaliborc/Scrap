@@ -1,3 +1,6 @@
+##### 10.2.8
+* All: Fixed issue with ColorPicker detected by the community.
+
 ##### 10.2.7
 * All: Fixed a bug with tutorials on new installs.
 
