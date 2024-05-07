@@ -9,6 +9,6 @@
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
 ## Interface: 100206
-## Version: 10.2.8
+## Version: 10.2.10
 
 addons\main\main.xml

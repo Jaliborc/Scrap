@@ -1,3 +1,9 @@
+##### 10.2.10
+* Cata: Updated popups to support the worsened API, fixing multiple bugs.
+
+##### 10.2.9
+* Updated for Cataclysm servers!
+
 ##### 10.2.8
 * All: Fixed issue with ColorPicker detected by the community.
 
