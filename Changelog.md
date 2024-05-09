@@ -1,3 +1,6 @@
+##### 10.2.11
+* Dragonflight: Updated toc.
+
 ##### 10.2.10
 * Cata: Updated popups to support the worsened API, fixing multiple bugs.
 
