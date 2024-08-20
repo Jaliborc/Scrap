@@ -5,13 +5,13 @@ All Rights Reserved
 
 local Learn = Scrap:NewModule('Learning') -- dumb ml algortihm using exponential mean average
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
-local C = LibStub('C_Everywhere').Container
+local C = LibStub('C_Everywhere')
 
 
 --[[ Events ]] --
 
 function Learn:OnEnable()
-  C.hooksecurefunc('UseContainerItem', function(...)
+  C.Container.hooksecurefunc('UseContainerItem', function(...)
     if self:IsActive() then
       self:OnItemSold(...)
     end
@@ -27,15 +27,15 @@ function Learn:OnEnable()
 end
 
 function Learn:OnItemSold(bag, slot)
-	local id = C.GetContainerItemID(bag, slot)
+	local id = C.Container.GetContainerItemID(bag, slot)
 	if id and Scrap.junk[id] == nil and not Scrap:IsFiltered(id, bag, slot) then
-  	local rate = self:GetDecay(id, C.GetContainerItemInfo(bag, slot).stackCount)
+  	local rate = self:GetDecay(id, C.Container.GetContainerItemInfo(bag, slot).stackCount)
     local old = Scrap.charsets.auto[id] or 0
     local new = old + (1 - old) * rate
 
   	Scrap.charsets.auto[id] = new
     if old <= .5 and new > .5 then
-      Scrap:Print(L.Added:format(C.GetContainerItemLink(bag, slot)), 'LOOT')
+      Scrap:Print(L.Added:format(C.Container.GetContainerItemLink(bag, slot)), 'LOOT')
       Scrap:SendSignal('LIST_CHANGED', id)
     end
   end
@@ -65,6 +65,6 @@ function Learn:IsActive()
 end
 
 function Learn:GetDecay(id, stack)
-  local maxStack = select(8, GetItemInfo(id))
+  local maxStack = select(8, C.Item.GetItemInfo(id))
   return 0.382 * stack / maxStack
 end
