@@ -8,7 +8,7 @@
 ## OptionalDeps: BagBrother, WoWUnit
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
-## Interface: 100207
-## Version: 10.2.11
+## Interface: 110002
+## Version: 11.0.2
 
 addons\main\main.xml
