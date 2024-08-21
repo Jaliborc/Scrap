@@ -5,6 +5,7 @@ All Rights Reserved
 
 local Visualizer = Scrap:NewModule('Visualizer', ScrapVisualizer, 'MutexDelay-1.0')
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
+local C = LibStub('C_Everywhere')
 
 
 --[[ Startup ]]--
@@ -65,7 +66,7 @@ end
 function Visualizer:QueryItems()
 	local ready = true
 	for id in pairs(Scrap.junk) do
-		ready = ready and GetItemInfo(id)
+		ready = ready and C.Item.GetItemInfo(id)
 	end
 
 	if not ready then
@@ -94,7 +95,7 @@ end
 
 function Visualizer:ForgetItem()
 	Scrap.junk[self.item.id] = nil
-	Scrap:Print(format(L.Forgotten, select(2, GetItemInfo(self.item.id))), 'LOOT')
+	Scrap:Print(format(L.Forgotten, select(2, C.Item.GetItemInfo(self.item.id))), 'LOOT')
 	Scrap:SendSignal('LIST_CHANGED', self.item.id)
 	self.item = {}
 end
@@ -108,7 +109,7 @@ function Visualizer:UpdateList()
 
 		local mode = self.selectedTab == 2
 		for id, classification in pairs(Scrap.junk) do
-			if classification == mode and GetItemInfo(id) then
+			if classification == mode and C.Item.GetItemInfo(id) then
 				tinsert(self.list, id)
 			end
 		end
@@ -120,8 +121,8 @@ function Visualizer:UpdateList()
 				return nil
 			end
 
-			local nameA, _ , qualityA, _,_,_,_,_,_,_,_, classA = GetItemInfo(A)
-			local nameB, _ , qualityB, _,_,_,_,_,_,_,_, classB = GetItemInfo(B)
+			local nameA, _ , qualityA, _,_,_,_,_,_,_,_, classA = C.Item.GetItemInfo(A)
+			local nameB, _ , qualityB, _,_,_,_,_,_,_,_, classB = C.Item.GetItemInfo(B)
 			if qualityA == qualityB then
 				return (classA == classB and nameA < nameB) or classA > classB
 			else
@@ -140,7 +141,7 @@ function Visualizer.Scroll:update()
 		HybridScrollFrame_CreateButtons(self.Scroll, 'ScrapVisualizerButtonTemplate', 1, -2, 'TOPLEFT', 'TOPLEFT', 0, -3)
 	end
 
-	local focus = GetMouseFocus()
+	local focus = GetMouseFoci and GetMouseFoci()[1] or GetMouseFocus and GetMouseFocus()
 	local offset = HybridScrollFrame_GetOffset(self.Scroll)
 	local width = #self.list > 17 and 296 or 318
 
@@ -149,7 +150,7 @@ function Visualizer.Scroll:update()
 		local id = self.list[index]
 
 		if id then
-			local name, link, quality = GetItemInfo(id)
+			local name, link, quality = C.Item.GetItemInfo(id)
 			button.item, button.link = id, link
 			button:SetHighlightLocked(id == self.item.id)
 			button.Text:SetTextColor(ITEM_QUALITY_COLORS[quality].color:GetRGB())

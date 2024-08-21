@@ -5,7 +5,7 @@ All Rights Reserved
 
 local Button = Scrap:NewModule('Merchant', CreateFrame('Button', nil, MerchantBuyBackItem), 'MutexDelay-1.0')
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
-local C = LibStub('C_Everywhere').Container
+local C = LibStub('C_Everywhere')
 
 
 --[[ Events ]]--
@@ -55,7 +55,7 @@ function Button:OnMerchant()
 		self:Repair()
 	end
 
-	if (Scrap.sets.tutorial or 0) < 5 and LoadAddOn('Scrap_Config') then
+	if (Scrap.sets.tutorial or 0) < 5 and C.AddOns.LoadAddOn('Scrap_Config') then
 		Scrap.Tutorials:Start()
 	end
 
@@ -87,7 +87,7 @@ function Button:OnClick(button)
 	elseif button == 'LeftButton' then
 		self:Sell()
 		self:UpdateTip(GameTooltip)
-	elseif button == 'RightButton' and LoadAddOn('Scrap_Config') then
+	elseif button == 'RightButton' and C.AddOns.LoadAddOn('Scrap_Config') then
 		local drop = LibStub('Sushi-3.2').Dropdown:Toggle(self)
 		if drop then
 			drop:SetPoint('TOPLEFT', self, 'BOTTOMLEFT', 0, -12)
@@ -146,7 +146,7 @@ function Button:UpdateTip(tooltip)
 
 		local value, qualities = self:GetReport()
 		for quality, count in pairs(qualities) do
-			local r,g,b = GetItemQualityColor(quality)
+			local r,g,b = C.Item.GetItemQualityColor(quality)
 			tooltip:AddDoubleLine(_G['ITEM_QUALITY' .. quality .. '_DESC'], count, r,g,b, r,g,b)
 		end
 
@@ -188,12 +188,12 @@ function Button:Sell()
 
 	local count = 0
 	for bag, slot, id in Scrap:IterateJunk() do
-		if not C.GetContainerItemInfo(bag, slot).isLocked then
-			local value = select(11, GetItemInfo(id)) or 0
+		if not C.Container.GetContainerItemInfo(bag, slot).isLocked then
+			local value = select(11, C.Item.GetItemInfo(id)) or 0
 			if value > 0 then
-				C.UseContainerItem(bag, slot)
+				C.Container.UseContainerItem(bag, slot)
 			elseif Scrap.sets.destroy then
-				C.PickupContainerItem(bag, slot)
+				C.Container.PickupContainerItem(bag, slot)
 				DeleteCursorItem()
 			end
 
@@ -220,10 +220,10 @@ function Button:GetReport()
 	local total = 0
 
 	for bag, slot in Scrap:IterateJunk() do
-		local item = C.GetContainerItemInfo(bag, slot)
+		local item = C.Container.GetContainerItemInfo(bag, slot)
 		if not item.isLocked and item.quality then
 			qualities[item.quality] = (qualities[item.quality] or 0) + item.stackCount
-			total = total + item.stackCount * (select(11, GetItemInfo(item.itemID)) or 0)
+			total = total + item.stackCount * (select(11, C.Item.GetItemInfo(item.itemID)) or 0)
 		end
 	end
 

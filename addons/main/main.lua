@@ -4,9 +4,9 @@ All Rights Reserved
 --]]
 
 local Scrap = LibStub('WildAddon-1.0'):NewAddon(...)
-local C, LoadAddOn = LibStub('C_Everywhere').Container, LibStub('C_Everywhere').AddOns.LoadAddOn
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 local Search = LibStub('ItemSearch-1.3')
+local C = LibStub('C_Everywhere')
 
 local NUM_BAGS = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS
 local WEAPON, ARMOR, CONSUMABLES = Enum.ItemClass.Weapon, Enum.ItemClass.Armor, Enum.ItemClass.Consumable
@@ -31,15 +31,15 @@ SCRAP = 'Scrap'
 --[[ Startup ]]--
 
 function Scrap:OnEnable()
-	self:RegisterEvent('MERCHANT_SHOW', function() LoadAddOn('Scrap_Merchant'); self:SendSignal('MERCHANT_SHOW') end)
+	self:RegisterEvent('MERCHANT_SHOW', function() C.AddOns.LoadAddOn('Scrap_Merchant'); self:SendSignal('MERCHANT_SHOW') end)
 	self:RegisterSignal('SETS_CHANGED', 'OnSettings')
 	self:OnSettings()
 
 	Scrap_Sets, Scrap_CharSets = self.sets, self.charsets
 	if (Scrap_Sets.tutorial or 0) > 0 then
-		SettingsPanel.CategoryList:HookScript('OnShow', function() LoadAddOn('Scrap_Config') end)
+		SettingsPanel.CategoryList:HookScript('OnShow', function() C.AddOns.LoadAddOn('Scrap_Config') end)
 	else
-		LoadAddOn('Scrap_Config')
+		C.AddOns.LoadAddOn('Scrap_Config')
 	end
 
 	if AddonCompartmentFrame then
@@ -47,7 +47,7 @@ function Scrap:OnEnable()
 			text = 'Scrap', keepShownOnClick = true, notCheckable = true,
 			icon = 'interface/addons/scrap/art/scrap-small',
 			func = function()
-				if LoadAddOn('Scrap_Config') then
+				if C.AddOns.LoadAddOn('Scrap_Config') then
 					self.Options:Open()
 				end
 			end
@@ -74,12 +74,12 @@ function Scrap:ToggleJunk(id)
 	local junk = self:IsJunk(id)
 
 	self.junk[id] = not junk
-	self:Print(format(junk and L.Removed or L.Added, select(2, GetItemInfo(id))), 'LOOT')
+	self:Print(format(junk and L.Removed or L.Added, select(2, C.Item.GetItemInfo(id))), 'LOOT')
 	self:SendSignal('LIST_CHANGED', id)
 end
 
 function Scrap:IterateJunk()
-	local numSlots = C.GetContainerNumSlots(BACKPACK_CONTAINER)
+	local numSlots = C.Container.GetContainerNumSlots(BACKPACK_CONTAINER)
 	local bag, slot = BACKPACK_CONTAINER, 0
 
 	return function()
@@ -88,12 +88,12 @@ function Scrap:IterateJunk()
 				slot = slot + 1
 			elseif bag < NUM_BAGS then
 				bag, slot = bag + 1, 1
-				numSlots = C.GetContainerNumSlots(bag)
+				numSlots = C.Container.GetContainerNumSlots(bag)
 			else
 				return
 			end
 
-			local id = C.GetContainerItemID(bag, slot)
+			local id = C.Container.GetContainerItemID(bag, slot)
 			if self:IsJunk(id, bag, slot) then
 				return bag, slot, id
 			end
@@ -105,10 +105,10 @@ function Scrap:DestroyCheapest()
 	local best = {value = 2^128}
 
 	for bag, slot in self:IterateJunk() do
-		local _, family = C.GetContainerNumFreeSlots(bag)
+		local _, family = C.Container.GetContainerNumFreeSlots(bag)
 		if family == 0 then
-			local item = C.GetContainerItemInfo(bag, slot)
-			local _,_,_,_,_,_,_, maxStack, _,_, price = GetItemInfo(item.itemID) 
+			local item = C.Container.GetContainerItemInfo(bag, slot)
+			local _,_,_,_,_,_,_, maxStack, _,_, price = C.Item.GetItemInfo(item.itemID) 
 
 			local value = price * (item.stackCount + sqrt(maxStack - item.stackCount) * 0.5)
 			if value < best.value then
@@ -118,7 +118,7 @@ function Scrap:DestroyCheapest()
 	end
 
 	if best.item then
-		C.PickupContainerItem(best.bag, best.slot)
+		C.Container.PickupContainerItem(best.bag, best.slot)
 		DeleteCursorItem()
 		self:Print(L.Destroyed:format(best.item.hyperlink, best.item.stackCount), 'LOOT')
 	end
@@ -129,7 +129,7 @@ function Scrap:DestroyJunk()
 		text = L.ConfirmDelete, showAlert = true, button1 = OKAY, button2 = CANCEL,
 		OnAccept = function()
 			for bag, slot in self:IterateJunk() do
-				C.PickupContainerItem(bag, slot)
+				C.Container.PickupContainerItem(bag, slot)
 				DeleteCursorItem()
 			end
 		end
@@ -141,8 +141,8 @@ end
 
 function Scrap:IsFiltered(id, ...)
 	local location = self:GuessLocation(id, ...)
-	local _, link, quality, level,_,_,_,_, slot, _, value, class, subclass, bound = GetItemInfo(id)
-	local level = location and C_Item.GetCurrentItemLevel(location) or level or 0
+	local _, link, quality, level,_,_,_,_, slot, _, value, class, subclass, bound = C.Item.GetItemInfo(id)
+	local level = location and C.Item.GetCurrentItemLevel(location) or level or 0
 
 	if not value or value == 0 or (IsCosmeticItem and IsCosmeticItem(id)) then
 		return
@@ -151,7 +151,7 @@ function Scrap:IsFiltered(id, ...)
 		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE then
 			if quality == POOR then
 				return bound ~= LE_ITEM_BIND_ON_EQUIP and ((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT)
-			elseif quality >= UNCOMMON and quality <= EPIC and location and C_Item.IsBound(location) then
+			elseif quality >= UNCOMMON and quality <= EPIC and location and C.Item.IsBound(location) then
 				if IsEquippableItem(id) and not Search:BelongsToSet(id) then
 					return self:IsLowEquip(slot, level) or self.charsets.unusable and Search:IsUnusable(id)
 				end
@@ -190,8 +190,8 @@ end
 
 function Scrap:IsBetterEquip(slot, level, canEmpty)
 	local item = ItemLocation:CreateFromEquipmentSlot(_G['INVSLOT_' .. slot])
-	if C_Item.DoesItemExist(item) then
-		return (C_Item.GetCurrentItemLevel(item) or 0) >= (level * self.charsets.equipFactor)
+	if C.Item.DoesItemExist(item) then
+		return (C.Item.GetCurrentItemLevel(item) or 0) >= (level * self.charsets.equipFactor)
 	end
 	return canEmpty
 end
@@ -207,17 +207,17 @@ function Scrap:GuessLocation(...)
 	local bag, slot = self:GuessBagSlot(...)
 	if bag and slot then
 		local location = ItemLocation:CreateFromBagAndSlot(bag, slot)
-		return C_Item.DoesItemExist(location) and location
+		return C.Item.DoesItemExist(location) and location
 	end
 end
 
 function Scrap:GuessBagSlot(id, bag, slot)
 	if bag and slot then
 		return bag, slot
-	elseif GetItemCount(id) > 0 then
+	elseif C.Item.GetItemCount(id) > 0 then
 		for bag = BACKPACK_CONTAINER, NUM_BAGS do
-		  	 for slot = 1, C.GetContainerNumSlots(bag) do
-		  	 	if id == C.GetContainerItemID(bag, slot) then
+		  	 for slot = 1, C.Container.GetContainerNumSlots(bag) do
+		  	 	if id == C.Container.GetContainerItemID(bag, slot) then
 		  	 		return bag, slot
 		  	 	end
 			end
