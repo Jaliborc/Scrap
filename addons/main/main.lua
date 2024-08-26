@@ -149,11 +149,13 @@ function Scrap:IsFiltered(id, ...)
 
 	elseif class == ARMOR or class == WEAPON then
 		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE then
-			if quality == POOR then
-				return bound ~= LE_ITEM_BIND_ON_EQUIP and ((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT)
-			elseif quality >= UNCOMMON and quality <= EPIC and location and C.Item.IsBound(location) then
-				if IsEquippableItem(id) and not Search:BelongsToSet(id) then
-					return self:IsLowEquip(slot, level) or self.charsets.unusable and Search:IsUnusable(id)
+			if self.charsets.uncollected or not Search:IsUncollected(id) then
+				if quality == POOR then
+					return bound ~= LE_ITEM_BIND_ON_EQUIP and ((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT)
+				elseif quality >= UNCOMMON and quality <= EPIC and location and C.Item.IsBound(location) then
+					if IsEquippableItem(id) and not Search:BelongsToSet(id) then
+						return self:IsLowEquip(slot, level) or self.charsets.unusable and Search:IsUnusable(id)
+					end
 				end
 			end
 		end
@@ -184,20 +186,20 @@ function Scrap:IsLowEquip(slot, level)
 			slot1 = ACTUAL_SLOTS[slot1] or slot1
 		end
 
-		return self:IsBetterEquip(slot1, level) and (not slot2 or self:IsBetterEquip(slot2, level, double))
+		return self:IsBelowEquipped(slot1, level) and (not slot2 or self:IsBelowEquipped(slot2, level, double))
 	end
 end
 
-function Scrap:IsBetterEquip(slot, level, canEmpty)
+function Scrap:IsBelowEquipped(slot, level, canEmpty)
 	local item = ItemLocation:CreateFromEquipmentSlot(_G['INVSLOT_' .. slot])
 	if C.Item.DoesItemExist(item) then
-		return (C.Item.GetCurrentItemLevel(item) or 0) >= (level * self.charsets.equipFactor)
+		return level < (C.Item.GetCurrentItemLevel(item) or 0) * self.charsets.equipLvl
 	end
 	return canEmpty
 end
 
 function Scrap:IsLowConsumable(level)
-	return level > 1 and (level * self.charsets.consumableFactor) < UnitLevel('player')
+	return level > 1 and level < UnitLevel('player')  * self.charsets.consumableLvl
 end
 
 

@@ -1,3 +1,10 @@
+### 11.0.5
+* Cata, Retail: Will no longer consider uncollected appearances junk by default.
+
+### 11.0.4
+* All: Changed how the item level threshold options are presented, for clarity of use.
+* Warning! Item threshold settings have been reset as part of the update.
+
 ### 11.0.3
 * All: Updated libraries that had bugs fixed during Bagnon's development.
 

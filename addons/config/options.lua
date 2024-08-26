@@ -61,7 +61,7 @@ function Options:OnFilters()
 	self:AddCheck {set = 'unusable', text = 'Unusable', char = true}
 	self:AddCheck {set = 'equip', text = 'LowEquip', char = true}
 	self:AddTreshold ('equip')
-	self:AddCheck {set = 'consumable', text = 'LowConsume', char = true}
+	self:AddCheck {set = 'consumable', text = 'LowConsumable', char = true}
 	self:AddTreshold ('consumable')
 end
 
@@ -123,11 +123,13 @@ end
 
 function BasePanel:AddTreshold(set)
 	if Scrap.charsets[set] then
-		local set = set .. 'Factor'
-		local s = self:Add('Slider', L.iLevelTreshold, (Scrap.charsets[set] - 1) * 100, 0,100,1, '%s%')
+		local key = set .. 'Lvl'
+		local Set = set:gsub('^%l', strupper)
+		local s = self:Add('Slider', L.iLevelTreshold, Scrap.charsets[key] * 100, 0,100,1, '%s%')
 		s:SetSmall(true):SetKeys {top = 5, left = 40, bottom = 15}
+		s:SetTip(L['Low' .. Set], L[Set .. 'LevelTip'])
 		s:SetCall('OnInput', function(s, v)
-			Scrap.charsets[set] = 1 + v / 100
+			Scrap.charsets[key] = v / 100
 			Options:SendSignal('LIST_CHANGED')
 		end)
 	end

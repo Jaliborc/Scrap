@@ -4,7 +4,7 @@ All Rights Reserved
 --]]
 
 Scrap.Defaults = {list = {}, sell = true, repair = true, safe = true, destroy = true, glow = true, icons = true, prices=true}
-Scrap.CharDefaults = {list = {}, auto = {}, equipFactor = 1.3, consumableFactor = 1.3}
+Scrap.CharDefaults = {list = {}, auto = {}, equipLvl = 0.15, consumableLvl = 0.15}
 Scrap.BaseList = {
 	[90561] = false,
 	[12709] = false,

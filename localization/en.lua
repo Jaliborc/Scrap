@@ -48,13 +48,15 @@ L.SellPricesTip = 'If enabled, item sale prices will be shown in tooltips even w
 L.CharSpecific = 'Character Specific'
 L.Learning = 'Automatic Optimization'
 L.LearningTip = 'If enabled, Scrap will watch and learn which items you usually sell to the merchant and |cffff2020automatically|r mark them junk.'
-L.LowConsume = 'Low Consumables'
-L.LowConsumeTip = 'If enabled, Scrap will sell |cffff2020any|r consumable which is too low for your level.'
+L.LowConsumable = 'Low Consumables'
+L.LowConsumableTip = 'If enabled, Scrap will sell |cffff2020any|r consumable which is too low for your level.'
 L.LowEquip = 'Low Equipment'
 L.LowEquipTip = 'If enabled, Scrap will sell |cffff2020any|r soulbound equipment which has a much lower value than the one you are wearing.'
 L.Unusable = 'Unusable Equipment'
 L.UnusableTip = 'If enabled, Scrap will sell |cffff2020any|r soulbound equipment that could never be used by your character.'
 L.iLevelTreshold = 'Item Level Threshold'
+L.EquipLevelTip = 'Controls the item level below which items are junk, based on a percentage of your current gear level.|n|nFor example: at 100%, any item below your equipped level is junk; at 50%, only items below half that level are.'
+L.ConsumableLevelTip = 'Controls the item level below which consumables are junk, calculated as a percentage of your character level.'
 
 -- help
 L.PatronsDescription = 'Scrap is distributed for free and supported trough donations. A massive thank you to all the supporters on Patreon and Paypal who keep development alive. You can become a patron too at |cFFF96854patreon.com/jaliborc|r.'
