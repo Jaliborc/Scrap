@@ -1,3 +1,9 @@
+### 11.0.7
+* Retail: Updated spotlight for the war within default bag interface.
+
+### 11.0.6
+* All: Added ability to detect new versions of the addon being available.
+
 ### 11.0.5
 * Cata, Retail: Will no longer consider uncollected appearances junk by default.
 

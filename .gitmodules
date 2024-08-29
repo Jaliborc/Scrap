@@ -28,3 +28,6 @@
 [submodule "libs/Sushi-3.2"]
 	path = libs/Sushi-3.2
 	url = https://github.com/Jaliborc/Sushi-3.2.git
+[submodule "libs/StaleCheck-1.0"]
+	path = libs/StaleCheck-1.0
+	url = https://github.com/Jaliborc/StaleCheck-1.0

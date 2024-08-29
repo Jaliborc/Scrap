@@ -3,7 +3,9 @@ Copyright 2008-2024 João Cardoso
 All Rights Reserved
 --]]
 
-local Scrap = LibStub('WildAddon-1.0'):NewAddon(...)
+local ADDON, Addon = ...
+local Scrap = LibStub('WildAddon-1.0'):NewAddon(ADDON, Addon, 'StaleCheck-1.0')
+
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 local Search = LibStub('ItemSearch-1.3')
 local C = LibStub('C_Everywhere')
@@ -31,9 +33,10 @@ SCRAP = 'Scrap'
 --[[ Startup ]]--
 
 function Scrap:OnEnable()
-	self:RegisterEvent('MERCHANT_SHOW', function() C.AddOns.LoadAddOn('Scrap_Merchant'); self:SendSignal('MERCHANT_SHOW') end)
-	self:RegisterSignal('SETS_CHANGED', 'OnSettings')
 	self:OnSettings()
+	self:RegisterSignal('SETS_CHANGED', 'OnSettings')
+	self:RegisterEvent('MERCHANT_SHOW', function() C.AddOns.LoadAddOn('Scrap_Merchant'); self:SendSignal('MERCHANT_SHOW') end)
+	self:CheckForUpdates(ADDON, self.sets, 'interface/addons/scrap/art/scrap-big')
 
 	Scrap_Sets, Scrap_CharSets = self.sets, self.charsets
 	if (Scrap_Sets.tutorial or 0) > 0 then

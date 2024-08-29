@@ -3,7 +3,7 @@ Copyright 2008-2024 João Cardoso
 All Rights Reserved
 --]]
 
-if BagBrother then return end
+if Bagnon or Bagnonium then return end
 local Spotlight = Scrap:NewModule('Spotlight')
 local C = LibStub('C_Everywhere').Container
 local R,G,B = GetItemQualityColor(0)
@@ -33,9 +33,12 @@ function Spotlight:UpdateAll()
 end
 
 function Spotlight:UpdateContainer(frame)
-	self:IterateFrames(frame:GetName() .. 'Item', function(button)
-		self:UpdateButton(frame, button)
-	end)
+	local update = GenerateClosure(self.UpdateButton, self, frame)
+	if frame.Items then
+		TableUtil.Execute(frame.Items, update)
+	else
+		self:IterateFrames(frame:GetName() .. 'Item', update)
+	end
 end
 
 function Spotlight:UpdateButton(frame, button)
