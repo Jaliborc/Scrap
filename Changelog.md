@@ -1,3 +1,6 @@
+### 11.0.8
+* Classic, Cata: Updated C_Everywhere, which was causing an issue.
+
 ### 11.0.7
 * Retail: Updated spotlight for the war within default bag interface.
 

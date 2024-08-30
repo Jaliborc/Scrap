@@ -8,6 +8,6 @@
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
 ## Interface: 40400
-## Version: 11.0.7
+## Version: 11.0.8
 
 addons\main\main.xml
