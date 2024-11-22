@@ -10,7 +10,7 @@ local C = LibStub('C_Everywhere')
 
 --[[ Events ]]--
 
-function Button:OnEnable()
+function Button:OnLoad()
 	local icon = self:CreateTexture()
 	icon:SetTexture(MerchantSellAllJunkButton and 'Interface/Addons/Scrap/Art/Scrap-Big' or 'Interface/Addons/Scrap/Art/Scrap-Small')
 	icon:SetPoint('CENTER')

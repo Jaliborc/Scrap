@@ -11,7 +11,7 @@ local R,G,B = GetItemQualityColor(0)
 
 --[[ Display ]]--
 
-function Spotlight:OnEnable()
+function Spotlight:OnLoad()
 	self.Glows, self.Icons = {}, {}
 	self:RegisterSignal('LIST_CHANGED', 'UpdateAll')
 

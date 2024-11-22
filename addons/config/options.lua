@@ -16,7 +16,7 @@ local FOOTER = 'Copyright 2012-2024 João Cardoso'
 
 --[[ Startup ]]--
 
-function Options:OnEnable()
+function Options:OnLoad()
 	self.Filters = BasePanel(self, L.JunkList .. ' ' .. CreateAtlasMarkup('poi-workorders'))
 		:SetSubtitle(L.ListDescription):SetFooter(FOOTER):SetChildren(self.OnFilters)
 	self.Help = Sushi.OptionsGroup(self, HELP_LABEL .. HELP_ICON)

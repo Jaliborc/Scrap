@@ -4,7 +4,7 @@ All Rights Reserved
 --]]
 
 local ADDON, Addon = ...
-local Scrap = LibStub('WildAddon-1.0'):NewAddon(ADDON, Addon, 'StaleCheck-1.0')
+local Scrap = LibStub('WildAddon-1.1'):NewAddon(ADDON, Addon, 'StaleCheck-1.0')
 
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 local Search = LibStub('ItemSearch-1.3')
@@ -32,7 +32,7 @@ SCRAP = 'Scrap'
 
 --[[ Startup ]]--
 
-function Scrap:OnEnable()
+function Scrap:OnLoad()
 	self:OnSettings()
 	self:RegisterSignal('SETS_CHANGED', 'OnSettings')
 	self:RegisterEvent('MERCHANT_SHOW', function() C.AddOns.LoadAddOn('Scrap_Merchant'); self:SendSignal('MERCHANT_SHOW') end)

@@ -10,7 +10,7 @@ local C = LibStub('C_Everywhere')
 
 --[[ Startup ]]--
 
-function Visualizer:OnEnable()
+function Visualizer:OnLoad()
 	local title = self.TitleText or self.TitleContainer.TitleText
 	title:SetText('Scrap')
 

@@ -10,7 +10,7 @@ local C = LibStub('C_Everywhere')
 
 --[[ Events ]] --
 
-function Learn:OnEnable()
+function Learn:OnLoad()
   C.Container.hooksecurefunc('UseContainerItem', function(...)
     if self:IsActive() then
       self:OnItemSold(...)
