@@ -1,3 +1,16 @@
+### 11.0.12
+* All: Updated TOC
+
+### 11.0.11
+* Retail: Fixed issue that prevented Spotlight from updating correctly on the combined bag frame.
+
+### 11.0.10
+* All: Fixed bug that could occur due to a delay in obtaining item hyperlinks.
+
+### 11.0.9
+* Cata, Retail: Improved uncollected appearance detection.
+* Cata, Classic: Fixed issues with unusable and quest item detection.
+
 ### 11.0.8
 * Classic, Cata: Updated C_Everywhere, which was causing an issue.
 

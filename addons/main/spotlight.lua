@@ -15,21 +15,20 @@ function Spotlight:OnEnable()
 	self.Glows, self.Icons = {}, {}
 	self:RegisterSignal('LIST_CHANGED', 'UpdateAll')
 
+	local update = GenerateClosure(self.UpdateContainer, self)
 	if ContainerFrame_Update then
-		hooksecurefunc('ContainerFrame_Update', function(frame) self:UpdateContainer(frame) end)
+		hooksecurefunc('ContainerFrame_Update', update)
 	else
+		hooksecurefunc(ContainerFrameCombinedBags, 'Update', update)
 		self:IterateFrames('ContainerFrame', function(frame)
-			hooksecurefunc(frame, 'Update', function(frame) self:UpdateContainer(frame) end)
+			hooksecurefunc(frame, 'Update', update)
 		end)
-
-		hooksecurefunc(ContainerFrameCombinedBags, 'Update', function() self:UpdateAll() end)
 	end
 end
 
 function Spotlight:UpdateAll()
-	self:IterateFrames('ContainerFrame', function(frame)
-		self:UpdateContainer(frame)
-	end)
+	self:UpdateContainer(ContainerFrameCombinedBags)
+	self:IterateFrames('ContainerFrame', GenerateClosure(self.UpdateContainer, self))
 end
 
 function Spotlight:UpdateContainer(frame)

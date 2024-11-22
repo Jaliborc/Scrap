@@ -147,12 +147,12 @@ function Scrap:IsFiltered(id, ...)
 	local _, link, quality, level,_,_,_,_, slot, _, value, class, subclass, bound = C.Item.GetItemInfo(id)
 	local level = location and C.Item.GetCurrentItemLevel(location) or level or 0
 
-	if not value or value == 0 or (IsCosmeticItem and IsCosmeticItem(id)) then
+	if not value or value == 0 then
 		return
 
 	elseif class == ARMOR or class == WEAPON then
 		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE then
-			if self.charsets.uncollected or not Search:IsUncollected(id) then
+			if self.charsets.uncollected or link and not Search:IsUncollected(id, link) then
 				if quality == POOR then
 					return bound ~= LE_ITEM_BIND_ON_EQUIP and ((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT)
 				elseif quality >= UNCOMMON and quality <= EPIC and location and C.Item.IsBound(location) then
