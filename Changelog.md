@@ -1,3 +1,6 @@
+### 11.0.13 (beta)
+* All: Upgraded to WildAddon-1.1. Addon custom events now appear on the event tracing window.
+
 ### 11.0.12
 * All: Updated TOC
 
