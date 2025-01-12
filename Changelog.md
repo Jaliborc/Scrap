@@ -1,3 +1,8 @@
+### 11.0.14
+* All: Fixed issues found and reported on the beta version.
+* Cata: Fixed bug with spotlight.
+* All: Tagging release.
+
 ### 11.0.13 (beta)
 * All: Upgraded to WildAddon-1.1. Addon custom events now appear on the event tracing window.
 

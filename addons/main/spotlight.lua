@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2024 João Cardoso
+Copyright 2008-2025 João Cardoso
 All Rights Reserved
 --]]
 
@@ -32,11 +32,13 @@ function Spotlight:UpdateAll()
 end
 
 function Spotlight:UpdateContainer(frame)
-	local update = GenerateClosure(self.UpdateButton, self, frame)
-	if frame.Items then
-		TableUtil.Execute(frame.Items, update)
-	else
-		self:IterateFrames(frame:GetName() .. 'Item', update)
+	if frame then
+		local update = GenerateClosure(self.UpdateButton, self, frame)
+		if frame.Items then
+			TableUtil.Execute(frame.Items, update)
+		else
+			self:IterateFrames(frame:GetName() .. 'Item', update)
+		end
 	end
 end
 
