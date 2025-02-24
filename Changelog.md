@@ -1,3 +1,6 @@
+### 11.0.15
+* All: Updated libraries.
+
 ### 11.0.14
 * All: Fixed issues found and reported on the beta version.
 * Cata: Fixed bug with spotlight.
