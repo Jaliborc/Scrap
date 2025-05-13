@@ -1,3 +1,6 @@
+### 11.1.3
+* TOC update.
+
 ### 11.1.2
 * Retail: Updated description to match the new addon list formatting.
 * All: Updated dependencies.
