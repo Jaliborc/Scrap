@@ -1,3 +1,10 @@
+### 11.1.5
+* Updated with workaround to serious flaw within Blizzard's EventRegistry.
+
+### 11.1.4
+* TOC updated.
+* WildAddon-1.1 updated.
+
 ### 11.1.3
 * TOC update.
 

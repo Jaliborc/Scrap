@@ -3,7 +3,7 @@ Copyright 2008-2025 João Cardoso
 All Rights Reserved
 --]]
 
-local Button = Scrap:NewModule('Merchant', CreateFrame('Button', nil, MerchantBuyBackItem), 'MutexDelay-1.0')
+local Button = Scrap:NewModule('Merchant', CreateFrame('Button', nil, MerchantBuyBackItem))
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 local C = LibStub('C_Everywhere')
 
@@ -59,23 +59,23 @@ function Button:OnMerchant()
 		Scrap.Tutorials:Start()
 	end
 
+	self:RegisterEvent('BAG_UPDATE_DELAYED', 'OnBagUpdate')
 	self:RegisterSignal('LIST_CHANGED', 'UpdateState')
-	self:RegisterEvent('BAG_UPDATE', 'OnBagUpdate')
 	self:UpdatePosition()
 	self:UpdateState()
 end
 
 function Button:OnBagUpdate()
 	if self.saleTotal then
-		self:Delay(0.5, 'Sell')
+		self:Sell()
 	else
-		self:Delay(0, 'UpdateState')
+		self:UpdateState()
 	end
 end
 
 function Button:OnClose()
+	self:UnregisterEvent('BAG_UPDATE_DELAYED')
 	self:UnregisterSignal('LIST_CHANGED')
-	self:UnregisterEvent('BAG_UPDATE')
 end
 
 
