@@ -64,6 +64,9 @@ function Options:OnFilters()
 	self:AddTreshold ('equip')
 	self:AddCheck {set = 'consumable', text = 'LowConsumable', char = true}
 	self:AddTreshold ('consumable')
+	self:AddCheck {set = 'mount', text = 'KnownMount', char = true}
+	self:AddCheck {set = 'companion', text = 'KnownCompanion', char = true}
+	self:AddCheck {set = 'maxCompanions', text = 'MaxCompanions', char = true, parent = 'companion'}
 end
 
 function Options:OnHelp()
