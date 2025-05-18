@@ -64,9 +64,13 @@ function Options:OnFilters()
 	self:AddTreshold ('equip')
 	self:AddCheck {set = 'consumable', text = 'LowConsumable', char = true}
 	self:AddTreshold ('consumable')
-	self:AddCheck {set = 'mount', text = 'KnownMount', char = true}
-	self:AddCheck {set = 'companion', text = 'KnownCompanion', char = true}
-	self:AddCheck {set = 'maxCompanions', text = 'MaxCompanions', char = true, parent = 'companion'}
+	if C_MountJournal and C_MountJournal.GetMountInfoByID and C_MountJournal.GetMountFromItem then
+		self:AddCheck {set = 'mount', text = 'KnownMount', char = true}
+	end
+	if C_PetJournal and C_PetJournal.GetPetInfoByItemID and C_PetJournal.GetNumCollectedInfo then
+		self:AddCheck {set = 'companion', text = 'KnownCompanion', char = true}
+		self:AddCheck {set = 'maxCompanions', text = 'MaxCompanions', char = true, parent = 'companion'}
+	end
 end
 
 function Options:OnHelp()

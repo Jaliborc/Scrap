@@ -213,18 +213,22 @@ function Scrap:IsLowConsumable(level)
 end
 
 function Scrap:IsKnownMount(itemID)
-	local mountID = C_MountJournal.GetMountFromItem(itemID)
-	local collected = select(11, C_MountJournal.GetMountInfoByID(mountID))
-	return collected
+	if C_MountJournal and C_MountJournal.GetMountInfoByID and C_MountJournal.GetMountFromItem then
+		local mountID = C_MountJournal.GetMountFromItem(itemID)
+		local collected = select(11, C_MountJournal.GetMountInfoByID(mountID))
+		return collected
+	end
 end
 
 function Scrap:IsKnownCompanion(itemID)
-	local speciesID = select(13, C_PetJournal.GetPetInfoByItemID(itemID))
-	local numCollected, limit = C_PetJournal.GetNumCollectedInfo(speciesID)
-	if self.charsets.maxCompanions then
-		return numCollected == limit
-	else
-		return numCollected > 0
+	if C_PetJournal and C_PetJournal.GetPetInfoByItemID and C_PetJournal.GetNumCollectedInfo then
+		local speciesID = select(13, C_PetJournal.GetPetInfoByItemID(itemID))
+		local numCollected, limit = C_PetJournal.GetNumCollectedInfo(speciesID)
+		if self.charsets.maxCompanions then
+			return numCollected == limit
+		else
+			return numCollected > 0
+		end
 	end
 end
 
