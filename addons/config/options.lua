@@ -71,6 +71,9 @@ function Options:OnFilters()
 		self:AddCheck {set = 'companion', text = 'KnownCompanion', char = true}
 		self:AddCheck {set = 'maxCompanions', text = 'MaxCompanions', char = true, parent = 'companion'}
 	end
+	if C_ToyBox and C_ToyBox.GetToyInfo and PlayerHasToy then
+		self:AddCheck {set = 'toy', text = 'KnownToy', char = true}
+	end
 end
 
 function Options:OnHelp()
