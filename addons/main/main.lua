@@ -11,8 +11,10 @@ local Search = LibStub('ItemSearch-1.3')
 local C = LibStub('C_Everywhere')
 
 local NUM_BAGS = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS
-local WEAPON, ARMOR, CONSUMABLES = Enum.ItemClass.Weapon, Enum.ItemClass.Armor, Enum.ItemClass.Consumable
+local WEAPON, ARMOR, CONSUMABLES, MISC = Enum.ItemClass.Weapon, Enum.ItemClass.Armor, Enum.ItemClass.Consumable, Enum.ItemClass.Miscellaneous
 local FISHING_POLE = Enum.ItemWeaponSubclass.Fishingpole
+local COMPANION, MOUNT = Enum.ItemMiscellaneousSubclass.CompanionPet, Enum.ItemMiscellaneousSubclass.Mount
+local OTHER = Enum.ItemConsumableSubclass.Other
 
 local POOR, COMMON, UNCOMMON, RARE, EPIC = 0,1,2,3,4
 local ACTUAL_SLOTS = {
@@ -147,7 +149,15 @@ function Scrap:IsFiltered(id, ...)
 	local _, link, quality, level,_,_,_,_, slot, _, value, class, subclass, bound = C.Item.GetItemInfo(id)
 	local level = location and C.Item.GetCurrentItemLevel(location) or level or 0
 
-	if not value or value == 0 then
+	-- check mount/pet before value, because they're often non sellable (junk will destroy)
+	if class == MISC and subclass == MOUNT then
+		return self.charsets.mount and self:IsKnownMount(id)
+	elseif class == MISC and subclass == COMPANION then
+		return self.charsets.companion and self:IsKnownCompanion(id)
+	elseif class == CONSUMABLES and subclass == OTHER then
+		return self.charsets.toy and self:IsKnownToy(id)
+		
+	elseif not value or value == 0 then
 		return
 
 	elseif class == ARMOR or class == WEAPON then
@@ -205,7 +215,33 @@ function Scrap:IsLowConsumable(level)
 	return level > 1 and level < UnitLevel('player')  * self.charsets.consumableLvl
 end
 
+function Scrap:IsKnownMount(itemID)
+	if C_MountJournal and C_MountJournal.GetMountInfoByID and C_MountJournal.GetMountFromItem then
+		local mountID = C_MountJournal.GetMountFromItem(itemID)
+		local collected = select(11, C_MountJournal.GetMountInfoByID(mountID))
+		return collected
+	end
+end
 
+function Scrap:IsKnownCompanion(itemID)
+	if C_PetJournal and C_PetJournal.GetPetInfoByItemID and C_PetJournal.GetNumCollectedInfo then
+		local speciesID = select(13, C_PetJournal.GetPetInfoByItemID(itemID))
+		local numCollected, limit = C_PetJournal.GetNumCollectedInfo(speciesID)
+		if self.charsets.maxCompanions then
+			return numCollected == limit
+		else
+			return numCollected > 0
+		end
+	end
+end
+
+function Scrap:IsKnownToy(itemID)
+	if C_ToyBox and C_ToyBox.GetToyInfo and PlayerHasToy then
+		-- toys are Consumable:Other, but not all Consumable:Other are toys
+		-- GetToyInfo == nil for non-toy items
+		return C_ToyBox.GetToyInfo(itemID) ~= nil and PlayerHasToy(itemID)
+	end
+end
 --[[ Guessing ]]--
 
 function Scrap:GuessLocation(...)
