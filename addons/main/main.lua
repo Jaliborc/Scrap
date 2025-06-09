@@ -14,7 +14,6 @@ local NUM_BAGS = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS
 local WEAPON, ARMOR, CONSUMABLES, MISC = Enum.ItemClass.Weapon, Enum.ItemClass.Armor, Enum.ItemClass.Consumable, Enum.ItemClass.Miscellaneous
 local FISHING_POLE = Enum.ItemWeaponSubclass.Fishingpole
 local COMPANION, MOUNT = Enum.ItemMiscellaneousSubclass.CompanionPet, Enum.ItemMiscellaneousSubclass.Mount
-local OTHER = Enum.ItemConsumableSubclass.Other
 
 local POOR, COMMON, UNCOMMON, RARE, EPIC = 0,1,2,3,4
 local ACTUAL_SLOTS = {
@@ -154,8 +153,8 @@ function Scrap:IsFiltered(id, ...)
 		return self.charsets.mount and self:IsKnownMount(id)
 	elseif class == MISC and subclass == COMPANION then
 		return self.charsets.companion and self:IsKnownCompanion(id)
-	elseif class == CONSUMABLES and subclass == OTHER then
-		return self.charsets.toy and self:IsKnownToy(id)
+	elseif C_ToyBox and C_ToyBox.GetToyInfo and C_ToyBox.GetToyInfo(id) then
+		return self.charsets.toy and PlayerHasToy(id)
 		
 	elseif not value or value == 0 then
 		return
@@ -235,13 +234,6 @@ function Scrap:IsKnownCompanion(itemID)
 	end
 end
 
-function Scrap:IsKnownToy(itemID)
-	if C_ToyBox and C_ToyBox.GetToyInfo and PlayerHasToy then
-		-- toys are Consumable:Other, but not all Consumable:Other are toys
-		-- GetToyInfo == nil for non-toy items
-		return C_ToyBox.GetToyInfo(itemID) ~= nil and PlayerHasToy(itemID)
-	end
-end
 --[[ Guessing ]]--
 
 function Scrap:GuessLocation(...)
