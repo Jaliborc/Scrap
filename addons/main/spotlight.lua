@@ -5,8 +5,8 @@ All Rights Reserved
 
 if Bagnon or Bagnonium then return end
 local Spotlight = Scrap:NewModule('Spotlight')
-local C = LibStub('C_Everywhere').Container
-local R,G,B = GetItemQualityColor(0)
+local C = LibStub('C_Everywhere')
+local R,G,B = C.Item.GetItemQualityColor(0)
 
 
 --[[ Display ]]--
@@ -45,7 +45,7 @@ end
 function Spotlight:UpdateButton(frame, button)
 	if button:IsShown() then
 		local bag, slot = button.bagID or frame:GetID(), button:GetID()
-		local id = C.GetContainerItemID(bag, slot)
+		local id = C.Container.GetContainerItemID(bag, slot)
 		local isJunk = id and Scrap:IsJunk(id, bag, slot)
 
 		local icon = (button.JunkIcon or self.Icons[button] or self:NewIcon(button))

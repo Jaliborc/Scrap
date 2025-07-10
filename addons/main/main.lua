@@ -156,7 +156,7 @@ function Scrap:IsFiltered(id, ...)
 				if quality == POOR then
 					return bound ~= LE_ITEM_BIND_ON_EQUIP and ((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT)
 				elseif quality >= UNCOMMON and quality <= EPIC and location and C.Item.IsBound(location) then
-					if IsEquippableItem(id) and not Search:BelongsToSet(id) then
+					if C.Item.IsEquippableItem(id) and not Search:BelongsToSet(id) then
 						return self:IsLowEquip(slot, level) or self.charsets.unusable and Search:IsUnusable(id)
 					end
 				end

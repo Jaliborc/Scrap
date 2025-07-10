@@ -1,5 +1,13 @@
+### 11.1.7
+* Fixed issue with Visualizer on Mists servers.
+* Fixed bug with positioning of shines during tutorial.
+
+### 11.1.6
+* Now supports Mists of Pandaria servers.
+
 ### 11.1.5
 * Updated with workaround to serious flaw within Blizzard's EventRegistry.
+* Now takes advantage of the new delayed bag update event for slightly faster chain-selling at the merchant.
 
 ### 11.1.4
 * TOC updated.
