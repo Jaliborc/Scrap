@@ -1,3 +1,7 @@
+### 11.1.8
+* Duplicate soulbound/accountbound mounts, pets and toys will now be automatically marked as junk by default (feature made with help from fizzwidget).
+* Hotfixed an issue in blizzard's event code.
+
 ### 11.1.7
 * Fixed issue with Visualizer on Mists servers.
 * Fixed bug with positioning of shines during tutorial.
