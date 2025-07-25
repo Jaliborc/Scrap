@@ -1,3 +1,9 @@
+### 11.1.10
+* Last version was broken because dummass me forgot to package in CallbackHandler.
+
+### 11.1.9
+* Moved back to a full addon-based event handling, as Blizzard's event registry is prone to event loss (thank you to the dev community for all the suggestions).
+
 ### 11.1.8
 * Duplicate soulbound/accountbound mounts, pets and toys will now be automatically marked as junk by default (feature made with help from fizzwidget).
 * Hotfixed an issue in blizzard's event code.
