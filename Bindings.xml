@@ -12,7 +12,7 @@
 		Scrap:DestroyJunk()
 	</Binding>
 	<Binding name="SCRAP_SELL" category="SCRAP">
-		if MerchantFrame:IsShown() and LoadAddOn('Scrap_Merchant') then
+		if MerchantFrame:IsShown() and LibStub('C_Everywhere').AddOns.LoadAddOn('Scrap_Merchant') then
 			Scrap.Merchant:Sell()
 		end
 	</Binding>

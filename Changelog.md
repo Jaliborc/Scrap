@@ -1,3 +1,7 @@
+## 11.2
+* Retail: Updated for patch 11.2.
+* Retail: Fixed issue with the "Sell Junk" keybinding.
+
 ### 11.1.10
 * Last version was broken because dummass me forgot to package in CallbackHandler.
 
