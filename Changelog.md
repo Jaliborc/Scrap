@@ -1,3 +1,6 @@
+## 11.2.1
+* Retail: Updated libraries.
+
 ## 11.2
 * Retail: Updated for patch 11.2.
 * Retail: Fixed issue with the "Sell Junk" keybinding.
