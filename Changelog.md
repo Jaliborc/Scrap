@@ -1,3 +1,9 @@
+## 11.2.3
+* Fixed an issue preventing auto sell of junk at the merchant on the first visit (thanks to LorenzoRogai).
+
+## 11.2.2
+* Fixed bug in opening settings from the merchant button.
+
 ## 11.2.1
 * Retail: Updated libraries.
 
