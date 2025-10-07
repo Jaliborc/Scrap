@@ -163,8 +163,9 @@ function Scrap:IsFiltered(id, ...)
 		elseif (C.ToyBox.GetToyInfo or nop)(id) then
 			return PlayerHasToy(id)
 		end
+	end
 
-	elseif not value or value == 0 then
+	if not value or value == 0 then
 		return
 
 	elseif class == ARMOR or class == WEAPON then
@@ -181,7 +182,7 @@ function Scrap:IsFiltered(id, ...)
 		end
 
 	elseif quality == POOR then
-		return bound ~= LE_ITEM_BIND_ON_EQUIP
+		return bind ~= BIND_EQUIP
 	elseif class == CONSUMABLES then
 		return self.charsets.consumable and quality < RARE and self:IsLowConsumable(level)
 	end

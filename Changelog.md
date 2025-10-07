@@ -1,3 +1,6 @@
+## 11.2.4
+* Hopefully fixed issues causing some gray items not to be sold.
+
 ## 11.2.3
 * Fixed an issue preventing auto sell of junk at the merchant on the first visit (thanks to LorenzoRogai).
 
