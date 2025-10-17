@@ -1,13 +1,16 @@
-## 11.2.4
+### 11.2.5
+* Retail: Updated TOC to 12.2.5.
+
+### 11.2.4
 * Hopefully fixed issues causing some gray items not to be sold.
 
-## 11.2.3
+### 11.2.3
 * Fixed an issue preventing auto sell of junk at the merchant on the first visit (thanks to LorenzoRogai).
 
-## 11.2.2
+### 11.2.2
 * Fixed bug in opening settings from the merchant button.
 
-## 11.2.1
+### 11.2.1
 * Retail: Updated libraries.
 
 ## 11.2
