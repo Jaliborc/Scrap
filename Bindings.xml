@@ -1,0 +1,10 @@
+<Bindings>
+	<Binding name="SCRAP_TAG" category="Scrap2">
+		Scrap2:TagItem()
+	</Binding>
+
+	<Binding name="SCRAP_TOGGLE" category="Scrap2"></Binding>
+	<Binding name="SCRAP_SELL" category="Scrap2"></Binding>
+	<Binding name="SCRAP_DESTROY_ONE" category="Scrap2"></Binding>
+	<Binding name="SCRAP_DESTROY_ALL" category="Scrap2"></Binding>
+</Bindings>
