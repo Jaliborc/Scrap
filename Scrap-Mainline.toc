@@ -12,4 +12,6 @@
 ## Interface: 110205
 ## Version: 11.2.5
 
-addons\main\main.xml
+libs\libs.xml
+main\main.xml
+tags\tags.xml
