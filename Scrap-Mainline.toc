@@ -6,10 +6,11 @@
 ## X-License: All Rights Reserved
 ## Category: Bags & Inventory
 
+## X-Development: True
 ## OptionalDeps: Bagnon, Bagnonium, WoWUnit
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
-## Interface: 110205
-## Version: 11.2.5
+## Interface: 120000, 110205
+## Version: 11.2.6
 
 addons\main\main.xml

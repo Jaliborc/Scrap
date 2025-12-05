@@ -275,7 +275,11 @@ function Scrap:Print(text, channel)
 
 	while frame do
 		if frame:IsEventRegistered(channel) then
-			ChatFrame_MessageEventHandler(frame, channel, text, '', nil, '')
+			if frame.MessageEventHandler then
+				frame:MessageEventHandler(channel, text, '', nil, '')
+			elseif ChatFrame_MessageEventHandler then
+				ChatFrame_MessageEventHandler(frame, channel, text, '', nil, '')
+			end
 		end
 
 		i = i + 1
