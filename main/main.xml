@@ -2,4 +2,7 @@
 	<!-- All Rights Reserved -->
 	<Script file="draft.lua"/>
 	<Script file="spotlight.lua"/>
+
+	<Include file="visualizer.xml"/>
+	<Script file="visualizer.lua"/>
 </Ui>

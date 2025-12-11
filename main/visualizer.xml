@@ -1,0 +1,76 @@
+<Ui>
+	<Frame name="Scrap2Visualizer" inherits="PortraitFrameTemplate" parent="UIParent" hidden="true">
+		<Frames>
+			<Frame parentKey="LeftInset" useParentLevel="true" inherits="InsetFrameTemplate4">
+				<Size x="120" y="496"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="4" y="-60" />
+					<Anchor point="BOTTOMLEFT" x="4" y="26" />
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="Test" atlas="auctionhouse-background-summarylist"/>
+					</Layer>
+				</Layers>
+			</Frame>
+
+			<Frame parentKey="RightInset" useParentLevel="true" inherits="InsetFrameTemplate4">
+				<Size x="70" y="496"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.LeftInset" relativePoint="TOPRIGHT" x="0" y="0" />
+					<Anchor point="BOTTOMRIGHT" x="-23" y="7"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="Test" atlas="auctionhouse-background-sell-right"/>
+					</Layer>
+				</Layers>
+			</Frame>
+
+			<EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar" frameStrata="HIGH">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.RightInset" relativePoint="TOPRIGHT" x="6"/>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.RightInset" relativePoint="BOTTOMRIGHT" x="6"/>
+				</Anchors>
+			</EventFrame>
+		</Frames>
+	</Frame>
+
+	<Button name="Scrap2TagButtonTemplate" virtual="true">
+		<Size x="100" y="32"/>
+		<Layers>
+            <Layer level="BORDER">
+                <Texture parentKey="Border" atlas="CovenantChoice-Offering-Ability-Ring-Necrolord">
+					<Size x="25" y="25"/>
+					<Anchors>
+						<Anchor point="LEFT"/>
+					</Anchors>
+				</Texture>
+            </Layer>
+			<Layer level="BACKGROUND" textureSubLevel="-1">
+				<Texture parentKey="Bg" atlas="CircleMaskScalable" alpha="0.4">
+					<Color r="0" g="0" b="0"/>
+					<Size x="20" y="20"/>
+					<Anchors>
+						<Anchor point="CENTER" relativeKey="$parent.Border"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Icon">
+					<Size x="20" y="20"/>
+					<Anchors>
+						<Anchor point="CENTER" relativeKey="$parent.Border"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<ButtonText>
+			<Anchors>
+				<Anchor point="LEFT" x="32" y="0"/>
+			</Anchors>
+		</ButtonText>
+		<NormalFont style="GameFontNormalLeft"/>
+		<HighlightTexture atlas="Options_List_Active" alphaMode="ADD"/>
+	</Button>
+</Ui>
