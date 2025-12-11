@@ -18,7 +18,7 @@ function Spotlight:OnLoad()
 	self:RegisterSignal('LIST_CHANGED', 'UpdateAll')
 
 	hooksecurefunc(ItemButtonMixin.SetItemButtonQuality and ItemButtonMixin or _G, 'SetItemButtonQuality',
-				   GenerateClosure(self.UpdateButton, self))
+	               GenerateClosure(self.UpdateButton, self))
 end
 
 function Spotlight:UpdateAll()
@@ -33,21 +33,21 @@ end
 function Spotlight:UpdateButton(button)
 	local location = button.GetItemLocation and button:GetItemLocation() or ItemLocation:CreateFromBagAndSlot(button:GetParent():GetID(), button:GetID())
 	local id = C.Item.DoesItemExist(location) and C.Item.GetItemID(location)
-	local info = Scrap2:GetTagInfo(id, location)
+	local tag = Scrap2:GetTagInfo(id, location)
 
 	local icon = self.Buttons[button] or self:CreateTextures(button)
-	icon:SetSize(16 * info.iconScale, 16 * info.iconScale)
-	icon:SetAtlas(info.icon)
+    icon[tag.hasAtlas and 'SetAtlas' or 'SetTexture'](icon, tag.icon)
+	icon:SetScale(tag.iconScale)
 
 	local glow = icon.Glow
-	glow:SetVertexColor((info.color or PURE_RED_COLOR):GetRGBA())
-	glow:SetShown(info.color)
+	glow:SetVertexColor((tag.color or PURE_RED_COLOR):GetRGBA())
+	glow:SetShown(tag.color)
 
 	if button.IconQuestTexture then
-		button.IconQuestTexture:SetAlpha(info.color and 0 or 1)
+		button.IconQuestTexture:SetAlpha(tag.color and 0 or 1)
 	end
 	if button.IconBorder then
-		button.IconBorder:SetAlpha(info.color and 0 or 1)
+		button.IconBorder:SetAlpha(tag.color and 0 or 1)
 	end
 	if button.JunkIcon then
 		button.JunkIcon:SetAlpha(0)
@@ -56,7 +56,8 @@ end
 
 function Spotlight:CreateTextures(button)
 	local icon = button:CreateTexture(nil, 'OVERLAY')
-	icon:SetPoint('TOPLEFT', 2, -1)
+	icon:SetPoint('TOPLEFT', 1, 0)
+	icon:SetSize(16,16)
 
 	local glow = button:CreateTexture(nil, 'OVERLAY')
 	glow:SetTexture('Interface/Buttons/UI-ActionButton-Border')
