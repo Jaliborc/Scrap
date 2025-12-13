@@ -4,6 +4,10 @@
 --]]
 
 local Visualizer = Scrap2:NewModule('Visualizer', Scrap2Visualizer)
+local C = LibStub('C_Everywhere')
+
+
+--[[ Startup ]]--
 
 function Visualizer:OnLoad()
 	local title = self.TitleText or self.TitleContainer.TitleText
@@ -22,42 +26,76 @@ function Visualizer:OnLoad()
 	backdrop:AddMaskTexture(mask)
 	portrait:AddMaskTexture(mask)
 
+	local tagList = CreateScrollBoxListLinearView()
+	tagList:SetElementInitializer('Scrap2TagButtonTemplate', function(button, tag)
+		local icon = tag.icon or 'capacitance-general-workordercheckmark'
+		local hasAtlas = tag.hasAtlas or not tag.icon
+		local checked = tag.id == self.activeTag
+
+		button:SetText(tag.name)
+		button:SetNormalFontObject(checked and 'GameFontHighlightLeft' or 'GameFontNormalLeft')
+		button.IconHighlight[hasAtlas and 'SetAtlas' or 'SetTexture'](button.IconHighlight, icon)
+		button.Icon[hasAtlas and 'SetAtlas' or 'SetTexture'](button.Icon, icon)
+	end)
+
+	local itemGrid = CreateScrollBoxListGridView(3, 6,6,10,10, 5,5)
+	itemGrid:SetElementInitializer('Scrap2ItemButtonTemplate', function(button, i)
+		button.Icon:SetTexture(GetRandomArrayEntry({133970, 646324, 135157, 134937, 628647, 237395}))
+		button:SetText('Heavy Windwool Bandage')
+	end)
+
+	self.activeTag = 1
+	self.TagsBox:Init(tagList)
 	self.OptionsWheel.tooltipTitle = 'General Options'
-	self.TagOptions:SetText('More')
-	self:SetSize(702, 534)
+	self:SetScript('OnHide', self.UnregisterAll)
+	self:SetScript('OnShow', self.OnShow)
 
-	for x = 0,2 do
-		for y = 0,7 do
-			--[[local test = self.RightInset:CreateTexture()
-			test:SetAtlas('transmog-wardrobe-border-collected', true)
-			test:SetRotation(math.pi/2)
-			test:SetPoint('TOPLEFT', (test:GetHeight()+5)*x+50, -(test:GetWidth()+5)*y)
-			test:SetTextureSliceMargins(10, 10, 10, 10)
-			test:SetScale(0.7)
-			test:SetDesaturated(true)]]--
-
-			local test = CreateFrame('Button', nil, self.RightInset, 'Scrap2ItemButtonTemplate')
-			test:SetPoint('TOPLEFT', 10+182*x, -15 - y*55)
-			test.Icon:SetTexture(GetRandomArrayEntry({133970, 646324, 135157, 134937, 628647, 237395}))
-			test:SetText('Heavy Windwool Bandage')
-		end
-	end
-
-	for i, tag in pairs(Scrap2.Tags) do
-		local checked = i == 1
-		local b = CreateFrame('Button', nil, self.LeftInset, 'Scrap2TagButtonTemplate')
-		b:SetNormalFontObject(checked and 'GameFontHighlightLeft' or 'GameFontNormalLeft')
-		b:SetPoint('TOP', -1, -32*i-5)
-		b:SetText(tag.name)
-
-		--b.Border:SetAtlas('CovenantChoice-Offering-Ability-Ring-Necrolord')
-		b.IconHighlight[tag.hasAtlas and 'SetAtlas' or 'SetTexture'](b.IconHighlight, tag.icon)
-		b.Icon[tag.hasAtlas and 'SetAtlas' or 'SetTexture'](b.Icon, tag.icon)
-		b.Icon:SetScale(tag.iconScale)
-	end
-	
+	ScrollUtil.InitScrollBoxListWithScrollBar(self.ItemsBox, self.ScrollBar, itemGrid)
 	RegisterUIPanel(self, {area = 'left', pushable = 3,	whileDead = 1})
+
 	C_Timer.After(1, function()
 		ShowUIPanel(self)
 	end)
+end
+
+function Visualizer:OnShow()
+	self:RegisterSignal('LIST_CHANGED', 'UpdateItems')
+	self:RegisterSignal('TAGS_CHANGED', 'UpdateTags')
+	self:UpdateTags()
+end
+
+
+--[[ Update ]]--
+
+function Visualizer:UpdateTags()
+	self.TagsBox:SetDataProvider(CreateDataProvider(GetValuesArray(Scrap2.Tags)))
+	self:UpdateItems()
+end
+
+function Visualizer:UpdateItems()
+	self.items = {}
+
+	for id, classification in pairs(Scrap2.FakeList) do
+		if C.Item.GetItemInfo(id) then
+			tinsert(self.items, id)
+		end
+	end
+
+	sort(self.items, function(A, B)
+		if not A then
+			return true
+		elseif not B or A == B then
+			return nil
+		end
+
+		local nameA, _ , qualityA, _,_,_,_,_,_,_,_, classA = C.Item.GetItemInfo(A)
+		local nameB, _ , qualityB, _,_,_,_,_,_,_,_, classB = C.Item.GetItemInfo(B)
+		if qualityA == qualityB then
+			return (classA == classB and nameA < nameB) or classA > classB
+		else
+			return qualityA > qualityB
+		end
+	end)
+
+	self.ItemsBox:SetDataProvider(CreateIndexRangeDataProvider(#self.items + 50))
 end

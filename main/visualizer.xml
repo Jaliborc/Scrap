@@ -1,5 +1,6 @@
 <Ui>
 	<Frame name="Scrap2Visualizer" inherits="PortraitFrameTemplate" parent="UIParent" toplevel="true" enableMouse="true" hidden="true">
+		<Size x="687" y="534"/>
 		<Frames>
 			<EditBox parentKey="SearchBox" inherits="SearchBoxTemplate" letters="50">
 				<Size x="300" y="20"/>
@@ -37,6 +38,13 @@
 				</Layers>
 			</Frame>
 
+			<Frame parentKey="TagsBox" inherits="WowScrollBoxList">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.LeftInset" x="6" y="-4"/>
+					<Anchor point="BOTTOMRIGHT" relativeKey="$parent.LeftInset" y="4"/>
+				</Anchors>
+			</Frame>
+
 			<Frame parentKey="RightInset" useParentLevel="true" inherits="InsetFrameTemplate4">
 				<Size x="70" y="496"/>
 				<Anchors>
@@ -48,6 +56,13 @@
 						<Texture parentKey="Bg" atlas="auctionhouse-background-sell-right"/>
 					</Layer>
 				</Layers>
+			</Frame>
+
+			<Frame parentKey="ItemsBox" inherits="WowScrollBoxList">
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativeKey="$parent.RightInset" y="4"/>
+					<Anchor point="TOPLEFT" relativeKey="$parent.RightInset" y="-4"/>
+				</Anchors>
 			</Frame>
 
 			<EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar">
@@ -144,7 +159,7 @@
 				</Texture>
 			</Layer>
 		</Layers>
-		<ButtonText>
+		<ButtonText maxLines="3">
 			<Anchors>
 				<Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Icon" x="10" y="1"/>
 				<Anchor point="RIGHT"/>
