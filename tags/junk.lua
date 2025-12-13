@@ -6,7 +6,7 @@
 local C = LibStub('C_Everywhere')
 local Junk = Scrap2:NewTag {
     id = 1, name = 'Junk',
-    icon = 'lootroll-toast-icon-greed-up',
+    icon = 'Interface/Addons/Scrap/art/coin',
     color = ITEM_QUALITY_COLORS[0].color,
 }
 

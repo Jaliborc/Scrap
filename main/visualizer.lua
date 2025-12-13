@@ -6,54 +6,39 @@
 local Visualizer = Scrap2:NewModule('Visualizer', Scrap2Visualizer)
 
 function Visualizer:OnLoad()
+    self.OptionsWheel.tooltipTitle = 'General Options'
+    self.TagOptions:SetText('More')
     self:SetSize(702, 534)
 
+    for x = 0,2 do
+        for y = 0,7 do
+            --[[local test = self.RightInset:CreateTexture()
+            test:SetAtlas('transmog-wardrobe-border-collected', true)
+            test:SetRotation(math.pi/2)
+            test:SetPoint('TOPLEFT', (test:GetHeight()+5)*x+50, -(test:GetWidth()+5)*y)
+            test:SetTextureSliceMargins(10, 10, 10, 10)
+            test:SetScale(0.7)
+            test:SetDesaturated(true)]]--
+
+            local test = CreateFrame('Button', nil, self.RightInset, 'Scrap2ItemButtonTemplate')
+            test:SetPoint('TOPLEFT', 10+182*x, -15 - y*55)
+            test.Icon:SetTexture(GetRandomArrayEntry({133970, 646324, 135157, 134937, 628647, 237395}))
+            test.Text:SetText('Heavy Windwool Bandage')
+        end
+    end
+
     for i, tag in pairs(Scrap2.Tags) do
+        local checked = i == 1
         local b = CreateFrame('Button', nil, self.LeftInset, 'Scrap2TagButtonTemplate')
+        b:SetNormalFontObject(checked and 'GameFontHighlightLeft' or 'GameFontNormalLeft')
         b:SetPoint('TOP', -1, -32*i-5)
         b:SetText(tag.name)
 
+        --b.Border:SetAtlas('CovenantChoice-Offering-Ability-Ring-Necrolord')
+        b.IconHighlight[tag.hasAtlas and 'SetAtlas' or 'SetTexture'](b.IconHighlight, tag.icon)
         b.Icon[tag.hasAtlas and 'SetAtlas' or 'SetTexture'](b.Icon, tag.icon)
         b.Icon:SetScale(tag.iconScale)
     end
-
-    --[[local buttonWidth = 30
-    local buttonHeight = 30
-    local spacing = 5
-    local buttonsPerRow = 2
-
-    local totalWidth = (buttonWidth * buttonsPerRow) + (spacing * (buttonsPerRow - 1))
-    local startX = (self.LeftInset:GetWidth() - totalWidth) / 2
-    local currentX = startX
-    local currentY = -10
-
-    for i, tag in pairs(Scrap2.Tags) do
-        local b = CreateFrame('Button', nil, self.LeftInset)
-        b:SetSize(buttonWidth, buttonHeight)
-        
-        local col = i % buttonsPerRow
-        local row = math.floor(i / buttonsPerRow)
-        
-        b:SetPoint('TOPLEFT', self.LeftInset, 'TOPLEFT', 
-                startX + (col * (buttonWidth + spacing)), 
-                -10 - (row * (buttonHeight + spacing)))
-        
-        b.Border = b:CreateTexture(nil, 'BORDER')
-        b.Border:SetAtlas('adventureguide-rewardring')
-        b.Border:SetAllPoints()
-        
-        if tag.icon then
-            b.Icon = b:CreateTexture(nil, 'BACKGROUND', nil, 2)
-            b.Icon:SetPoint('CENTER')
-            b.Icon:SetAtlas(tag.icon)
-            b.Icon:SetSize(20,20)
-
-            b.Background = b:CreateTexture(nil, 'BACKGROUND', nil, 1)
-            b.Background:SetAtlas('common-mask-circle')
-            b.Background:SetAllPoints(b.Icon)
-            b.Background:SetVertexColor(0,0,0, 0.9)
-        end
-    end--]]
     
     RegisterUIPanel(self, {area = 'left', pushable = 3,	whileDead = 1})
     C_Timer.After(1, function()

@@ -1,11 +1,11 @@
-Scrap2:NewTag {id = 2, name = 'Disenchant', icon = 'lootroll-toast-icon-disenchant-up', color = CreateColor(0.67, 0.439, 0.89)}
-Scrap2:NewTag {id = 3, name = 'Bank', icon = 'GarrMission_CurrencyIcon-Material', iconScale = 0.8}
+Scrap2:NewTag {id = 2, name = 'Disenchant', icon = 'Interface/Addons/Scrap/art/disenchant', color = CreateColor(0.67, 0.439, 0.89)}
+Scrap2:NewTag {id = 3, name = 'Bank', icon = 'Interface/Addons/Scrap/art/crate', color = CreateColor(0.45, 0.32, 0.15)}
 Scrap2:NewTag {id = 0, name = 'None'}
 
 if Constants.InventoryConstants.NumAccountBankSlots then
-    Scrap2:NewTag {id = 4, name = 'Warband', icon = 'warbands-icon', iconScale = 1.2}
+    Scrap2:NewTag {id = 4, name = 'Warband', icon = 'warbands-icon', color = CreateColor(0.45, 0.32, 0.15)}
 end
 
 if GuildBankFrame_LoadUI then
-    Scrap2:NewTag {id = 5, name = 'Guild', icon = 'Interface/Addons/Scrap/art/banner'}
+    Scrap2:NewTag {id = 5, name = 'Guild', icon = 'Interface/Addons/Scrap/art/banner', color = CreateColor(0.13, 0.18, 0.32)}
 end
