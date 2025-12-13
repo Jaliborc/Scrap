@@ -129,14 +129,6 @@
 					</Anchors>
 				</Texture>
 			</Layer>
-			<Layer level="OVERLAY">
-				<FontString parentKey="Text" inherits="GameFontHighlightSmall" justifyH="LEFT" maxLines="2">
-					<Anchors>
-						<Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Icon" x="10" y="1"/>
-						<Anchor point="RIGHT"/>
-					</Anchors>
-				</FontString>
-			</Layer>
 			<Layer level="HIGHLIGHT">
 				<Texture parentKey="BgHighlight" atlas="PetList-ButtonHighlight" alphaMode="ADD">
 					<Anchors>
@@ -152,5 +144,12 @@
 				</Texture>
 			</Layer>
 		</Layers>
+		<ButtonText>
+			<Anchors>
+				<Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.Icon" x="10" y="1"/>
+				<Anchor point="RIGHT"/>
+			</Anchors>
+		</ButtonText>
+		<NormalFont style="GameFontHighlightSmallLeft"/>
 	</Button>
 </Ui>
