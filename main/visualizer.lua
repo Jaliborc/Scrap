@@ -57,10 +57,7 @@ function Frame:OnLoad()
 
 	ScrollUtil.InitScrollBoxListWithScrollBar(self.ItemsBox, self.ScrollBar, itemGrid)
 	RegisterUIPanel(self, {area = 'left', pushable = 3,	whileDead = 1})
-
-	RunNextFrame(function()
-		ShowUIPanel(self)
-	end)
+	RunNextFrame(function() ShowUIPanel(self) end)
 end
 
 function Frame:OnShow()
@@ -69,9 +66,26 @@ function Frame:OnShow()
 	self:UpdateTags()
 end
 
-function Frame:OnTagClick(button, tag)
-	self.activeTag = tag.id
-	self:UpdateTags()
+function Frame:OnTagClick(button)
+	if button == 'LeftButton' then
+		Frame.activeTag = self.tag.id
+		Frame:UpdateTags()
+	elseif self.tag.id > 0 then
+		MenuUtil.CreateContextMenu(self, function(_, drop)
+            drop:SetTag('Scrap2_EditTag')
+			drop:CreateTitle(self.tag.name)
+			drop:CreateCheckbox('Show Icon', nop, nop)
+			drop:CreateCheckbox('Glow', nop, nop):CreateColorSwatch('Color', nop, self.tag.color)
+			drop:QueueDivider()
+
+			if self.tag.id == 1 then
+				drop:CreateCheckbox('Auto Sell', nop, nop)
+				drop:CreateCheckbox('Safe Sell', nop, nop)
+			elseif self.tag.id >= 3 and self.tag.id <= 5 then
+				drop:CreateCheckbox('Auto Deposit', nop, nop)
+			end
+		end)
+	end
 end
 
 

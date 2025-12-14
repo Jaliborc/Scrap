@@ -14,4 +14,3 @@
 
 libs\libs.xml
 main\main.xml
-tags\tags.xml

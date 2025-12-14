@@ -37,16 +37,17 @@ function Scrap2:TagMenu()
     local data = GameTooltip:IsVisible() and GameTooltip:GetPrimaryTooltipData() -- GameTooltip:GetItem() is bugged
 	if data and data.id and ((data.guid and data.guid:find('^Item')) or (data.hyperlink and data.hyperlink:find('Hitem'))) then
         MenuUtil.CreateContextMenu(UIParent, function(_, drop)
-            drop:SetTag('Scrap2_Tag')
+            drop:SetTag('Scrap2_TagMenu')
             drop:CreateTitle(self:GetItemName(data.id))
 
             for i, tag in pairs(Scrap2.Tags) do
-                drop:CreateRadio(tag.name, function() return self:GetTag(data.id) == i end, function() self:SetTag(data.id, i) end):AddInitializer(function(button)
-                    local icon = button:AttachTexture()
-                    icon[tag.icon and 'SetTexture' or 'SetAtlas'](icon, tag.icon or tag.atlas)
-                    icon:SetPoint('RIGHT')
-                    icon:SetSize(18, 18)
-                end)
+                drop:CreateRadio(tag.name, function() return self:GetTag(data.id) == i end, function() self:SetTag(data.id, i) end)
+                    :AddInitializer(function(button)
+                        local icon = button:AttachTexture()
+                        icon[tag.icon and 'SetTexture' or 'SetAtlas'](icon, tag.icon or tag.atlas)
+                        icon:SetPoint('RIGHT')
+                        icon:SetSize(18, 18)
+                    end)
             end
         end)
 	end

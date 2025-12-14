@@ -129,8 +129,14 @@
 		</ButtonText>
 		<HighlightTexture atlas="Options_List_Active" alphaMode="ADD"/>
 		<Scripts>
-			<OnClick> Scrap2Frame:OnTagClick(button, self.tag) </OnClick>
+			<OnClick> Scrap2.Frame.OnTagClick(self, button) </OnClick>
 			<OnEnter>
+				if self.tag.id > 0 then
+					GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
+					GameTooltip:AddLine(self.tag.name, 1,1,1)
+					GameTooltip:AddLine('|A:NPE_RightClick:14:14|a' .. OPTIONS)
+					GameTooltip:Show()
+				end
 			</OnEnter>
 			<OnLeave function="GameTooltip_Hide"/>
 		</Scripts>
