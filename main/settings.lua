@@ -1,0 +1,109 @@
+--[[
+    Copyright 2008-2025 João Cardoso, All Rights Reserved
+    Initalization of tags, lists and all other settings.
+--]]
+
+Scrap2:NewModule('Settings', {OnLoad = function(self)
+	Scrap2.Tags = self:SetDefaults({}, Scrap2.BaseTags)
+    Scrap2.List = self:SetDefaults({}, Scrap2.BaseList)
+
+	for i = 1,50 do
+		local k = 0
+		while not C_Item.GetItemInfo(k) do
+			k = fastrandom(1, 100000)
+		end
+
+		Scrap2.List[k] = 1
+	end
+end})
+
+Scrap2.BaseList = {
+	[90561] = 0,
+	[12709] = 0,
+	[2459] = 0,
+	[29532] = 0,
+	[29530] = 0,
+	[39878] = 0,
+	[40586] = 0,
+	[48954] = 0,
+	[48955] = 0,
+	[48956] = 0,
+	[48957] = 0,
+	[45688] = 0,
+	[45689] = 0,
+	[45690] = 0,
+	[45691] = 0,
+	[44934] = 0,
+	[44935] = 0,
+	[51560] = 0,
+	[51558] = 0,
+	[51559] = 0,
+	[51557] = 0,
+	[40585] = 0,
+	[43157] = 0,
+	[63206] = 0,
+	[63207] = 0,
+	[65274] = 0,
+	[63353] = 0,
+	[64402] = 0,
+	[64401] = 0,
+	[64400] = 0,
+	[63352] = 0,
+	[86143] = 0,
+	[92742] = 0,
+	[92741] = 0,
+	[92665] = 0,
+	[92675] = 0,
+	[92676] = 0,
+	[92677] = 0,
+	[92678] = 0,
+	[92679] = 0,
+	[92680] = 0,
+	[92681] = 0,
+	[92682] = 0,
+	[92683] = 0,
+	[33820] = 0,
+	[19969] = 0,
+	[89124] = 0,
+	[114131] = 0,
+	[114808] = 0,
+	[114129] = 0,
+	[114745] = 0,
+	[114128] = 0,
+	[120301] = 0,
+	[120302] = 0,
+	[114002] = 0,
+	[156631] = 0,
+	[24368] = 0,
+	[40772] = 0,
+	[114943] = 0,
+	[109253] = 0,
+	[67410] = 0,
+	[11406] = 0,
+	[11944] = 0,
+	[25402] = 0,
+	[3300] = 0,
+	[3670] = 0,
+	[6150] = 0,
+	[36812] = 0,
+	[62072] = 0,
+	[87216] = 0,
+	[6529] = 0,
+	[136377] = 0,
+	[160705] = 0,
+}
+
+Scrap2.BaseTags = {
+    [0] = {id = 0, name = 'None'},
+    [1] = {id = 1, name = 'Junk', icon = 'Interface/Addons/Scrap/art/coin', color = ITEM_QUALITY_COLORS[0].color},
+    [2] = {id = 2, name = 'Disenchant', icon = 'Interface/Addons/Scrap/art/disenchant', color = CreateColor(0.67, 0.439, 0.89)},
+    [3] = {id = 3, name = 'Bank', icon = 'Interface/Addons/Scrap/art/crate', color = CreateColor(0.45, 0.32, 0.15)}
+}
+
+if Constants.InventoryConstants.NumAccountBankSlots then
+    Scrap2.BaseTags[4] = {id = 4, name = 'Warband', atlas = 'warbands-icon', color = CreateColor(0.45, 0.32, 0.15)}
+end
+
+if GuildBankFrame_LoadUI then
+    Scrap2.BaseTags[5] = {id = 5, name = 'Guild', icon = 'Interface/Addons/Scrap/art/banner', color = CreateColor(0.13, 0.18, 0.32)}
+end

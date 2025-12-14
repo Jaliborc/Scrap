@@ -7,7 +7,7 @@ local Frame = Scrap2:NewModule('Frame', Scrap2Frame)
 local C = LibStub('C_Everywhere')
 
 
---[[ Startup ]]--
+--[[ Events ]]--
 
 function Frame:OnLoad()
 	local title = self.TitleText or self.TitleContainer.TitleText
@@ -69,13 +69,13 @@ function Frame:OnShow()
 	self:UpdateTags()
 end
 
-
---[[ Update ]]--
-
-function Frame:SelectTag(tag)
+function Frame:OnTagClick(button, tag)
 	self.activeTag = tag.id
 	self:UpdateTags()
 end
+
+
+--[[ Update ]]--
 
 function Frame:UpdateTags()
 	self.TagsBox:SetDataProvider(CreateDataProvider(GetValuesArray(Scrap2.Tags)))
@@ -84,7 +84,7 @@ end
 
 function Frame:UpdateItems(resetScroll)
 	local items = {}
-	for id, tag in pairs(Scrap2.FakeList) do
+	for id, tag in pairs(Scrap2.List) do
 		if tag == self.activeTag then
 			local name = C.Item.GetItemInfo(id)
 			if name and name:find(self.SearchBox:GetText()) then
@@ -110,14 +110,4 @@ function Frame:UpdateItems(resetScroll)
 	end)
 
 	self.ItemsBox:SetDataProvider(CreateDataProvider(items), not resetScroll)
-end
-
-
-for i = 1,50 do
-    local k = 0
-    while not C_Item.GetItemInfo(k) do
-        k = fastrandom(1, 100000)
-    end
-
-    Scrap2.FakeList[k] = 1
 end

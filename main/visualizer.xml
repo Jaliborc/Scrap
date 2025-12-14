@@ -129,7 +129,7 @@
 		</ButtonText>
 		<HighlightTexture atlas="Options_List_Active" alphaMode="ADD"/>
 		<Scripts>
-			<OnClick> Scrap2Frame:SelectTag(self.tag) </OnClick>
+			<OnClick> Scrap2Frame:OnTagClick(button, self.tag) </OnClick>
 			<OnEnter>
 			</OnEnter>
 			<OnLeave function="GameTooltip_Hide"/>

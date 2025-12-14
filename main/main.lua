@@ -1,24 +1,23 @@
+--[[
+    Copyright 2008-2025 João Cardoso, All Rights Reserved
+    Addon main API.
+--]]
+
 local _, Addon = ...
+local C = LibStub('C_Everywhere')
 local Scrap2 = LibStub('WildAddon-1.1'):NewAddon('Scrap2', Addon, 'StaleCheck-1.0')
-Scrap2.FakeList = {}
-Scrap2.Tags = {}
 
 
---[[ Main API ]]--
-
-function Scrap2:NewTag(info)
-    self.Tags[info.id] = info
-    return info
-end
+--[[ Tagging ]]--
 
 function Scrap2:SetTag(id, tag)
-    self.FakeList[id] = tag
+    self.List[id] = tag
     self:SendSignal('LIST_CHANGED')
 end
 
 function Scrap2:GetTag(id, bag, slot)
     if id then
-        local tagID = self.FakeList[id]
+        local tagID = self.List[id]
         if tagID then
             return tagID
         end
@@ -54,6 +53,6 @@ function Scrap2:TagMenu()
 end
 
 function Scrap2:GetItemName(id)
-    local name, _, quality = C_Item.GetItemInfo(id)
+    local name, _, quality = C.Item.GetItemInfo(id)
     return ITEM_QUALITY_COLORS[quality].color:WrapTextInColorCode(name)
 end

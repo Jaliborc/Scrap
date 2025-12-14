@@ -1,8 +1,8 @@
 <Ui>
 	<!-- All Rights Reserved -->
 	<Script file="main.lua"/>
+	<Script file="settings.lua"/>
 	<Script file="spotlight.lua"/>
-	<Script file="defaults.lua"/>
 
 	<Include file="visualizer.xml"/>
 	<Script file="visualizer.lua"/>
