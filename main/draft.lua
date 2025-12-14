@@ -9,7 +9,6 @@ Scrap2.Tags = {}
 function Scrap2:NewTag(info)
     info.hasAtlas = info.icon and C_Texture.GetAtlasID(info.icon) ~= 0
     info.iconScale = info.iconScale or 1
-    info.Filter = info.Filter or nop
 
     self.Tags[info.id] = info
     return info
@@ -22,14 +21,9 @@ end
 
 function Scrap2:GetTag(id, bag, slot)
     if id then
-        if self.FakeList[id] then
-            return self.FakeList[id]
-        end
-
-        for i, tag in pairs(self.Tags) do
-            if tag:Filter(id) then
-                return i
-            end
+        local tagID = self.FakeList[id]
+        if tagID then
+            return tagID
         end
     end
 
@@ -44,23 +38,25 @@ end
 --[[ UI ]]--
 
 function Scrap2:TagMenu()
-    local link = GameTooltip:IsVisible() and select(2, GameTooltip:GetItem())
-	if link then
-        local id = tonumber(link:match('item:(%d+)'))
-        local text = link:gsub("|H.-|h%[", ""):gsub("%]|h", "")
-
+    local data = GameTooltip:IsVisible() and GameTooltip:GetPrimaryTooltipData() -- GameTooltip:GetItem() is bugged
+	if data and data.id and ((data.guid and data.guid:find('^Item')) or (data.hyperlink and data.hyperlink:find('Hitem'))) then
         MenuUtil.CreateContextMenu(UIParent, function(_, drop)
             drop:SetTag('Scrap2_Tag')
-            drop:CreateTitle(text)
+            drop:CreateTitle(self:GetItemName(data.id))
 
             for i, tag in pairs(Scrap2.Tags) do
-                drop:CreateRadio(tag.name, function() return self:GetTag(id) == i end, function() self:SetTag(id, i) end):AddInitializer(function(button)
+                drop:CreateRadio(tag.name, function() return self:GetTag(data.id) == i end, function() self:SetTag(data.id, i) end):AddInitializer(function(button)
                     local icon = button:AttachTexture()
                     icon[tag.hasAtlas and 'SetAtlas' or 'SetTexture'](icon, tag.icon)
-                    icon:SetSize(18 * tag.iconScale, 18 * tag.iconScale)
                     icon:SetPoint('RIGHT')
+                    icon:SetSize(18, 18)
                 end)
             end
         end)
 	end
+end
+
+function Scrap2:GetItemName(id)
+    local name, _, quality = C_Item.GetItemInfo(id)
+    return ITEM_QUALITY_COLORS[quality].color:WrapTextInColorCode(name)
 end

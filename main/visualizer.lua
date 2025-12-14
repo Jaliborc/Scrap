@@ -3,13 +3,13 @@
 	Panel for list visualization and configuration.
 --]]
 
-local Visualizer = Scrap2:NewModule('Visualizer', Scrap2Visualizer)
+local Frame = Scrap2:NewModule('Frame', Scrap2Frame)
 local C = LibStub('C_Everywhere')
 
 
 --[[ Startup ]]--
 
-function Visualizer:OnLoad()
+function Frame:OnLoad()
 	local title = self.TitleText or self.TitleContainer.TitleText
 	title:SetText('Scrap2')
 
@@ -32,6 +32,7 @@ function Visualizer:OnLoad()
 		local hasAtlas = tag.hasAtlas or not tag.icon
 		local checked = tag.id == self.activeTag
 
+		button.tag = tag
 		button:SetText(tag.name)
 		button:SetNormalFontObject(checked and 'GameFontHighlightLeft' or 'GameFontNormalLeft')
 		button.IconHighlight[hasAtlas and 'SetAtlas' or 'SetTexture'](button.IconHighlight, icon)
@@ -39,26 +40,30 @@ function Visualizer:OnLoad()
 	end)
 
 	local itemGrid = CreateScrollBoxListGridView(3, 6,6,10,10, 5,5)
-	itemGrid:SetElementInitializer('Scrap2ItemButtonTemplate', function(button, i)
-		button.Icon:SetTexture(GetRandomArrayEntry({133970, 646324, 135157, 134937, 628647, 237395}))
-		button:SetText('Heavy Windwool Bandage')
+	itemGrid:SetElementInitializer('Scrap2ItemButtonTemplate', function(button, id)
+		button.Icon:SetTexture(C.Item.GetItemIconByID(id))
+		button:SetText(Scrap2:GetItemName(id))
+		button.id = id
 	end)
 
 	self.activeTag = 1
-	self.TagsBox:Init(tagList)
 	self.OptionsWheel.tooltipTitle = 'General Options'
+
+	self.TagsBox:Init(tagList)
+	self.OptionsDropdown:SetText(FILTERS)
+	self.SearchBox:HookScript('OnTextChanged', function() self:UpdateItems(true) end)
 	self:SetScript('OnHide', self.UnregisterAll)
 	self:SetScript('OnShow', self.OnShow)
 
 	ScrollUtil.InitScrollBoxListWithScrollBar(self.ItemsBox, self.ScrollBar, itemGrid)
 	RegisterUIPanel(self, {area = 'left', pushable = 3,	whileDead = 1})
 
-	C_Timer.After(1, function()
+	RunNextFrame(function()
 		ShowUIPanel(self)
 	end)
 end
 
-function Visualizer:OnShow()
+function Frame:OnShow()
 	self:RegisterSignal('LIST_CHANGED', 'UpdateItems')
 	self:RegisterSignal('TAGS_CHANGED', 'UpdateTags')
 	self:UpdateTags()
@@ -67,21 +72,28 @@ end
 
 --[[ Update ]]--
 
-function Visualizer:UpdateTags()
-	self.TagsBox:SetDataProvider(CreateDataProvider(GetValuesArray(Scrap2.Tags)))
-	self:UpdateItems()
+function Frame:SelectTag(tag)
+	self.activeTag = tag.id
+	self:UpdateTags()
 end
 
-function Visualizer:UpdateItems()
-	self.items = {}
+function Frame:UpdateTags()
+	self.TagsBox:SetDataProvider(CreateDataProvider(GetValuesArray(Scrap2.Tags)))
+	self:UpdateItems(true)
+end
 
-	for id, classification in pairs(Scrap2.FakeList) do
-		if C.Item.GetItemInfo(id) then
-			tinsert(self.items, id)
+function Frame:UpdateItems(resetScroll)
+	local items = {}
+	for id, tag in pairs(Scrap2.FakeList) do
+		if tag == self.activeTag then
+			local name = C.Item.GetItemInfo(id)
+			if name and name:find(self.SearchBox:GetText()) then
+				tinsert(items, id)
+			end
 		end
 	end
 
-	sort(self.items, function(A, B)
+	sort(items, function(A, B)
 		if not A then
 			return true
 		elseif not B or A == B then
@@ -97,5 +109,15 @@ function Visualizer:UpdateItems()
 		end
 	end)
 
-	self.ItemsBox:SetDataProvider(CreateIndexRangeDataProvider(#self.items + 50))
+	self.ItemsBox:SetDataProvider(CreateDataProvider(items), not resetScroll)
+end
+
+
+for i = 1,50 do
+    local k = 0
+    while not C_Item.GetItemInfo(k) do
+        k = fastrandom(1, 100000)
+    end
+
+    Scrap2.FakeList[k] = 1
 end

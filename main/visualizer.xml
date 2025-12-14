@@ -1,5 +1,5 @@
 <Ui>
-	<Frame name="Scrap2Visualizer" inherits="PortraitFrameTemplate" parent="UIParent" toplevel="true" enableMouse="true" hidden="true">
+	<Frame name="Scrap2Frame" inherits="PortraitFrameTemplate" parent="UIParent" toplevel="true" enableMouse="true" hidden="true">
 		<Size x="687" y="534"/>
 		<Frames>
 			<EditBox parentKey="SearchBox" inherits="SearchBoxTemplate" letters="50">
@@ -9,7 +9,7 @@
 				</Anchors>
 			</EditBox>
 
-			<DropdownButton parentKey="TagOptions" inherits="WowStyle1FilterDropdownTemplate">
+			<DropdownButton parentKey="OptionsDropdown" inherits="WowStyle1FilterDropdownTemplate">
 				<Anchors>
 					<Anchor point="TOPRIGHT" x="-30" y="-35"/>
 				</Anchors>
@@ -21,7 +21,7 @@
 					<KeyValue key="iconSize" value="20" type="number"/>
 				</KeyValues>
 				<Anchors>
-					<Anchor point="RIGHT" relativeKey="$parent.TagOptions" relativePoint="LEFT" x="-10"/>
+					<Anchor point="RIGHT" relativeKey="$parent.OptionsDropdown" relativePoint="LEFT" x="-10"/>
 				</Anchors>
 			</Button>
 
@@ -71,10 +71,15 @@
 					<Anchor point="BOTTOMLEFT" relativeKey="$parent.RightInset" relativePoint="BOTTOMRIGHT" x="5"/>
 				</Anchors>
 			</EventFrame>
+
+			<Button parentKey="NewTag" inherits="MagicButtonTemplate" text="New Tag">
+				<Size x="118" y="22"/>
+				<Anchors> <Anchor point="BOTTOMLEFT"/> </Anchors>
+			</Button>
 		</Frames>
 	</Frame>
 
-	<Button name="Scrap2TagButtonTemplate" virtual="true">
+	<Button name="Scrap2TagButtonTemplate" registerForClicks="anyUp" virtual="true">
 		<Size x="102" y="32"/>
 		<Layers>
             <Layer level="BORDER">
@@ -123,9 +128,15 @@
 			</Anchors>
 		</ButtonText>
 		<HighlightTexture atlas="Options_List_Active" alphaMode="ADD"/>
+		<Scripts>
+			<OnClick> Scrap2Frame:SelectTag(self.tag) </OnClick>
+			<OnEnter>
+			</OnEnter>
+			<OnLeave function="GameTooltip_Hide"/>
+		</Scripts>
 	</Button>
 
-	<Button name="Scrap2ItemButtonTemplate" virtual="true">
+	<Button name="Scrap2ItemButtonTemplate" registerForClicks="anyUp" virtual="true">
 		<Size x="170" y="46"/>
 		<Layers>
 			<Layer level="BACKGROUND">
@@ -166,5 +177,14 @@
 			</Anchors>
 		</ButtonText>
 		<NormalFont style="GameFontHighlightSmallLeft"/>
+		<Scripts>
+			<OnClick> Scrap2:TagMenu() </OnClick>
+			<OnEnter>
+				GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
+				GameTooltip:SetItemByID(self.id)
+				GameTooltip:Show()
+			</OnEnter>
+			<OnLeave function="GameTooltip_Hide"/>
+		</Scripts>
 	</Button>
 </Ui>
