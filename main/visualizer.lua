@@ -28,15 +28,15 @@ function Frame:OnLoad()
 
 	local tagList = CreateScrollBoxListLinearView()
 	tagList:SetElementInitializer('Scrap2TagButtonTemplate', function(button, tag)
-		local icon = tag.icon or 'capacitance-general-workordercheckmark'
-		local hasAtlas = tag.hasAtlas or not tag.icon
+		local icon = tag.icon or tag.atlas or 'capacitance-general-workordercheckmark'
+		local mode = tag.icon and 'SetTexture' or 'SetAtlas'
 		local checked = tag.id == self.activeTag
 
 		button.tag = tag
 		button:SetText(tag.name)
 		button:SetNormalFontObject(checked and 'GameFontHighlightLeft' or 'GameFontNormalLeft')
-		button.IconHighlight[hasAtlas and 'SetAtlas' or 'SetTexture'](button.IconHighlight, icon)
-		button.Icon[hasAtlas and 'SetAtlas' or 'SetTexture'](button.Icon, icon)
+		button.IconHighlight[mode](button.IconHighlight, icon)
+		button.Icon[mode](button.Icon, icon)
 	end)
 
 	local itemGrid = CreateScrollBoxListGridView(3, 6,6,10,10, 5,5)

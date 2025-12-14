@@ -7,9 +7,6 @@ Scrap2.Tags = {}
 --[[ Main API ]]--
 
 function Scrap2:NewTag(info)
-    info.hasAtlas = info.icon and C_Texture.GetAtlasID(info.icon) ~= 0
-    info.iconScale = info.iconScale or 1
-
     self.Tags[info.id] = info
     return info
 end
@@ -47,7 +44,7 @@ function Scrap2:TagMenu()
             for i, tag in pairs(Scrap2.Tags) do
                 drop:CreateRadio(tag.name, function() return self:GetTag(data.id) == i end, function() self:SetTag(data.id, i) end):AddInitializer(function(button)
                     local icon = button:AttachTexture()
-                    icon[tag.hasAtlas and 'SetAtlas' or 'SetTexture'](icon, tag.icon)
+                    icon[tag.icon and 'SetTexture' or 'SetAtlas'](icon, tag.icon or tag.atlas)
                     icon:SetPoint('RIGHT')
                     icon:SetSize(18, 18)
                 end)

@@ -36,8 +36,7 @@ function Spotlight:UpdateButton(button)
 	local tag = Scrap2:GetTagInfo(id, location)
 
 	local icon = self.Buttons[button] or self:CreateTextures(button)
-    icon[tag.hasAtlas and 'SetAtlas' or 'SetTexture'](icon, tag.icon)
-	icon:SetScale(tag.iconScale)
+    icon[tag.icon and 'SetTexture' or 'SetAtlas'](icon, tag.icon or tag.atlas)
 
 	local glow = icon.Glow
 	glow:SetVertexColor((tag.color or PURE_RED_COLOR):GetRGBA())

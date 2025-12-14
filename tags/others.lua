@@ -1,9 +1,10 @@
+Scrap2:NewTag {id = 0, name = 'None'}
+Scrap2:NewTag {id = 1, name = 'Junk', icon = 'Interface/Addons/Scrap/art/coin', color = ITEM_QUALITY_COLORS[0].color}
 Scrap2:NewTag {id = 2, name = 'Disenchant', icon = 'Interface/Addons/Scrap/art/disenchant', color = CreateColor(0.67, 0.439, 0.89)}
 Scrap2:NewTag {id = 3, name = 'Bank', icon = 'Interface/Addons/Scrap/art/crate', color = CreateColor(0.45, 0.32, 0.15)}
-Scrap2:NewTag {id = 0, name = 'None'}
 
 if Constants.InventoryConstants.NumAccountBankSlots then
-    Scrap2:NewTag {id = 4, name = 'Warband', icon = 'warbands-icon', color = CreateColor(0.45, 0.32, 0.15)}
+    Scrap2:NewTag {id = 4, name = 'Warband', atlas = 'warbands-icon', color = CreateColor(0.45, 0.32, 0.15)}
 end
 
 if GuildBankFrame_LoadUI then
