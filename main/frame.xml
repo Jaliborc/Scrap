@@ -83,10 +83,16 @@
 		<Size x="102" y="32"/>
 		<Layers>
             <Layer level="BORDER">
-                <Texture parentKey="Border" atlas="CovenantChoice-Offering-Ability-Ring-Necrolord">
+                <Texture parentKey="Ring" atlas="CovenantChoice-Offering-Ability-Ring-Necrolord">
 					<Size x="25" y="25"/>
 					<Anchors>
 						<Anchor point="LEFT"/>
+					</Anchors>
+				</Texture>
+				 <Texture parentKey="RingGlow" atlas="Lighttrait-glow" alphaMode="ADD" alpha="0.7">
+				 	<Size x="30" y="30"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Ring" x="-3"/>
 					</Anchors>
 				</Texture>
             </Layer>
@@ -95,7 +101,7 @@
 					<Color r="0" g="0" b="0"/>
 					<Size x="20" y="20"/>
 					<Anchors>
-						<Anchor point="CENTER" relativeKey="$parent.Border"/>
+						<Anchor point="CENTER" relativeKey="$parent.Ring"/>
 					</Anchors>
 				</Texture>
 			</Layer>
@@ -103,7 +109,7 @@
 				<Texture parentKey="Icon">
 					<Size x="20" y="20"/>
 					<Anchors>
-						<Anchor point="CENTER" relativeKey="$parent.Border"/>
+						<Anchor point="CENTER" relativeKey="$parent.Ring"/>
 					</Anchors>
 				</Texture>
 			</Layer>
@@ -116,8 +122,8 @@
 				</Texture>
 				<Texture parentKey="BorderHighlight" atlas="CovenantChoice-Offering-Ability-Ring-Necrolord" alphaMode="ADD">
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeKey="$parent.Border"/>
-						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.Border"/>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Ring"/>
+						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.Ring"/>
 					</Anchors>
 				</Texture>
 			</Layer>
@@ -193,4 +199,7 @@
 			<OnLeave function="GameTooltip_Hide"/>
 		</Scripts>
 	</Button>
+
+	<Script file="frame.lua"/>
+	<Script file="menus.lua"/>
 </Ui>

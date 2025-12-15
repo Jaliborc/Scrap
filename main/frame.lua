@@ -37,6 +37,7 @@ function Frame:OnLoad()
 		button:SetNormalFontObject(checked and 'GameFontHighlightLeft' or 'GameFontNormalLeft')
 		button.IconHighlight[mode](button.IconHighlight, icon)
 		button.Icon[mode](button.Icon, icon)
+		button.RingGlow:SetShown(checked)
 	end)
 
 	local itemGrid = CreateScrollBoxListGridView(3, 6,6,10,10, 5,5)
@@ -50,7 +51,8 @@ function Frame:OnLoad()
 	self.OptionsWheel.tooltipTitle = 'General Options'
 
 	self.TagsBox:Init(tagList)
-	self.OptionsDropdown:SetText(FILTERS)
+	self.OptionsDropdown:SetText('Smart Filters')
+	self.OptionsDropdown:SetupMenu(Scrap2.Menus.SmartFilters)
 	self.SearchBox:HookScript('OnTextChanged', function() self:UpdateItems(true) end)
 	self:SetScript('OnHide', self.UnregisterAll)
 	self:SetScript('OnShow', self.OnShow)
@@ -71,20 +73,7 @@ function Frame:OnTagClick(button)
 		Frame.activeTag = self.tag.id
 		Frame:UpdateTags()
 	elseif self.tag.id > 0 then
-		MenuUtil.CreateContextMenu(self, function(_, drop)
-            drop:SetTag('Scrap2_EditTag')
-			drop:CreateTitle(self.tag.name)
-			drop:CreateCheckbox('Show Icon', nop, nop)
-			drop:CreateCheckbox('Glow', nop, nop):CreateColorSwatch('Color', nop, self.tag.color)
-			drop:QueueDivider()
-
-			if self.tag.id == 1 then
-				drop:CreateCheckbox('Auto Sell', nop, nop)
-				drop:CreateCheckbox('Safe Sell', nop, nop)
-			elseif self.tag.id >= 3 and self.tag.id <= 5 then
-				drop:CreateCheckbox('Auto Deposit', nop, nop)
-			end
-		end)
+		MenuUtil.CreateContextMenu(self, Scrap2.Menus:EditTag(self.tag))
 	end
 end
 

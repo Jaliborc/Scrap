@@ -4,18 +4,31 @@
 --]]
 
 Scrap2:NewModule('Settings', {OnLoad = function(self)
+	for id, tag in ipairs(Scrap2.BaseTags) do
+		local r,g,b = unpack(tag.color)
+
+		tag.color = {r=r, g=g, b=b}
+		tag.glow, tag.stamp = true, true
+	end
+
+	Scrap2.Sets = self:SetDefaults({}, Scrap2.Defaults)
 	Scrap2.Tags = self:SetDefaults({}, Scrap2.BaseTags)
     Scrap2.List = self:SetDefaults({}, Scrap2.BaseList)
 
-	for i = 1,50 do
+	for i = 1,150 do
 		local k = 0
 		while not C_Item.GetItemInfo(k) do
 			k = fastrandom(1, 100000)
 		end
 
-		Scrap2.List[k] = 1
+		Scrap2.List[k] = fastrandom(0,5)
 	end
 end})
+
+Scrap2.Defaults = {
+	reagents = 3,
+	warbound = 4
+}
 
 Scrap2.BaseList = {
 	[90561] = 0,
@@ -95,15 +108,15 @@ Scrap2.BaseList = {
 
 Scrap2.BaseTags = {
     [0] = {id = 0, name = 'None'},
-    [1] = {id = 1, name = 'Junk', icon = 'Interface/Addons/Scrap/art/coin', color = ITEM_QUALITY_COLORS[0].color},
-    [2] = {id = 2, name = 'Disenchant', icon = 'Interface/Addons/Scrap/art/disenchant', color = CreateColor(0.67, 0.439, 0.89)},
-    [3] = {id = 3, name = 'Bank', icon = 'Interface/Addons/Scrap/art/crate', color = CreateColor(0.45, 0.32, 0.15)}
+    [1] = {id = 1, name = 'Junk', icon = 'Interface/Addons/Scrap/art/coin', color = {ITEM_QUALITY_COLORS[0].color:GetRGB()}, sell = true, safe = true},
+    [2] = {id = 2, name = 'Disenchant', icon = 'Interface/Addons/Scrap/art/disenchant', color = {0.67, 0.439, 0.89}},
+    [3] = {id = 3, name = 'Bank', icon = 'Interface/Addons/Scrap/art/crate', color = {0.45, 0.32, 0.15}, deposit = true}
 }
 
 if Constants.InventoryConstants.NumAccountBankSlots then
-    Scrap2.BaseTags[4] = {id = 4, name = 'Warband', atlas = 'warbands-icon', color = CreateColor(0.45, 0.32, 0.15)}
+    Scrap2.BaseTags[4] = {id = 4, name = 'Warband', atlas = 'warbands-icon', color = {0.45, 0.32, 0.15}, deposit = true}
 end
 
 if GuildBankFrame_LoadUI then
-    Scrap2.BaseTags[5] = {id = 5, name = 'Guild', icon = 'Interface/Addons/Scrap/art/banner', color = CreateColor(0.13, 0.18, 0.32)}
+    Scrap2.BaseTags[5] = {id = 5, name = 'Guild', icon = 'Interface/Addons/Scrap/art/banner', color = {0.13, 0.18, 0.32}, deposit = true}
 end

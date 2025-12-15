@@ -4,6 +4,5 @@
 	<Script file="settings.lua"/>
 	<Script file="spotlight.lua"/>
 
-	<Include file="visualizer.xml"/>
-	<Script file="visualizer.lua"/>
+	<Include file="frame.xml"/>
 </Ui>

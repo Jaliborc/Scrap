@@ -16,6 +16,7 @@ local Spotlight = Scrap2:NewModule('Spotlight')
 function Spotlight:OnLoad()
 	self.Buttons = {}
 	self:RegisterSignal('LIST_CHANGED', 'UpdateAll')
+	self:RegisterSignal('LOOK_CHANGED', 'UpdateAll')
 
 	hooksecurefunc(ItemButtonMixin.SetItemButtonQuality and ItemButtonMixin or _G, 'SetItemButtonQuality',
 	               GenerateClosure(self.UpdateButton, self))
@@ -37,16 +38,17 @@ function Spotlight:UpdateButton(button)
 
 	local icon = self.Buttons[button] or self:CreateTextures(button)
     icon[tag.icon and 'SetTexture' or 'SetAtlas'](icon, tag.icon or tag.atlas)
+	icon:SetShown(tag.stamp)
 
 	local glow = icon.Glow
-	glow:SetVertexColor((tag.color or PURE_RED_COLOR):GetRGBA())
-	glow:SetShown(tag.color)
+	glow:SetVertexColor(ColorMixin.GetRGBA(tag.color or PURE_RED_COLOR))
+	glow:SetShown(tag.glow)
 
 	if button.IconQuestTexture then
-		button.IconQuestTexture:SetAlpha(tag.color and 0 or 1)
+		button.IconQuestTexture:SetAlpha(tag.glow and 0 or 1)
 	end
 	if button.IconBorder then
-		button.IconBorder:SetAlpha(tag.color and 0 or 1)
+		button.IconBorder:SetAlpha(tag.glow and 0 or 1)
 	end
 	if button.JunkIcon then
 		button.JunkIcon:SetAlpha(0)
