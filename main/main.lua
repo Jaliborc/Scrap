@@ -42,13 +42,13 @@ function Scrap2:TagMenu()
 
 			for i, tag in pairs(Scrap2.Tags) do
 				drop:CreateRadio(tag.name, function() return self:GetTag(data.id) == i end, function() self:SetTag(data.id, i) end)
-					:AddInitializer(self:TagMenuInitializer(tag))
+					:AddInitializer(self:TagInitializer(tag))
 			end
 		end)
 	end
 end
 
-function Scrap2:TagMenuInitializer(tag)
+function Scrap2:TagInitializer(tag)
 	return function(button)
 		local icon = button:AttachTexture()
 		icon[tag.icon and 'SetTexture' or 'SetAtlas'](icon, tag.icon or tag.atlas)
@@ -59,5 +59,5 @@ end
 
 function Scrap2:GetItemName(id)
 	local name, _, quality = C.Item.GetItemInfo(id)
-	return ITEM_QUALITY_COLORS[quality].color:WrapTextInColorCode(name)
+	return format('|cnIQ%s:%s|r', quality, name)
 end

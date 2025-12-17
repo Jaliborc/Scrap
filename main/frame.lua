@@ -51,7 +51,7 @@ function Frame:OnLoad()
 	self.OptionsWheel.tooltipTitle = 'General Options'
 
 	self.TagsBox:Init(tagList)
-	self.OptionsDropdown:SetText('Smart Filters')
+	self.OptionsDropdown:SetText('Item Filters')
 	self.OptionsDropdown:SetupMenu(Scrap2.Menus.SmartFilters)
 	self.SearchBox:HookScript('OnTextChanged', function() self:UpdateItems(true) end)
 	self:SetScript('OnHide', self.UnregisterAll)
@@ -74,6 +74,8 @@ function Frame:OnTagClick(button)
 		Frame:UpdateTags()
 	elseif self.tag.id > 0 then
 		MenuUtil.CreateContextMenu(self, Scrap2.Menus:EditTag(self.tag))
+	else
+		PlaySound(GetRandomArrayEntry({1024, 3037, 6820}))
 	end
 end
 
@@ -88,7 +90,7 @@ end
 function Frame:UpdateItems(resetScroll)
 	local items = {}
 	for id, tag in pairs(Scrap2.List) do
-		if tag == self.activeTag then
+		if tonumber(id) and tag == self.activeTag then
 			local name = C.Item.GetItemInfo(id)
 			if name and name:find(self.SearchBox:GetText()) then
 				tinsert(items, id)

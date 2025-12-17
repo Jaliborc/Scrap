@@ -11,7 +11,6 @@ Scrap2:NewModule('Settings', {OnLoad = function(self)
 		tag.glow, tag.stamp = true, true
 	end
 
-	Scrap2.Sets = self:SetDefaults({}, Scrap2.Defaults)
 	Scrap2.Tags = self:SetDefaults({}, Scrap2.BaseTags)
     Scrap2.List = self:SetDefaults({}, Scrap2.BaseList)
 
@@ -25,12 +24,10 @@ Scrap2:NewModule('Settings', {OnLoad = function(self)
 	end
 end})
 
-Scrap2.Defaults = {
-	reagents = 3,
-	warbound = 4
-}
-
 Scrap2.BaseList = {
+	reagents = 3,
+	warbound = 4,
+
 	[90561] = 0,
 	[12709] = 0,
 	[2459] = 0,
