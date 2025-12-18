@@ -3,9 +3,8 @@
 	Context menus for addon configuration.
 --]]
 
-local Menus = Scrap2:NewModule('Menus', CreateFrame('Frame', Scrap2Frame, nil, 'IconSelectorPopupFrameTemplate'))
+local Menus = Scrap2:NewModule('Menus')
 local Sushi = LibStub('Sushi-3.2')
-dump = DevTools_Dump
 
 
 --[[ Utils ]]--
@@ -75,14 +74,14 @@ end
 
 --[[ Menus ]]--
 
-function Menus:NewTag(tag)
-	self:SetPoint('TOPLEFT', self:GetParent(), 'TOPRIGHT')
-	self:Show()
+function Menus:TagEditor(tag)
+	Scrap2.Frame.Editor.IconSelector:SetSelectedIndex(1)
+	Scrap2.Frame.Editor.IconSelector:ScrollToSelectedIndex()
 end
 
-function Menus:EditTag(tag)
+function Menus:TagOptions(tag)
 	return function(_, drop)
-		drop:SetTag('Scrap2_EditTag')
+		drop:SetTag('Scrap2_TagOptions')
 		drop:CreateTitle(tag.name)
 		drop:CreateCheckbox('Show Icon', toggle(tag, 'stamp'))
 		drop:CreateCheckbox('Glow', toggle(tag, 'glow')):CreateColorSwatch('Color', colorpicker(getmetatable(tag.color)))
