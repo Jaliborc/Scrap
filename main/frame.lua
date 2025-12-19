@@ -51,17 +51,9 @@ function Frame:OnLoad()
 	self.activeTag = 1
 	self.searchCondition = self.Yup
 	self.OptionsWheel.tooltipTitle = 'General Options'
-
-	self.TagsBox:Init(tagList)
+	self.OptionsDropdown:SetupMenu(self.Menus.SmartFilters)
 	self.OptionsDropdown:SetText('Item Filters')
-	self.OptionsDropdown:SetupMenu(Scrap2.Menus.SmartFilters)
-	self.Editor.BorderBox.EditBoxHeaderText:SetText('Enter Tag Name:')
-	self.Editor.BorderBox.IconTypeDropdown:SetScript('OnShow', self.Hide)
-	self.Editor.IconSelector:SetSelectionsDataProvider(function(i) return Scrap2.IconChoices[i] end, function() return #Scrap2.IconChoices end)
-	self.Editor.IconSelector:SetSetupCallback(function(button, _, icon) button.Icon:SetAtlas(icon) end)
-	self.Editor.IconSelector:SetSelectedCallback(function(_, icon)
-		self.Editor.BorderBox.SelectedIconArea.SelectedIconButton.Icon:SetAtlas(icon)
-	end)
+	self.TagsBox:Init(tagList)
 
 	self.SearchBox:HookScript('OnTextChanged', self.OnSearchChanged)
 	self:SetScript('OnHide', self.UnregisterAll)
@@ -98,7 +90,7 @@ function Frame:OnTagClick(button)
 		Frame.activeTag = self.tag.id
 		Frame:UpdateTags()
 	elseif self.tag.id > 0 then
-		MenuUtil.CreateContextMenu(self, Scrap2.Menus:TagOptions(self.tag))
+		MenuUtil.CreateContextMenu(self, Frame.Menus:TagOptions(self.tag))
 	else
 		PlaySound(GetRandomArrayEntry({1024, 3037, 6820}))
 	end

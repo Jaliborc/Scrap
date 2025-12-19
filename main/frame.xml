@@ -76,11 +76,11 @@
 				<Size x="118" y="22"/>
 				<Anchors> <Anchor point="BOTTOMLEFT"/> </Anchors>
 				<Scripts>
-					<OnClick> Scrap2.Menus:TagEditor({}) </OnClick>
+					<OnClick> Scrap2.Frame.Menus:TagEditor() </OnClick>
 				</Scripts>
 			</Button>
 
-			<Frame parentKey="Editor" inherits='IconSelectorPopupFrameTemplate' hidden="true">
+			<Frame parentKey="Menus" inherits='IconSelectorPopupFrameTemplate' hidden="true">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
 				</Anchors>

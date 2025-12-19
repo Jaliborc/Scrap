@@ -1,0 +1,2 @@
+search engine -> takes only 7.4% of the time -> 13.514 times faster!
+searching items - takes only 35.3% of the time -> 2.83 times faster!

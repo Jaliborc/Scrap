@@ -3,8 +3,8 @@
 	Context menus for addon configuration.
 --]]
 
-local Menus = Scrap2:NewModule('Menus')
 local Sushi = LibStub('Sushi-3.2')
+local Menus = Scrap2.Frame.Menus
 
 
 --[[ Utils ]]--
@@ -72,11 +72,28 @@ local function slider(parent, table, key)
 end
 
 
---[[ Menus ]]--
+--[[ Main API ]]--
 
 function Menus:TagEditor(tag)
-	Scrap2.Frame.Editor.IconSelector:SetSelectedIndex(1)
-	Scrap2.Frame.Editor.IconSelector:ScrollToSelectedIndex()
+	local tag = tag or {name = 'New Tag', color = {r=1,g=1,b=1}, stamp = true}
+	local icon = tag.atlas or GetRandomArrayEntry(Scrap2.IconChoices)
+	local select = function(_, icon)
+		self.BorderBox.SelectedIconArea.SelectedIconButton.Icon:SetAtlas(icon)
+	end
+
+	self.BorderBox.EditBoxHeaderText:SetText('Enter Tag Name:')
+	self.BorderBox.IconTypeDropdown:SetScript('OnShow', self.Hide)
+	self.BorderBox.IconSelectorEditBox:SetText(tag.name)
+
+	self.IconSelector:SetSelectedCallback(select)
+	self.IconSelector:SetSetupCallback(function(button, _, icon) button.Icon:SetAtlas(icon) end)
+	self.IconSelector:SetSelectionsDataProvider(function(i) return Scrap2.IconChoices[i] end, function() return #Scrap2.IconChoices end)
+	self.IconSelector:SetSelectedIndex(tIndexOf(Scrap2.IconChoices, icon))
+	self.IconSelector:ScrollToSelectedIndex()
+
+	select(_, icon)
+	self.tag = tag
+	self:Show()
 end
 
 function Menus:TagOptions(tag)
@@ -119,4 +136,25 @@ function Menus:SmartFilters(drop)
 
 	taglist(drop:CreateButton('Reagents'), 'reagents', {3,4,5,0})
 	taglist(drop:CreateButton('Warbound'), 'warbound', {4,0})
+end
+
+
+--[[ UI Events ]]--
+
+function Menus:OkayButton_OnClick()
+	self.tag.id = self.tag.id or self:NextAvailableID()
+	self.tag.name = self.BorderBox.IconSelectorEditBox:GetText()
+	self.tag.atlas = self.BorderBox.SelectedIconArea.SelectedIconButton.Icon:GetAtlas()
+	self:Hide()
+
+	Scrap2.Tags[self.tag.id] = self.tag
+	Scrap2:SendSignal('TAGS_CHANGED')
+end
+
+function Menus:NextAvailableID()
+	local id = 50
+	while Scrap2.Tags[id] do
+		id = id + 1
+	end
+	return id
 end
