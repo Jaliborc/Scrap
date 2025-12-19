@@ -3,11 +3,12 @@
 	Panel for list visualization and configuration.
 --]]
 
-local Frame = Scrap2:NewModule('Frame', Scrap2Frame)
+local Frame = Scrap2:NewModule('Frame', Scrap2Frame, 'MutexDelay-1.0')
+local Search = LibStub('ItemSearch-1.3')
 local C = LibStub('C_Everywhere')
 
 
---[[ Events ]]--
+--[[ Startup ]]--
 
 function Frame:OnLoad()
 	local title = self.TitleText or self.TitleContainer.TitleText
@@ -48,6 +49,7 @@ function Frame:OnLoad()
 	end)
 
 	self.activeTag = 1
+	self.searchCondition = self.Yup
 	self.OptionsWheel.tooltipTitle = 'General Options'
 
 	self.TagsBox:Init(tagList)
@@ -58,11 +60,10 @@ function Frame:OnLoad()
 	self.Editor.IconSelector:SetSelectionsDataProvider(function(i) return Scrap2.IconChoices[i] end, function() return #Scrap2.IconChoices end)
 	self.Editor.IconSelector:SetSetupCallback(function(button, _, icon) button.Icon:SetAtlas(icon) end)
 	self.Editor.IconSelector:SetSelectedCallback(function(_, icon)
-		print(icon)
 		self.Editor.BorderBox.SelectedIconArea.SelectedIconButton.Icon:SetAtlas(icon)
 	end)
 
-	self.SearchBox:HookScript('OnTextChanged', function() self:UpdateItems(true) end)
+	self.SearchBox:HookScript('OnTextChanged', self.OnSearchChanged)
 	self:SetScript('OnHide', self.UnregisterAll)
 	self:SetScript('OnShow', self.OnShow)
 
@@ -74,7 +75,22 @@ end
 function Frame:OnShow()
 	self:RegisterSignal('LIST_CHANGED', 'UpdateItems')
 	self:RegisterSignal('TAGS_CHANGED', 'UpdateTags')
+	self:RegisterEvent('ITEM_DATA_LOAD_RESULT')
 	self:UpdateTags()
+end
+
+function Frame:ITEM_DATA_LOAD_RESULT(_, success)
+	if success then
+		self:Delay(0.5, 'UpdateItems', true)
+	end
+end
+
+
+--[[ User Events ]]--
+
+function Frame:OnSearchChanged()
+	Frame.searchCondition = Search:Compile(Frame.SearchBox:GetText())
+	Frame:Delay(0.1, 'UpdateItems', true)
 end
 
 function Frame:OnTagClick(button)
@@ -100,9 +116,13 @@ function Frame:UpdateItems(resetScroll)
 	local items = {}
 	for id, tag in pairs(Scrap2.List) do
 		if tonumber(id) and tag == self.activeTag then
-			local name = C.Item.GetItemInfo(id)
-			if name and name:find(self.SearchBox:GetText()) then
-				tinsert(items, id)
+			if C.Item.IsItemDataCachedByID(id) then
+				local _, link = C.Item.GetItemInfo(id)
+				if self.searchCondition(link) then
+					tinsert(items, id)
+				end
+			else
+				C.Item.RequestLoadItemDataByID(id)
 			end
 		end
 	end

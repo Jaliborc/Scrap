@@ -80,7 +80,7 @@
 				</Scripts>
 			</Button>
 
-			<Frame parentKey="Editor" inherits='IconSelectorPopupFrameTemplate'>
+			<Frame parentKey="Editor" inherits='IconSelectorPopupFrameTemplate' hidden="true">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
 				</Anchors>
