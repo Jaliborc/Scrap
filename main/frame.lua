@@ -51,7 +51,7 @@ function Frame:OnLoad()
 	self.activeTag = 1
 	self.searchCondition = self.Yup
 	self.OptionsWheel.tooltipTitle = 'General Options'
-	self.OptionsDropdown:SetupMenu(self.Menus.SmartFilters)
+	self.OptionsDropdown:SetupMenu(self.Editor.SmartFilters)
 	self.OptionsDropdown:SetText('Item Filters')
 	self.TagsBox:Init(tagList)
 
@@ -90,7 +90,7 @@ function Frame:OnTagClick(button)
 		Frame.activeTag = self.tag.id
 		Frame:UpdateTags()
 	elseif self.tag.id > 0 then
-		MenuUtil.CreateContextMenu(self, Frame.Menus:TagOptions(self.tag))
+		MenuUtil.CreateContextMenu(self, Frame.Editor:TagOptions(self.tag))
 	else
 		PlaySound(GetRandomArrayEntry({1024, 3037, 6820}))
 	end

@@ -1,10 +1,10 @@
 --[[
 	Copyright 2008-2025 João Cardoso, All Rights Reserved
-	Context menus for addon configuration.
+	Popup window and context menus for addon configuration.
 --]]
 
+local Editor = Scrap2.Frame.Editor
 local Sushi = LibStub('Sushi-3.2')
-local Menus = Scrap2.Frame.Menus
 
 
 --[[ Utils ]]--
@@ -74,7 +74,7 @@ end
 
 --[[ Main API ]]--
 
-function Menus:TagEditor(tag)
+function Editor:Popup(tag)
 	local tag = tag or {name = 'New Tag', color = {r=1,g=1,b=1}, stamp = true}
 	local icon = tag.atlas or GetRandomArrayEntry(Scrap2.IconChoices)
 	local select = function(_, icon)
@@ -96,7 +96,7 @@ function Menus:TagEditor(tag)
 	self:Show()
 end
 
-function Menus:TagOptions(tag)
+function Editor:TagOptions(tag)
 	return function(_, drop)
 		drop:SetTag('Scrap2_TagOptions')
 		drop:CreateTitle(tag.name)
@@ -113,7 +113,7 @@ function Menus:TagOptions(tag)
 	end
 end
 
-function Menus:SmartFilters(drop)
+function Editor:SmartFilters(drop)
 	drop:SetTag('Scrap2_SmartFilters')
 	drop:CreateTitle('Equipment')
 
@@ -141,7 +141,7 @@ end
 
 --[[ UI Events ]]--
 
-function Menus:OkayButton_OnClick()
+function Editor:OkayButton_OnClick()
 	self.tag.id = self.tag.id or self:NextAvailableID()
 	self.tag.name = self.BorderBox.IconSelectorEditBox:GetText()
 	self.tag.atlas = self.BorderBox.SelectedIconArea.SelectedIconButton.Icon:GetAtlas()
@@ -151,7 +151,7 @@ function Menus:OkayButton_OnClick()
 	Scrap2:SendSignal('TAGS_CHANGED')
 end
 
-function Menus:NextAvailableID()
+function Editor:NextAvailableID()
 	local id = 50
 	while Scrap2.Tags[id] do
 		id = id + 1

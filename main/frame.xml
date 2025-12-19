@@ -76,11 +76,11 @@
 				<Size x="118" y="22"/>
 				<Anchors> <Anchor point="BOTTOMLEFT"/> </Anchors>
 				<Scripts>
-					<OnClick> Scrap2.Frame.Menus:TagEditor() </OnClick>
+					<OnClick> Scrap2.Frame.Editor:Popup() </OnClick>
 				</Scripts>
 			</Button>
 
-			<Frame parentKey="Menus" inherits='IconSelectorPopupFrameTemplate' hidden="true">
+			<Frame parentKey="Editor" inherits='IconSelectorPopupFrameTemplate' hidden="true">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
 				</Anchors>
@@ -221,6 +221,6 @@
 	</Frame>
 
 	<Script file="frame.lua"/>
-	<Script file="menus.lua"/>
+	<Script file="editor.lua"/>
 	<Script file="icons.lua"/>
 </Ui>
