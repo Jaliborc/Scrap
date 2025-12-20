@@ -36,7 +36,7 @@ function Frame:OnLoad()
 		button.tag = tag
 		button:SetText(tag.name)
 		button:SetNormalFontObject(checked and 'GameFontHighlightLeft' or 'GameFontNormalLeft')
-		button.IconHighlight[mode](button.IconHighlight, icon)
+		button.IconGlow[mode](button.IconGlow, icon)
 		button.Icon[mode](button.Icon, icon)
 		button.RingGlow:SetShown(checked)
 	end)

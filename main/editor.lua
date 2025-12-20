@@ -113,6 +113,15 @@ function Editor:TagOptions(tag)
 			drop:CreateCheckbox('Safe Sell', toggle(tag, 'safe'))
 		elseif tag.id >= 3 and tag.id <= 5 then
 			drop:CreateCheckbox('Auto Deposit', toggle(tag, 'deposit'))
+		elseif tag.id >= 50 then
+			drop:CreateButton('|A:AnimCreate_Icon_Text:14:14:0:0:255:209:0|a ' .. EDIT, function() self:Popup(tag) end)
+			drop:CreateButton('|TInterface/Addons/Scrap/art/bin:14:14|t ' .. DELETE, function()
+				Sushi.Popup {
+					text = format('Are you sure you want to delete |cnNORMAL_FONT_COLOR:|A:%s:14:14|a %s|r across all lists?\nThis action cannot be undone.', tag.atlas, tag.name), button1 = OKAY, button2 = CANCEL,
+					whileDead = 1, exclusive = 1, hideOnEscape = 1,
+					OnAccept = function() self:SetTag(tag.id) end
+				}
+			end)
 		end
 	end
 end
@@ -149,9 +158,12 @@ function Editor:OkayButton_OnClick()
 	self.tag.id = self.tag.id or self:NextAvailableID()
 	self.tag.name = self.BorderBox.IconSelectorEditBox:GetText()
 	self.tag.atlas = self.BorderBox.SelectedIconArea.SelectedIconButton.Icon:GetAtlas()
+	self:SetTag(self.tag.id, self.tag)
 	self:Hide()
+end
 
-	Scrap2.Tags[self.tag.id] = self.tag
+function Editor:SetTag(id, tag)
+	Scrap2.Tags[id] = tag
 	Scrap2:SendSignal('TAGS_CHANGED')
 	Scrap2:SendSignal('LOOK_CHANGED')
 end

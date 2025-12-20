@@ -106,12 +106,8 @@
 				</Texture>
             </Layer>
 			<Layer level="BACKGROUND" textureSubLevel="-1">
-				<Texture parentKey="Bg" atlas="CircleMaskScalable" alpha="0.4">
-					<Color r="0" g="0" b="0"/>
-					<Size x="20" y="20"/>
-					<Anchors>
-						<Anchor point="CENTER" relativeKey="$parent.Ring"/>
-					</Anchors>
+				<Texture parentKey="Bg" setAllPoints="true">
+					<Color r="0" g="0" b="0" a="0.4"/>
 				</Texture>
 			</Layer>
 			<Layer level="BACKGROUND">
@@ -123,18 +119,29 @@
 				</Texture>
 			</Layer>
 			<Layer level="HIGHLIGHT">
-				<Texture parentKey="IconHighlight" alphaMode="ADD" alpha="0.4">
+				<Texture parentKey="IconGlow" alphaMode="ADD" alpha="0.4">
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeKey="$parent.Icon"/>
 						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.Icon"/>
 					</Anchors>
 				</Texture>
-				<Texture parentKey="BorderHighlight" atlas="CovenantChoice-Offering-Ability-Ring-Necrolord" alphaMode="ADD">
+				<Texture parentKey="BorderGlow" atlas="CovenantChoice-Offering-Ability-Ring-Necrolord" alphaMode="ADD">
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeKey="$parent.Ring"/>
 						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.Ring"/>
 					</Anchors>
 				</Texture>
+				<MaskTexture parentKey="Mask" atlas="CircleMaskScalable">
+					<Size x="20" y="20"/>
+					<Anchors>
+						<Anchor point="CENTER" relativeKey="$parent.Ring"/>
+					</Anchors>
+					<MaskedTextures>
+						<MaskedTexture childKey="Bg"/>
+						<MaskedTexture childKey="Icon"/>
+						<MaskedTexture childKey="IconGlow"/>
+					</MaskedTextures>
+				</MaskTexture>
 			</Layer>
 		</Layers>
 		<ButtonText>
