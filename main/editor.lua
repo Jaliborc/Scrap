@@ -13,9 +13,16 @@ local function bright(v)
 	return min(sqrt(v), 1)
 end
 
+local function looks(call)
+	return function(...)
+		call(...)
+		Scrap2:SendSignal('LOOK_CHANGED')
+	end
+end
+
 local function toggle(table, key)
 	return function() return table[key] end,
-		function() table[key] = not table[key] end
+		looks(function() table[key] = not table[key] end)
 end
 
 local function colorpicker(color)
@@ -23,12 +30,9 @@ local function colorpicker(color)
 	local info = {
 		hasOpacity = 1,
 		r = r, g = g, b = b, opacity = a or 1,
-		swatchFunc = function() color.r, color.g, color.b = ColorPickerFrame:GetColorRGB() end,
-		opacityFunc = function() color.a = 1 - ColorPickerFrame:GetColorAlpha() end,
-		cancelFunc = function(v)
-			color.r, color.g, color.b = ColorMixin.GetRGBA(v)
-			color.a = 1 - v.a
-		end
+		swatchFunc = looks(function() color.r, color.g, color.b = ColorPickerFrame:GetColorRGB() end),
+		opacityFunc = looks(function() color.a = ColorPickerFrame:GetColorAlpha() end),
+		cancelFunc = looks(function(v) ColorMixin.SetRGBA(color, ColorMixin.GetRGBA(v)) end)
 	}
 
 	return function() ColorPickerFrame:SetupColorPickerAndShow(info) end, info
@@ -101,7 +105,7 @@ function Editor:TagOptions(tag)
 		drop:SetTag('Scrap2_TagOptions')
 		drop:CreateTitle(tag.name)
 		drop:CreateCheckbox('Show Icon', toggle(tag, 'stamp'))
-		drop:CreateCheckbox('Glow', toggle(tag, 'glow')):CreateColorSwatch('Color', colorpicker(getmetatable(tag.color)))
+		drop:CreateCheckbox('Glow', toggle(tag, 'glow')):CreateColorSwatch('Color', colorpicker(tag.color))
 		drop:QueueDivider()
 
 		if tag.id == 1 then
@@ -149,6 +153,7 @@ function Editor:OkayButton_OnClick()
 
 	Scrap2.Tags[self.tag.id] = self.tag
 	Scrap2:SendSignal('TAGS_CHANGED')
+	Scrap2:SendSignal('LOOK_CHANGED')
 end
 
 function Editor:NextAvailableID()

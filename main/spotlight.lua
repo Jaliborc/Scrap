@@ -43,7 +43,7 @@ function Spotlight:UpdateButton(button)
 	local glow = icon.Glow
 	glow:SetVertexColor(ColorMixin.GetRGBA(tag.color or PURE_RED_COLOR))
 	glow:SetShown(tag.glow)
-
+	
 	if button.IconQuestTexture then
 		button.IconQuestTexture:SetAlpha(tag.glow and 0 or 1)
 	end
