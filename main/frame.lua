@@ -38,7 +38,7 @@ function Frame:OnLoad()
 		button:SetNormalFontObject(checked and 'GameFontHighlightLeft' or 'GameFontNormalLeft')
 		button.IconGlow[mode](button.IconGlow, icon)
 		button.Icon[mode](button.Icon, icon)
-		button.RingGlow:SetShown(checked)
+		button.Checked:SetShown(checked)
 	end)
 
 	local itemGrid = CreateScrollBoxListGridView(3, 6,6,10,10, 5,5)

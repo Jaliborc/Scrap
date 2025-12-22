@@ -1,0 +1,77 @@
+<Ui>
+	<Frame name="Scrap2FrameDesignTemplate" virtual="true">
+		<Size x="677" y="444"/>
+		<Frames>
+			<Frame parentKey="LeftInset" useParentLevel="true" inherits="InsetFrameTemplate">
+				<Size x="120" y="496"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="4" y="-60" />
+					<Anchor point="BOTTOMLEFT" x="4" y="26" />
+				</Anchors>
+			</Frame>
+
+			<Frame parentKey="RightInset" useParentLevel="true" inherits="InsetFrameTemplate">
+				<Size x="70" y="496"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.LeftInset" relativePoint="TOPRIGHT" x="0" y="0" />
+					<Anchor point="BOTTOMRIGHT" x="-28" y="7"/>
+				</Anchors>
+			</Frame>
+
+			<EventFrame parentKey="ScrollBar" inherits="WowTrimScrollBar">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.RightInset" relativePoint="TOPRIGHT" x="-1"/>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.RightInset" relativePoint="BOTTOMRIGHT" x="-1"/>
+				</Anchors>
+			</EventFrame>
+
+			<Frame parentKey="Editor" inherits='IconSelectorPopupFrameTemplate' hidden="true">
+				<Size x="525" y="508"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+	</Frame>
+
+	<Button name="Scrap2TagDesignTemplate" virtual="true">
+		<Size y="30"/>
+		<Layers>
+			<Layer level="BACKGROUND" textureSubLevel="-1">
+				<Texture parentKey="Background">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-1"/>
+						<Anchor point="BOTTOMRIGHT" x="0" y="1"/>
+					</Anchors>
+					<Color r="0.568" g="0.568" b="0.568" a="0.05"/>
+				</Texture>
+				<Texture parentKey="Checked" file="Interface\QuestFrame\UI-QuestLogTitleHighlight" alpha="0.4" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-1"/>
+						<Anchor point="BOTTOMRIGHT" x="0" y="1"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Button>
+
+	<Button name="Scrap2ItemSizeTemplate" virtual="true">
+		<Size x="165" y="42"/>
+		<Layers>
+			<Layer level="BORDER">
+				<Texture parentKey="Icon">
+					<Size x="34" y="34"/>
+					<Anchors> <Anchor point="LEFT"/> </Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Bg" atlas="GarrMission_FollowerListButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="38"/>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Button>
+</Ui>

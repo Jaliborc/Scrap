@@ -1,6 +1,5 @@
 <Ui>
-	<Frame name="Scrap2Frame" inherits="PortraitFrameTemplate" parent="UIParent" toplevel="true" enableMouse="true" hidden="true">
-		<Size x="687" y="534"/>
+	<Frame name="Scrap2Frame" inherits="PortraitFrameTemplate, Scrap2FrameDesignTemplate" parent="UIParent" toplevel="true" enableMouse="true" hidden="true">
 		<Frames>
 			<EditBox parentKey="SearchBox" inherits="SearchBoxTemplate" letters="50">
 				<Size x="300" y="20"/>
@@ -25,37 +24,11 @@
 				</Anchors>
 			</Button>
 
-			<Frame parentKey="LeftInset" useParentLevel="true" inherits="InsetFrameTemplate4">
-				<Size x="120" y="496"/>
-				<Anchors>
-					<Anchor point="TOPLEFT" x="4" y="-60" />
-					<Anchor point="BOTTOMLEFT" x="4" y="26" />
-				</Anchors>
-				<Layers>
-					<Layer level="BACKGROUND">
-						<Texture parentKey="Bg" atlas="auctionhouse-background-summarylist"/>
-					</Layer>
-				</Layers>
-			</Frame>
-
 			<Frame parentKey="TagsBox" inherits="WowScrollBoxList">
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeKey="$parent.LeftInset" x="6" y="-4"/>
-					<Anchor point="BOTTOMRIGHT" relativeKey="$parent.LeftInset" y="4"/>
+					<Anchor point="TOPLEFT" relativeKey="$parent.LeftInset" x="4" y="-5"/>
+					<Anchor point="BOTTOMRIGHT" relativeKey="$parent.LeftInset" x="-4" y="5"/>
 				</Anchors>
-			</Frame>
-
-			<Frame parentKey="RightInset" useParentLevel="true" inherits="InsetFrameTemplate4">
-				<Size x="70" y="496"/>
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeKey="$parent.LeftInset" relativePoint="TOPRIGHT" x="0" y="0" />
-					<Anchor point="BOTTOMRIGHT" x="-23" y="7"/>
-				</Anchors>
-				<Layers>
-					<Layer level="BACKGROUND">
-						<Texture parentKey="Bg" atlas="auctionhouse-background-sell-right"/>
-					</Layer>
-				</Layers>
 			</Frame>
 
 			<Frame parentKey="ItemsBox" inherits="WowScrollBoxList">
@@ -65,13 +38,6 @@
 				</Anchors>
 			</Frame>
 
-			<EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeKey="$parent.RightInset" relativePoint="TOPRIGHT" x="5"/>
-					<Anchor point="BOTTOMLEFT" relativeKey="$parent.RightInset" relativePoint="BOTTOMRIGHT" x="5"/>
-				</Anchors>
-			</EventFrame>
-
 			<Button parentKey="NewTag" inherits="MagicButtonTemplate" text="New Tag">
 				<Size x="118" y="22"/>
 				<Anchors> <Anchor point="BOTTOMLEFT"/> </Anchors>
@@ -79,42 +45,16 @@
 					<OnClick> Scrap2.Frame.Editor:Popup() </OnClick>
 				</Scripts>
 			</Button>
-
-			<Frame parentKey="Editor" inherits='IconSelectorPopupFrameTemplate' hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
-				</Anchors>
-			</Frame>
 		</Frames>
 	</Frame>
 
-	<Button name="Scrap2TagButtonTemplate" registerForClicks="anyUp" virtual="true">
-		<Size x="102" y="32"/>
+	<Button name="Scrap2TagButtonTemplate" inherits="Scrap2TagDesignTemplate" registerForClicks="anyUp" virtual="true">
 		<Layers>
-            <Layer level="BORDER">
-                <Texture parentKey="Ring" atlas="CovenantChoice-Offering-Ability-Ring-Necrolord">
-					<Size x="25" y="25"/>
-					<Anchors>
-						<Anchor point="LEFT"/>
-					</Anchors>
-				</Texture>
-				 <Texture parentKey="RingGlow" atlas="Lighttrait-glow" alphaMode="ADD" alpha="0.7">
-				 	<Size x="30" y="30"/>
-					<Anchors>
-						<Anchor point="LEFT" relativeKey="$parent.Ring" x="-3"/>
-					</Anchors>
-				</Texture>
-            </Layer>
-			<Layer level="BACKGROUND" textureSubLevel="-1">
-				<Texture parentKey="Bg" setAllPoints="true">
-					<Color r="0" g="0" b="0" a="0.4"/>
-				</Texture>
-			</Layer>
 			<Layer level="BACKGROUND">
 				<Texture parentKey="Icon">
 					<Size x="20" y="20"/>
 					<Anchors>
-						<Anchor point="CENTER" relativeKey="$parent.Ring"/>
+						<Anchor point="LEFT" x="8"/>
 					</Anchors>
 				</Texture>
 			</Layer>
@@ -125,31 +65,14 @@
 						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.Icon"/>
 					</Anchors>
 				</Texture>
-				<Texture parentKey="BorderGlow" atlas="CovenantChoice-Offering-Ability-Ring-Necrolord" alphaMode="ADD">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativeKey="$parent.Ring"/>
-						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.Ring"/>
-					</Anchors>
-				</Texture>
-				<MaskTexture parentKey="Mask" atlas="CircleMaskScalable">
-					<Size x="20" y="20"/>
-					<Anchors>
-						<Anchor point="CENTER" relativeKey="$parent.Ring"/>
-					</Anchors>
-					<MaskedTextures>
-						<MaskedTexture childKey="Bg"/>
-						<MaskedTexture childKey="Icon"/>
-						<MaskedTexture childKey="IconGlow"/>
-					</MaskedTextures>
-				</MaskTexture>
 			</Layer>
 		</Layers>
+		<HighlightTexture atlas="Options_List_Active" alphaMode="ADD"/>
 		<ButtonText>
 			<Anchors>
-				<Anchor point="LEFT" x="32" y="0"/>
+				<Anchor point="LEFT" x="35"/>
 			</Anchors>
 		</ButtonText>
-		<HighlightTexture atlas="Options_List_Active" alphaMode="ADD"/>
 		<Scripts>
 			<OnClick> Scrap2.Frame.OnTagClick(self, button) </OnClick>
 			<OnEnter>
@@ -164,23 +87,8 @@
 		</Scripts>
 	</Button>
 
-	<Button name="Scrap2ItemButtonTemplate" registerForClicks="anyUp" virtual="true">
-		<Size x="170" y="46"/>
+	<Button name="Scrap2ItemButtonTemplate" inherits="Scrap2ItemSizeTemplate" registerForClicks="anyUp" virtual="true">
 		<Layers>
-			<Layer level="BACKGROUND">
-				<Texture parentKey="Bg" atlas="GarrMission_FollowerListButton">
-					<Anchors>
-						<Anchor point="TOPLEFT" x="42"/>
-						<Anchor point="BOTTOMRIGHT"/>
-					</Anchors>
-				</Texture>
-			</Layer>
-			<Layer level="BORDER">
-				<Texture parentKey="Icon">
-					<Size x="38" y="38"/>
-					<Anchors> <Anchor point="LEFT"/> </Anchors>
-				</Texture>
-			</Layer>
 			<Layer level="HIGHLIGHT">
 				<Texture parentKey="BgHighlight" atlas="PetList-ButtonHighlight" alphaMode="ADD">
 					<Anchors>

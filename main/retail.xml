@@ -1,0 +1,111 @@
+<Ui>
+	<Frame name="Scrap2FrameDesignTemplate" virtual="true">
+		<Size x="687" y="534"/>
+		<Frames>
+			<Frame parentKey="LeftInset" useParentLevel="true" inherits="InsetFrameTemplate4">
+				<Size x="120" y="496"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="4" y="-60" />
+					<Anchor point="BOTTOMLEFT" x="4" y="26" />
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="Bg" atlas="auctionhouse-background-summarylist"/>
+					</Layer>
+				</Layers>
+			</Frame>
+
+			<Frame parentKey="RightInset" useParentLevel="true" inherits="InsetFrameTemplate4">
+				<Size x="70" y="496"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.LeftInset" relativePoint="TOPRIGHT" x="0" y="0" />
+					<Anchor point="BOTTOMRIGHT" x="-23" y="7"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="Bg" atlas="auctionhouse-background-sell-right"/>
+					</Layer>
+				</Layers>
+			</Frame>
+
+			<EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.RightInset" relativePoint="TOPRIGHT" x="5"/>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.RightInset" relativePoint="BOTTOMRIGHT" x="5"/>
+				</Anchors>
+			</EventFrame>
+
+			<Frame parentKey="Editor" inherits='IconSelectorPopupFrameTemplate' hidden="true">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+	</Frame>
+
+	<Button name="Scrap2TagDesignTemplate" virtual="true">
+		<Size y="32"/>
+		<Layers>
+			<Layer level="BACKGROUND" textureSubLevel="-1">
+				<Texture parentKey="IconBg" setAllPoints="true">
+					<Color r="0" g="0" b="0" a="0.4"/>
+				</Texture>
+			</Layer>
+            <Layer level="BORDER">
+                <Texture parentKey="Ring" atlas="delves-affix-ring">
+					<Size x="25" y="25"/>
+					<Anchors>
+						<Anchor point="LEFT" x="5.5"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="Checked" atlas="Lighttrait-glow" alphaMode="ADD" alpha="0.7">
+				 	<Size x="30" y="30"/>
+					<Anchors>
+						<Anchor point="LEFT" x="3.5"/>
+					</Anchors>
+				</Texture>
+				<MaskTexture parentKey="Mask" atlas="CircleMaskScalable">
+					<Size x="20" y="20"/>
+					<Anchors>
+						<Anchor point="CENTER" relativeKey="$parent.Ring"/>
+					</Anchors>
+				</MaskTexture>
+            </Layer>
+			<Layer level="HIGHLIGHT">
+				<Texture parentKey="RingGlow" atlas="delves-affix-ring" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Ring"/>
+						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.Ring"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self.Icon:AddMaskTexture(self.Mask)
+				self.IconBg:AddMaskTexture(self.Mask)
+				self.IconGlow:AddMaskTexture(self.Mask)
+			</OnLoad>
+		</Scripts>
+	</Button>
+
+	<Button name="Scrap2ItemSizeTemplate" virtual="true">
+		<Size x="170" y="46"/>
+		<Layers>
+			<Layer level="BORDER">
+				<Texture parentKey="Icon">
+					<Size x="38" y="38"/>
+					<Anchors> <Anchor point="LEFT"/> </Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Bg" atlas="GarrMission_FollowerListButton">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="42"/>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Button>
+</Ui>
