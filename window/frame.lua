@@ -97,6 +97,7 @@ end
 
 function Frame.OnTagClick(region, button)
 	if button == 'LeftButton' then
+		PlaySound(SOUNDKIT.IG_ABILITY_PAGE_TURN)
 		Frame.activeTag = region.tag.id
 		Frame:UpdateTags()
 	elseif region.tag.id > 0 then

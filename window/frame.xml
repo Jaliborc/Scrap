@@ -109,6 +109,7 @@
 		<Scripts>
 			<OnClick> Scrap2.Frame.OnTagClick(self, button) </OnClick>
 			<OnEnter>
+				PlaySound(SOUNDKIT.HOUSING_CATALOG_SUBCATEGORY_HOVER)
 				if self.tag.id > 0 then
 					GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
 					GameTooltip:AddLine(self.tag.name, 1,1,1)
@@ -147,6 +148,7 @@
 		<Scripts>
 			<OnClick> Scrap2:TagMenu() </OnClick>
 			<OnEnter>
+				PlaySound(SOUNDKIT.HOUSING_ITEM_HOVER)
 				GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
 				GameTooltip:SetItemByID(self.id)
 				GameTooltip:Show()
