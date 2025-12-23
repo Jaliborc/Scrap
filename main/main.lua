@@ -9,6 +9,26 @@ local Scrap2 = LibStub('WildAddon-1.1'):NewAddon('Scrap2', Addon, 'StaleCheck-1.
 
 Scrap2.MENU_SUFFIX = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and '   ' or ''
 
+function Scrap2:OnLoad()
+	SlashCmdList.Scrap = function() self:ToggleWindow() end
+	SLASH_Scrap1 = '/scrap'
+	SLASH_Scrap2 = '/scrap2'
+
+	if AddonCompartmentFrame then
+		AddonCompartmentFrame:RegisterAddon {
+			text = 'Scrap2', keepShownOnClick = true, notCheckable = true,
+			icon = 'Interface/Addons/Scrap/art/scrap-small',
+			func = SlashCmdList.Scrap
+		}
+	end
+end
+
+function Scrap2:ToggleWindow()
+	if C.AddOns.LoadAddOn('Scrap_Window') then
+		self.Frame:Toggle()
+	end
+end
+
 
 --[[ Tagging ]]--
 

@@ -61,36 +61,46 @@ function Frame:OnLoad()
 
 	ScrollUtil.InitScrollBoxListWithScrollBar(self.ItemsBox, self.ScrollBar, itemGrid)
 	RegisterUIPanel(self, {area = 'left', pushable = 3,	whileDead = 1})
-	RunNextFrame(function() ShowUIPanel(self) end)
+end
+
+
+--[[ Toggle ]]--
+
+function Frame:Toggle()
+	if self:IsShown() then
+		HideUIPanel(self)
+	else
+		ShowUIPanel(self)
+	end
 end
 
 function Frame:OnShow()
+	self:RegisterEvent('ITEM_DATA_LOAD_RESULT', 'OnItemData')
 	self:RegisterSignal('LIST_CHANGED', 'UpdateItems')
 	self:RegisterSignal('TAGS_CHANGED', 'UpdateTags')
-	self:RegisterEvent('ITEM_DATA_LOAD_RESULT')
 	self:UpdateTags()
 end
 
-function Frame:ITEM_DATA_LOAD_RESULT(_, success)
+
+--[[ Events ]]--
+
+function Frame:OnItemData(_, success)
 	if success then
 		self:Delay(0.5, 'UpdateItems', true)
 	end
 end
 
-
---[[ User Events ]]--
-
-function Frame:OnSearchChanged()
+function Frame.OnSearchChanged()
 	Frame.searchCondition = Search:Compile(Frame.SearchBox:GetText())
 	Frame:Delay(0.1, 'UpdateItems', true)
 end
 
-function Frame:OnTagClick(button)
+function Frame.OnTagClick(region, button)
 	if button == 'LeftButton' then
-		Frame.activeTag = self.tag.id
+		Frame.activeTag = region.tag.id
 		Frame:UpdateTags()
-	elseif self.tag.id > 0 then
-		MenuUtil.CreateContextMenu(self, Frame.Editor:TagOptions(self.tag))
+	elseif region.tag.id > 0 then
+		MenuUtil.CreateContextMenu(region, Frame.Editor:TagOptions(region.tag))
 	else
 		PlaySound(GetRandomArrayEntry({1024, 3037, 6820}))
 	end

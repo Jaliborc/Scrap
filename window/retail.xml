@@ -1,8 +1,10 @@
 <Ui>
+	<!-- All Rights Reserved -->
+
 	<Frame name="Scrap2FrameDesignTemplate" virtual="true">
-		<Size x="677" y="444"/>
+		<Size x="687" y="534"/>
 		<Frames>
-			<Frame parentKey="LeftInset" useParentLevel="true" inherits="InsetFrameTemplate">
+			<Frame parentKey="LeftInset" useParentLevel="true" inherits="InsetFrameTemplate4">
 				<Size x="120" y="496"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" x="4" y="-60" />
@@ -10,23 +12,28 @@
 				</Anchors>
 				<Layers>
 					<Layer level="BACKGROUND">
-						<Texture parentKey="Bg" atlas="ClassHall_StoneFrame-BackgroundTile" vertTile="true" horizTile="true"/>
+						<Texture parentKey="Bg" atlas="auctionhouse-background-summarylist"/>
 					</Layer>
 				</Layers>
 			</Frame>
 
-			<Frame parentKey="RightInset" useParentLevel="true" inherits="InsetFrameTemplate">
+			<Frame parentKey="RightInset" useParentLevel="true" inherits="InsetFrameTemplate4">
 				<Size x="70" y="496"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.LeftInset" relativePoint="TOPRIGHT" x="0" y="0" />
-					<Anchor point="BOTTOMRIGHT" x="-28" y="7"/>
+					<Anchor point="BOTTOMRIGHT" x="-23" y="7"/>
 				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="Bg" atlas="auctionhouse-background-sell-right"/>
+					</Layer>
+				</Layers>
 			</Frame>
 
-			<EventFrame parentKey="ScrollBar" inherits="WowTrimScrollBar">
+			<EventFrame parentKey="ScrollBar" inherits="MinimalScrollBar">
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeKey="$parent.RightInset" relativePoint="TOPRIGHT" x="-1"/>
-					<Anchor point="BOTTOMLEFT" relativeKey="$parent.RightInset" relativePoint="BOTTOMRIGHT" x="-1"/>
+					<Anchor point="TOPLEFT" relativeKey="$parent.RightInset" relativePoint="TOPRIGHT" x="5"/>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.RightInset" relativePoint="BOTTOMRIGHT" x="5"/>
 				</Anchors>
 			</EventFrame>
 		</Frames>
@@ -35,15 +42,15 @@
 	<Button name="Scrap2RingTemplate" virtual="true">
 		<Layers>
             <Layer level="BORDER">
-                <Texture parentKey="Ring" atlas="Garr_BuildingIconRing_">
-					<Size x="26" y="26"/>
+                <Texture parentKey="Ring" atlas="delves-affix-ring">
+					<Size x="25" y="25"/>
 					<Anchors>
-						<Anchor point="LEFT" x="5"/>
+						<Anchor point="LEFT" x="5.5"/>
 					</Anchors>
 				</Texture>
             </Layer>
 			<Layer level="HIGHLIGHT">
-				<Texture parentKey="RingGlow" atlas="Garr_BuildingIconRing_" alphaMode="ADD">
+				<Texture parentKey="RingGlow" atlas="delves-affix-ring" alphaMode="ADD">
 					<Anchors>
 						<Anchor point="TOPLEFT" relativeKey="$parent.Ring"/>
 						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.Ring"/>
@@ -54,18 +61,18 @@
 	</Button>
 
 	<Button name="Scrap2ItemSizeTemplate" virtual="true">
-		<Size x="165" y="42"/>
+		<Size x="170" y="46"/>
 		<Layers>
 			<Layer level="BORDER">
 				<Texture parentKey="Icon">
-					<Size x="34" y="34"/>
+					<Size x="38" y="38"/>
 					<Anchors> <Anchor point="LEFT"/> </Anchors>
 				</Texture>
 			</Layer>
 			<Layer level="BACKGROUND">
 				<Texture parentKey="Bg" atlas="GarrMission_FollowerListButton">
 					<Anchors>
-						<Anchor point="TOPLEFT" x="38"/>
+						<Anchor point="TOPLEFT" x="42"/>
 						<Anchor point="BOTTOMRIGHT"/>
 					</Anchors>
 				</Texture>

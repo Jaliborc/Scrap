@@ -3,7 +3,7 @@
 	Popup window and context menus for addon configuration.
 --]]
 
-local Editor = Scrap2.Frame.Editor
+local Editor = Scrap2Frame.Editor
 local Sushi = LibStub('Sushi-3.2')
 
 

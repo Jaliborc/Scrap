@@ -1,4 +1,6 @@
 <Ui>
+	<!-- All Rights Reserved -->
+
 	<Frame name="Scrap2Frame" inherits="PortraitFrameTemplate, Scrap2FrameDesignTemplate" parent="UIParent" toplevel="true" enableMouse="true" hidden="true">
 		<Frames>
 			<EditBox parentKey="SearchBox" inherits="SearchBoxTemplate" letters="50">

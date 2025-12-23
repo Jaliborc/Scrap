@@ -12,5 +12,4 @@
 ## Version: 11.2.5
 
 libs\libs.xml
-main\classic.xml
 main\main.xml
