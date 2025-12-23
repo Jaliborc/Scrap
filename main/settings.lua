@@ -14,14 +14,14 @@ Scrap2:NewModule('Settings', {OnLoad = function(self)
 	Scrap2.Tags = self:SetDefaults({}, Scrap2.BaseTags)
     Scrap2.List = self:SetDefaults({}, Scrap2.BaseList)
 
-	--[[for i = 1,5000 do
+	for i = 1,5000 do
 		local k = 0
 		while not C_Item.GetItemInfoInstant(k) do
-			k = fastrandom(1, 100000)
+			k = fastrandom(1, 10000)
 		end
 
 		Scrap2.List[k] = fastrandom(0,5)
-	end--]]
+	end
 end})
 
 Scrap2.BaseList = {

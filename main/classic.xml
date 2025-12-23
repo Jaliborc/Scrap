@@ -8,6 +8,11 @@
 					<Anchor point="TOPLEFT" x="4" y="-60" />
 					<Anchor point="BOTTOMLEFT" x="4" y="26" />
 				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="Bg" atlas="ClassHall_StoneFrame-BackgroundTile" vertTile="true" horizTile="true"/>
+					</Layer>
+				</Layers>
 			</Frame>
 
 			<Frame parentKey="RightInset" useParentLevel="true" inherits="InsetFrameTemplate">
@@ -24,31 +29,24 @@
 					<Anchor point="BOTTOMLEFT" relativeKey="$parent.RightInset" relativePoint="BOTTOMRIGHT" x="-1"/>
 				</Anchors>
 			</EventFrame>
-
-			<Frame parentKey="Editor" inherits='IconSelectorPopupFrameTemplate' hidden="true">
-				<Size x="525" y="508"/>
-				<Anchors>
-					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
-				</Anchors>
-			</Frame>
 		</Frames>
 	</Frame>
 
-	<Button name="Scrap2TagDesignTemplate" virtual="true">
-		<Size y="30"/>
+	<Button name="Scrap2RingTemplate" virtual="true">
 		<Layers>
-			<Layer level="BACKGROUND" textureSubLevel="-1">
-				<Texture parentKey="Background">
+            <Layer level="BORDER">
+                <Texture parentKey="Ring" atlas="Garr_BuildingIconRing_">
+					<Size x="26" y="26"/>
 					<Anchors>
-						<Anchor point="TOPLEFT" x="0" y="-1"/>
-						<Anchor point="BOTTOMRIGHT" x="0" y="1"/>
+						<Anchor point="LEFT" x="5"/>
 					</Anchors>
-					<Color r="0.568" g="0.568" b="0.568" a="0.05"/>
 				</Texture>
-				<Texture parentKey="Checked" file="Interface\QuestFrame\UI-QuestLogTitleHighlight" alpha="0.4" alphaMode="ADD">
+            </Layer>
+			<Layer level="HIGHLIGHT">
+				<Texture parentKey="RingGlow" atlas="Garr_BuildingIconRing_" alphaMode="ADD">
 					<Anchors>
-						<Anchor point="TOPLEFT" x="0" y="-1"/>
-						<Anchor point="BOTTOMRIGHT" x="0" y="1"/>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Ring"/>
+						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.Ring"/>
 					</Anchors>
 				</Texture>
 			</Layer>

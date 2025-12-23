@@ -34,23 +34,11 @@
 					<Anchor point="BOTTOMLEFT" relativeKey="$parent.RightInset" relativePoint="BOTTOMRIGHT" x="5"/>
 				</Anchors>
 			</EventFrame>
-
-			<Frame parentKey="Editor" inherits='IconSelectorPopupFrameTemplate' hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
-				</Anchors>
-			</Frame>
 		</Frames>
 	</Frame>
 
-	<Button name="Scrap2TagDesignTemplate" virtual="true">
-		<Size y="32"/>
+	<Button name="Scrap2RingTemplate" virtual="true">
 		<Layers>
-			<Layer level="BACKGROUND" textureSubLevel="-1">
-				<Texture parentKey="IconBg" setAllPoints="true">
-					<Color r="0" g="0" b="0" a="0.4"/>
-				</Texture>
-			</Layer>
             <Layer level="BORDER">
                 <Texture parentKey="Ring" atlas="delves-affix-ring">
 					<Size x="25" y="25"/>
@@ -58,18 +46,6 @@
 						<Anchor point="LEFT" x="5.5"/>
 					</Anchors>
 				</Texture>
-				<Texture parentKey="Checked" atlas="Lighttrait-glow" alphaMode="ADD" alpha="0.7">
-				 	<Size x="30" y="30"/>
-					<Anchors>
-						<Anchor point="LEFT" x="3.5"/>
-					</Anchors>
-				</Texture>
-				<MaskTexture parentKey="Mask" atlas="CircleMaskScalable">
-					<Size x="20" y="20"/>
-					<Anchors>
-						<Anchor point="CENTER" relativeKey="$parent.Ring"/>
-					</Anchors>
-				</MaskTexture>
             </Layer>
 			<Layer level="HIGHLIGHT">
 				<Texture parentKey="RingGlow" atlas="delves-affix-ring" alphaMode="ADD">
@@ -80,13 +56,6 @@
 				</Texture>
 			</Layer>
 		</Layers>
-		<Scripts>
-			<OnLoad>
-				self.Icon:AddMaskTexture(self.Mask)
-				self.IconBg:AddMaskTexture(self.Mask)
-				self.IconGlow:AddMaskTexture(self.Mask)
-			</OnLoad>
-		</Scripts>
 	</Button>
 
 	<Button name="Scrap2ItemSizeTemplate" virtual="true">

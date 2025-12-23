@@ -7,6 +7,8 @@ local _, Addon = ...
 local C = LibStub('C_Everywhere')
 local Scrap2 = LibStub('WildAddon-1.1'):NewAddon('Scrap2', Addon, 'StaleCheck-1.0')
 
+Scrap2.MENU_SUFFIX = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and '   ' or ''
+
 
 --[[ Tagging ]]--
 
@@ -34,14 +36,14 @@ end
 --[[ UI ]]--
 
 function Scrap2:TagMenu()
-	local data = GameTooltip:IsVisible() and GameTooltip:GetPrimaryTooltipData() -- GameTooltip:GetItem() is bugged
-	if data and data.id and ((data.guid and data.guid:find('^Item')) or (data.hyperlink and data.hyperlink:find('Hitem'))) then
+	local id = GameTooltip:IsVisible() and self:GetTooltipItem()
+	if id then
 		MenuUtil.CreateContextMenu(UIParent, function(_, drop)
 			drop:SetTag('Scrap2_TagMenu')
-			drop:CreateTitle(self:GetItemName(data.id))
+			drop:CreateTitle(self:GetItemName(id))
 
 			for i, tag in pairs(Scrap2.Tags) do
-				drop:CreateRadio(tag.name, function() return self:GetTag(data.id) == i end, function() self:SetTag(data.id, i) end)
+				drop:CreateRadio(tag.name .. self.MENU_SUFFIX, function() return self:GetTag(id) == i end, function() self:SetTag(id, i) end)
 					:AddInitializer(self:TagInitializer(tag))
 			end
 		end)
@@ -60,4 +62,13 @@ end
 function Scrap2:GetItemName(id)
 	local name, _, quality = C.Item.GetItemInfo(id)
 	return format('|cnIQ%s:%s|r', quality, name)
+end
+
+function Scrap2:GetTooltipItem()
+	if GameTooltip.GetPrimaryTooltipData then -- GameTooltip:GetItem() is bugged on retail, avoid at all costs
+		local data = GameTooltip:GetPrimaryTooltipData()
+		return data and ((data.guid and data.guid:find('^Item')) or (data.hyperlink and data.hyperlink:find('Hitem'))) and tonumber(data.id)
+	end
+	local link = select(2, GameTooltip:GetItem())
+	return link and tonumber(link:match('item:(%d+)'))
 end

@@ -46,7 +46,7 @@ local function taglist(parent, key, ids)
 			local get = function() return (Scrap2.List[key] or 0) == tag.id end
 			local set = function() Scrap2.List[key] = tag.id end
 
-			parent:CreateRadio(format('%s%s|r', hex, tag.name), get, set)
+			parent:CreateRadio(format('%s%s|r' .. Scrap2.MENU_SUFFIX, hex, tag.name), get, set)
 			      :AddInitializer(Scrap2:TagInitializer(tag))
 		end
 	end
@@ -94,6 +94,10 @@ function Editor:Popup(tag)
 	self.IconSelector:SetSelectionsDataProvider(function(i) return Scrap2.IconChoices[i] end, function() return #Scrap2.IconChoices end)
 	self.IconSelector:SetSelectedIndex(tIndexOf(Scrap2.IconChoices, icon))
 	self.IconSelector:ScrollToSelectedIndex()
+
+	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+		self:SetHeight(508)
+	end
 
 	select(_, icon)
 	self.tag = tag
