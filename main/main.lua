@@ -81,7 +81,7 @@ end
 
 function Scrap2:GetItemName(id)
 	local name, _, quality = C.Item.GetItemInfo(id)
-	return format('|cnIQ%s:%s|r', quality, name)
+	return name and format('|cnIQ%s:%s|r', quality, name)
 end
 
 function Scrap2:GetTooltipItem()

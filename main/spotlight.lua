@@ -3,10 +3,6 @@
     Shows tag icons in the default bags.
 --]]
 
-if Bagnon or Bagnonium then
-    return
-end
-
 local C = LibStub('C_Everywhere')
 local Spotlight = Scrap2:NewModule('Spotlight')
 

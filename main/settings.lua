@@ -14,20 +14,17 @@ Scrap2:NewModule('Settings', {OnLoad = function(self)
 	Scrap2.Tags = self:SetDefaults({}, Scrap2.BaseTags)
     Scrap2.List = self:SetDefaults({}, Scrap2.BaseList)
 
-	for i = 1,5000 do
+	for i = 1,10000 do
 		local k = 0
 		while not C_Item.GetItemInfoInstant(k) do
-			k = fastrandom(1, 10000)
+			k = fastrandom(1, 50000)
 		end
 
-		Scrap2.List[k] = fastrandom(0,5)
+		Scrap2.List[k] = fastrandom(0,3)
 	end
 end})
 
 Scrap2.BaseList = {
-	reagents = 3,
-	warbound = 4,
-
 	[90561] = 0,
 	[12709] = 0,
 	[2459] = 0,
