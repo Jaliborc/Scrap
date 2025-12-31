@@ -50,14 +50,24 @@ function Frame:OnLoad()
 
 	self.activeTag = 1
 	self.searchCondition = self.Yup
+	self.ItemsPriority = TableUtil.CreatePriorityTable(function(a,b)
+		if a.quality ~= b.quality then
+			return a.quality > b.quality
+		elseif a.class ~= b.class then
+			return a.class > b.class
+		elseif a.subclass ~= b.subclass then
+			return a.subclass > b.subclass
+		end
+		return a.name < b.name
+	end, true)
+
+	self:SetScript('OnShow', self.OnShow)
+	self:SetScript('OnHide', self.UnregisterAll)
+	self.SearchBox:HookScript('OnTextChanged', self.OnSearchChanged)
 	self.OptionsWheel.tooltipTitle = 'General Options'
 	self.OptionsDropdown:SetupMenu(self.Editor.SmartFilters)
 	self.OptionsDropdown:SetText('Item Filters')
 	self.TagsBox:Init(tagList)
-
-	self.SearchBox:HookScript('OnTextChanged', self.OnSearchChanged)
-	self:SetScript('OnHide', self.UnregisterAll)
-	self:SetScript('OnShow', self.OnShow)
 
 	ScrollUtil.InitScrollBoxListWithScrollBar(self.ItemsBox, self.ScrollBar, itemGrid)
 	RegisterUIPanel(self, {area = 'left', pushable = 3,	whileDead = 1})
@@ -84,9 +94,10 @@ end
 
 --[[ Events ]]--
 
-function Frame:OnItemData(_, success)
+function Frame:OnItemData(id, success)
 	if success then
 		self:Delay(0.5, 'UpdateItems', true)
+		self:CacheItem(id)
 	end
 end
 
@@ -116,35 +127,30 @@ function Frame:UpdateTags()
 end
 
 function Frame:UpdateItems(resetScroll)
-	local items = {}
+	local items = CreateDataProvider()
+
 	for id, tag in pairs(Scrap2.List) do
-		if tonumber(id) and tag == self.activeTag then
-			if C.Item.IsItemDataCachedByID(id) then
-				local _, link = C.Item.GetItemInfo(id)
-				if self.searchCondition(link) then
-					tinsert(items, id)
-				end
-			else
+		if tag == self.activeTag then
+			if not C.Item.IsItemDataCachedByID(id) then
 				C.Item.RequestLoadItemDataByID(id)
+			else
+				self:CacheItem(id)
 			end
 		end
 	end
 
-	sort(items, function(A, B)
-		if not A then
-			return true
-		elseif not B or A == B then
-			return nil
-		end
-
-		local nameA, _ , qualityA, _,_,_,_,_,_,_,_, classA = C.Item.GetItemInfo(A)
-		local nameB, _ , qualityB, _,_,_,_,_,_,_,_, classB = C.Item.GetItemInfo(B)
-		if qualityA == qualityB then
-			return (classA == classB and nameA < nameB) or classA > classB
-		else
-			return qualityA > qualityB
+	self.ItemsPriority:Iterate(function(id, info)
+		local tag = Scrap2.List[id]
+		if tag == self.activeTag and C.Item.IsItemDataCachedByID(id) and self.searchCondition(info.link) then
+			items:InsertInternal(id)
 		end
 	end)
+	self.ItemsBox:SetDataProvider(items, not resetScroll)
+end
 
-	self.ItemsBox:SetDataProvider(CreateDataProvider(items), not resetScroll)
+function Frame:CacheItem(id)
+	if not self.ItemsPriority[id] then
+		local name, link , quality, _,_,_,_,_,_,_,_, class, subclass = C.Item.GetItemInfo(id)
+		self.ItemsPriority[id] = {name = name, link = link, quality = quality, class = class, subclass = subclass}
+	end
 end

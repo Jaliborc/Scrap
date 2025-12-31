@@ -1,7 +1,7 @@
 <Ui>
 	<!-- All Rights Reserved -->
 
-	<Frame name="Scrap2FrameDesignTemplate" virtual="true">
+	<Frame name="Scrap2FrameDesign" virtual="true">
 		<Size x="687" y="534"/>
 		<Frames>
 			<Frame parentKey="LeftInset" useParentLevel="true" inherits="InsetFrameTemplate4">
@@ -39,7 +39,7 @@
 		</Frames>
 	</Frame>
 
-	<Button name="Scrap2RingTemplate" virtual="true">
+	<Button name="Scrap2Ring" virtual="true">
 		<Layers>
             <Layer level="BORDER">
                 <Texture parentKey="Ring" atlas="delves-affix-ring">
@@ -60,7 +60,7 @@
 		</Layers>
 	</Button>
 
-	<Button name="Scrap2ItemSizeTemplate" virtual="true">
+	<Button name="Scrap2ItemSize" virtual="true">
 		<Size x="170" y="46"/>
 		<Layers>
 			<Layer level="BORDER">

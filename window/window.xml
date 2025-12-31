@@ -1,7 +1,7 @@
 <Ui>
 	<!-- All Rights Reserved -->
 
-	<Frame name="Scrap2Frame" inherits="PortraitFrameTemplate, Scrap2FrameDesignTemplate" parent="UIParent" toplevel="true" enableMouse="true" hidden="true">
+	<Frame name="Scrap2Frame" inherits="PortraitFrameTemplate, Scrap2FrameDesign" parent="UIParent" toplevel="true" enableMouse="true" hidden="true">
 		<Frames>
 			<EditBox parentKey="SearchBox" inherits="SearchBoxTemplate" letters="50">
 				<Size x="300" y="20"/>
@@ -56,7 +56,7 @@
 		</Frames>
 	</Frame>
 
-	<Button name="Scrap2TagButtonTemplate" inherits="Scrap2RingTemplate" registerForClicks="anyUp" virtual="true">
+	<Button name="Scrap2TagButtonTemplate" inherits="Scrap2Ring" registerForClicks="anyUp" virtual="true">
 		<Size y="32"/>
 		<Layers>
 			<Layer level="BACKGROUND" textureSubLevel="-1">
@@ -109,19 +109,19 @@
 		<Scripts>
 			<OnClick> Scrap2.Frame.OnTagClick(self, button) </OnClick>
 			<OnEnter>
-				PlaySound(SOUNDKIT.HOUSING_CATALOG_SUBCATEGORY_HOVER)
 				if self.tag.id > 0 then
 					GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
 					GameTooltip:AddLine(self.tag.name, 1,1,1)
 					GameTooltip:AddLine('|A:NPE_RightClick:14:14|a' .. OPTIONS)
 					GameTooltip:Show()
 				end
+				PlaySound(286132)
 			</OnEnter>
 			<OnLeave function="GameTooltip_Hide"/>
 		</Scripts>
 	</Button>
 
-	<Button name="Scrap2ItemButtonTemplate" inherits="Scrap2ItemSizeTemplate" registerForClicks="anyUp" virtual="true">
+	<Button name="Scrap2ItemButtonTemplate" inherits="Scrap2ItemSize" registerForClicks="anyUp" virtual="true">
 		<Layers>
 			<Layer level="HIGHLIGHT">
 				<Texture parentKey="BgHighlight" atlas="PetList-ButtonHighlight" alphaMode="ADD">
@@ -148,10 +148,10 @@
 		<Scripts>
 			<OnClick> Scrap2:TagMenu() </OnClick>
 			<OnEnter>
-				PlaySound(SOUNDKIT.HOUSING_ITEM_HOVER)
 				GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
 				GameTooltip:SetItemByID(self.id)
 				GameTooltip:Show()
+				PlaySound(286119)
 			</OnEnter>
 			<OnLeave function="GameTooltip_Hide"/>
 		</Scripts>
