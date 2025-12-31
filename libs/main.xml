@@ -6,7 +6,6 @@
 	<Script file="WildAddon-1.1\WildAddon-1.1.lua"/>
 
 	<Script file="StaleCheck-1.0\StaleCheck-1.0.lua"/>
-	<Script file="MutexDelay-1.0\MutexDelay-1.0.lua"/>
 	<Script file="CustomSearch-1.0\CustomSearch-1.0.lua"/>
 
 	<Include file="C_Everywhere\C_Everywhere.xml"/>
