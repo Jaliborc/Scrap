@@ -12,7 +12,7 @@ local Spotlight = Scrap2:NewModule('Spotlight')
 function Spotlight:OnLoad()
 	self.Buttons = {}
 	self:RegisterSignal('LIST_CHANGED', 'UpdateAll')
-	self:RegisterSignal('LOOK_CHANGED', 'UpdateAll')
+	self:RegisterSignal('TAGS_CHANGED', 'UpdateAll')
 
 	hooksecurefunc(ItemButtonMixin.SetItemButtonQuality and ItemButtonMixin or _G, 'SetItemButtonQuality',
 	               GenerateClosure(self.UpdateButton, self))

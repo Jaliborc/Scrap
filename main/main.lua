@@ -8,6 +8,7 @@ local C = LibStub('C_Everywhere')
 local Scrap2 = LibStub('WildAddon-1.1'):NewAddon('Scrap2', Addon, 'StaleCheck-1.0')
 
 Scrap2.MENU_SUFFIX = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and '   ' or ''
+Scrap2.NUM_BAGS = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS
 
 function Scrap2:OnLoad()
 	SlashCmdList.Scrap = function() self:ToggleWindow() end
@@ -20,12 +21,6 @@ function Scrap2:OnLoad()
 			icon = 'Interface/Addons/Scrap/art/scrap-small',
 			func = SlashCmdList.Scrap
 		}
-	end
-end
-
-function Scrap2:ToggleWindow()
-	if C.AddOns.LoadAddOn('Scrap_Window') then
-		self.Frame:Toggle()
 	end
 end
 
@@ -52,8 +47,49 @@ function Scrap2:GetTagInfo(...)
 	return self.Tags[self:GetTag(...)]
 end
 
+function Scrap2:UseItems(tag)
+	local tag = self.Tags[tag]
+	local used = 0
 
---[[ UI ]]--
+	for bag, slot, item in self:IterateInventory(tag.id) do
+		if not item.isLocked and used < (tag.limit or math.huge) then
+			C.Container.UseContainerItem(bag, slot, nil, tag.type)
+			used = used + 1
+		end
+	end
+end
+
+function Scrap2:IterateInventory(tag)
+	local numSlots = C.Container.GetContainerNumSlots(BACKPACK_CONTAINER)
+	local bag, slot = BACKPACK_CONTAINER, 0
+
+	return function()
+		while true do
+			if slot < numSlots then
+				slot = slot + 1
+			elseif bag < self.NUM_BAGS then
+				bag, slot = bag + 1, 1
+				numSlots = C.Container.GetContainerNumSlots(bag)
+			else
+				return
+			end
+			
+			local item = C.Container.GetContainerItemInfo(bag, slot)
+			if item and self:GetTag(item.itemID, bag, slot) == tag then
+				return bag, slot, item
+			end
+		end
+	end
+end
+
+
+--[[ UI Essentials ]]--
+
+function Scrap2:ToggleWindow()
+	if C.AddOns.LoadAddOn('Scrap_Window') then
+		self.Frame:Toggle()
+	end
+end
 
 function Scrap2:TagMenu()
 	local id = GameTooltip:IsVisible() and self:GetTooltipItem()
