@@ -65,7 +65,7 @@ function Frame:OnLoad()
 	self:SetScript('OnHide', self.UnregisterAll)
 	self.SearchBox:HookScript('OnTextChanged', self.OnSearchChanged)
 	self.OptionsWheel.tooltipTitle = 'General Options'
-	self.OptionsDropdown:SetupMenu(self.Editor.SmartFilters)
+	self.OptionsDropdown:SetupMenu(Scrap2.Menus.ItemFilters)
 	self.OptionsDropdown:SetText('Item Filters')
 	self.TagsBox:Init(tagList)
 
@@ -112,7 +112,7 @@ function Frame.OnTagClick(region, button)
 		Frame.activeTag = region.tag.id
 		Frame:UpdateTags()
 	elseif region.tag.id > 0 then
-		MenuUtil.CreateContextMenu(region, Frame.Editor:TagOptions(region.tag))
+		MenuUtil.CreateContextMenu(region, Scrap2.Menus:TagOptions(region.tag))
 	else
 		PlaySound(GetRandomArrayEntry({1024, 3037, 6820}))
 	end
