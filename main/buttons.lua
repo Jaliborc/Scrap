@@ -10,6 +10,8 @@ local Buttons = Scrap2:NewModule('Buttons')
 local DEPOSIT = 'Deposit Items'
 local DEPOSIT_BANK = DEPOSIT .. ' |TInterface/Addons/Scrap/art/crate:20:20|t'
 local DEPOSIT_WARBAND = DEPOSIT .. ' |A:warbands-icon:20:20|a'
+local ADD_ITEM, REMOVE_ITEM = 'Set %s to %s', 'Remove %s from %s'
+local TIPS = {'Sell Junk'}
 
 
 --[[ Startup ]]--
@@ -31,7 +33,9 @@ function Buttons:OnLoad()
 		deposit.icon:SetTexCoord(0.1,0.9,0.1,0.9)
 		deposit:SetPoint('TOPRIGHT', -50,-40)
 
-		self:Setup(deposit, 3)
+		self:Setup(deposit, 3, function(active)
+			deposit.icon:SetDesaturated(not active)
+		end)
 	end
 
 	EventUtil.ContinueOnAddOnLoaded('Blizzard_GuildBankUI', function()
@@ -51,6 +55,7 @@ function Buttons:OnLoad()
 	button.Icon:SetSize(33, 33)
 
 	if MerchantSellAllJunkButton then
+		hooksecurefunc('MerchantFrame_Update', function() button:Update(); button:Enable() end)
 		hooksecurefunc('MerchantFrame_UpdateMerchantInfo', function() button:Show() end)
 	else
 		button:SetHighlightTexture('Interface/Buttons/ButtonHilight-Square', 'ADD')
@@ -88,16 +93,35 @@ function Buttons:OnLoad()
 		end)
 	end
 
-	self:Setup(button, 1, 'Sell Junk')
+	self:Setup(button, 1, function(active) button.Icon:SetDesaturated(not active) end)
+	self:RegisterEvent('BAG_UPDATE_DELAYED', 'UpdateAll')
+	self:RegisterSignal('LIST_CHANGED', 'UpdateAll')
 end
 
-function Buttons:Setup(button, tag, title)
-	button.tag, button.title = tag, title or DEPOSIT
+function Buttons:Setup(button, tag, refresh)
+	button.tag = tag
+	button.Update = function() (refresh or nop)(self:Preview(tag) > 0) end
+
+	button:SetScript('OnShow', button.Update)
 	button:SetScript('OnClick', self.OnClick)
 	button:SetScript('OnEnter', self.OnEnter)
 	button:SetScript('OnLeave', MenuUtil.HideTooltip)
 	button:SetScript('OnReceiveDrag', self.OnReceiveDrag)
 	button:RegisterForClicks('anyUp')
+
+	tinsert(GetOrCreateTableEntry(self, 'buttons'), button)
+end
+
+function Buttons:UpdateAll()
+	for _, button in pairs(self.buttons) do
+		if button:IsVisible() then
+			button.Update()
+
+			if tContains(GetMouseFoci(), button) then
+				Buttons.OnEnter(button)
+			end
+		end
+	end
 end
 
 
@@ -113,34 +137,42 @@ end
 
 function Buttons:OnEnter()
 	local tip = GameTooltip
-	local type, id = GetCursorInfo()
+	local tag = Scrap2.Tags[self.tag]
 
-	if type == 'item' then
+	local held, id = GetCursorInfo()
+	local total, qualities, value = Buttons:Preview(tag.id)
+	local active = held == 'item' or total > 0
+
+	if active then
 		tip:SetOwner(self, 'ANCHOR_RIGHT')
-		tip:SetText(Scrap2:GetTag(id) == self.tag and 'Remove from TAG' or 'Set as TAG', 1,1,1)
-	else
-		tip:SetOwner(self, 'ANCHOR_RIGHT')
-		tip:SetText(self.title)
 
-		local count, qualities, value = Buttons:Preview(self.tag)
-		for i, count in pairs(qualities) do
-			local r,g,b = ITEM_QUALITY_COLORS[i].color:GetRGB()
-			tip:AddDoubleLine(_G['ITEM_QUALITY' .. i .. '_DESC'], count, r,g,b, r,g,b)
-		end
+		if held == 'item' then
+			tip:SetText(format(Scrap2:GetTag(id) == tag.id and REMOVE_ITEM or ADD_ITEM, Scrap2:GetItemName(id), tag.name))
+		else
+			tip:SetOwner(self, 'ANCHOR_RIGHT')
+			tip:SetText(TIPS[tag.id] or DEPOSIT)
 
-		if tag == 1 and value > 0 then
-			tip:AddLine(GetCoinTextureString(value), 1,1,1)
+			for i, count in pairs(qualities) do
+				local r,g,b = ITEM_QUALITY_COLORS[i].color:GetRGB()
+				tip:AddDoubleLine(_G['ITEM_QUALITY' .. i .. '_DESC'], count, r,g,b, r,g,b)
+			end
+
+			if tag.id == 1 and value > 0 then
+				tip:AddLine(GetCoinTextureString(value), 1,1,1)
+			end
 		end
+		
+		PlaySound(286132)
 	end
 
-	tip:Show()
+	tip:SetShown(active)
 end
 
 function Buttons:OnReceiveDrag()
-	local type, id = GetCursorInfo()
-	if type == 'item' then
-		Scrap2:SetTag(id, Scrap2:GetTag(id) ~= self.tag and self.tag or 0)
+	local held, id = GetCursorInfo()
+	if held == 'item' then
 		ClearCursor()
+		Scrap2:SetTag(id, Scrap2:GetTag(id) ~= self.tag and self.tag or 0)
 	end
 end
 

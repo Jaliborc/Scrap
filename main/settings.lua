@@ -9,6 +9,7 @@ Scrap2:NewModule('Settings', {OnLoad = function(self)
 
 		tag.color = {r=r, g=g, b=b}
 		tag.glow, tag.stamp = true, true
+		tag.limit = tag.limit or math.huge
 	end
 
 	Scrap2.Tags = self:SetDefaults({}, Scrap2.BaseTags)

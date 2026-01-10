@@ -2,7 +2,6 @@
 	<!-- All Rights Reserved -->
 	<Script file="main.lua"/>
 	<Script file="settings.lua"/>
-
 	<Script file="spotlight.lua"/>
-	<Script file="bank.lua"/>
+	<Script file="buttons.lua"/>
 </Ui>

@@ -49,13 +49,17 @@ end
 
 function Scrap2:UseItems(tag)
 	local tag = self.Tags[tag]
-	local used = 0
+	local count = 0
 
 	for bag, slot, item in self:IterateInventory(tag.id) do
-		if not item.isLocked and used < (tag.limit or math.huge) then
+		if not item.isLocked and count < tag.limit then
 			C.Container.UseContainerItem(bag, slot, nil, tag.type)
-			used = used + 1
 		end
+		count = count + 1
+	end
+
+	if not tag.safe and count >= tag.limit then
+		self:ContinueOn('BAG_UPDATE_DELAYED', 'UseItems', tag.id)
 	end
 end
 

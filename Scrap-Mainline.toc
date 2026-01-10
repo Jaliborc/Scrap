@@ -12,5 +12,5 @@
 ## Interface: 120000
 ## Version: 11.2.5
 
-libs\libs.xml
+libs\main.xml
 main\main.xml
