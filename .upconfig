@@ -1,0 +1,12 @@
+[ignore]
+  BagBrother/libs/C_Everywhere/Tests.lua
+  BagBrother/libs/Unfit-1.0/Tests.lua
+  BagBrother/libs/ItemSearch-1.3/Tests.lua
+  BagBrother/libs/Poncho-2.0/Tests.lua
+  BagBrother/libs/Sushi-3.2/classes/buttons/Gray.lua
+  BagBrother/libs/Sushi-3.2/classes/buttons/Help.lua
+  BagBrother/libs/Sushi-3.2/classes/drops
+  BagBrother/libs/Sushi-3.2/classes/edits/Box.lua
+  BagBrother/libs/Sushi-3.2/classes/groups/FauxScroll.lua
+  BagBrother/libs/Sushi-3.2/classes/misc
+  BagBrother/libs/Sushi-3.2/tests

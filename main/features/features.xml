@@ -1,0 +1,6 @@
+<Ui>
+	<Script file="automation.lua"/>
+	<Script file="spotlight.lua"/>
+	<Script file="buttons.lua"/>
+	<Script file="picker.lua"/>
+</Ui>

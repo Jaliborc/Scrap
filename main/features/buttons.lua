@@ -3,15 +3,12 @@
 	Adds or modifies buttons on the base UI.
 --]]
 
-
-local C = LibStub('C_Everywhere')
 local Buttons = Scrap2:NewModule('Buttons')
+local L = LibStub('AceLocale-3.0'):GetLocale('Scrap2')
+local C = LibStub('C_Everywhere')
 
-local DEPOSIT = 'Deposit Items'
-local DEPOSIT_BANK = DEPOSIT .. ' |TInterface/Addons/Scrap/art/crate:20:20|t'
-local DEPOSIT_WARBAND = DEPOSIT .. ' |A:warbands-icon:20:20|a'
-local ADD_ITEM, REMOVE_ITEM = 'Set %s to %s', 'Remove %s from %s'
-local TIPS = {'Sell Junk'}
+local DEPOSIT_BANK = L.Deposit .. ' |TInterface/Addons/Scrap/art/crate:20:20|t'
+local DEPOSIT_WARBAND = L.Deposit .. ' |A:warbands-icon:20:20|a'
 
 
 --[[ Startup ]]--
@@ -147,10 +144,10 @@ function Buttons:OnEnter()
 		tip:SetOwner(self, 'ANCHOR_RIGHT')
 
 		if held == 'item' then
-			tip:SetText(format(Scrap2:GetTag(id) == tag.id and REMOVE_ITEM or ADD_ITEM, Scrap2:GetItemName(id), tag.name))
+			tip:SetText(format(Scrap2:GetTag(id) == tag.id and L.RemoveItem or L.AddItem, Scrap2:GetItemName(id), tag.name))
 		else
 			tip:SetOwner(self, 'ANCHOR_RIGHT')
-			tip:SetText(TIPS[tag.id] or DEPOSIT)
+			tip:SetText(tag.action)
 
 			for i, count in pairs(qualities) do
 				local r,g,b = ITEM_QUALITY_COLORS[i].color:GetRGB()

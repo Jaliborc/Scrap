@@ -21,10 +21,10 @@ function Automation:MERCHANT_SHOW()
 end
 
 function Automation:BANKFRAME_OPENED()
-	if C.Bank.CanUseBank(0) then
+	if C.Bank.CanUseBank(Enum.BankType.Character) then
 		self:Run(3)
 	end
-	if C.Bank.CanUseBank(2) then
+	if C.Bank.CanUseBank(Enum.BankType.Account) then
 		self:Run(4)
 	end
 end
@@ -47,14 +47,16 @@ end
 
 function Automation:Repair()
 	local cost = GetRepairAllCost()
-	if Scrap2.REPAIR and cost > 0 then
+	local sets = Scrap2.Tags[0]
+
+	if sets.repair and cost > 0 then
 		local allowance = GetGuildBankWithdrawMoney() or -1
 		local canGuild = CanGuildBankRepair and CanGuildBankRepair() and not GetGuildInfoText():find('%[noautorepair%]')
-		local useGuild = Scrap2.GUILD_REPAIR and canGuild and (allowance < 0 or allowance >= cost)
+		local useGuild = sets.guildRepair and canGuild and (allowance < 0 or allowance >= cost)
 
 		if useGuild or GetMoney() >= cost then
 			RepairAllItems(useGuild)
-			Scrap2:Print(useGuild and 'Guild repaired for %s' or 'Repaired for %s', GetMoneyString(cost, true,true))
+			Scrap2:Print(useGuild and L.GuildRepaired or L.Repaired, GetMoneyString(cost, true))
 		end
 	end
 end

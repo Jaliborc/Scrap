@@ -3,11 +3,14 @@
     Initalization of tags, lists and all other settings.
 --]]
 
-Scrap2:NewModule('Settings', {OnLoad = function(self)
+local Sets = Scrap2:NewModule('Settings')
+local L = LibStub('AceLocale-3.0'):GetLocale('Scrap2')
+
+function Sets:OnLoad()
 	for id, tag in ipairs(Scrap2.BaseTags) do
 		local r,g,b = unpack(tag.color)
 
-		tag.color = {r=r, g=g, b=b}
+		tag.id, tag.color = id, {r=r, g=g, b=b}
 		tag.glow, tag.stamp, tag.auto = true, true, true
 		tag.limit = tag.limit or math.huge
 	end
@@ -24,7 +27,22 @@ Scrap2:NewModule('Settings', {OnLoad = function(self)
 
 		Scrap2.List[k] = fastrandom(0,3)
 	end
-end})
+end
+
+Scrap2.BaseTags = {
+	[0] = {name = L.None},
+	[1] = {name = L.Junk, action = L.SellJunk, icon = 'Interface/Addons/Scrap/art/coin', color = {ITEM_QUALITY_COLORS[0].color:GetRGB()}, limit = 12, safe = true},
+	[2] = {name = L.Disenchant, icon = 'Interface/Addons/Scrap/art/disenchant', color = {0.67, 0.439, 0.89}},
+	[3] = {name = L.Bank, action = L.Deposit, icon = 'Interface/Addons/Scrap/art/crate', color = {0.45, 0.32, 0.15}, type = 0}
+}
+
+if Constants.InventoryConstants.NumAccountBankSlots then
+	Scrap2.BaseTags[4] = {name = L.Warband, action = L.Deposit, atlas = 'warbands-icon', color = {0.45, 0.32, 0.15}, type = 2}
+end
+
+if GuildBankFrame_LoadUI then
+	Scrap2.BaseTags[5] = {name = L.Guild, action = L.Deposit, icon = 'Interface/Addons/Scrap/art/banner', color = {0.13, 0.18, 0.32}, type = 1}
+end
 
 Scrap2.BaseList = {
 	[90561] = 0,
@@ -101,18 +119,3 @@ Scrap2.BaseList = {
 	[136377] = 0,
 	[160705] = 0,
 }
-
-Scrap2.BaseTags = {
-	[0] = {id = 0, name = 'None'},
-	[1] = {id = 1, name = 'Junk', icon = 'Interface/Addons/Scrap/art/coin', color = {ITEM_QUALITY_COLORS[0].color:GetRGB()}, limit = 12, safe = true},
-	[2] = {id = 2, name = 'Disenchant', icon = 'Interface/Addons/Scrap/art/disenchant', color = {0.67, 0.439, 0.89}},
-	[3] = {id = 3, name = 'Bank', icon = 'Interface/Addons/Scrap/art/crate', color = {0.45, 0.32, 0.15}, type = 0}
-}
-
-if Constants.InventoryConstants.NumAccountBankSlots then
-    Scrap2.BaseTags[4] = {id = 4, name = 'Warband', atlas = 'warbands-icon', color = {0.45, 0.32, 0.15}, type = 2}
-end
-
-if GuildBankFrame_LoadUI then
-    Scrap2.BaseTags[5] = {id = 5, name = 'Guild', icon = 'Interface/Addons/Scrap/art/banner', color = {0.13, 0.18, 0.32}, type = 1}
-end

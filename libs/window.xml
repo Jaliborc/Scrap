@@ -1,5 +1,5 @@
 <Ui>
-	<Include file="Poncho-2.0\Poncho-2.0.lua"/>
+	<Include file="Poncho-2.0\Poncho-2.0.xml"/>
 
 	<Script file="Sushi-3.2\Sushi-3.2.lua"/>
 	<Script file="Sushi-3.2\classes\core\Callable.lua"/>
