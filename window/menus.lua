@@ -50,7 +50,7 @@ local function taglist(parent, key, ids)
 			end
 
 			parent:CreateRadio(format('%s%s|r' .. Scrap2.MENU_SUFFIX, hex, tag.name), get, set)
-			      :AddInitializer(Scrap2:TagInitializer(tag))
+			      :AddInitializer(Scrap2.Picker:Initializer(tag))
 		end
 	end
 end

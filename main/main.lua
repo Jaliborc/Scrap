@@ -10,6 +10,9 @@ local Scrap2 = LibStub('WildAddon-1.1'):NewAddon('Scrap2', Addon, 'StaleCheck-1.
 Scrap2.MENU_SUFFIX = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and '   ' or ''
 Scrap2.NUM_BAGS = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS
 
+
+--[[ Startup ]]--
+
 function Scrap2:OnLoad()
 	SlashCmdList.Scrap = function() self:ToggleWindow() end
 	SLASH_Scrap1 = '/scrap'
@@ -21,6 +24,12 @@ function Scrap2:OnLoad()
 			icon = 'Interface/Addons/Scrap/art/scrap-small',
 			func = SlashCmdList.Scrap
 		}
+	end
+end
+
+function Scrap2:ToggleWindow()
+	if C.AddOns.LoadAddOn('Scrap_Window') then
+		self.Frame:Toggle()
 	end
 end
 
@@ -60,12 +69,14 @@ function Scrap2:UseItems(tag)
 
 	if not tag.safe and count >= tag.limit then
 		self:ContinueOn('BAG_UPDATE_DELAYED', 'UseItems', tag.id)
+	elseif count > 0 then
+		--self:Print(tag.completed)
 	end
 end
 
 function Scrap2:IterateInventory(tag)
 	local numSlots = C.Container.GetContainerNumSlots(BACKPACK_CONTAINER)
-	local bag, slot = BACKPACK_CONTAINER, 0
+	local bag, slot = BACKPACK_CONTAINER, 1
 
 	return function()
 		while true do
@@ -87,48 +98,28 @@ function Scrap2:IterateInventory(tag)
 end
 
 
---[[ UI Essentials ]]--
+--[[ Utils ]]--
 
-function Scrap2:ToggleWindow()
-	if C.AddOns.LoadAddOn('Scrap_Window') then
-		self.Frame:Toggle()
-	end
-end
+function Scrap2:Print(...)
+	local i = 1
+	local frame = _G['ChatFrame' .. i]
+	local text = format(...)
 
-function Scrap2:TagMenu()
-	local id = GameTooltip:IsVisible() and self:GetTooltipItem()
-	if id then
-		MenuUtil.CreateContextMenu(UIParent, function(_, drop)
-			drop:SetTag('Scrap2_TagMenu')
-			drop:CreateTitle(self:GetItemName(id))
-
-			for i, tag in pairs(Scrap2.Tags) do
-				drop:CreateRadio(tag.name .. self.MENU_SUFFIX, function() return self:GetTag(id) == i end, function() self:SetTag(id, i) end)
-					:AddInitializer(self:TagInitializer(tag))
+	while frame do
+		if frame:IsEventRegistered(channel) then
+			if frame.MessageEventHandler then
+				frame:MessageEventHandler('CHAT_MSG_MONEY', text, '', nil, '')
+			elseif ChatFrame_MessageEventHandler then
+				ChatFrame_MessageEventHandler(frame, 'CHAT_MSG_MONEY', text, '', nil, '')
 			end
-		end)
-	end
-end
+		end
 
-function Scrap2:TagInitializer(tag)
-	return function(button)
-		local icon = button:AttachTexture()
-		icon[tag.icon and 'SetTexture' or 'SetAtlas'](icon, tag.icon or tag.atlas)
-		icon:SetPoint('RIGHT')
-		icon:SetSize(18, 18)
+		i = i + 1
+		frame = _G['ChatFrame' .. i]
 	end
 end
 
 function Scrap2:GetItemName(id)
 	local name, _, quality = C.Item.GetItemInfo(id)
 	return name and format('|cnIQ%s:%s|r', quality, name)
-end
-
-function Scrap2:GetTooltipItem()
-	if GameTooltip.GetPrimaryTooltipData then -- GameTooltip:GetItem() is bugged on retail, avoid at all costs
-		local data = GameTooltip:GetPrimaryTooltipData()
-		return data and ((data.guid and data.guid:find('^Item')) or (data.hyperlink and data.hyperlink:find('Hitem'))) and tonumber(data.id)
-	end
-	local link = select(2, GameTooltip:GetItem())
-	return link and tonumber(link:match('item:(%d+)'))
 end

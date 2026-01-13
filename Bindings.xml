@@ -1,6 +1,6 @@
 <Bindings>
-	<Binding name="SCRAP_TAG" category="Scrap2">
-		Scrap2:TagMenu()
+	<Binding name="SCRAP_PICKER" category="Scrap2">
+		Scrap2.Picker:Open()
 	</Binding>
 
 	<Binding name="SCRAP_TOGGLE" category="Scrap2"></Binding>

@@ -146,7 +146,7 @@
 		</ButtonText>
 		<NormalFont style="GameFontHighlightSmallLeft"/>
 		<Scripts>
-			<OnClick> Scrap2:TagMenu() </OnClick>
+			<OnClick> Scrap2.Picker:Open() </OnClick>
 			<OnEnter>
 				GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
 				GameTooltip:SetItemByID(self.id)

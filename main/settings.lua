@@ -8,7 +8,7 @@ Scrap2:NewModule('Settings', {OnLoad = function(self)
 		local r,g,b = unpack(tag.color)
 
 		tag.color = {r=r, g=g, b=b}
-		tag.glow, tag.stamp = true, true
+		tag.glow, tag.stamp, tag.auto = true, true, true
 		tag.limit = tag.limit or math.huge
 	end
 
@@ -104,15 +104,15 @@ Scrap2.BaseList = {
 
 Scrap2.BaseTags = {
 	[0] = {id = 0, name = 'None'},
-	[1] = {id = 1, name = 'Junk', icon = 'Interface/Addons/Scrap/art/coin', color = {ITEM_QUALITY_COLORS[0].color:GetRGB()}, limit = 12, sell = true, safe = true},
+	[1] = {id = 1, name = 'Junk', icon = 'Interface/Addons/Scrap/art/coin', color = {ITEM_QUALITY_COLORS[0].color:GetRGB()}, limit = 12, safe = true},
 	[2] = {id = 2, name = 'Disenchant', icon = 'Interface/Addons/Scrap/art/disenchant', color = {0.67, 0.439, 0.89}},
-	[3] = {id = 3, name = 'Bank', icon = 'Interface/Addons/Scrap/art/crate', color = {0.45, 0.32, 0.15}, type = 0, deposit = true}
+	[3] = {id = 3, name = 'Bank', icon = 'Interface/Addons/Scrap/art/crate', color = {0.45, 0.32, 0.15}, type = 0}
 }
 
 if Constants.InventoryConstants.NumAccountBankSlots then
-    Scrap2.BaseTags[4] = {id = 4, name = 'Warband', atlas = 'warbands-icon', color = {0.45, 0.32, 0.15}, type = 2, deposit = true}
+    Scrap2.BaseTags[4] = {id = 4, name = 'Warband', atlas = 'warbands-icon', color = {0.45, 0.32, 0.15}, type = 2}
 end
 
 if GuildBankFrame_LoadUI then
-    Scrap2.BaseTags[5] = {id = 5, name = 'Guild', icon = 'Interface/Addons/Scrap/art/banner', color = {0.13, 0.18, 0.32}, type = 1, deposit = true}
+    Scrap2.BaseTags[5] = {id = 5, name = 'Guild', icon = 'Interface/Addons/Scrap/art/banner', color = {0.13, 0.18, 0.32}, type = 1}
 end
