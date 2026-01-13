@@ -62,12 +62,12 @@ function Buttons:OnLoad()
 		button:SetPushedTexture('Interface/Buttons/UI-Quickslot-Depress')
 		button:SetSize(37, 37)
 
-		button.Bg = sell:CreateTexture(nil, 'BACKGROUND')
+		button.Bg = button:CreateTexture(nil, 'BACKGROUND')
 		button.Bg:SetPoint('CENTER', -0.5, -1.2)
 		button.Bg:SetColorTexture(0, 0, 0)
 		button.Bg:SetSize(27, 27)
 
-		button.Border = sell:CreateTexture(nil, 'OVERLAY')
+		button.Border = button:CreateTexture(nil, 'OVERLAY')
 		button.Border:SetTexture('Interface/Addons/Scrap/art/merchant-border')
 		button.Border:SetSize(35.9, 35.9)
 		button.Border:SetPoint('CENTER')
@@ -140,7 +140,7 @@ function Buttons:OnEnter()
 	local tag = Scrap2.Tags[self.tag]
 
 	local held, id = GetCursorInfo()
-	local total, qualities, value = Buttons:Preview(tag.id)
+	local total, value, qualities = Buttons:Preview(tag.id)
 	local active = held == 'item' or total > 0
 
 	if active then
@@ -191,5 +191,5 @@ function Buttons:Preview(tag)
 		end
 	end
 
-	return count, qualities, value
+	return count, value, qualities
 end
