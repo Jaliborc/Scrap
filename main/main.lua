@@ -5,7 +5,7 @@
 
 local _, Addon = ...
 local C = LibStub('C_Everywhere')
-local Scrap2 = LibStub('WildAddon-1.1'):NewAddon('Scrap2', Addon, 'StaleCheck-1.0')
+local Scrap2 = LibStub('WildAddon-1.1'):NewAddon('Scrap2', Addon, 'StaleCheck-1.0', 'MutexDelay-1.0')
 
 Scrap2.MENU_SUFFIX = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and '   ' or ''
 Scrap2.NUM_BAGS = NUM_TOTAL_EQUIPPED_BAG_SLOTS or NUM_BAG_SLOTS
@@ -56,22 +56,40 @@ function Scrap2:GetTagInfo(...)
 	return self.Tags[self:GetTag(...)]
 end
 
-function Scrap2:UseItems(tag)
+
+--[[ Inventory ]]--
+
+function Scrap2:UseItems(tag, done)
 	local tag = self.Tags[tag]
 	local count = 0
 
 	for bag, slot, item in self:IterateInventory(tag.id) do
-		if not item.isLocked and count < tag.limit then
+		if count < tag.limit then
 			C.Container.UseContainerItem(bag, slot, nil, tag.type)
+			count = count + 1
 		end
-		count = count + 1
 	end
 
 	if not tag.safe and count >= tag.limit then
-		self:ContinueOn('BAG_UPDATE_DELAYED', 'UseItems', tag.id)
-	elseif count > 0 then
-		--self:Print(tag.completed)
+		self:Delay(0.05, 'UseItems', tag.id, done)
+	elseif done then
+		done()
 	end
+end
+
+function Scrap2:PreviewItems(tag)
+	local total, price = 0, 0
+	local qualities = {}
+
+	for bag, slot, item in self:IterateInventory(tag) do
+		if item.quality then
+			total = total + item.stackCount
+			price = price + item.stackCount * (select(11, C.Item.GetItemInfo(item.itemID)) or 0)
+			qualities[item.quality] = (qualities[item.quality] or 0) + item.stackCount
+		end
+	end
+
+	return {total = total, price = price, qualities = qualities}
 end
 
 function Scrap2:IterateInventory(tag)
@@ -90,7 +108,7 @@ function Scrap2:IterateInventory(tag)
 			end
 			
 			local item = C.Container.GetContainerItemInfo(bag, slot)
-			if item and self:GetTag(item.itemID, bag, slot) == tag then
+			if item and not item.isLocked and self:GetTag(item.itemID, bag, slot) == tag then
 				return bag, slot, item
 			end
 		end
@@ -99,25 +117,6 @@ end
 
 
 --[[ Utils ]]--
-
-function Scrap2:Print(...)
-	local i = 1
-	local frame = _G['ChatFrame' .. i]
-	local text = format(...)
-
-	while frame do
-		if frame:IsEventRegistered(channel) then
-			if frame.MessageEventHandler then
-				frame:MessageEventHandler('CHAT_MSG_MONEY', text, '', nil, '')
-			elseif ChatFrame_MessageEventHandler then
-				ChatFrame_MessageEventHandler(frame, 'CHAT_MSG_MONEY', text, '', nil, '')
-			end
-		end
-
-		i = i + 1
-		frame = _G['ChatFrame' .. i]
-	end
-end
 
 function Scrap2:GetItemName(id)
 	local name, _, quality = C.Item.GetItemInfo(id)

@@ -19,29 +19,29 @@ function Sets:OnLoad()
     Scrap2.List = self:SetDefaults({}, Scrap2.BaseList)
 	Scrap2.Filters = self:SetDefaults({}, {})
 
-	for i = 1,10000 do
+	--[[for i = 1,10000 do
 		local k = 0
 		while not C_Item.GetItemInfoInstant(k) do
 			k = fastrandom(1, 50000)
 		end
 
 		Scrap2.List[k] = fastrandom(0,3)
-	end
+	end]]--
 end
 
 Scrap2.BaseTags = {
 	[0] = {name = L.None},
-	[1] = {name = L.Junk, action = L.SellJunk, icon = 'Interface/Addons/Scrap/art/coin', color = {ITEM_QUALITY_COLORS[0].color:GetRGB()}, limit = 12, safe = true},
+	[1] = {name = L.Junk, icon = 'Interface/Addons/Scrap/art/coin', color = {ITEM_QUALITY_COLORS[0].color:GetRGB()}, limit = 12, safe = true},
 	[2] = {name = L.Disenchant, icon = 'Interface/Addons/Scrap/art/disenchant', color = {0.67, 0.439, 0.89}},
-	[3] = {name = L.Bank, action = L.Deposit, icon = 'Interface/Addons/Scrap/art/crate', color = {0.45, 0.32, 0.15}, type = 0}
+	[3] = {name = L.Bank, icon = 'Interface/Addons/Scrap/art/crate', color = {0.45, 0.32, 0.15}, type = 0}
 }
 
 if Constants.InventoryConstants.NumAccountBankSlots then
-	Scrap2.BaseTags[4] = {name = L.Warband, action = L.Deposit, atlas = 'warbands-icon', color = {0.45, 0.32, 0.15}, type = 2}
+	Scrap2.BaseTags[4] = {name = L.Warband, atlas = 'warbands-icon', color = {0.45, 0.32, 0.15}, type = 2}
 end
 
 if GuildBankFrame_LoadUI then
-	Scrap2.BaseTags[5] = {name = L.Guild, action = L.Deposit, icon = 'Interface/Addons/Scrap/art/banner', color = {0.13, 0.18, 0.32}, type = 1}
+	Scrap2.BaseTags[5] = {name = L.Guild, icon = 'Interface/Addons/Scrap/art/banner', color = {0.13, 0.18, 0.32}, limit = 1, type = 1}
 end
 
 Scrap2.BaseList = {

@@ -97,7 +97,7 @@ end
 
 function Buttons:Setup(button, tag, refresh)
 	button.tag = tag
-	button.Update = function() (refresh or nop)(self:Preview(tag) > 0) end
+	button.Update = function() (refresh or nop)(Scrap2:PreviewItems(tag).total > 0) end
 
 	button:SetScript('OnShow', button.Update)
 	button:SetScript('OnClick', self.OnClick)
@@ -137,8 +137,8 @@ function Buttons:OnEnter()
 	local tag = Scrap2.Tags[self.tag]
 
 	local held, id = GetCursorInfo()
-	local total, value, qualities = Buttons:Preview(tag.id)
-	local active = held == 'item' or total > 0
+	local stats = Scrap2:PreviewItems(tag.id)
+	local active = held == 'item' or stats.total > 0
 
 	if active then
 		tip:SetOwner(self, 'ANCHOR_RIGHT')
@@ -147,15 +147,15 @@ function Buttons:OnEnter()
 			tip:SetText(format(Scrap2:GetTag(id) == tag.id and L.RemoveItem or L.AddItem, Scrap2:GetItemName(id), tag.name))
 		else
 			tip:SetOwner(self, 'ANCHOR_RIGHT')
-			tip:SetText(tag.action)
+			tip:SetText(tag.id == 1 and L.SellJunk or L.Deposit)
 
-			for i, count in pairs(qualities) do
+			for i, count in pairs(stats.qualities) do
 				local r,g,b = ITEM_QUALITY_COLORS[i].color:GetRGB()
 				tip:AddDoubleLine(_G['ITEM_QUALITY' .. i .. '_DESC'], count, r,g,b, r,g,b)
 			end
 
 			if tag.id == 1 and value > 0 then
-				tip:AddLine(GetCoinTextureString(value), 1,1,1)
+				tip:AddLine(GetMoneyString(stats.price, true), 1,1,1)
 			end
 		end
 		
@@ -171,22 +171,4 @@ function Buttons:OnReceiveDrag()
 		ClearCursor()
 		Scrap2:SetTag(id, Scrap2:GetTag(id) ~= self.tag and self.tag or 0)
 	end
-end
-
-
---[[ API ]]--
-
-function Buttons:Preview(tag)
-	local count, value = 0, 0
-	local qualities = {}
-
-	for bag, slot, item in Scrap2:IterateInventory(tag) do
-		if not item.isLocked and item.quality then
-			count = count + item.stackCount
-			value = value + item.stackCount * (select(11, C.Item.GetItemInfo(item.itemID)) or 0)
-			qualities[item.quality] = (qualities[item.quality] or 0) + item.stackCount
-		end
-	end
-
-	return count, value, qualities
 end

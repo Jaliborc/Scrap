@@ -4,6 +4,7 @@
 --]]
 
 local Automation = Scrap2:NewModule('Automation')
+local L = LibStub('AceLocale-3.0'):GetLocale('Scrap2')
 local C = LibStub('C_Everywhere')
 
 
@@ -41,7 +42,19 @@ end
 function Automation:Run(tag)
 	local tag = Scrap2.Tags[tag]
 	if tag.auto then
-		Scrap2:UseItems(tag.id)
+		local before = Scrap2:PreviewItems(tag.id)
+		Scrap2:UseItems(tag.id, function()
+			local after = Scrap2:PreviewItems(tag.id)
+			local total = before.total - after.total
+			if total > 0 then
+				local markup = format('|cffffffff%s%s|r', tag.atlas and format('|A:%s:14:14|a', tag.atlas) or format('|T%s:14:14|t', tag.icon), tag.name)
+				if tag.id == 1 then
+					self:Print('MONEY', L.SoldJunk:format(markup, GetMoneyString(before.price - after.price, true)))
+				else
+					self:Print('LOOT', L.Banked:format(total, markup))
+				end
+			end
+		end)
 	end
 end
 
@@ -56,7 +69,26 @@ function Automation:Repair()
 
 		if useGuild or GetMoney() >= cost then
 			RepairAllItems(useGuild)
-			Scrap2:Print(useGuild and L.GuildRepaired or L.Repaired, GetMoneyString(cost, true))
+			self:Print('MONEY', useGuild and L.GuildRepaired or L.Repaired, GetMoneyString(cost, true))
 		end
+	end
+end
+
+function Automation:Print(channel, text)
+	local i = 1
+	local chat = _G['ChatFrame' .. i]
+	local channel = 'CHAT_MSG_' .. channel
+
+	while chat do
+		if chat:IsEventRegistered(channel) then
+			if chat.MessageEventHandler then
+				chat:MessageEventHandler(channel, text, '', nil, '')
+			elseif ChatFrame_MessageEventHandler then
+				ChatFrame_MessageEventHandler(chat, channel, text, '', nil, '')
+			end
+		end
+
+		i = i + 1
+		chat = _G['ChatFrame' .. i]
 	end
 end
