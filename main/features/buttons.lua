@@ -46,10 +46,10 @@ function Buttons:OnLoad()
 
 	-- merchant 
 	local button = MerchantSellAllJunkButton or CreateFrame('Button', nil, MerchantBuyBackItem)
-	button.Icon = button:CreateTexture()
-	button.Icon:SetTexture('Interface/Addons/Scrap/Art/Scrap-Big')
-	button.Icon:SetPoint('CENTER')
-	button.Icon:SetSize(33, 33)
+	button.Art = button:CreateTexture()
+	button.Art:SetTexture('Interface/Addons/Scrap/art/scrap-big')
+	button.Art:SetPoint('CENTER')
+	button.Art:SetSize(33, 33)
 
 	if MerchantSellAllJunkButton then
 		hooksecurefunc('MerchantFrame_Update', function() button:Update(); button:Enable() end)
@@ -64,40 +64,43 @@ function Buttons:OnLoad()
 		button.Bg:SetColorTexture(0, 0, 0)
 		button.Bg:SetSize(27, 27)
 
-		button.Border = button:CreateTexture(nil, 'OVERLAY')
-		button.Border:SetTexture('Interface/Addons/Scrap/art/merchant-border')
-		button.Border:SetSize(35.9, 35.9)
-		button.Border:SetPoint('CENTER')
+		button.Icon = button:CreateTexture(nil, 'OVERLAY')
+		button.Icon:SetTexture('Interface/Addons/Scrap/art/merchant-border')
+		button.Icon:SetSize(35.9, 35.9)
+		button.Icon:SetPoint('CENTER')
 
 		hooksecurefunc('MerchantFrame_UpdateRepairButtons', function()
-			if CanMerchantRepair() then
-				local off, scale
-				if CanGuildBankRepair and CanGuildBankRepair() then
-					MerchantRepairAllButton:SetPoint('BOTTOMRIGHT', MerchantFrame, 'BOTTOMLEFT', 120, 35)
-					off, scale = -3.5, 0.9
-				else
-					off, scale = -1.5, 1
-				end
+			local anchor = CanMerchantRepair() and MerchantRepairItemButton or MerchantBuyBackItem
+			local scale, x,y
 
-				button:SetPoint('RIGHT', MerchantRepairItemButton, 'LEFT', off, 0)
-				button:SetScale(scale)
+			if CanMerchantRepair() then
+				if MerchantGuildBankRepairButton:IsShown() then
+					MerchantRepairAllButton:SetPoint('BOTTOMRIGHT', MerchantFrame, 'BOTTOMLEFT', 120, 35)
+					scale, x,y = 0.9, -3.5,0
+				else
+					scale, x,y = 1, -1.5,0
+				end
 			else
-				button:SetPoint('RIGHT', MerchantBuyBackItem, 'LEFT', -17, 0.5)
-				button:SetScale(1.1)
+				scale = 1.1, -17,0.5
 			end
 
+			button:SetScale(scale)
+			button:SetPoint('RIGHT', anchor, 'LEFT', x,y)
 			MerchantRepairText:Hide()
 		end)
 	end
 
-	self:Setup(button, 1, function(active) button.Icon:SetDesaturated(not active) end)
 	self:RegisterEvent('BAG_UPDATE_DELAYED', 'UpdateAll')
 	self:RegisterSignal('LIST_CHANGED', 'UpdateAll')
+	self:Setup(button, 1, function(active)
+		button.Icon:SetDesaturated(not active)
+		button.Art:SetDesaturated(not active)
+	end)
 end
 
 function Buttons:Setup(button, tag, refresh)
 	button.tag = tag
-	button.Update = function() (refresh or nop)(Scrap2:PreviewItems(tag).total > 0) end
+	button.Update = function() (refresh or nop)(Scrap2:PreviewItems(tag).stacks > 0) end
 
 	button:SetScript('OnShow', button.Update)
 	button:SetScript('OnClick', self.OnClick)
@@ -138,31 +141,29 @@ function Buttons:OnEnter()
 
 	local held, id = GetCursorInfo()
 	local stats = Scrap2:PreviewItems(tag.id)
-	local active = held == 'item' or stats.total > 0
 
-	if active then
-		tip:SetOwner(self, 'ANCHOR_RIGHT')
+	tip:SetOwner(self, 'ANCHOR_RIGHT')
+	tip:SetText(tag.id == 1 and L.SellJunk or L.Deposit)
 
+	if held == 'item' or stats.stacks > 0 then
 		if held == 'item' then
 			tip:SetText(format(Scrap2:GetTag(id) == tag.id and L.RemoveItem or L.AddItem, Scrap2:GetItemName(id), tag.name))
 		else
-			tip:SetOwner(self, 'ANCHOR_RIGHT')
-			tip:SetText(tag.id == 1 and L.SellJunk or L.Deposit)
-
 			for i, count in pairs(stats.qualities) do
 				local r,g,b = ITEM_QUALITY_COLORS[i].color:GetRGB()
-				tip:AddDoubleLine(_G['ITEM_QUALITY' .. i .. '_DESC'], count, r,g,b, r,g,b)
+				tip:AddDoubleLine(_G['ITEM_QUALITY' .. i .. '_DESC'], FormatLargeNumber(count), r,g,b, r,g,b)
 			end
 
-			if tag.id == 1 and value > 0 then
+			if tag.id == 1 and stats.price > 0 then
 				tip:AddLine(GetMoneyString(stats.price, true), 1,1,1)
 			end
 		end
-		
-		PlaySound(286132)
+	else
+		tip:AddLine('|A:NPE_RightClick:14:14|a ' .. OPTIONS, 1,1,1)
 	end
 
-	tip:SetShown(active)
+	tip:Show()
+	PlaySound(286132)
 end
 
 function Buttons:OnReceiveDrag()

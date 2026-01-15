@@ -9,7 +9,7 @@ L.SellJunk = 'Sell Junk'
 L.AddItem = 'Set %s to %s'
 L.RemoveItem = 'Remove %s from %s'
 
-L.Banked = 'You stored %d items in the %s'
+L.Banked = 'You stored %d item |4stack:stacks; in the %s'
 L.GuildRepaired = 'Your guild repaired your armor for %s'
 L.Repaired  = 'You repaired your armor for %s'
 L.SoldJunk = 'You sold your %s for %s'

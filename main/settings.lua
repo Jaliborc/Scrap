@@ -30,7 +30,7 @@ function Sets:OnLoad()
 end
 
 Scrap2.BaseTags = {
-	[0] = {name = L.None},
+	[0] = {name = L.None, id=0},
 	[1] = {name = L.Junk, icon = 'Interface/Addons/Scrap/art/coin', color = {ITEM_QUALITY_COLORS[0].color:GetRGB()}, limit = 12, safe = true},
 	[2] = {name = L.Disenchant, icon = 'Interface/Addons/Scrap/art/disenchant', color = {0.67, 0.439, 0.89}},
 	[3] = {name = L.Bank, icon = 'Interface/Addons/Scrap/art/crate', color = {0.45, 0.32, 0.15}, type = 0}

@@ -1,6 +1,6 @@
 --[[
 	Copyright 2008-2025 João Cardoso, All Rights Reserved
-	Addon main API.
+	Addon primary API, to be used by features.
 --]]
 
 local _, Addon = ...
@@ -59,7 +59,8 @@ end
 
 --[[ Inventory ]]--
 
-function Scrap2:UseItems(tag, done)
+function Scrap2:UseItems(tag, stats)
+	local stats = stats or Scrap2:PreviewItems(tag)
 	local tag = self.Tags[tag]
 	local count = 0
 
@@ -71,25 +72,38 @@ function Scrap2:UseItems(tag, done)
 	end
 
 	if not tag.safe and count >= tag.limit then
-		self:Delay(0.05, 'UseItems', tag.id, done)
-	elseif done then
-		done()
+		self:Delay(0.05, 'UseItems', tag.id, stats)
+	else
+		self:PrintDifference(tag, stats)
+	end
+end
+
+function Scrap2:PrintDifference(tag, before)
+	local markup = format('|cffffffff%s%s|r', tag.atlas and format('|A:%s:14:14|a', tag.atlas) or format('|T%s:14:14|t', tag.icon), tag.name)
+	local after = Scrap2:PreviewItems(tag.id)
+	local stacks = before.stacks - after.stacks
+	if stacks > 0 then
+		if tag.id == 1 then
+			self:Print('MONEY', L.SoldJunk:format(markup, GetMoneyString(before.price - after.price, true)))
+		else
+			self:Print('LOOT', L.Banked:format(stacks, markup))
+		end
 	end
 end
 
 function Scrap2:PreviewItems(tag)
-	local total, price = 0, 0
+	local stacks, price = 0, 0
 	local qualities = {}
 
 	for bag, slot, item in self:IterateInventory(tag) do
 		if item.quality then
-			total = total + item.stackCount
+			stacks = stacks + 1
 			price = price + item.stackCount * (select(11, C.Item.GetItemInfo(item.itemID)) or 0)
 			qualities[item.quality] = (qualities[item.quality] or 0) + item.stackCount
 		end
 	end
 
-	return {total = total, price = price, qualities = qualities}
+	return {stacks = stacks, price = price, qualities = qualities}
 end
 
 function Scrap2:IterateInventory(tag)
@@ -121,4 +135,23 @@ end
 function Scrap2:GetItemName(id)
 	local name, _, quality = C.Item.GetItemInfo(id)
 	return name and format('|cnIQ%s:%s|r', quality, name)
+end
+
+function Scrap2:Print(channel, text)
+	local i = 1
+	local chat = _G['ChatFrame' .. i]
+	local channel = 'CHAT_MSG_' .. channel
+
+	while chat do
+		if chat:IsEventRegistered(channel) then
+			if chat.MessageEventHandler then
+				chat:MessageEventHandler(channel, text, '', nil, '')
+			elseif ChatFrame_MessageEventHandler then
+				ChatFrame_MessageEventHandler(chat, channel, text, '', nil, '')
+			end
+		end
+
+		i = i + 1
+		chat = _G['ChatFrame' .. i]
+	end
 end
