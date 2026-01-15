@@ -1,0 +1,4 @@
+<Ui>
+	<Script file="settings.lua"/>
+	<Script file="classifier.lua"/>
+</Ui>

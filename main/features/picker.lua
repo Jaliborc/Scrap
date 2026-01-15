@@ -1,6 +1,6 @@
 --[[
-    Copyright 2008-2025 João Cardoso, All Rights Reserved
-    Context menu for changing an item tag anywhere.
+	Copyright 2008-2025 João Cardoso, All Rights Reserved
+	Context menu for changing an item tag anywhere.
 --]]
 
 local Picker = Scrap2:NewModule('Picker')

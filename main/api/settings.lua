@@ -1,6 +1,6 @@
 --[[
-    Copyright 2008-2025 João Cardoso, All Rights Reserved
-    Initalization of tags, lists and all other settings.
+	Copyright 2008-2025 João Cardoso, All Rights Reserved
+	Initalization of tags, lists and other settings.
 --]]
 
 local Sets = Scrap2:NewModule('Settings')

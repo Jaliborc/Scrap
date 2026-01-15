@@ -1,6 +1,6 @@
 --[[
-    Copyright 2008-2025 João Cardoso, All Rights Reserved
-    Shows tag icons in the default bags.
+	Copyright 2008-2025 João Cardoso, All Rights Reserved
+	Shows tag icons in the default bags.
 --]]
 
 local C = LibStub('C_Everywhere')

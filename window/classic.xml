@@ -2,7 +2,7 @@
 	<!-- All Rights Reserved -->
 
 	<Frame name="Scrap2FrameDesign" virtual="true">
-		<Size x="677" y="450"/>
+		<Size x="677" y="444"/>
 		<Frames>
 			<Frame parentKey="LeftInset" useParentLevel="true" inherits="InsetFrameTemplate">
 				<Size x="120" y="496"/>

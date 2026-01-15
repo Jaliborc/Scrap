@@ -28,7 +28,7 @@ function Scrap2:OnLoad()
 end
 
 function Scrap2:ToggleWindow()
-	if C.AddOns.LoadAddOn('Scrap_Window') then
+	if AddOnUtil.LoadAddOn('Scrap_Window') then
 		self.Frame:Toggle()
 	end
 end

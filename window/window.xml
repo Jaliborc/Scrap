@@ -1,57 +1,61 @@
 <Ui>
 	<!-- All Rights Reserved -->
 
-	<Frame name="Scrap2Frame" inherits="PortraitFrameTemplate, Scrap2FrameDesign" parent="UIParent" toplevel="true" enableMouse="true" hidden="true">
+	<Frame name="Scrap2Container" parent="UIParent" hidden="true">
 		<Frames>
-			<EditBox parentKey="SearchBox" inherits="SearchBoxTemplate" letters="50">
-				<Size x="300" y="20"/>
-				<Anchors>
-					<Anchor point="TOPLEFT" x="80" y="-35"/>
-				</Anchors>
-			</EditBox>
+			<Frame parentKey="Frame" inherits="PortraitFrameTemplate, Scrap2FrameDesign" toplevel="true" enableMouse="true">
+				<Frames>
+					<EditBox parentKey="SearchBox" inherits="SearchBoxTemplate" letters="50">
+						<Size x="300" y="20"/>
+						<Anchors>
+							<Anchor point="TOPLEFT" x="80" y="-35"/>
+						</Anchors>
+					</EditBox>
 
-			<DropdownButton parentKey="OptionsDropdown" inherits="WowStyle1FilterDropdownTemplate">
-				<Anchors>
-					<Anchor point="TOPRIGHT" x="-30" y="-35"/>
-				</Anchors>
-			</DropdownButton>
-			<Button parentKey="OptionsWheel" inherits="IconButtonTemplate" alpha="0.8">
-				<KeyValues>
-					<KeyValue key="icon" value="Interface\Worldmap\Gear_64Grey" type="string"/>
-					<KeyValue key="useIconAsHighlight" value="true" type="boolean"/>
-					<KeyValue key="iconSize" value="20" type="number"/>
-				</KeyValues>
-				<Anchors>
-					<Anchor point="RIGHT" relativeKey="$parent.OptionsDropdown" relativePoint="LEFT" x="-10"/>
-				</Anchors>
-			</Button>
+					<DropdownButton parentKey="OptionsDropdown" inherits="WowStyle1FilterDropdownTemplate">
+						<Anchors>
+							<Anchor point="TOPRIGHT" x="-30" y="-35"/>
+						</Anchors>
+					</DropdownButton>
+					<Button parentKey="OptionsWheel" inherits="IconButtonTemplate" alpha="0.8">
+						<KeyValues>
+							<KeyValue key="icon" value="Interface\Worldmap\Gear_64Grey" type="string"/>
+							<KeyValue key="useIconAsHighlight" value="true" type="boolean"/>
+							<KeyValue key="iconSize" value="20" type="number"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="RIGHT" relativeKey="$parent.OptionsDropdown" relativePoint="LEFT" x="-10"/>
+						</Anchors>
+					</Button>
 
-			<Frame parentKey="TagsBox" inherits="WowScrollBoxList">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeKey="$parent.LeftInset" x="4" y="-5"/>
-					<Anchor point="BOTTOMRIGHT" relativeKey="$parent.LeftInset" x="-4" y="5"/>
-				</Anchors>
-			</Frame>
+					<Frame parentKey="TagsBox" inherits="WowScrollBoxList">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.LeftInset" x="4" y="-5"/>
+							<Anchor point="BOTTOMRIGHT" relativeKey="$parent.LeftInset" x="-4" y="5"/>
+						</Anchors>
+					</Frame>
 
-			<Frame parentKey="ItemsBox" inherits="WowScrollBoxList">
-				<Anchors>
-					<Anchor point="BOTTOMRIGHT" relativeKey="$parent.RightInset" y="4"/>
-					<Anchor point="TOPLEFT" relativeKey="$parent.RightInset" y="-4"/>
-				</Anchors>
-			</Frame>
+					<Frame parentKey="ItemsBox" inherits="WowScrollBoxList">
+						<Anchors>
+							<Anchor point="BOTTOMRIGHT" relativeKey="$parent.RightInset" y="4"/>
+							<Anchor point="TOPLEFT" relativeKey="$parent.RightInset" y="-4"/>
+						</Anchors>
+					</Frame>
 
-			<Button parentKey="NewTag" inherits="MagicButtonTemplate" text="New Tag">
-				<Size x="118" y="22"/>
-				<Anchors> <Anchor point="BOTTOMLEFT"/> </Anchors>
-				<Scripts>
-					<OnClick> self:GetParent().EditPopup:Display() </OnClick>
-				</Scripts>
-			</Button>
+					<Button parentKey="NewTag" inherits="MagicButtonTemplate" text="New Tag">
+						<Size x="118" y="22"/>
+						<Anchors> <Anchor point="BOTTOMLEFT"/> </Anchors>
+						<Scripts>
+							<OnClick> self:GetParent().EditPopup:Display() </OnClick>
+						</Scripts>
+					</Button>
 
-			<Frame parentKey="EditPopup" inherits='IconSelectorPopupFrameTemplate' hidden="true">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
-				</Anchors>
+					<Frame parentKey="EditPopup" inherits='IconSelectorPopupFrameTemplate' hidden="true">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT"/>
+						</Anchors>
+					</Frame>
+				</Frames>
 			</Frame>
 		</Frames>
 	</Frame>

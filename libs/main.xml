@@ -8,6 +8,7 @@
 
 	<Script file="StaleCheck-1.0\StaleCheck-1.0.lua"/>
 	<Script file="MutexDelay-1.0\MutexDelay-1.0.lua"/>
+	<Script file="SecureTabs-2.0\SecureTabs-2.0.lua"/>
 	<Script file="CustomSearch-1.0\CustomSearch-1.0.lua"/>
 
 	<Include file="C_Everywhere\C_Everywhere.xml"/>

@@ -3,7 +3,7 @@
 	Panel for list visualization and configuration.
 --]]
 
-local Frame = Scrap2:NewModule('Frame', Scrap2Frame, 'MutexDelay-1.0')
+local Frame = Scrap2:NewModule('Frame', Scrap2Container.Frame, 'MutexDelay-1.0')
 local Search = LibStub('ItemSearch-1.3')
 local C = LibStub('C_Everywhere')
 
@@ -48,8 +48,8 @@ function Frame:OnLoad()
 		button.id = id
 	end)
 
-	self.activeTag = 1
-	self.searchCondition = self.Yup
+	self.searchCondition, self.activeTag = self.Yup, 1
+	self.Container, self.Tab = Scrap2Container, Scrap2.MerchantTab
 	self.ItemsPriority = TableUtil.CreatePriorityTable(function(a,b)
 		if a.quality ~= b.quality then
 			return a.quality > b.quality
@@ -67,21 +67,34 @@ function Frame:OnLoad()
 	self.OptionsWheel.tooltipTitle = 'General Options'
 	self.OptionsDropdown:SetupMenu(Scrap2.Menus.ItemFilters)
 	self.OptionsDropdown:SetText('Item Filters')
+	self.Container:SetSize(self:GetSize())
 	self.TagsBox:Init(tagList)
 
 	ScrollUtil.InitScrollBoxListWithScrollBar(self.ItemsBox, self.ScrollBar, itemGrid)
-	RegisterUIPanel(self, {area = 'left', pushable = 3,	whileDead = 1})
+	RegisterUIPanel(self.Container, {area = 'left', pushable = 3,	whileDead = 1})
 end
 
 
 --[[ Toggle ]]--
 
 function Frame:Toggle()
-	if self:IsShown() then
-		HideUIPanel(self)
-	else
-		ShowUIPanel(self)
+	if not MerchantFrame:IsShown() or Scrap2.MerchantTab:IsEnabled() then
+		if self:IsVisible() then
+			PlaySound(SOUNDKIT.IG_CHARACTER_INFO_CLOSE)
+			HideUIPanel(self.Container)
+		else
+			PlaySound(SOUNDKIT.IG_CHARACTER_INFO_OPEN)
+			ShowUIPanel(self.Container)
+		end
+
+		self:Anchor(self.Container)
 	end
+end
+
+function Frame:Anchor(parent)
+	self:SetParent(parent)
+	self:SetPoint('TOPLEFT')
+	self:Show()
 end
 
 function Frame:OnShow()
