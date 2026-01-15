@@ -43,9 +43,9 @@ local function taglist(parent, key, ids)
 		local tag = Scrap2.Tags[id]
 		if tag then
 			local hex = tag.color and RGBToColorCode(bright(tag.color.r), bright(tag.color.g), bright(tag.color.b)) or WHITE_FONT_COLOR_CODE
-			local get = function() return (Scrap2.Filters[key] or 0) == tag.id end
+			local get = function() return (Scrap2.Classifier[key] or 0) == tag.id end
 			local set = function()
-				Scrap2.Filters[key] = tag.id
+				Scrap2.Classifier[key] = tag.id
 				Scrap2:SendSignal('LIST_CHANGED')
 			end
 
@@ -92,13 +92,13 @@ function Menus:ItemFilters(drop)
 	taglist(lowLevel:CreateButton('Soulbound'), 'soulboundGear', {1,2,0})
 	taglist(lowLevel:CreateButton('Warbound'), 'warboundGear', {1,2,4,0})
 	taglist(lowLevel:CreateButton('Other'), 'otherGear', {1,2,4,5,0})
-	slider(lowLevel, Scrap2.Filters, 'gearLvl')
+	slider(lowLevel, Scrap2.Classifier, 'gearLvl')
 
 	drop:CreateDivider()
 	drop:CreateTitle('Consumables')
 
 	taglist(drop:CreateButton('Low Level'), 'lowUsable', {1,4,5,0})
-	slider(drop, Scrap2.Filters, 'iLvl')
+	slider(drop, Scrap2.Classifier, 'iLvl')
 
 	drop:CreateDivider()
 	drop:CreateTitle('Other')

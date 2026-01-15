@@ -17,7 +17,7 @@ function Sets:OnLoad()
 
 	Scrap2.Tags = self:SetDefaults({}, Scrap2.BaseTags)
     Scrap2.List = self:SetDefaults({}, Scrap2.BaseList)
-	Scrap2.Filters = self:SetDefaults({}, {})
+	--Scrap2.Filters = self:SetDefaults({}, {})
 
 	--[[for i = 1,10000 do
 		local k = 0

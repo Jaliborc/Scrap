@@ -122,7 +122,7 @@ function Scrap2:IterateInventory(tag)
 			end
 			
 			local item = C.Container.GetContainerItemInfo(bag, slot)
-			if item and not item.isLocked and self:GetTag(item.itemID, bag, slot) == tag then
+			if item and not item.isLocked and self:GetTag(item.itemID) == tag then
 				return bag, slot, item
 			end
 		end
