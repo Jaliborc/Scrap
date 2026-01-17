@@ -1,3 +1,8 @@
+### 11.2.7
+* Added support for Burning Crusade Anniversary realms.
+* Fixed positioning issue of merchant buttons on classic servers.
+* Updated libraries, which include vastly improved performance in item detection.
+
 ### 11.2.6
 * Retail: Added support for Midnight open beta.
 

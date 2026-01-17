@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2025 João Cardoso
+Copyright 2008-2026 João Cardoso
 All Rights Reserved
 --]]
 
@@ -7,10 +7,10 @@ local Sushi = LibStub('Sushi-3.2')
 local Options = Scrap:NewModule('Options', Sushi.OptionsGroup:NewClass())
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap')
 
-local PATRONS = {{title='Jenkins',people={'Gnare','Debora S Ogormanw','Johnny Rabbit','Shaun Potts','Michel Heyn'}},{title='Ambassador',people={'Julia F','Lolari ','Rafael Lins','Ptsdthegamer','Swallow@area52','Adam Mann','Bc Spear','Jury ','Peter Hollaubek','Michael Kinasz','Brian Joaquin','Lisa','M Prieto','Ronald Platz','Airdrigh','Ole Jonny Søndenå'}}} -- generated patron list
+local PATRONS = {{title='Jenkins',people={'Gnare','Johnny Rabbit','Debora S Ogormanw'}},{title='Ambassador',people={'Julia F','Lolari ','Ptsdthegamer','Swallow@area52','Peter Hollaubek','Jury ','Bc Spear','Adam Mann','Michael Kinasz','Ronald Platz','M Prieto','Goldpaw','Brian Joaquin','Ole Jonny Søndenå','Airdrigh','Sean Locko'}}} -- generated patron list
 local PATREON_ICON = '  |TInterface/Addons/Scrap/art/patreon:12:12|t'
 local HELP_ICON = '  |T516770:13:13:0:0:64:64:14:50:14:50|t'
-local FOOTER = 'Copyright 2012-2025 João Cardoso'
+local FOOTER = 'Copyright 2012-2026 João Cardoso'
 
 
 --[[ Startup ]]--

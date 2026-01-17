@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2025 João Cardoso
+Copyright 2008-2026 João Cardoso
 All Rights Reserved
 --]]
 
@@ -160,9 +160,9 @@ if MerchantSellAllJunkButton then
 	function Button:UpdatePosition() end
 else
 	function Button:UpdatePosition()
-		if CanMerchantRepair() then
+		if MerchantRepairAllButton:IsShown() then
 			local off, scale
-			if CanGuildBankRepair and CanGuildBankRepair() then
+			if MerchantGuildBankRepairButton:IsShown() then
 				off, scale = -3.5, 0.9
 				MerchantRepairAllButton:SetPoint('BOTTOMRIGHT', MerchantFrame, 'BOTTOMLEFT', 120, 35)
 			else

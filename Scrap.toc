@@ -9,7 +9,7 @@
 ## OptionalDeps: Bagnon, Bagnonium, WoWUnit
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
-## Interface: 120000, 110205, 50501, 40402, 30404, 20504, 11507
-## Version: 11.2.6
+## Interface: 120001, 110207, 50501, 40402, 30404, 20505, 11507
+## Version: 11.2.7
 
 addons\main\main.xml

@@ -1,9 +1,9 @@
 --[[
-Copyright 2008-2025 João Cardoso
+Copyright 2008-2026 João Cardoso
 All Rights Reserved
 --]]
 
-if WOW_PROJECT_ID ~= WOW_PROJECT_CLASSIC then return end
+if LE_EXPANSION_LEVEL_CURRENT >= LE_EXPANSION_CATACLYSM then return end
 local Prices = Scrap:NewModule('TooltipPrices')
 local C = LibStub('C_Everywhere').Container
 
