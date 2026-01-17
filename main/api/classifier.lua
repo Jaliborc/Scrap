@@ -12,24 +12,37 @@ local COMPANION, MOUNT = Enum.ItemMiscellaneousSubclass.CompanionPet, Enum.ItemM
 local FISHING_POLE = Enum.ItemWeaponSubclass.Fishingpole
 local BIND_EQUIP = Enum.ItemBind.OnEquip
 
-local POOR, COMMON, UNCOMMON, RARE, EPIC = 0,1,2,3,4
+local SHOULDER_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 15 or 25
+local INTRO_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 5 or 15
+
+local ItemQuality = Enum.ItemQuality
+local POOR = ItemQuality.Poor
 local ACTUAL_SLOTS = {
 	ROBE = 'CHEST', CLOAK = 'BACK',
 	RANGEDRIGHT = 'RANGED', THROWN = 'RANGED', RELIC = 'RANGED',
-	WEAPONMAINHAND = 'MAINHAND', WEAPONOFFHAND = 'OFFHAND', HOLDABLE = 'OFFHAND', SHIELD = 'OFFHAND'}
-
-local SHOULDER_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 15 or 25
-local INTRO_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 5 or 15
+	WEAPONMAINHAND = 'MAINHAND', WEAPONOFFHAND = 'OFFHANwD', HOLDABLE = 'OFFHAND', SHIELD = 'OFFHAND'}
 
 
 --[[ Public API ]]--
 
+Classifier.reagents = 3 -- temp
+Classifier.warbound = 4
+Classifier.soulboundGear = 2
+Classifier.warboundGear = 2
+Classifier.otherGear = 2
+Classifier.gearLvl = 0.7
+Classifier.iLvl = 0.7
+
 function Classifier:Run(id, location)
-	local _, link, quality, level,_,_,_,_, slot, _, value, class, subclass, bindType = C.Item.GetItemInfo(id)
+	local _, link, quality, level,_,_,_,_, slot, _, value, class, subclass, bindType, _,_, isReagent = C.Item.GetItemInfo(id)
+	if isReagent then
+		return self.reagents
+	end
 
 	local location = location or self:GuessLocation(id)
 	local level = location and C.Item.GetCurrentItemLevel(location) or level or 0
 	local bound = location and C.Item.IsBound(location)
+	local warbound = bound and C_Bank.IsItemAllowedInBankType(Enum.BankType.Account, location)
 
 	if class == MISC and bound then
 		if subclass == MOUNT then
@@ -41,26 +54,26 @@ function Classifier:Run(id, location)
 		end
 	end
 
-	if not value or value == 0 then
-		return
-
-	elseif class == ARMOR or class == WEAPON then
-		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE then
-			if self.uncollected or link and not Search:IsUncollected(id, link) then
-				if quality == POOR then
-					return bindType ~= BIND_EQUIP and ((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT)
-				elseif quality >= UNCOMMON and quality <= EPIC and C.Item.IsEquippableItem(id) and not Search:BelongsToSet(id) then
-					if self:IsLowEquip(slot, level) or self.unusable and Search:IsUnusable(id) then
-						return bound and self.soulboundGear or self.otherGear
-					end
+	if class == ARMOR or class == WEAPON then
+		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE and C.Item.IsEquippableItem(id) then
+			if link and Search:IsUncollected(id, link) then
+				return self.uncollected
+			elseif quality >= ItemQuality.Uncommon and quality ~= ItemQuality.Legendary and not Search:BelongsToSet(id) then
+				if bound and Search:IsUnusable(id) then
+					return self.unusable
+				elseif self:IsLowEquip(slot, level) then
+					return (warbound and self.warboundGear) or (bound and self.soulboundGear) or self.otherGear
 				end
+			elseif quality == POOR then
+				return bindType ~= BIND_EQUIP and ((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT) and 1
 			end
 		end
-
-	elseif quality == POOR then
-		return bindType ~= BIND_EQUIP and 1
+	elseif warbound then
+		return self.warbound
 	elseif class == CONSUMABLES then
-		return quality < RARE and self:IsLowConsumable(level) and self.lowUsable
+		return quality < ItemQuality.Rare and self:IsLowConsumable(level) and self.consumables
+	elseif quality == POOR and value and value > 0 then
+		return bindType ~= BIND_EQUIP and 1
 	end
 end
 

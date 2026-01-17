@@ -6,6 +6,10 @@
 local Menus = Scrap2:NewModule('Menus')
 local Sushi = LibStub('Sushi-3.2')
 
+local EDIT =  '|TInterface/Addons/Scrap/art/t:14:14:0:0:32:32:0:32:0:32:255:209:0|t ' .. EDIT
+local DELETE = '|TInterface/Addons/Scrap/art/bin:14|t ' .. DELETE
+local NONE = Menus.None
+
 
 --[[ Utils ]]--
 
@@ -38,9 +42,8 @@ local function colorpicker(color)
 	return function() ColorPickerFrame:SetupColorPickerAndShow(info) end, info
 end
 
-local function taglist(parent, key, ids)
-	for _, id in ipairs(ids) do
-		local tag = Scrap2.Tags[id]
+local function taglist(parent, key, incompatible)
+	for id, tag in pairs(tFilter(Scrap2.Tags, function(tag) return not tContains(incompatible or NONE, tag.id) end)) do
 		if tag then
 			local hex = tag.color and RGBToColorCode(bright(tag.color.r), bright(tag.color.g), bright(tag.color.b)) or WHITE_FONT_COLOR_CODE
 			local get = function() return (Scrap2.Classifier[key] or 0) == tag.id end
@@ -86,25 +89,33 @@ function Menus:ItemFilters(drop)
 	drop:SetTag('Scrap2_ItemFilters')
 	drop:CreateTitle('Equipment')
 
-	taglist(drop:CreateButton('Unusable'), 'unusable', {1,2,0})
+	taglist(drop:CreateButton('Uncollected'), 'uncollected')
+	taglist(drop:CreateButton('Unusable'), 'unusable', {4,5})
 
 	local lowLevel = drop:CreateButton('Low Level')
-	taglist(lowLevel:CreateButton('Soulbound'), 'soulboundGear', {1,2,0})
-	taglist(lowLevel:CreateButton('Warbound'), 'warboundGear', {1,2,4,0})
-	taglist(lowLevel:CreateButton('Other'), 'otherGear', {1,2,4,5,0})
+	taglist(lowLevel:CreateButton('Soulbound'), 'soulboundGear', {4,5})
+
+	if Scrap2.Tags[4] then
+		taglist(lowLevel:CreateButton('Warbound'), 'warboundGear', {5})
+	end
+	
+	taglist(lowLevel:CreateButton('Other'), 'otherGear')
 	slider(lowLevel, Scrap2.Classifier, 'gearLvl')
 
 	drop:CreateDivider()
 	drop:CreateTitle('Consumables')
 
-	taglist(drop:CreateButton('Low Level'), 'lowUsable', {1,4,5,0})
+	taglist(drop:CreateButton('Low Level'), 'consumables', {2})
 	slider(drop, Scrap2.Classifier, 'iLvl')
 
 	drop:CreateDivider()
 	drop:CreateTitle('Other')
 
-	taglist(drop:CreateButton('Reagents'), 'reagents', {3,4,5,0})
-	taglist(drop:CreateButton('Warbound'), 'warbound', {4,0})
+	taglist(drop:CreateButton('Reagents'), 'reagents', {2})
+
+	if Scrap2.Tags[4] then
+		taglist(drop:CreateButton('Warbound'), 'warbound', {2,5})
+	end
 end
 
 function Menus:TagOptions(tag)
@@ -121,8 +132,8 @@ function Menus:TagOptions(tag)
 		elseif tag.id >= 3 and tag.id <= 5 then
 			drop:CreateCheckbox('Auto Deposit', toggle(tag, 'deposit'))
 		elseif tag.id >= 50 then
-			drop:CreateButton('|A:AnimCreate_Icon_Text:14:14:0:0:255:209:0|a ' .. EDIT, function() Scrap2.Frame.EditPopup:Display(tag) end)
-			drop:CreateButton('|TInterface/Addons/Scrap/art/bin:14:14|t ' .. DELETE, function()
+			drop:CreateButton(EDIT, function() Scrap2.Frame.EditPopup:Display(tag) end)
+			drop:CreateButton(DELETE, function()
 				Sushi.Popup {
 					text = format('Are you sure you want to delete |cnNORMAL_FONT_COLOR:|A:%s:14:14|a %s|r across all lists?\nThis action cannot be undone.', tag.atlas, tag.name), button1 = OKAY, button2 = CANCEL,
 					OnAccept = function() Scrap2.Frame.EditPopup:SaveTag(tag.id, nil) end,

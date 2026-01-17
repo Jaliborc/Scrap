@@ -5,6 +5,7 @@
 
 local _, Addon = ...
 local C = LibStub('C_Everywhere')
+local L = LibStub('AceLocale-3.0'):GetLocale('Scrap2')
 local Scrap2 = LibStub('WildAddon-1.1'):NewAddon('Scrap2', Addon, 'StaleCheck-1.0', 'MutexDelay-1.0')
 
 Scrap2.MENU_SUFFIX = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC and '   ' or ''
@@ -41,14 +42,14 @@ function Scrap2:SetTag(id, tag)
 	self:SendSignal('LIST_CHANGED')
 end
 
-function Scrap2:GetTag(id, bag, slot)
+function Scrap2:GetTag(id, location)
 	if id then
 		local tagID = self.List[id]
 		if tagID then
 			return tagID
 		end
+		return self.Classifier:Run(id, location) or 0
 	end
-
 	return 0
 end
 
