@@ -11,12 +11,11 @@ function Tab:OnSelect()
 	if AddOnUtil.LoadAddOn('Scrap_Window') then
 		Scrap2.Frame:Anchor(MerchantFrame)
 		Scrap2.Frame:SetFrameLevel(600)
+		HideUIPanel(Scrap2.Frame.Container)
 
-		self:SetFrameLevel(610)
-
+		MerchantFrame.CloseButton:SetFrameLevel(610)
 		MerchantFrame:SetSize(Scrap2.Frame:GetSize())
 		UpdateUIPanelPositions(MerchantFrame)
-		HideUIPanel(Scrap2.Frame.Container)
 	end
 end
 
