@@ -16,7 +16,7 @@ local SHOULDER_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 15 or 25
 local INTRO_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 5 or 15
 
 local ItemQuality = Enum.ItemQuality
-local POOR = ItemQuality.Poor
+local POOR, UNCOMMON = ItemQuality.Poor, ItemQuality.Poor + 2 -- inconsistent between game versions
 local ACTUAL_SLOTS = {
 	ROBE = 'CHEST', CLOAK = 'BACK',
 	RANGEDRIGHT = 'RANGED', THROWN = 'RANGED', RELIC = 'RANGED',
@@ -42,7 +42,7 @@ function Classifier:Run(id, location)
 	local location = location or self:GuessLocation(id)
 	local level = location and C.Item.GetCurrentItemLevel(location) or level or 0
 	local bound = location and C.Item.IsBound(location)
-	local warbound = bound and C_Bank.IsItemAllowedInBankType(Enum.BankType.Account, location)
+	local warbound = bound and C.Bank.IsItemAllowedInBankType(Enum.BankType.Account, location)
 
 	if class == MISC and bound then
 		if subclass == MOUNT then
@@ -58,7 +58,7 @@ function Classifier:Run(id, location)
 		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE and C.Item.IsEquippableItem(id) then
 			if link and Search:IsUncollected(id, link) then
 				return self.uncollected
-			elseif quality >= ItemQuality.Uncommon and quality ~= ItemQuality.Legendary and not Search:BelongsToSet(id) then
+			elseif quality >= UNCOMMON and quality ~= ItemQuality.Legendary and not Search:BelongsToSet(id) then
 				if bound and Search:IsUnusable(id) then
 					return self.unusable
 				elseif self:IsLowEquip(slot, level) then
