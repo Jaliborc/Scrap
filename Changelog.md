@@ -1,3 +1,6 @@
+## 12.0.0
+* Updated TOC numbers for live Midnight realms.
+
 ### 11.2.7
 * Added support for Burning Crusade Anniversary realms.
 * Fixed positioning issue of merchant buttons on classic servers.
