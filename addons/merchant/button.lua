@@ -239,7 +239,7 @@ function Button:Repair()
 	if cost > 0 then
 		local guild = self:CanGuildRepair(cost)
 		if guild or GetMoney() >= cost then
-			Scrap:PrintMoney(L.Repaired, cost)
+			Scrap:PrintMoney(guild and L.GuildRepaired or L.Repaired, cost)
 			RepairAllItems(guild)
 		end
 	end
