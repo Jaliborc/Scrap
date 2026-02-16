@@ -241,6 +241,9 @@ function Button:Repair()
 		if guild or GetMoney() >= cost then
 			Scrap:PrintMoney(L.Repaired, cost)
 			RepairAllItems(guild)
+			if guild then
+				Scrap:Print(L.GuildPay, "MONEY")
+			end
 		end
 	end
 end

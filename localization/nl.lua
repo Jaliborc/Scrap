@@ -19,6 +19,7 @@ L.Destroyed = 'Je hebt vernietigd: %s x %s'
 L.Forgotten = 'Junk-status van: %s vergeten'
 L.SoldJunk = 'Rommel is verkocht voor %s'
 L.Repaired = 'Uitrusting is gerepareerd voor %s'
+L.GuildPay = 'Gerepareerd met gildegelden.'
 L.Removed = 'Als nuttig instellen: %s'
 
 -- dialogs
@@ -60,4 +61,3 @@ L.Tutorial_Button = 'Scrap zal, wanneer een handelaar wordt bezocht, al uw romme
 L.Tutorial_Drag = 'Wat nou als u Scrap wilt vertellen welke items wel en niet verkocht moeten worden? U kunt het dan simpelweg van uw tassen naar de Scrap knop|cffffd200slepen|r.|n|nAls alternatief kunt u een |cffffd200Sneltoets|r instellen in het spel opties menu. Druk het wanneer de muis boven het item zweeft.'
 L.Tutorial_Visualizer = 'Om te zien welke items u als rommel heeft gespecificeerd, open de |cffffd200Scrap Visualizer|r tab.|n|nLet erop dat dit alleen door u |cffffd200gespecificeerde|r items zal tonen, dus niet elke mogelijke item in-game.'
 L.Tutorial_Bye = 'Veel succes met je reizen en moge de |cffb400ffthe epics|r met u zijn. De rommel zal niet voorbijgaan!'
-

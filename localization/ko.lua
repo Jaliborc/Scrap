@@ -18,6 +18,7 @@ L.Destroyed = '파괴됨: %s x %s'
 L.Forgotten = '잡템 상태를 잊어버림: %s'
 L.SoldJunk = '잡템을 판매하고 %s를 획득하였습니다.'
 L.Repaired = '장비를 수리하는데 %s를 소모하였습니다.'
+L.GuildPay = '길드 자금으로 수리했습니다.'
 L.Removed = '예외 아이템으로 설정: %s'
 
 -- dialogs

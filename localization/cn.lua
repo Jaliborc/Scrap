@@ -19,6 +19,7 @@ L.Destroyed = '你摧毁了: %s x %s'
 L.Forgotten = '忘记垃圾状态: %s'
 L.SoldJunk = '出售垃圾获得 %s'
 L.Repaired = '修理装备花费 %s'
+L.GuildPay = '使用公会资金进行维修。'
 L.Removed = '%s 已从垃圾列表移除'
 
 -- dialogs

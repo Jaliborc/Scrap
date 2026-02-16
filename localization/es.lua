@@ -19,6 +19,7 @@ L.Destroyed = 'Has destruido: %s x %s'
 L.Forgotten = 'Definición se es basura olvidada: %s'
 L.SoldJunk = 'Has vendido basura por un valor de: %s'
 L.Repaired = 'Has reparado tu armadura por un valor de: %s'
+L.GuildPay = 'Reparado usando fondos del gremio.'
 L.Removed = 'Has retirado de la lista de basura: %s'
 
 -- dialogs

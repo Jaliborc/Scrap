@@ -19,6 +19,7 @@ L.Destroyed = 'Hai distrutto: %s x %s'
 L.Forgotten = 'Hai dimenticato lo stato di cianfrusaglia di: %s'
 L.SoldJunk = 'Hai venduto le tue Cianfrusaglie per %s'
 L.Repaired = 'Hai riparato il tuo equipaggiamento per %s'
+L.GuildPay = 'Riparato utilizzando i fondi della gilda.'
 L.Removed = 'Imposta come Utile: %s'
 
 -- dialogs

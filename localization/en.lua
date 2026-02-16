@@ -18,6 +18,7 @@ L.Destroyed = 'You destroyed: %s x %s'
 L.Forgotten = 'Forgot junk status of: %s'
 L.SoldJunk = 'You sold your junk for %s'
 L.Repaired = 'You repaired your armor for %s'
+L.GuildPay = 'Repaired using guild funds.'
 L.Removed = 'Set as useful: %s'
 
 -- dialogs

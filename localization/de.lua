@@ -19,6 +19,7 @@ L.Destroyed = 'Du hast zerstört: %s x %s'
 L.Forgotten = 'Müllstatus vergessen von: %s'
 L.SoldJunk = 'Du hast deinen Müll für %s verkauft'
 L.Repaired = 'Du hast deine Ausrüstung für %s repariert'
+L.GuildPay = 'Repariert mit Gildengeldern.'
 L.Removed = 'Von der Müll-Liste entfernt: %s'
 
 -- dialogs

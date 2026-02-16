@@ -19,6 +19,7 @@ L.Destroyed = 'Vous avez détruit : %s x %s'
 L.Forgotten = 'Oublié le statut camelote de : %s'
 L.SoldJunk = 'Camelote vendue pour %s'
 L.Repaired = 'Vous avez réparé votre équipement pour %s'
+L.GuildPay = 'Réparé grâce aux fonds de la guilde.'
 L.Removed = 'Enlevé de la liste de camelote: %s'
 
 -- dialogs

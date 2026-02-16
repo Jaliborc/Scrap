@@ -17,8 +17,9 @@ L.ToggleMousehover = 'Marcar Item Sob o Mouse como Lixo ou Nao'
 L.Added = 'Definido como lixo: %s'
 L.Destroyed = 'Você destruiu: %s x %s'
 L.Forgotten = 'Definição de ser lixo esquecida: %s'
-L.SoldJunk = 'Vendeu seu lixo por %s' 
+L.SoldJunk = 'Vendeu seu lixo por %s'
 L.Repaired = 'Reparou seu equipamento por %s'
+L.GuildPay = 'Reparado com fundos da guilda.'
 L.Removed = 'Definido como útil: %s'
 
 -- dialogs
