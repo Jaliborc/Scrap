@@ -1,3 +1,6 @@
+### 12.0.1
+* Auto-reparing using guild funds now shows a different chat message from your own funds.
+
 ## 12.0.0
 * Updated TOC numbers for live Midnight realms.
 

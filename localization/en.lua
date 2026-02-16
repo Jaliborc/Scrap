@@ -15,8 +15,8 @@ L.ToggleMousehover = 'Toggle Item Under Mouse'
 -- chat
 L.Added = 'Set as junk: %s'
 L.Destroyed = 'You destroyed: %s x %s'
-L.Forgotten = 'Forgot junk status of: %s
-L.GuildRepaired = 'Your guild repaired your armor for %s''
+L.Forgotten = 'Forgot junk status of: %s'
+L.GuildRepaired = 'Your guild repaired your armor for %s'
 L.SoldJunk = 'You sold your junk for %s'
 L.Repaired = 'You repaired your armor for %s'
 L.Removed = 'Set as useful: %s'
