@@ -154,6 +154,7 @@ function Scrap:IsFiltered(id, ...)
 	local _, link, quality, level,_,_,_,_, slot, _, value, class, subclass, bind = C.Item.GetItemInfo(id)
 	local level = location and C.Item.GetCurrentItemLevel(location) or level or 0
 	local bound = location and C.Item.IsBound(location)
+	local valuable = (value or 0) > 0
 
 	if class == MISC and bound then
 		if subclass == MOUNT then
@@ -165,14 +166,11 @@ function Scrap:IsFiltered(id, ...)
 		end
 	end
 
-	if not value or value == 0 then
-		return
-
-	elseif class == ARMOR or class == WEAPON then
+	if class == ARMOR or class == WEAPON then
 		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE then
 			if self.charsets.uncollected or link and not Search:IsUncollected(id, link) then
 				if quality == POOR then
-					return bind ~= BIND_EQUIP and ((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT)
+					return valuable and bind ~= BIND_EQUIP and ((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT)
 				elseif quality >= UNCOMMON and quality <= EPIC and bound then
 					if C.Item.IsEquippableItem(id) and not Search:BelongsToSet(id) then
 						return self:IsLowEquip(slot, level) or self.charsets.unusable and Search:IsUnusable(id)
@@ -182,9 +180,9 @@ function Scrap:IsFiltered(id, ...)
 		end
 
 	elseif quality == POOR then
-		return bind ~= BIND_EQUIP
+		return valuable and bind ~= BIND_EQUIP
 	elseif class == CONSUMABLES then
-		return self.charsets.consumable and quality < RARE and self:IsLowConsumable(level)
+		return valuable and self.charsets.consumable and quality < RARE and self:IsLowConsumable(level)
 	end
 end
 

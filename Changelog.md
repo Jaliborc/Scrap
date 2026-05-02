@@ -1,3 +1,6 @@
+### 12.0.2
+* Can once again delete "valueless" items, including gear. Modified gear filters to account for this change.
+
 ### 12.0.1
 * Auto-reparing using guild funds now shows a different chat message from your own funds.
 
