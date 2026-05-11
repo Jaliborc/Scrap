@@ -187,14 +187,17 @@ function Button:Sell()
 	self.saleTotal = self.saleTotal or self:GetReport()
 
 	local count = 0
+	local deleted = false
+
 	for bag, slot, id in Scrap:IterateJunk() do
 		if not C.Container.GetContainerItemInfo(bag, slot).isLocked then
 			local value = select(11, C.Item.GetItemInfo(id)) or 0
 			if value > 0 then
 				C.Container.UseContainerItem(bag, slot)
-			elseif Scrap.sets.destroy then
+			elseif Scrap.sets.destroy and not deleted then
 				C.Container.PickupContainerItem(bag, slot)
-				DeleteCursorItem()
+				DeleteCursorItem() -- can only delete one per click
+				deleted = true
 			end
 
 			if count < 11 then

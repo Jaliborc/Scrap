@@ -1,3 +1,6 @@
+### 12.0.3
+* As its only possible to delete 1 item per hardware event, sell now only tries to delete up to 1 item (spam button for full clear).
+
 ### 12.0.2
 * Can once again delete "valueless" items, including gear. Modified gear filters to account for this change.
 
