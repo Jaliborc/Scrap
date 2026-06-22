@@ -1,3 +1,7 @@
+### 12.0.4
+* Updated for WoW patch 12.0.7.
+* Updated TOC for Mists.
+
 ### 12.0.3
 * As its only possible to delete 1 item per hardware event, sell now only tries to delete up to 1 item (spam button for full clear).
 

@@ -1,17 +1,17 @@
 <Bindings>
-	<Binding name="SCRAP_TOGGLE" category="SCRAP">
+	<Binding name="SCRAP_TOGGLE" category="Scrap">
 		local item = GameTooltip:IsVisible() and select(2, GameTooltip:GetItem())
 		if item then
 			Scrap:ToggleJunk(tonumber(item:match('item:(%d+)')))
 		end
 	</Binding>
-		<Binding name="SCRAP_DESTROY_ONE" category="SCRAP">
+		<Binding name="SCRAP_DESTROY_ONE" category="Scrap">
 		Scrap:DestroyCheapest()
 	</Binding>
-	<Binding name="SCRAP_DESTROY_ALL" category="SCRAP">
+	<Binding name="SCRAP_DESTROY_ALL" category="Scrap">
 		Scrap:DestroyJunk()
 	</Binding>
-	<Binding name="SCRAP_SELL" category="SCRAP">
+	<Binding name="SCRAP_SELL" category="Scrap">
 		if MerchantFrame:IsShown() and LibStub('C_Everywhere').AddOns.LoadAddOn('Scrap_Merchant') then
 			Scrap.Merchant:Sell()
 		end

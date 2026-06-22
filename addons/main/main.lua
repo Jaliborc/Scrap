@@ -29,7 +29,6 @@ BINDING_NAME_SCRAP_TOGGLE = L.ToggleMousehover
 BINDING_NAME_SCRAP_DESTROY_ONE = L.DestroyCheapest
 BINDING_NAME_SCRAP_DESTROY_ALL = L.DestroyJunk
 BINDING_NAME_SCRAP_SELL = L.SellJunk
-SCRAP = 'Scrap'
 
 
 --[[ Startup ]]--
