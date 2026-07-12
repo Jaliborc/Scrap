@@ -1,3 +1,6 @@
+### 12.0.5
+* Updated TOC for Burning Crusade.
+
 ### 12.0.4
 * Updated for WoW patch 12.0.7.
 * Updated TOC for Mists.
