@@ -1,4 +1,5 @@
-## Title: |TInterface/Addons/Scrap/art/scrap-small:16:16|t Scrap
+## Title: Scrap
+## IconTexture: Interface/Addons/Scrap/art/scrap-small
 
 ## Notes: Sells all your junk at the merchant.|n|cffbbbbbbBy João Cardoso|r|n|n|TInterface/Addons/Scrap/art/patreon:12:12|t |cff82c5ffpatreon.com/jaliborc|r|n|TInterface/Addons/Scrap/art/paypal:12:12|t |cff82c5ffpaypal.me/jaliborc|r|n|TInterface/Addons/Scrap/art/discord:12:12:0:-2|t |cff82c5ffbit.ly/discord-jaliborc|r
 ## Author: Jaliborc (João Cardoso)
@@ -9,7 +10,7 @@
 ## OptionalDeps: Bagnon, Bagnonium, WoWUnit
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
-## Interface: 120007, 50504, 40402, 30404, 20506, 11508
-## Version: 12.0.5
+## Interface: 120007, 50504, 40402, 30404, 20506, 11509
+## Version: 12.0.6
 
 addons\main\main.xml

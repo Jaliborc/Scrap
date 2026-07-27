@@ -1,3 +1,6 @@
+### 12.0.6
+* Updated TOC and addon list format for Classic realms.
+
 ### 12.0.5
 * Updated TOC for Burning Crusade.
 
