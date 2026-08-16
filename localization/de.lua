@@ -1,7 +1,7 @@
 local L = LibStub('AceLocale-3.0'):NewLocale('Scrap', 'deDE')
 if not L then return end
 
--- main
+-- general
 L.Add = 'Zur Müll-Liste hinzufügen'
 L.DestroyCheapest = 'Günstigsten Müllgegenstand zerstören'
 L.DestroyJunk = 'Müll zerstören'
@@ -29,31 +29,49 @@ L.ConfirmDelete = 'Bist Du sicher, dass Du alle Deine Müllgegenstände zerstör
 L.GeneralDescription = 'Diese Optionen gestatten dir, Scrap noch weiter anzupassen. Auf das kein Müll durchkomme!'
 L.ListDescription = 'Diese Optionen gestatten dir, deine Müll-Liste und die automatische Müll-Erkennung weiter anzupassen.'
 
+L.Behaviour = 'Verhalten'
 L.AutoSell = 'Automatisch verkaufen'
 L.AutoSellTip = 'Wenn aktiviert, wird Scrap deinen Müll automatisch beim Händler verkaufen.'
 L.AutoRepair = 'Automatisch reparieren'
 L.AutoRepairTip = 'Wenn aktiviert, wird Scrap automatisch deine Ausrüstung reparieren, sobald du einen Händler besuchst.'
-L.CharSpecific = 'Charakterspezifisch'
 L.DestroyWorthless = 'Wertlosen Müll zerstören'
 L.DestroyWorthlessTip = 'Wenn aktiviert, wird Scrap Müllgegenstände zerstören, die keinen Verkaufswert haben.'
 L.GuildRepair = 'Mit Gildenkasse reparieren'
 L.GuildRepairTip = 'Wenn aktiviert, wird Scrap verfügbare Gildenmittel für Reparaturen vor deinem eigenen Geld verwenden.'
+L.SafeMode = 'Sicherheitsmodus'
+L.SafeModeTip = 'Wenn eingeschaltet, wird Scrap nicht mehr als 12 Gegenstände verkaufen, damit sie zurückgekauft werden können.'
+
+L.Visuals = 'Aussehen'
 L.Glow = 'Leuchtende Rahmen'
 L.GlowTip = 'Wenn aktiviert, werden |cffBBBBBBgrau|r leuchtende Rahmen deine Müll-Gegenstände umgeben.'
 L.Icons = 'Münz-Symbole'
 L.IconsTip = 'Wenn aktiviert, werden kleine Goldmünzen an deinen Müll-Gegenständen angezeigt.'
 L.SellPrices = 'Verkaufspreise im Tooltip anzeigen'
 L.SellPricesTip = 'Wenn aktiviert, werden Verkaufspreise der Gegenstände im Tooltip angezeigt, auch wenn du nicht bei einem Händler bist.'
+
+L.CharSpecific = 'Charakterspezifisch'
 L.Learning = 'Intelligentes Lernen'
 L.LearningTip = 'Wenn aktiviert, wird Scrap lernen, welche Gegenstände du normalerweise beim Händler verkaufst und sie automatisch als Müll einstufen.'
 L.LowConsumable = 'Niedrigstufige Verbrauchsgüter'
 L.LowConsumableTip = 'Wenn aktiviert, wird Scrap |cffff2020alle|r Verbrauchsgüter verkaufen, die für deine Stufe zu niedrig sind.'
 L.LowEquip = 'Niedrigstufige Ausrüstung'
 L.LowEquipTip = 'Wenn aktiviert, wird Scrap |cffff2020alle|r seelengebundene Ausrüstung verkaufen, die im Wert weit unter deiner angelegten liegt.'
-L.SafeMode = 'Sicherheitsmodus'
-L.SafeModeTip = 'Wenn eingeschaltet, wird Scrap nicht mehr als 12 Gegenstände verkaufen, damit sie zurückgekauft werden können.'
 L.Unusable = 'Unbenutzbare Ausrüstung'
 L.UnusableTip = 'Wenn aktiviert, wird Scrap |cffff2020alle|r seelengebundene Ausrüstung verkaufen, die von deinem Charakter nie genutzt werden könnte.'
+L.iLevelTreshold = 'Gegenstandsstufen-Grenzwert'
+L.EquipLevelTip = 'Steuert die Gegenstandsstufe, unterhalb der Gegenstände Müll sind, basierend auf einem Prozentsatz deiner aktuellen Ausrüstungsstufe.|n|nZum Beispiel: Bei 100% ist jeder Gegenstand unter deiner angelegten Stufe Müll; bei 50% nur Gegenstände unter der Hälfte dieser Stufe.'
+L.ConsumableLevelTip = 'Steuert die Gegenstandsstufe, unterhalb der Verbrauchsgüter Müll sind, berechnet als Prozentsatz deiner Charakterstufe.'
+
+-- help
+L.PatronsDescription = 'Scrap wird kostenlos verteilt und durch Spenden unterstützt. Ein riesiges Dankeschön an alle Unterstützer auf Patreon und Paypal, die die Entwicklung am Leben halten. Du kannst auch Unterstützer werden auf |cFFF96854patreon.com/jaliborc|r.'
+L.HelpDescription = 'Hier bieten wir Antworten auf die am häufigsten gestellten Fragen. Wir empfehlen auch das Befolgen des spielinternen Tutorials. Wenn beides dein Problem nicht löst, kannst du in der Scrap-Benutzercommunity auf Discord um Hilfe bitten.'
+
+L.FAQ = {
+	'Wie füge ich einen Gegenstand zur Müll-Liste hinzu oder entferne ihn?',
+	'Es gibt mehrere Möglichkeiten:|n1) Die einfachste ist, den Gegenstand bei einem Händler auf die Scrap-Schaltfläche zu ziehen (neben den Rüstungsreparatur-Schaltflächen).|n2) Du kannst eine Tastenbelegung unter Spielmenü -> Tastaturbelegung -> Scrap -> "Müllstatus für den Gegenstand unterm Mauszeiger ändern" einrichten. Fahre dann mit der Maus über Gegenstände im Inventar und drücke die Taste.|n3) Du kannst die hinzugefügten oder entfernten Gegenstände im Scrap-Reiter unten im Händlerfenster verwalten (neben dem Rückkauf-Reiter).',
+	'Das Scrap-Symbol wird bei Gegenständen in Bagnon nicht angezeigt!',
+	'Diese Funktionalität ist nicht Teil des Kern-Addons Scrap, sondern Teil eines separaten Plugins. Versuche |cffffd200Bagnon Scrap Support|r zu installieren oder zu aktualisieren.'
+}
 
 -- tutorials
 L.Tutorial_Welcome = 'Willkommen bei |cffffd200Scrap|r, der intelligenten Müllverkaufslösung von |cffffd200Jaliborc|r. Diese kurze Anleitung wird dir helfen, mit dem Verkauf deiner Müllgegenstände zu beginnen.|n|nEs wird dir Zeit sparen und deine Taschen werden es dir sicherlich danken. Sollen wir beginnen?'
