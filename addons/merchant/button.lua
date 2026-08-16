@@ -30,7 +30,6 @@ function Button:OnLoad()
 	self:SetScript('OnClick', self.OnClick)
 
 	if MerchantSellAllJunkButton then
-		hooksecurefunc('MerchantFrame_UpdateMerchantInfo', function() MerchantSellAllJunkButton:Show() end)
 		self:SetAllPoints(MerchantSellAllJunkButton)
 	else
 		local background = self:CreateTexture(nil, 'BACKGROUND')
