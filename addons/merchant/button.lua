@@ -11,12 +11,15 @@ local C = LibStub('C_Everywhere')
 --[[ Events ]]--
 
 function Button:OnLoad()
+	local border = self:CreateTexture(nil, 'BACKGROUND')
+	local background = self:CreateTexture(nil, 'BORDER')
+
 	local icon = self:CreateTexture()
 	icon:SetTexture(MerchantSellAllJunkButton and 'Interface/Addons/Scrap/Art/Scrap-Big' or 'Interface/Addons/Scrap/Art/Scrap-Small')
 	icon:SetPoint('CENTER')
 	icon:SetSize(33, 33)
 
-	self.icon, self.border = icon, self:CreateTexture(nil, 'OVERLAY')
+	self.icon, self.border = icon, border
 	self:SetHighlightTexture('Interface/Buttons/ButtonHilight-Square', 'ADD')
 	self:SetPushedTexture('Interface/Buttons/UI-Quickslot-Depress')
 	self:RegisterForClicks('AnyUp')
@@ -30,17 +33,22 @@ function Button:OnLoad()
 	self:SetScript('OnClick', self.OnClick)
 
 	if MerchantSellAllJunkButton then
-		hooksecurefunc('MerchantFrame_UpdateMerchantInfo', function() MerchantSellAllJunkButton:Show() end)
+		background:SetAllPoints()
+		background:SetAtlas('SpellIcon-256x256-SellJunk')
+		
+		border:SetTexture('Interface/Buttons/UI-EmptySlot')
+		border:SetPoint('TOPLEFT', self, 'TOPLEFT', -13, 14)
+		border:SetSize(64, 64)
+
 		self:SetAllPoints(MerchantSellAllJunkButton)
 	else
-		local background = self:CreateTexture(nil, 'BACKGROUND')
 		background:SetPoint('CENTER', -0.5, -1.2)
 		background:SetColorTexture(0, 0, 0)
 		background:SetSize(27, 27)
 
-		self.border:SetTexture('Interface/Addons/Scrap/art/merchant-border')
-		self.border:SetSize(35.9, 35.9)
-		self.border:SetPoint('CENTER')
+		border:SetTexture('Interface/Addons/Scrap/art/merchant-border')
+		border:SetSize(35.9, 35.9)
+		border:SetPoint('CENTER')
 
 		hooksecurefunc('MerchantFrame_UpdateRepairButtons', function() self:UpdatePosition() end)
 	end
