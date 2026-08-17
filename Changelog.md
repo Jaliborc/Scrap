@@ -1,3 +1,6 @@
+## 12.1
+* Added support for 12.1 servers (co-authored by _lucienve_).
+
 ### 12.0.6
 * Updated TOC and addon list format for Classic realms.
 

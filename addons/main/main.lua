@@ -266,17 +266,14 @@ function Scrap:PrintMoney(pattern, value)
 end
 
 function Scrap:Print(text, channel)
+	local info = ChatTypeInfo[channel]
+	local event = 'CHAT_MSG_' .. channel
+
 	local i = 1
 	local frame = _G['ChatFrame' .. i]
- 	local channel = 'CHAT_MSG_' .. channel
-
 	while frame do
-		if frame:IsEventRegistered(channel) then
-			if frame.MessageEventHandler then
-				frame:MessageEventHandler(channel, text, '', nil, '')
-			elseif ChatFrame_MessageEventHandler then
-				ChatFrame_MessageEventHandler(frame, channel, text, '', nil, '')
-			end
+		if frame:IsEventRegistered(event) then
+			frame:AddMessage(text, info.r, info.g, info.b, info.id)
 		end
 
 		i = i + 1
