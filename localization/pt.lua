@@ -23,7 +23,7 @@ L.Repaired = 'Reparou seu equipamento por %s'
 L.Removed = 'Definido como útil: %s'
 
 -- dialogs
-L.ConfirmDelete = 'Tem certeza de que deseja destruir todos os seus itens inúteis? Esta ação não pode ser desfeita.'
+L.ConfirmDelete = 'Tem certeza de que deseja destruir todos os seus itens inúteis? Esta ação não pode ser anulada.'
 
 -- options
 L.GeneralDescription = 'Estas são funcionalidades gerais que podem ser ativadas ou desativadas de acordo com suas preferências. O lixo não passará!'
@@ -31,10 +31,10 @@ L.ListDescription = 'Estas opções permitem que você configure sua lista de li
 
 L.Behaviour = 'Comportamento'
 L.AutoSell = 'Vender Automaticamente'
-L.AutoSellTip = 'Se ativado, o Scrap venderá automaticamente todo o seu lixo quando visitar um comerciante.'
+L.AutoSellTip = 'Se ativado, o Scrap venderá automaticamente todo o lixo quando visitar um comerciante.'
 L.AutoRepair = 'Reparar Automaticamente'
-L.AutoRepairTip = 'Se ativado, o Scrap irá reparar automaticamente sua armadura ao visitar um comerciante.'
-L.DestroyWorthless = 'Destruir Itens Sem Valor'
+L.AutoRepairTip = 'Se ativado, o Scrap irá reparar automaticamente a sua armadura ao visitar um comerciante.'
+L.DestroyWorthless = 'Destruir Itens sem Valor'
 L.DestroyWorthlessTip = 'Se ativado, o Scrap irá destruir itens inúteis que não têm valor de venda.'
 L.GuildRepair = 'Usar Fundos da Guilda'
 L.GuildRepairTip = 'Se ativado, o Scrap usará fundos disponíveis da guilda para reparos antes do seu próprio dinheiro.'
@@ -49,7 +49,7 @@ L.IconsTip = 'Se ativado, pequenas moedas de ouro aparecerão nos seus itens do 
 L.SellPrices = 'Preços na Dica de Ferramenta'
 L.SellPricesTip = 'Se ativado, os preços de venda dos itens serão mostrados nas dicas de ferramenta, mesmo quando não estiver em um comerciante.'
 
-L.CharSpecific = 'Específico de Personagem'
+L.CharSpecific = 'Específico por Personagem'
 L.Learning = 'Otimização Automática'
 L.LearningTip = 'Se ativado, o Scrap observará e aprenderá quais itens você geralmente vende para o comerciante e irá marcá-los como lixo automaticamente.'
 L.LowConsumable = 'Consumíveis Baixos'
