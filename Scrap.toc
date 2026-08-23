@@ -11,6 +11,6 @@
 ## SavedVariablesPerCharacter: Scrap_CharSets
 ## SavedVariables: Scrap_Sets
 ## Interface: 120100, 50504, 40402, 30404, 20506, 11509
-## Version: 12.1
+## Version: 12.1.1
 
 addons\main\main.xml
