@@ -1,3 +1,6 @@
+### 12.1.2
+* Updated dependencies to latest versions.
+
 ## 12.1.1
 * Retail: Now prevents taint by not interacting with the native sell merchant button (initially suggested by _mwf19_).
 * Overall localization update (by _lucienve_).
