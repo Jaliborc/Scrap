@@ -158,7 +158,7 @@ function Button:UpdateTip(tooltip)
 			tooltip:AddDoubleLine(_G['ITEM_QUALITY' .. quality .. '_DESC'], count, r,g,b, r,g,b)
 		end
 
-		tooltip:AddLine(value > 0 and GetCoinTextureString(value) or ITEM_UNSELLABLE, 1,1,1)
+		tooltip:AddLine(value > 0 and GetMoneyString(value, true) or ITEM_UNSELLABLE, 1,1,1)
 	end
 
 	tooltip:Show()

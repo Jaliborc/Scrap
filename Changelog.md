@@ -1,3 +1,6 @@
+### 12.1.3
+* Updated to WoW Forever.
+
 ### 12.1.2
 * Updated dependencies to latest versions.
 
