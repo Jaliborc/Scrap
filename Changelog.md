@@ -1,3 +1,6 @@
+### 12.1.4
+* Disabled welcome screen on Forever servers because game client is bugged, making it appear every time (very annoying).
+
 ### 12.1.3
 * Updated to WoW Forever.
 

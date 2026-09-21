@@ -44,8 +44,9 @@ function Scrap:OnLoad()
 		end)
 	end)
 
+	local isForever = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_CLASSIC
 	Scrap_Sets, Scrap_CharSets = self.sets, self.charsets
-	if (Scrap_Sets.tutorial or 0) > 0 then
+	if (Scrap_Sets.tutorial or 0) > 0 or isForever then -- temporary while forever is bugged
 		SettingsPanel.CategoryList:HookScript('OnShow', function() C.AddOns.LoadAddOn('Scrap_Config') end)
 	else
 		C.AddOns.LoadAddOn('Scrap_Config')
