@@ -71,3 +71,7 @@ function Tutorials:Restart()
 	self:ResetTutorials()
 	self:TriggerTutorial(1)
 end
+
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and LE_EXPANSION_LEVEL_CURRENT == LE_EXPANSION_CLASSIC then
+	Tutorials.TriggerTutorial = nop -- temporary while forever is bugged
+end

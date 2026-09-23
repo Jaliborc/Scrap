@@ -1,5 +1,8 @@
+### 12.1.5
+* __Forever__: For now, made the addon entirely incapable of showing the tutorial panels on the beta servers.
+
 ### 12.1.4
-* Disabled welcome screen on Forever servers because game client is bugged, making it appear every time (very annoying).
+* __Forever__: Disabled welcome screen on these servers because game client is bugged, making it appear every time (very annoying).
 
 ### 12.1.3
 * Updated to WoW Forever.
