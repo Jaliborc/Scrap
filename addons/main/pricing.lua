@@ -3,7 +3,7 @@ Copyright 2008-2026 João Cardoso
 All Rights Reserved
 --]]
 
-if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE or LE_EXPANSION_LEVEL_CURRENT >= LE_EXPANSION_CATACLYSM then return end
+if (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE or WOW_PROJECT_ID == WOW_PROJECT_CAMELOT) or LE_EXPANSION_LEVEL_CURRENT >= LE_EXPANSION_CATACLYSM then return end
 local Prices = Scrap:NewModule('TooltipPrices')
 local C = LibStub('C_Everywhere')
 
