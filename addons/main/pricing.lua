@@ -70,7 +70,8 @@ end
 
 function Prices.OnLoot(tip, slot)
 	if slot then
-		Prices:AddLine(tip, GetLootSlotLink(slot), GetLootInfo()[slot].quantity)
+		local info = GetLootInfo()
+		Prices:AddLine(tip, GetLootSlotLink(slot), info and info[slot] and info[slot].quantity)
 	end
 end
 
