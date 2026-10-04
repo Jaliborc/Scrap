@@ -1,3 +1,6 @@
+### 12.1.6
+* __Forever__: Updated for the new beta build.
+
 ### 12.1.5
 * __Forever__: For now, made the addon entirely incapable of showing the tutorial panels on the beta servers.
 
