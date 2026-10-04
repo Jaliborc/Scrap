@@ -1,3 +1,6 @@
+### 12.1.7
+* __Forever__: Updated SecureTabs dependency for new beta build.
+
 ### 12.1.6
 * __Forever__: Updated for the new beta build.
 
