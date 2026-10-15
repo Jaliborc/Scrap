@@ -1,3 +1,6 @@
+### 12.1.8
+* TOC update.
+
 ### 12.1.7
 * __Forever__: Updated SecureTabs dependency for new beta build.
 
