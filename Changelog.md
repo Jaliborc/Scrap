@@ -1,3 +1,6 @@
+### 12.1.10
+* Unusable poor and soulbound common gear are now considered junk by default.
+
 ### 12.1.9
 * __Forever__ and __Classic__: Lowered the item level required for gray gear to be considered junk (now its 20 for shoulders, 10 for everything else).
 

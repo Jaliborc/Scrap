@@ -169,10 +169,16 @@ function Scrap:IsFiltered(id, ...)
 		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE then
 			if self.charsets.uncollected or link and not Search:IsUncollected(id, link) then
 				if quality == POOR then
-					return valuable and bind ~= BIND_EQUIP and ((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT)
-				elseif quality >= UNCOMMON and quality <= EPIC and bound then
-					if C.Item.IsEquippableItem(id) and not Search:BelongsToSet(id) then
-						return self:IsLowEquip(slot, level) or self.charsets.unusable and Search:IsUnusable(id)
+					return valuable and bind ~= BIND_EQUIP and (
+						((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT) or
+						(C.Item.IsEquippableItem(id) and Search:IsUnusable(id)))
+				elseif bound then
+					if quality == COMMON then
+						return C.Item.IsEquippableItem(id) and Search:IsUnusable(id)
+					elseif quality <= EPIC then
+						if C.Item.IsEquippableItem(id) and not Search:BelongsToSet(id) then
+							return self:IsLowEquip(slot, level) or self.charsets.unusable and Search:IsUnusable(id)
+						end
 					end
 				end
 			end
