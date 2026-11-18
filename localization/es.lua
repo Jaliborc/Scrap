@@ -40,6 +40,8 @@ L.GuildRepair = 'Usar fondos de la hermandad'
 L.GuildRepairTip = 'Si está activado, Scrap utilizará los fondos de la hermandad disponibles para reparaciones antes que tu propio oro.'
 L.SafeMode = 'Modo seguro'
 L.SafeModeTip = 'Si está activado, Scrap no venderá más de 12 items a la vez, por lo que siempre podrás recuperarlos.'
+L.ShowIncome = 'Mostrar ingresos'
+L.ShowIncomeTip = 'Si está activado, Scrap mostrará el ingreso total por la venta de items basura.'
 
 L.Visuals = 'Visuales'
 L.Glow = 'Bordes brillantes'

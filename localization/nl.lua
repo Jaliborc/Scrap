@@ -40,6 +40,8 @@ L.GuildRepair = 'Gebruik Gilde Fonds'
 L.GuildRepairTip = 'Scrap zal in plaats van eigen geld, eerst gilde fonds automatisch gebruiken voor reparaties, in het geval dit is ingesteld.'
 L.SafeMode = 'Veilige Modus'
 L.SafeModeTip = 'Scrap zal niet meer dan 12 items in één keer verkopen, zodat deze altijd nog terug gekocht kunnen worden, in het geval dit is ingesteld.'
+L.ShowIncome = 'Toon Inkomsten'
+L.ShowIncomeTip = 'Scrap zal de totale inkomsten van de verkoop van rommel weergeven, in het geval dit is ingesteld.'
 
 L.Visuals = 'Visueel'
 L.Glow = 'Gloeiende Randen'

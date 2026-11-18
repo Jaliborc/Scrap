@@ -40,6 +40,8 @@ L.GuildRepair = 'Mit Gildenkasse reparieren'
 L.GuildRepairTip = 'Wenn aktiviert, wird Scrap verfügbare Gildenmittel für Reparaturen vor deinem eigenen Geld verwenden.'
 L.SafeMode = 'Sicherheitsmodus'
 L.SafeModeTip = 'Wenn eingeschaltet, wird Scrap nicht mehr als 12 Gegenstände verkaufen, damit sie zurückgekauft werden können.'
+L.ShowIncome = 'Einnahmen anzeigen'
+L.ShowIncomeTip = 'Wenn eingeschaltet, wird Scrap die gesamten Einnahmen aus dem Verkauf von Müllgegenständen anzeigen.'
 
 L.Visuals = 'Aussehen'
 L.Glow = 'Leuchtende Rahmen'

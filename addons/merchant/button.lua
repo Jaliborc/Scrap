@@ -218,7 +218,7 @@ function Button:Sell()
 
 	local remaining = self:GetReport()
 	if remaining == 0 or Scrap.sets.safe then
-		if count > 0 then
+		if count > 0 and Scrap.sets.income then
 			Scrap:PrintMoney(L.SoldJunk, self.saleTotal - remaining)
 		end
 

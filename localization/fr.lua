@@ -40,6 +40,8 @@ L.GuildRepair = 'Réparer avec l\'argent de la guilde'
 L.GuildRepairTip = 'Si cette option est activée, Scrap utilisera l\'argent de la guilde pour réparer avant d\'utiliser votre monnaie.'
 L.SafeMode = 'Mode Sécurisé'
 L.SafeModeTip = 'Si cette option est activée, Scrap ne vendra pas plus de 12 objets à la fois, de façon à ce que vous puissiez les racheter.'
+L.ShowIncome = 'Afficher les revenus'
+L.ShowIncomeTip = 'Si cette option est activée, Scrap affichera le revenu total provenant de la vente de camelote.'
 
 L.Visuals = 'Visuels'
 L.Glow = 'Bordures éclatantes'

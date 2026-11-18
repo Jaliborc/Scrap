@@ -39,6 +39,8 @@ L.GuildRepair = 'Use Guild Funds'
 L.GuildRepairTip = 'If enabled, Scrap will use available guild funds for repairs before your own money.'
 L.SafeMode = 'Safe Mode'
 L.SafeModeTip = 'If enabled, Scrap will not sell more than 12 items at once, so that you may always buy them back.'
+L.ShowIncome = 'Show Income'
+L.ShowIncomeTip = 'If enabled, Scrap will display the total income from selling junk items.'
 
 L.Visuals = 'Visuals'
 L.Glow = 'Glowing Borders'

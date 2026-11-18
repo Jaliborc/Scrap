@@ -40,6 +40,8 @@ L.GuildRepair = 'Usar Fundos da Guilda'
 L.GuildRepairTip = 'Se ativado, o Scrap usará fundos disponíveis da guilda para reparos antes do seu próprio dinheiro.'
 L.SafeMode = 'Modo Seguro'
 L.SafeModeTip = 'Se ativado, o Scrap não venderá mais de 12 itens de uma só vez, para que você possa sempre comprá-los de volta.'
+L.ShowIncome = 'Mostrar Renda'
+L.ShowIncomeTip = 'Se ativado, o Scrap exibirá a renda total da venda de itens inúteis.'
 
 L.Visuals = 'Visuais'
 L.Glow = 'Bordas Brilhantes'
