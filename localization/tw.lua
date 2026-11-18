@@ -40,6 +40,8 @@ L.GuildRepair = '公會修理'
 L.GuildRepairTip = '開啟此功能，Scrap 會使用公會基金進行修理，優先於你的個人資金。'
 L.SafeMode = '安全模式'
 L.SafeModeTip = '開啟此功能，Scrap 一次最多只會賣出 12 項物品，讓你能再度買回。'
+L.ShowIncome = '顯示收入'
+L.ShowIncomeTip = '開啟此功能，Scrap 會顯示出售垃圾物品的總收入。'
 
 L.Visuals = '視覺'
 L.Glow = '泛光邊框'

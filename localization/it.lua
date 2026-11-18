@@ -40,6 +40,8 @@ L.GuildRepair = 'Usa Fondi di Gilda'
 L.GuildRepairTip = 'Se abilitato, Scrap userà per riparare i fondi di gilda disponibili prima di usare i tuoi.'
 L.SafeMode = 'Modalità di Sicurezza'
 L.SafeModeTip = 'Se abilitato, Scrap non venderà più di 12 oggetti alla volta, così puoi deciderli di riacquistarli se cambi idea.'
+L.ShowIncome = 'Mostra Entrate'
+L.ShowIncomeTip = 'Se abilitato, Scrap mostrerà il totale delle entrate derivanti dalla vendita delle cianfrusaglie.'
 
 L.Visuals = 'Aspetto'
 L.Glow = 'Bordi Luccicanti'

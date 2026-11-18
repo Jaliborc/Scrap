@@ -40,6 +40,8 @@ L.GuildRepair = '길드 자금 사용'
 L.GuildRepairTip = '활성화된 경우, 수리에 길드 자금을 사용합니다.'
 L.SafeMode = '안전 모드'
 L.SafeModeTip = '활성화된 경우, 항상 재매입이 가능하도록 한번에 12개 이상의 아이템은 판매하지 않습니다.'
+L.ShowIncome = '수익 표시'
+L.ShowIncomeTip = '활성화된 경우, 잡템 판매로 얻은 총 수익을 표시합니다.'
 
 L.Visuals = '시각 효과'
 L.Glow = '테두리 강조'
