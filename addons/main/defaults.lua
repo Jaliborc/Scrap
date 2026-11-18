@@ -3,7 +3,7 @@ Copyright 2008-2026 João Cardoso
 All Rights Reserved
 --]]
 
-Scrap.Defaults = {list = {}, sell = true, repair = true, safe = true, destroy = true, glow = true, icons = true, prices=true}
+Scrap.Defaults = {list = {}, sell = true, repair = true, safe = true, destroy = true, income = true, glow = true, icons = true, prices=true}
 Scrap.CharDefaults = {list = {}, auto = {}, equipLvl = 0.15, consumableLvl = 0.15}
 Scrap.BaseList = {
 	[90561] = false,

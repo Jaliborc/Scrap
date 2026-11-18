@@ -41,6 +41,7 @@ function Options:OnMain()
 	self:AddCheck {set = 'guild', text = 'GuildRepair', parent = 'repair'}
 	self:AddCheck {set = 'safe', text = 'SafeMode'}
 	self:AddCheck {set = 'destroy', text = 'DestroyWorthless'}
+	self:AddCheck {set = 'income', text = 'ShowIncome'}
 
 	self:AddHeader(L.Visuals)
 	self:AddCheck {set = 'icons', text = 'Icons'}
