@@ -15,7 +15,7 @@ function Frame:OnLoad()
 	title:SetText('Scrap2')
 
 	local portrait = self.portrait or self.PortraitContainer.portrait
-	portrait:SetTexture('Interface/Addons/Scrap/art/scrap-big')
+	portrait:SetTexture('Interface/Addons/Scrap2/art/scrap-big')
 
 	local backdrop = portrait:GetParent():CreateTexture(nil, 'BORDER')
 	backdrop:SetColorTexture(0, 0, 0)

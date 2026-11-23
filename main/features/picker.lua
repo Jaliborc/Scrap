@@ -14,8 +14,10 @@ function Picker:Open()
 			drop:CreateTitle(Scrap2:GetItemName(id))
 
 			for i, tag in pairs(Scrap2.Tags) do
-				drop:CreateRadio(tag.name .. Scrap2.MENU_SUFFIX, function() return Scrap2:GetTag(id) == i end, function() Scrap2:SetTag(id, i) end)
-					:AddInitializer(self:Initializer(tag))
+				if tag.enabled then
+					drop:CreateRadio(tag.name .. Scrap2.MENU_SUFFIX, function() return Scrap2:GetTag(id) == i end, function() Scrap2:SetTag(id, i) end)
+						:AddInitializer(self:Initializer(tag))
+				end
 			end
 		end)
 	end

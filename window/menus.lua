@@ -6,8 +6,8 @@
 local Menus = Scrap2:NewModule('Menus')
 local Sushi = LibStub('Sushi-3.2')
 
-local EDIT =  '|TInterface/Addons/Scrap/art/t:14:14:0:0:32:32:0:32:0:32:255:209:0|t ' .. EDIT
-local DELETE = '|TInterface/Addons/Scrap/art/bin:14|t ' .. DELETE
+local EDIT =  '|TInterface/Addons/Scrap2/art/t:14:14:0:0:32:32:0:32:0:32:255:209:0|t ' .. EDIT
+local DELETE = '|TInterface/Addons/Scrap2/art/bin:14|t ' .. DELETE
 local NONE = Menus.None
 
 
@@ -122,6 +122,7 @@ function Menus:TagOptions(tag)
 	return function(_, drop)
 		drop:SetTag('Scrap2_TagOptions')
 		drop:CreateTitle(tag.name)
+		drop:CreateCheckbox('Enabled', toggle(tag, 'enabled'))
 		drop:CreateCheckbox('Show Icon', toggle(tag, 'stamp'))
 		drop:CreateCheckbox('Glow', toggle(tag, 'glow')):CreateColorSwatch('Color', colorpicker(tag.color))
 		drop:QueueDivider()

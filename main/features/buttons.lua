@@ -7,7 +7,7 @@ local Buttons = Scrap2:NewModule('Buttons')
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap2')
 local C = LibStub('C_Everywhere')
 
-local DEPOSIT_BANK = L.Deposit .. ' |TInterface/Addons/Scrap/art/crate:20:20|t'
+local DEPOSIT_BANK = L.Deposit .. ' |TInterface/Addons/Scrap2/art/crate:20:20|t'
 local DEPOSIT_WARBAND = L.Deposit .. ' |A:warbands-icon:20:20|a'
 
 
@@ -26,7 +26,7 @@ function Buttons:OnLoad()
 		end
 	else
 		local deposit = CreateFrame('Button', nil, BankFrame, 'UIPanelSquareButton')
-		deposit.icon:SetTexture('Interface/Addons/Scrap/art/scrap-small')
+		deposit.icon:SetTexture('Interface/Addons/Scrap2/art/scrap-small')
 		deposit.icon:SetTexCoord(0.1,0.9,0.1,0.9)
 		deposit:SetPoint('TOPRIGHT', -50,-40)
 
@@ -37,7 +37,7 @@ function Buttons:OnLoad()
 
 	EventUtil.ContinueOnAddOnLoaded('Blizzard_GuildBankUI', function()
 		local deposit = CreateFrame('Button', nil, GuildBankFrame, 'UIPanelButtonTemplate')
-		deposit:SetText('Deposit Items |TInterface/Addons/Scrap/art/banner:18:18|t')
+		deposit:SetText('Deposit Items |TInterface/Addons/Scrap2/art/banner:18:18|t')
 		deposit:SetPoint('BOTTOMLEFT', 10,30)
 		deposit:SetSize(150, 21)
 
@@ -47,7 +47,7 @@ function Buttons:OnLoad()
 	-- merchant 
 	local button = MerchantSellAllJunkButton or CreateFrame('Button', nil, MerchantBuyBackItem)
 	button.Art = button:CreateTexture()
-	button.Art:SetTexture('Interface/Addons/Scrap/art/scrap-big')
+	button.Art:SetTexture('Interface/Addons/Scrap2/art/scrap-big')
 	button.Art:SetPoint('CENTER')
 	button.Art:SetSize(33, 33)
 
@@ -65,7 +65,7 @@ function Buttons:OnLoad()
 		button.Bg:SetSize(27, 27)
 
 		button.Icon = button:CreateTexture(nil, 'OVERLAY')
-		button.Icon:SetTexture('Interface/Addons/Scrap/art/merchant-border')
+		button.Icon:SetTexture('Interface/Addons/Scrap2/art/merchant-border')
 		button.Icon:SetSize(35.9, 35.9)
 		button.Icon:SetPoint('CENTER')
 

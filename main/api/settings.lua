@@ -1,47 +1,29 @@
 --[[
 	Copyright 2008-2025 João Cardoso, All Rights Reserved
-	Initalization of tags, lists and other settings.
+	Initalization of tags, lists and general settings.
 --]]
 
 local Sets = Scrap2:NewModule('Settings')
 local L = LibStub('AceLocale-3.0'):GetLocale('Scrap2')
+local C = LibStub('C_Everywhere')
 
-function Sets:OnLoad()
-	for id, tag in ipairs(Scrap2.BaseTags) do
-		local r,g,b = unpack(tag.color)
 
-		tag.id, tag.color = id, {r=r, g=g, b=b}
-		tag.glow, tag.stamp, tag.auto = true, true, true
-		tag.limit = tag.limit or math.huge
-	end
-
-	Scrap2.Tags = self:SetDefaults({}, Scrap2.BaseTags)
-    Scrap2.List = self:SetDefaults({}, Scrap2.BaseList)
-	--Scrap2.Filters = self:SetDefaults({}, {})
-
-	--[[for i = 1,10000 do
-		local k = 0
-		while not C_Item.GetItemInfoInstant(k) do
-			k = fastrandom(1, 50000)
-		end
-
-		Scrap2.List[k] = fastrandom(0,3)
-	end]]--
-end
+--[[ Defaults ]]--
 
 Scrap2.BaseTags = {
-	[0] = {name = L.None, id=0},
-	[1] = {name = L.Junk, icon = 'Interface/Addons/Scrap/art/coin', color = {ITEM_QUALITY_COLORS[0].color:GetRGB()}, limit = 12, safe = true},
-	[2] = {name = L.Disenchant, icon = 'Interface/Addons/Scrap/art/disenchant', color = {0.67, 0.439, 0.89}},
-	[3] = {name = L.Bank, icon = 'Interface/Addons/Scrap/art/crate', color = {0.45, 0.32, 0.15}, type = 0}
+	[0] = {name = L.None, color = {1,1,1,0}},
+	[1] = {name = L.Junk, icon = 'Interface/Addons/Scrap2/art/coin', color = {ITEM_QUALITY_COLORS[0].color:GetRGB()}, limit = 12, safe = true},
+	[2] = {name = L.Disenchant, icon = 'Interface/Addons/Scrap2/art/disenchant', color = {0.67, 0.439, 0.89}, event = 'SKILL_LINES_CHANGED', callback = function(tag) tag.enabled = Sets:IsPlayerEnchanter() end},
+	[3] = {name = L.Bank, icon = 'Interface/Addons/Scrap2/art/crate', color = {0.45, 0.32, 0.15}, type = 0}
 }
 
-if Constants.InventoryConstants.NumAccountBankSlots then
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
 	Scrap2.BaseTags[4] = {name = L.Warband, atlas = 'warbands-icon', color = {0.45, 0.32, 0.15}, type = 2}
 end
 
 if GuildBankFrame_LoadUI then
-	Scrap2.BaseTags[5] = {name = L.Guild, icon = 'Interface/Addons/Scrap/art/banner', color = {0.13, 0.18, 0.32}, limit = 1, type = 1}
+	Scrap2.BaseTags[5] = {name = L.Guild, icon = 'Interface/Addons/Scrap2/art/banner', color = {0.13, 0.18, 0.32}, limit = 1, type = 1,
+						  event = 'PLAYER_GUILD_UPDATE', callback = function(tag) tag.enabled = C.GuildInfo.IsGuildOfficer() end}
 end
 
 Scrap2.BaseList = {
@@ -119,3 +101,44 @@ Scrap2.BaseList = {
 	[136377] = 0,
 	[160705] = 0,
 }
+
+
+--[[ Startup ]]--
+
+function Sets:OnLoad()
+	for id, tag in pairs(Scrap2.BaseTags) do
+		local r,g,b,a = unpack(tag.color)
+
+		tag.id, tag.color = id, {r=r, g=g, b=b, a=a or 1}
+		tag.enabled, tag.glow, tag.stamp, tag.auto = true, true, true, true
+		tag.limit = tag.limit or math.huge
+
+		if tag.event then
+			self:RegisterEvent(tag.event, function() tag:callback() end)
+			tag:callback()
+		end
+	end
+
+	Scrap2.Tags = self:SetDefaults({}, Scrap2.BaseTags)
+    Scrap2.List = self:SetDefaults({}, Scrap2.BaseList)
+	--Scrap2.Filters = self:SetDefaults({}, {})
+
+	--[[for i = 1,10000 do
+		local k = 0
+		while not C_Item.GetItemInfoInstant(k) do
+			k = fastrandom(1, 50000)
+		end
+
+		Scrap2.List[k] = fastrandom(0,3)
+	end]]--
+end
+
+function Sets:IsPlayerEnchanter()
+	for i, profession in ipairs{ GetProfessions() } do
+		local lineID = profession and select(7, GetProfessionInfo(profession))
+		local info = lineID and C.TradeSkillUI.GetProfessionInfoBySkillLineID(lineID)
+		if info and info.profession == Enum.Profession.Enchanting then
+			return true
+		end
+	end
+end

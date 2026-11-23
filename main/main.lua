@@ -22,14 +22,14 @@ function Scrap2:OnLoad()
 	if AddonCompartmentFrame then
 		AddonCompartmentFrame:RegisterAddon {
 			text = 'Scrap2', keepShownOnClick = true, notCheckable = true,
-			icon = 'Interface/Addons/Scrap/art/scrap-small',
+			icon = 'Interface/Addons/Scrap2/art/scrap-small',
 			func = SlashCmdList.Scrap
 		}
 	end
 end
 
 function Scrap2:ToggleWindow()
-	if AddOnUtil.LoadAddOn('Scrap_Window') then
+	if AddOnUtil.LoadAddOn('Scrap2_Window') then
 		self.Frame:Toggle()
 	end
 end
