@@ -62,7 +62,10 @@ function Frame:OnLoad()
 	end, true)
 
 	self:SetScript('OnShow', self.OnShow)
+	self:SetScript('OnUpdate', self.OnUpdate)
 	self:SetScript('OnHide', self.UnregisterAll)
+	self.ItemsBox:SetScript('OnMouseDown', self.OnDropItem)
+	self.ItemsBox:SetScript('OnReceiveDrag', self.OnDropItem)
 	self.SearchBox:HookScript('OnTextChanged', self.OnSearchChanged)
 	self.OptionsWheel.tooltipTitle = 'General Options'
 	self.OptionsDropdown:SetupMenu(Scrap2.Menus.ItemFilters)
@@ -128,6 +131,32 @@ function Frame.OnTagClick(region, button)
 		MenuUtil.CreateContextMenu(region, Scrap2.Menus:TagOptions(region.tag))
 	else
 		PlaySound(GetRandomArrayEntry({1024, 3037, 6820}))
+	end
+end
+
+function Frame.OnUpdate()
+	local held, id = GetCursorInfo()
+	local hasItem = held == 'item' and Frame.ItemsBox:IsMouseOver()
+
+	if hasItem ~= Frame.ItemsBox.DropOverlay:IsShown() or hasItem and not GameTooltip:IsShown() then
+		if hasItem then
+			GameTooltip:SetOwner(Frame.ItemsBox, 'ANCHOR_CURSOR')
+			GameTooltip:SetText(format('Set %s as %s', Scrap2:GetItemName(id), Scrap2.Tags[Frame.activeTag].name))
+			GameTooltip:Show()
+		end
+
+		Frame.ItemsBox.DropOverlay:SetShown(hasItem)
+		Frame.ItemsBox:ForEachFrame(function(button)
+			button:EnableMouse(not hasItem)
+		end)
+	end
+end
+
+function Frame.OnDropItem()
+	local held, id = GetCursorInfo()
+	if held == 'item' then
+		Scrap2:SetTag(id, Frame.activeTag)
+		ClearCursor()
 	end
 end
 
