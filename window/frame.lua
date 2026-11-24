@@ -28,17 +28,29 @@ function Frame:OnLoad()
 	portrait:AddMaskTexture(mask)
 
 	local tagList = CreateScrollBoxListLinearView()
-	tagList:SetElementInitializer('Scrap2TagButtonTemplate', function(button, tag)
-		local icon = tag.icon or tag.atlas or 'capacitance-general-workordercheckmark'
-		local mode = tag.icon and 'SetTexture' or 'SetAtlas'
-		local checked = tag.id == self.activeTag
+	tagList:SetElementFactory(function(factory, tag)
+		if tag ~= 'line' then
+			factory('Scrap2TagButtonTemplate', function(button, tag)
+				local icon = tag.icon or tag.atlas or 'capacitance-general-workordercheckmark'
+				local mode = tag.icon and 'SetTexture' or 'SetAtlas'
+				local checked = tag.id == self.activeTag
 
-		button.tag = tag
-		button:SetText(tag.name)
-		button:SetNormalFontObject(checked and 'GameFontHighlightLeft' or 'GameFontNormalLeft')
-		button.IconGlow[mode](button.IconGlow, icon)
-		button.Icon[mode](button.Icon, icon)
-		button.Checked:SetShown(checked)
+				button.tag = tag
+				button:SetText(tag.name)
+				button.IconGlow[mode](button.IconGlow, icon)
+				button.Icon[mode](button.Icon, icon)
+
+				button.Checked:SetShown(checked)
+				button.Ring:SetDesaturated(not tag.enabled)
+				button.Icon:SetDesaturated(not tag.enabled)
+				button.IconGlow:SetDesaturated(not tag.enabled)
+				button:SetNormalFontObject(not tag.enabled and 'GameFontDisableLeft'
+				                           or checked and 'GameFontHighlightLeft'
+										   or 'GameFontNormalLeft')
+			end)
+		else
+			factory('Scrap2TagSeparatorTemplate', nop)
+		end
 	end)
 
 	local itemGrid = CreateScrollBoxListGridView(3, 6,6,10,10, 5,5)
@@ -164,7 +176,22 @@ end
 --[[ Update ]]--
 
 function Frame:UpdateTags()
-	self.TagsBox:SetDataProvider(CreateDataProvider(GetValuesArray(Scrap2.Tags)))
+	--self.TagsBox:SetDataProvider(CreateDataProvider(GetValuesArray(Scrap2.Tags)))
+	--self:UpdateItems(true)
+
+	local enabled, disabled = {}, {}
+	
+	for _, tag in pairs(Scrap2.Tags) do
+		local group = tag.enabled and enabled or disabled
+		group[#group + 1] = tag
+	end
+
+	if #disabled > 0 then
+		tinsert(enabled, 'line')
+		tAppendAll(enabled, disabled)
+	end
+
+	self.TagsBox:SetDataProvider(CreateDataProvider(enabled))
 	self:UpdateItems(true)
 end
 

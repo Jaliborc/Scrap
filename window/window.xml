@@ -139,6 +139,20 @@
 			<OnLeave function="GameTooltip_Hide"/>
 		</Scripts>
 	</Button>
+	
+	<Frame name="Scrap2TagSeparatorTemplate" virtual="true">
+		<Size y="10"/>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture atlas="Options_HorizontalDivider" useAtlasSize="true">
+					<Anchors>
+						<Anchor point="LEFT" x="4"/>
+						<Anchor point="RIGHT" x="-4"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
 
 	<Button name="Scrap2ItemButtonTemplate" inherits="Scrap2ItemSize" registerForClicks="anyUp" virtual="true">
 		<Layers>
