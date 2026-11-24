@@ -42,20 +42,61 @@ local function colorpicker(color)
 	return function() ColorPickerFrame:SetupColorPickerAndShow(info) end, info
 end
 
-local function taglist(parent, key, incompatible)
-	for id, tag in pairs(tFilter(Scrap2.Tags, function(tag) return not tContains(incompatible or NONE, tag.id) end)) do
-		if tag then
-			local hex = tag.color and RGBToColorCode(bright(tag.color.r), bright(tag.color.g), bright(tag.color.b)) or WHITE_FONT_COLOR_CODE
-			local get = function() return (Scrap2.Classifier[key] or 0) == tag.id end
-			local set = function()
-				Scrap2.Classifier[key] = tag.id
-				Scrap2:SendSignal('LIST_CHANGED')
-			end
+local function tagSwitch(row, key, incompatible)
+	row:SetResponse(MenuResponse.Open)
+	row:AddInitializer(function(row)
+		local marker = row:AttachTexture()
+		marker:SetAtlas('common-dropdown-tickradial')
+		marker:SetDrawLayer('OVERLAY')
+		marker:SetSize(10, 10)
 
-			parent:CreateRadio(format('%s%s|r' .. Scrap2.MENU_SUFFIX, hex, tag.name), get, set)
-			      :AddInitializer(Scrap2.Picker:Initializer(tag))
+		local fill = row:AttachTexture()
+		fill:SetAtlas('common-dropdown-icon-radialtick-yellow')
+		fill:SetDrawLayer('OVERLAY', 1)
+		fill:SetAllPoints(marker)
+
+		local text = row.fontString
+		local offset = 4
+
+		local function selected(option, color)
+			text:SetTextColor(bright(color.r), bright(color.g), bright(color.b))
+			marker:SetPoint('BOTTOMRIGHT', option, 'BOTTOMRIGHT', 2, -2)
+			marker:SetParent(option)
+			fill:SetParent(option)
 		end
-	end
+
+		for id, tag in pairs(Scrap2.Tags) do
+			if tag.enabled and not tContains(incompatible or {}, tag.id) then
+				local color = tag.color
+				local hex = color and RGBToColorCode(bright(color.r), bright(color.g), bright(color.b))
+				local icon = tag.icon or tag.atlas or 'capacitance-general-workordercheckmark'
+
+				local option = MenuTemplates.AttachBasicButton(row, 16, 16)
+				option:SetHighlightTexture(icon, 'ADD')
+				option:SetPoint('RIGHT', -offset, 0)
+				option:RegisterForClicks('AnyUp')
+				option:SetNormalTexture(icon)
+				option:SetScript('OnClick', function(option)
+					if (Scrap2.Classifier[key] or 0) ~= tag.id then
+						selected(option, tag.color)
+						
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+						Scrap2.Classifier[key] = tag.id
+						Scrap2:SendSignal('LIST_CHANGED')
+					end
+				end)
+
+				MenuTemplates.SetUtilityButtonTooltipText(option, hex .. tag.name .. '|r')
+				if (Scrap2.Classifier[key] or 0) == tag.id then
+					selected(option, tag.color)
+				end
+
+				offset = offset + 20
+			end
+		end
+
+		return math.ceil(text:GetStringWidth()) + offset + 4, math.max(text:GetHeight(), 16)
+	end)
 end
 
 local function slider(parent, table, key)
@@ -89,32 +130,32 @@ function Menus:ItemFilters(drop)
 	drop:SetTag('Scrap2_ItemFilters')
 	drop:CreateTitle('Equipment')
 
-	taglist(drop:CreateButton('Uncollected'), 'uncollected')
-	taglist(drop:CreateButton('Unusable'), 'unusable', {4,5})
-
 	local lowLevel = drop:CreateButton('Low Level')
-	taglist(lowLevel:CreateButton('Soulbound'), 'soulboundGear', {4,5})
+	tagSwitch(lowLevel:CreateButton('Soulbound'), 'soulboundGear', {4,5})
 
 	if Scrap2.Tags[4] then
-		taglist(lowLevel:CreateButton('Warbound'), 'warboundGear', {5})
+		tagSwitch(lowLevel:CreateButton('Warbound'), 'warboundGear', {5})
 	end
 	
-	taglist(lowLevel:CreateButton('Other'), 'otherGear')
+	tagSwitch(lowLevel:CreateButton('Other'), 'otherGear')
 	slider(lowLevel, Scrap2.Classifier, 'gearLvl')
+
+	tagSwitch(drop:CreateButton('Unusable'), 'unusable', {4,5})
+	tagSwitch(drop:CreateButton('Uncollected'), 'uncollected')
 
 	drop:CreateDivider()
 	drop:CreateTitle('Consumables')
 
-	taglist(drop:CreateButton('Low Level'), 'consumables', {2})
+	tagSwitch(drop:CreateButton('Low Level'), 'consumables', {2})
 	slider(drop, Scrap2.Classifier, 'iLvl')
 
 	drop:CreateDivider()
 	drop:CreateTitle('Other')
 
-	taglist(drop:CreateButton('Reagents'), 'reagents', {2})
+	tagSwitch(drop:CreateButton('Reagents'), 'reagents', {2})
 
 	if Scrap2.Tags[4] then
-		taglist(drop:CreateButton('Warbound'), 'warbound', {2,5})
+		tagSwitch(drop:CreateButton('Warbound'), 'warbound', {2,5})
 	end
 end
 
@@ -138,8 +179,7 @@ function Menus:TagOptions(tag)
 				Sushi.Popup {
 					text = format('Are you sure you want to delete |cnNORMAL_FONT_COLOR:|A:%s:14:14|a %s|r across all lists?\nThis action cannot be undone.', tag.atlas, tag.name), button1 = OKAY, button2 = CANCEL,
 					OnAccept = function() Scrap2.Frame.EditPopup:SaveTag(tag.id, nil) end,
-					whileDead = 1, exclusive = 1, hideOnEscape = 1
-				}
+					whileDead = 1, exclusive = 1, hideOnEscape = 1 }
 			end)
 		end
 	end

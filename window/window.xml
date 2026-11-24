@@ -49,7 +49,7 @@
 								<Layers>
 									<Layer level="OVERLAY">
 										<Texture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD" setAllPoints="true">
-											<TextureSliceMargins left="8" right="8" top="8" bottom="8"/>
+											<TextureSliceMargins left="10" right="10" top="10" bottom="10"/>
 										</Texture>
 									</Layer>
 								</Layers>
