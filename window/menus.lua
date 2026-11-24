@@ -66,7 +66,7 @@ local function tagSwitch(row, key, incompatible)
 		end
 
 		for id, tag in pairs(Scrap2.Tags) do
-			if tag.enabled and not tContains(incompatible or {}, tag.id) then
+			if tag.enabled and not tContains(incompatible or NONE, tag.id) then
 				local color = tag.color
 				local hex = color and RGBToColorCode(bright(color.r), bright(color.g), bright(color.b))
 				local icon = tag.icon or tag.atlas or 'capacitance-general-workordercheckmark'
@@ -99,14 +99,14 @@ local function tagSwitch(row, key, incompatible)
 	end)
 end
 
-local function slider(parent, table, key)
+local function slider(parent, key)
 	local proxy = parent:CreateTemplate('Scrap2SliderTemplate')
 	proxy:AddResetter(function(f) f.Edit:Release() end)
 	proxy:AddInitializer(function(f)
-		local v = (table[key] or 0.7) * 100
+		local v = (Scrap2.Classifier[key] or 0.7) * 100
 		local mutator = function(v)
 			v = min(max(tonumber(v) or 100, 1), 100)
-			table[key] = v / 100
+			Scrap2.Classifier[key] = v / 100
 
 			f.Slider:SetValue(v)
 			f.Edit:SetValue(Round(v))
@@ -121,6 +121,7 @@ local function slider(parent, table, key)
 
 		mutator(v)
 	end)
+	return proxy
 end
 
 
@@ -138,7 +139,10 @@ function Menus:ItemFilters(drop)
 	end
 	
 	tagSwitch(lowLevel:CreateButton('Other'), 'otherGear')
-	slider(lowLevel, Scrap2.Classifier, 'gearLvl')
+	slider(lowLevel, 'gearLvl'):SetTooltip(function(tip)
+		GameTooltip_SetTitle(tip, 'Item Level Threshold')
+		GameTooltip_AddNormalLine(tip, 'Controls how low item level needs to be considered low-level. For example, a 50% means the item needs to be half the level of the item you have equipped on that slot.')
+	end)
 
 	tagSwitch(drop:CreateButton('Unusable'), 'unusable', {4,5})
 	tagSwitch(drop:CreateButton('Uncollected'), 'uncollected')
@@ -147,7 +151,10 @@ function Menus:ItemFilters(drop)
 	drop:CreateTitle('Consumables')
 
 	tagSwitch(drop:CreateButton('Low Level'), 'consumables', {2})
-	slider(drop, Scrap2.Classifier, 'iLvl')
+	slider(drop, 'iLvl'):SetTooltip(function(tip)
+		GameTooltip_SetTitle(tip, 'Item Level Threshold')
+		GameTooltip_AddNormalLine(tip, 'Controls how low an item requirement needs to be considered low-level. For example, a 50% means the item needs to be half your character level.')
+	end)
 
 	drop:CreateDivider()
 	drop:CreateTitle('Other')
