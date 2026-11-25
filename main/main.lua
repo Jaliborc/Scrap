@@ -44,11 +44,10 @@ end
 
 function Scrap2:GetTag(id, location)
 	if id then
-		local tagID = self.List[id]
-		if tagID then
-			return tagID
-		end
-		return self.Classifier:Run(id, location) or 0
+		local tagID = self.List[id] or self.Classifier:Run(id, location) or 0
+		local tag = self.Tags[tagID]
+
+		return tag and tag.enabled and tagID or 0
 	end
 	return 0
 end
@@ -84,10 +83,10 @@ function Scrap2:PrintDifference(tag, before)
 	local after = Scrap2:PreviewItems(tag.id)
 	local stacks = before.stacks - after.stacks
 	if stacks > 0 then
-		if tag.id == 1 then
-			self:Print('MONEY', L.SoldJunk:format(markup, GetMoneyString(before.price - after.price, true)))
-		else
+		if tag.id ~= 1 then
 			self:Print('LOOT', L.Banked:format(stacks, markup))
+		elseif not MerchantSellAllJunkButton then
+			self:Print('MONEY', L.SoldJunk:format(markup, GetMoneyString(before.price - after.price, true)))
 		end
 	end
 end

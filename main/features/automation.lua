@@ -23,16 +23,16 @@ end
 
 function Automation:BANKFRAME_OPENED()
 	if C.Bank.CanUseBank(Enum.BankType.Character) then
-		self:Run(3)
+		self:Run(4)
 	end
 	if C.Bank.CanUseBank(Enum.BankType.Account) then
-		self:Run(4)
+		self:Run(5)
 	end
 end
 
 function Automation:PLAYER_INTERACTION_MANAGER_FRAME_SHOW(npc)
 	if npc == Enum.PlayerInteractionType.GuildBanker then
-		self:ContinueOn('GUILDBANKBAGSLOTS_CHANGED', 'Run', 5)
+		self:ContinueOn('GUILDBANKBAGSLOTS_CHANGED', 'Run', 6)
 	end
 end
 

@@ -86,7 +86,7 @@ function Frame:OnLoad()
 	self.TagsBox:Init(tagList)
 
 	ScrollUtil.InitScrollBoxListWithScrollBar(self.ItemsBox, self.ScrollBar, itemGrid)
-	RegisterUIPanel(self.Container, {area = 'left', pushable = 3,	whileDead = 1})
+	RegisterUIPanel(self.Container, {area = 'left', pushable = 3, whileDead = 1})
 end
 
 

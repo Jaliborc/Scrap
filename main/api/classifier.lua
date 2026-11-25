@@ -25,8 +25,8 @@ local ACTUAL_SLOTS = {
 
 --[[ Public API ]]--
 
-Classifier.reagents = 3 -- temp
-Classifier.warbound = 4
+Classifier.reagents = 4 -- temp
+Classifier.warbound = 5
 Classifier.soulboundGear = 2
 Classifier.warboundGear = 2
 Classifier.otherGear = 2

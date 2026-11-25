@@ -6,7 +6,7 @@
 local Popup = Scrap2.Frame.EditPopup
 
 function Popup:Display(tag)
-	local tag = tag or {name = 'New Tag', color = {r=1,g=1,b=1}, stamp = true}
+	local tag = tag or {name = 'New Tag', color = {r=1,g=1,b=1}, stamp = true, enabled = true}
 	local icon = tag.atlas or GetRandomArrayEntry(Scrap2.IconChoices)
 	local select = function(_, icon)
 		self.BorderBox.SelectedIconArea.SelectedIconButton.Icon:SetAtlas(icon)

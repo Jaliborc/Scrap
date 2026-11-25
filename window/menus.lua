@@ -3,7 +3,7 @@
 	Context menus for addon configuration.
 --]]
 
-local Menus = Scrap2:NewModule('Menus')
+local Menus = Scrap2:NewModule('Menus', 'MutexDelay-1.0')
 local Sushi = LibStub('Sushi-3.2')
 
 local EDIT =  '|TInterface/Addons/Scrap2/art/t:14:14:0:0:32:32:0:32:0:32:255:209:0|t ' .. EDIT
@@ -110,7 +110,7 @@ local function slider(parent, key)
 
 			f.Slider:SetValue(v)
 			f.Edit:SetValue(Round(v))
-			Menus:SendSignal('LIST_CHANGED')
+			Menus:Delay(0.1, 'SendSignal', 'LIST_CHANGED')
 		end
 
 		f.Slider:SetMutatorFunction(mutator)
@@ -134,7 +134,7 @@ function Menus:ItemFilters(drop)
 	local lowLevel = drop:CreateButton('Low Level')
 	tagSwitch(lowLevel:CreateButton('Soulbound'), 'soulboundGear', {4,5})
 
-	if Scrap2.Tags[4] then
+	if Scrap2.Tags[5] then
 		tagSwitch(lowLevel:CreateButton('Warbound'), 'warboundGear', {5})
 	end
 	
@@ -161,7 +161,7 @@ function Menus:ItemFilters(drop)
 
 	tagSwitch(drop:CreateButton('Reagents'), 'reagents', {2})
 
-	if Scrap2.Tags[4] then
+	if Scrap2.Tags[5] then
 		tagSwitch(drop:CreateButton('Warbound'), 'warbound', {2,5})
 	end
 end
@@ -178,7 +178,7 @@ function Menus:TagOptions(tag)
 		if tag.id == 1 then
 			drop:CreateCheckbox('Auto Sell', toggle(tag, 'sell'))
 			drop:CreateCheckbox('Safe Sell', toggle(tag, 'safe'))
-		elseif tag.id >= 3 and tag.id <= 5 then
+		elseif tag.id >= 4 and tag.id <= 6 then
 			drop:CreateCheckbox('Auto Deposit', toggle(tag, 'deposit'))
 		elseif tag.id >= 50 then
 			drop:CreateButton(EDIT, function() Scrap2.Frame.EditPopup:Display(tag) end)

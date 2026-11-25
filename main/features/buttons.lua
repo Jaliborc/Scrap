@@ -18,7 +18,7 @@ function Buttons:OnLoad()
 	if BankPanel and BankPanel.AutoDepositFrame then
 		function BankPanel.AutoDepositFrame:SetEnabled()
 			local isWarband = self.DepositButton:GetActiveBankType() == Enum.BankType.Account
-			Buttons:Setup(self.DepositButton, isWarband and 4 or 3)
+			Buttons:Setup(self.DepositButton, isWarband and 5 or 4)
 			
 			self.IncludeReagentsCheckbox:Hide()
 			self.DepositButton:SetText(isWarband and DEPOSIT_WARBAND or DEPOSIT_BANK)
@@ -28,9 +28,15 @@ function Buttons:OnLoad()
 		local deposit = CreateFrame('Button', nil, BankFrame, 'UIPanelSquareButton')
 		deposit.icon:SetTexture('Interface/Addons/Scrap2/art/scrap-small')
 		deposit.icon:SetTexCoord(0.1,0.9,0.1,0.9)
-		deposit:SetPoint('TOPRIGHT', -50,-40)
 
-		self:Setup(deposit, 3, function(active)
+		if BankPanel and BankPanel.AutoSortButton then
+			BankItemSearchBox:AdjustPointsOffset(-26, 0)
+			deposit:SetPoint('LEFT', BankPanel.AutoSortButton, 'RIGHT')
+		else
+			deposit:SetPoint('TOPRIGHT', -50,-40)
+		end
+
+		self:Setup(deposit, 4, function(active)
 			deposit.icon:SetDesaturated(not active)
 		end)
 	end
@@ -41,7 +47,7 @@ function Buttons:OnLoad()
 		deposit:SetPoint('BOTTOMLEFT', 10,30)
 		deposit:SetSize(150, 21)
 
-		self:Setup(deposit, 5)
+		self:Setup(deposit, 6)
 	end)
 
 	-- merchant 
