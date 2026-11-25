@@ -1,3 +1,7 @@
+### 12.1.11
+* No longer shows "sold your junk for..." message in game versions on which the game already shows one.
+* Quest items are now **never** marked as junk by default (must have been marked as a quest item by blizzard).
+
 ### 12.1.10
 * Unusable poor and soulbound common gear are now considered junk by default.
 

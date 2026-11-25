@@ -151,9 +151,7 @@ end
 function Scrap:IsFiltered(id, ...)
 	local location = self:GuessLocation(id, ...)
 	local _, link, quality, level,_,_,_,_, slot, _, value, class, subclass, bind = C.Item.GetItemInfo(id)
-	local level = location and C.Item.GetCurrentItemLevel(location) or level or 0
 	local bound = location and C.Item.IsBound(location)
-	local valuable = (value or 0) > 0
 
 	if class == MISC and bound then
 		if subclass == MOUNT then
@@ -165,33 +163,50 @@ function Scrap:IsFiltered(id, ...)
 		end
 	end
 
+	local level = location and C.Item.GetCurrentItemLevel(location) or level or 0
+	local valuable = (value or 0) > 0
+	local isJunk
+
 	if class == ARMOR or class == WEAPON then
-		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE then
+		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE and C.Item.IsEquippableItem(id) then
 			if self.charsets.uncollected or link and not Search:IsUncollected(id, link) then
 				if quality == POOR then
-					return valuable and bind ~= BIND_EQUIP and (
-						((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT) or
-						(C.Item.IsEquippableItem(id) and Search:IsUnusable(id)))
+					isJunk = (valuable
+						and bind ~= BIND_EQUIP
+						and (level > SHOULDER_BREAKPOINT or (slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or Search:IsUnusable(id)))
 				elseif bound then
 					if quality == COMMON then
-						return C.Item.IsEquippableItem(id) and Search:IsUnusable(id)
-					elseif quality <= EPIC then
-						if C.Item.IsEquippableItem(id) and not Search:BelongsToSet(id) then
-							return self:IsLowEquip(slot, level) or self.charsets.unusable and Search:IsUnusable(id)
-						end
+						isJunk = Search:IsUnusable(id)
+					elseif quality <= EPIC and not Search:BelongsToSet(id) then
+						isJunk = self:IsLowGear(slot, level) or self.charsets.unusable and Search:IsUnusable(id)
 					end
 				end
 			end
 		end
 
 	elseif quality == POOR then
-		return valuable and bind ~= BIND_EQUIP
+		isJunk = valuable and bind ~= BIND_EQUIP
 	elseif class == CONSUMABLES then
-		return valuable and self.charsets.consumable and quality < RARE and self:IsLowConsumable(level)
+		isJunk = valuable and self.charsets.consumable and quality < RARE and self:IsLowConsumable(level)
+	end
+
+	return isJunk and not Search:IsQuestItem(id)
+end
+
+function Scrap:IsOwnedMount(id)
+	local mount = (C.MountJournal.GetMountFromItem or nop)(id)
+	return mount and select(11, C.MountJournal.GetMountInfoByID(mount))
+end
+
+function Scrap:IsOwnedCompanion(id)
+	local species = select(13, (C.PetJournal.GetPetInfoByItemID or nop)(id))
+	if species then
+		local numCollected, limit = C.PetJournal.GetNumCollectedInfo(species)
+		return numCollected == limit
 	end
 end
 
-function Scrap:IsLowEquip(slot, level)
+function Scrap:IsLowGear(slot, level)
 	if self.charsets.equip and slot ~= ''  then
 		local slot1 = slot:sub(9)
 		local slot2, double
@@ -224,19 +239,6 @@ end
 
 function Scrap:IsLowConsumable(level)
 	return level > 1 and level < UnitLevel('player')  * self.charsets.consumableLvl
-end
-
-function Scrap:IsOwnedMount(id)
-	local mount = (C.MountJournal.GetMountFromItem or nop)(id)
-	return mount and select(11, C.MountJournal.GetMountInfoByID(mount))
-end
-
-function Scrap:IsOwnedCompanion(id)
-	local species = select(13, (C.PetJournal.GetPetInfoByItemID or nop)(id))
-	if species then
-		local numCollected, limit = C.PetJournal.GetNumCollectedInfo(species)
-		return numCollected == limit
-	end
 end
 
 
