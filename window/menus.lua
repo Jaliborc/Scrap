@@ -77,17 +77,17 @@ local function tagSwitch(row, key, incompatible)
 				option:RegisterForClicks('AnyUp')
 				option:SetNormalTexture(icon)
 				option:SetScript('OnClick', function(option)
-					if (Scrap2.Classifier[key] or 0) ~= tag.id then
+					if (Scrap2.Filters[key] or 0) ~= tag.id then
 						selected(option, tag.color)
 						
 						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
-						Scrap2.Classifier[key] = tag.id
+						Scrap2.Filters[key] = tag.id
 						Scrap2:SendSignal('LIST_CHANGED')
 					end
 				end)
 
 				MenuTemplates.SetUtilityButtonTooltipText(option, hex .. tag.name .. '|r')
-				if (Scrap2.Classifier[key] or 0) == tag.id then
+				if (Scrap2.Filters[key] or 0) == tag.id then
 					selected(option, tag.color)
 				end
 
@@ -103,10 +103,10 @@ local function slider(parent, key)
 	local proxy = parent:CreateTemplate('Scrap2SliderTemplate')
 	proxy:AddResetter(function(f) f.Edit:Release() end)
 	proxy:AddInitializer(function(f)
-		local v = (Scrap2.Classifier[key] or 0.7) * 100
+		local v = (Scrap2.Filters[key] or 0.7) * 100
 		local mutator = function(v)
 			v = min(max(tonumber(v) or 100, 1), 100)
-			Scrap2.Classifier[key] = v / 100
+			Scrap2.Filters[key] = v / 100
 
 			f.Slider:SetValue(v)
 			f.Edit:SetValue(Round(v))

@@ -76,6 +76,7 @@ function Frame:OnLoad()
 	self:SetScript('OnShow', self.OnShow)
 	self:SetScript('OnUpdate', self.OnUpdate)
 	self:SetScript('OnHide', self.UnregisterAll)
+	self.ItemsBox:SetScript('OnLeave', GameTooltip_Hide)
 	self.ItemsBox:SetScript('OnMouseDown', self.OnDropItem)
 	self.ItemsBox:SetScript('OnReceiveDrag', self.OnDropItem)
 	self.SearchBox:HookScript('OnTextChanged', self.OnSearchChanged)
@@ -168,6 +169,7 @@ function Frame.OnDropItem()
 	local held, id = GetCursorInfo()
 	if held == 'item' then
 		Scrap2:SetTag(id, Frame.activeTag)
+		GameTooltip_Hide()
 		ClearCursor()
 	end
 end
@@ -176,14 +178,9 @@ end
 --[[ Update ]]--
 
 function Frame:UpdateTags()
-	--self.TagsBox:SetDataProvider(CreateDataProvider(GetValuesArray(Scrap2.Tags)))
-	--self:UpdateItems(true)
-
 	local enabled, disabled = {}, {}
-	
 	for _, tag in pairs(Scrap2.Tags) do
-		local group = tag.enabled and enabled or disabled
-		group[#group + 1] = tag
+		tinsert(tag.enabled and enabled or disabled, tag)
 	end
 
 	if #disabled > 0 then

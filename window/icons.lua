@@ -133,7 +133,6 @@ Scrap2.IconChoices = tFilter({
 	'Lumber_Tracking',
 	'MagePortalAlliance',
 	'MagePortalHorde',
-	'Mailbox',
 	'MajorFactions_MapIcons_Centaur64',
 	'MajorFactions_MapIcons_Dream64',
 	'MajorFactions_MapIcons_Expedition64',

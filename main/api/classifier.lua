@@ -12,11 +12,10 @@ local COMPANION, MOUNT = Enum.ItemMiscellaneousSubclass.CompanionPet, Enum.ItemM
 local FISHING_POLE = Enum.ItemWeaponSubclass.Fishingpole
 local BIND_EQUIP = Enum.ItemBind.OnEquip
 
-local SHOULDER_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 15 or 25
-local INTRO_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 5 or 15
+local SHOULDER_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 15 or 20
+local INTRO_BREAKPOINT = LE_EXPANSION_LEVEL_CURRENT > 2 and 5 or 10
 
-local ItemQuality = Enum.ItemQuality
-local POOR, UNCOMMON = ItemQuality.Poor, ItemQuality.Poor + 2 -- inconsistent between game versions
+local POOR, COMMON, EPIC = 0,1,4 -- game constants inconsistent between game versions
 local ACTUAL_SLOTS = {
 	ROBE = 'CHEST', CLOAK = 'BACK',
 	RANGEDRIGHT = 'RANGED', THROWN = 'RANGED', RELIC = 'RANGED',
@@ -25,24 +24,16 @@ local ACTUAL_SLOTS = {
 
 --[[ Public API ]]--
 
-Classifier.reagents = 4 -- temp
-Classifier.warbound = 5
-Classifier.soulboundGear = 2
-Classifier.warboundGear = 2
-Classifier.otherGear = 2
-Classifier.gearLvl = 0.7
-Classifier.iLvl = 0.7
-
 function Classifier:Run(id, location)
 	local _, link, quality, level,_,_,_,_, slot, _, value, class, subclass, bindType, _,_, isReagent = C.Item.GetItemInfo(id)
-	if isReagent then
-		return self.reagents
+	if isReagent and Scrap2.Filters.reagents then
+		return Scrap2.Filters.reagents
+	elseif Search:IsQuestItem(id) then
+		return
 	end
 
 	local location = location or self:GuessLocation(id)
-	local level = location and C.Item.GetCurrentItemLevel(location) or level or 0
 	local bound = location and C.Item.IsBound(location)
-	local warbound = bound and C.Bank.IsItemAllowedInBankType(Enum.BankType.Account, location)
 
 	if class == MISC and bound then
 		if subclass == MOUNT then
@@ -54,26 +45,39 @@ function Classifier:Run(id, location)
 		end
 	end
 
+	local warbound = bound and C.Bank.IsItemAllowedInBankType(Enum.BankType.Account, location)
+	local level = location and C.Item.GetCurrentItemLevel(location) or level or 0
+	local valuable = (value or 0) > 0
+
 	if class == ARMOR or class == WEAPON then
-		if value and slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE and C.Item.IsEquippableItem(id) then
-			if link and Search:IsUncollected(id, link) then
-				return self.uncollected
-			elseif quality >= UNCOMMON and quality ~= ItemQuality.Legendary and not Search:BelongsToSet(id) then
-				if bound and Search:IsUnusable(id) then
-					return self.unusable
-				elseif self:IsLowEquip(slot, level) then
-					return (warbound and self.warboundGear) or (bound and self.soulboundGear) or self.otherGear
+		if slot ~= 'INVTYPE_TABARD' and slot ~= 'INVTYPE_BODY' and subclass ~= FISHING_POLE then
+			if C.Item.IsEquippableItem(id) and C.Item.GetItemFamily(id) == 0 then
+				local unusable = Search:IsUnusable(id)
+				local lowLevel = self:IsLowEquip(slot, level)
+				local useless = valuable and (lowLevel or unusable)
+
+				if link and Search:IsUncollected(id, link) then
+					return Scrap2.Filters.uncollected
+				elseif quality == POOR then
+					return valuable and bind ~= BIND_EQUIP and
+						(useless or level > SHOULDER_BREAKPOINT or (slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT)) and 1
+				elseif quality <= EPIC and not Search:BelongsToSet(id) then
+					if quality == COMMON then
+						return useless and 1
+					elseif unusable then
+						return Scrap2.Filters.unusable
+					elseif lowLevel then
+						return (warbound and Scrap2.Filters.warboundGear) or (bound and Scrap2.Filters.soulboundGear) or Scrap2.Filters.otherGear
+					end
 				end
-			elseif quality == POOR then
-				return bindType ~= BIND_EQUIP and ((slot ~= 'INVTYPE_SHOULDER' and level > INTRO_BREAKPOINT) or level > SHOULDER_BREAKPOINT) and 1
 			end
 		end
 	elseif warbound then
-		return self.warbound
+		return Scrap2.Filters.warbound
 	elseif class == CONSUMABLES then
-		return quality < ItemQuality.Rare and self:IsLowConsumable(level) and self.consumables
-	elseif quality == POOR and value and value > 0 then
-		return bindType ~= BIND_EQUIP and 1
+		return quality < EPIC and self:IsLowConsumable(level) and Scrap2.Filters.consumables
+	elseif quality == POOR then
+		return valuable and bindType ~= BIND_EQUIP and 1
 	end
 end
 
@@ -120,13 +124,13 @@ end
 function Classifier:IsBelowEquipped(slot, level, canEmpty)
 	local item = ItemLocation:CreateFromEquipmentSlot(_G['INVSLOT_' .. slot])
 	if C.Item.DoesItemExist(item) then
-		return level < (C.Item.GetCurrentItemLevel(item) or 0) * self.gearLvl
+		return level < (C.Item.GetCurrentItemLevel(item) or 0) * Scrap2.Filters.gearLvl
 	end
 	return canEmpty
 end
 
 function Classifier:IsLowConsumable(level)
-	return level > 1 and level < UnitLevel('player')  * self.iLvl
+	return level > 1 and level < UnitLevel('player') * Scrap2.Filters.iLvl
 end
 
 

@@ -10,7 +10,7 @@ local C = LibStub('C_Everywhere')
 
 --[[ Defaults ]]--
 
-Scrap2.BaseTags = {
+Sets.BaseTags = {
 	[0] = {name = L.None, color = {1,1,1,0}, enabled = true},
 	[1] = {name = L.Junk, icon = 'Interface/Addons/Scrap2/art/coin', color = {ITEM_QUALITY_COLORS[0].color:GetRGB()}, limit = 12, safe = true, enabled = true},
 	[2] = {name = L.Disenchant, icon = 'Interface/Addons/Scrap2/art/disenchant', color = {0.67, 0.439, 0.89}, event = 'SKILL_LINES_CHANGED', callback = function(tag) tag.enabled = Sets:IsPlayerEnchanter() end},
@@ -19,15 +19,15 @@ Scrap2.BaseTags = {
 }
 
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
-	Scrap2.BaseTags[5] = {name = L.Warband, atlas = 'warbands-icon', color = {0.45, 0.32, 0.15}, type = 2, enabled = true}
+	Sets.BaseTags[5] = {name = L.Warband, atlas = 'warbands-icon', color = {0.45, 0.32, 0.15}, type = 2, enabled = true}
 end
 
 if GuildBankFrame_LoadUI then
-	Scrap2.BaseTags[6] = {name = L.Guild, icon = 'Interface/Addons/Scrap2/art/banner', color = {0.13, 0.18, 0.32}, limit = 1, type = 1,
+	Sets.BaseTags[6] = {name = L.Guild, icon = 'Interface/Addons/Scrap2/art/banner', color = {0.13, 0.18, 0.32}, limit = 1, type = 1,
 						  event = 'PLAYER_GUILD_UPDATE', callback = function(tag) tag.enabled = C.GuildInfo.IsGuildOfficer() end}
 end
 
-Scrap2.BaseList = {
+Sets.BaseList = {
 	[90561] = 0,
 	[12709] = 0,
 	[2459] = 0,
@@ -103,11 +103,18 @@ Scrap2.BaseList = {
 	[160705] = 0,
 }
 
+Sets.Defaults = {
+	reagents = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and 4 or 0,
+	warbound = 5,
+	gearLvl = 0.9,
+	iLvl = 0.9
+}
+
 
 --[[ Startup ]]--
 
 function Sets:OnLoad()
-	for id, tag in pairs(Scrap2.BaseTags) do
+	for id, tag in pairs(self.BaseTags) do
 		local r,g,b,a = unpack(tag.color)
 
 		tag.id, tag.color = id, {r=r, g=g, b=b, a=a or 1}
@@ -120,18 +127,24 @@ function Sets:OnLoad()
 		end
 	end
 
-	Scrap2.Tags = self:SetDefaults({}, Scrap2.BaseTags)
-    Scrap2.List = self:SetDefaults({}, Scrap2.BaseList)
-	--Scrap2.Filters = self:SetDefaults({}, {})
+	Scrap2Character = self:SetDefaults(Scrap2Character or {}, self.Defaults)
+	Scrap2Account = self:SetDefaults(Scrap2Account or {}, {
+		tags = self.BaseTags,
+		list = self.BaseList
+	})
 
-	for i = 1,10000 do
+	Scrap2.Filters = Scrap2Character
+	Scrap2.Tags = Scrap2Account.tags
+    Scrap2.List = Scrap2Account.list
+
+	--[[for i = 1,10000 do
 		local k = 0
 		while not C_Item.GetItemInfoInstant(k) do
 			k = fastrandom(1, 50000)
 		end
 
 		Scrap2.List[k] = fastrandom(0,3)
-	end
+	end]]--
 end
 
 function Sets:IsPlayerEnchanter()
