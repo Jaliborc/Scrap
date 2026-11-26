@@ -104,6 +104,7 @@ Sets.BaseList = {
 }
 
 Sets.Defaults = {
+	repair = true,
 	reagents = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and 4 or 0,
 	warbound = 5,
 	gearLvl = 0.9,

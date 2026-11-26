@@ -48,12 +48,10 @@ end
 
 function Automation:Repair()
 	local cost = GetRepairAllCost()
-	local sets = Scrap2.Tags[0]
-
-	if sets.repair and cost > 0 then
+	if cost > 0 and Scrap2.Filters.repair then
 		local allowance = GetGuildBankWithdrawMoney() or -1
 		local canGuild = CanGuildBankRepair and CanGuildBankRepair() and not GetGuildInfoText():find('%[noautorepair%]')
-		local useGuild = sets.guildRepair and canGuild and (allowance < 0 or allowance >= cost)
+		local useGuild = canGuild and (allowance < 0 or allowance >= cost) and Scrap2.Filters.guildRepair
 
 		if useGuild or GetMoney() >= cost then
 			RepairAllItems(useGuild)

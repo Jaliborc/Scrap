@@ -8,8 +8,8 @@
 
 ## X-Development: True
 ## OptionalDeps: Bagnon, Bagnonium, WoWUnit
-## SavedVariablesPerCharacter: Scrap_CharSets
-## SavedVariables: Scrap_Sets
+## SavedVariables: Scrap2Account
+## SavedVariablesPerCharacter: Scrap2Character
 ## Interface: 120105, 50504, 40402, 30404, 20506, 16001, 11509
 ## Version: 12.1.9
 
