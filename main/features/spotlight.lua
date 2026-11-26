@@ -66,3 +66,12 @@ function Spotlight:CreateTextures(button)
 	self.Buttons[button] = icon
 	return icon
 end
+
+if Bagnonium then -- temp buggy hack so I can test while I play
+	hooksecurefunc(Bagnonium.Item, 'UpdateBorder', function(button)
+		if button.IconGlow and Spotlight.Buttons[button] and Spotlight.Buttons[button]:IsShown() then
+			button.IconGlow:Hide()
+			button.IconBorder:Hide()
+		end
+	end)
+end
